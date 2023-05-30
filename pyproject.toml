@@ -6,6 +6,6 @@ build-backend = "flit_core.buildapi"
 name = "plothist"
 authors = [
     {name = "Cyrille Praz", email = "code.cyrraz@protonmail.com"},
-    {name = "Tristan Fillinger", email = "tristan.github@proton.me"},
+    {name = "Tristan Fillinger", email = "tristan.github@gmail.com"},
     ]
 dynamic = ["version", "description"]
