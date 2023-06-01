@@ -18,7 +18,7 @@ PlotHist
 Main idea
 ---------
 
-Major advantages: scalability, style and user friendly way of managing variables.
+**Major advantages over other plotting libraries**: scalability, style and user friendly way of managing variables.
 
 **First idea**: separate the histogram creation from its data. Then you can easily manage histogram objects (`boostHist` library) and plot large amount of variables and data really fast.
 
@@ -68,7 +68,7 @@ will automatically create a `yaml` file with all the plotting information for ea
     variable_1:
         ...
 
--> Really easy to modify the plotting information.
+-> Really easy to modify the plotting information. Also really convenient to plot the same variable with different plotting parameters.
 
 Then, just get the variable from the registery to make every plots
 
@@ -89,3 +89,5 @@ Then, just get the variable from the registery to make every plots
 
         ax.set_xlim(variable["range"])
         ax.set_ylabel("Entries")
+
+et voila.
