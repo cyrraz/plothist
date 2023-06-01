@@ -100,7 +100,7 @@ et voila.
    :target: https://badge.fury.io/py/plothist
 .. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
-.. |Docs from latest| image:: https://img.shields.io/badge/docs-v0.7.2-blue.svg
+.. |Docs from latest| image:: https://img.shields.io/badge/docs-v0.0-blue.svg
    :target: https://plothist.readthedocs.io/
 .. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg
    :target: https://plothist.readthedocs.io/en/latest/
