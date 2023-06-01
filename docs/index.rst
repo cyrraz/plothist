@@ -91,3 +91,16 @@ Then, just get the variable from the registery to make every plots
         ax.set_ylabel("Entries")
 
 et voila.
+
+
+
+.. |GitHub Project| image:: https://img.shields.io/badge/GitHub--blue?style=social&logo=GitHub
+   :target: https://github.com/cyrraz/plothist
+.. |PyPI version| image:: https://badge.fury.io/py/plothist.svg
+   :target: https://badge.fury.io/py/plothist
+.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+.. |Docs from latest| image:: https://img.shields.io/badge/docs-v0.7.2-blue.svg
+   :target: https://plothist.readthedocs.io/
+.. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg
+   :target: https://plothist.readthedocs.io/en/latest/
