@@ -7,13 +7,13 @@ plothist
 
 |img1| |img2|
 
-.. |img1| image:: img/intro_2dhist_hep.png
+.. |img1| image:: img/intro_2dhist_hep.svg
    :alt: Complex hep example
-   :width: 350
+   :width: 320
 
-.. |img2| image:: img/intro_hist_hep.png
+.. |img2| image:: img/intro_hist_hep.svg
    :alt: Hep example
-   :width: 350
+   :width: 320
 
 
 |GitHub Project| |PyPI version| |Docs from latest| |Docs from main| |Code style: black|
