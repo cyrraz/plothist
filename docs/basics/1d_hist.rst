@@ -12,6 +12,8 @@ To plot a simple 1d histogram:
 
 .. code-block:: python
 
+    from plothist.plotters import make_hist, plot_hist
+
     key = "variable_0"
 
     fig, ax = plt.subplots()
@@ -22,6 +24,8 @@ To plot a simple 1d histogram:
 
     ax.set_xlabel(key)
     ax.set_ylabel("Entries")
+
+    plt.show()
 
 .. image:: ../img/demo_simple_hist.png
    :alt: Simple hist
@@ -36,6 +40,8 @@ With variable manager
 If you have multiple variable to plot, use the variable manager:
 
 .. code-block:: python
+
+    from plothist.plotters import create_variable_registry
 
     variable_keys = ["variable_0", "variable_1", "variable_2"]
 
@@ -67,6 +73,8 @@ Then, just get the variable from the registery to make every plots:
 
 .. code-block:: python
 
+    from plothist.plotters import update_variable_registry_ranges, get_variable_from_registry
+
     # If no range specified for some variable_keys, update the yaml with actual min and max value
     update_variable_registry_ranges(df, variable_keys)
 
@@ -84,7 +92,7 @@ Then, just get the variable from the registery to make every plots:
         ax.set_ylabel("Entries")
 
 
-To access the parameters of the variable, use ``get_variable_from_registry(variable_key)``.
+As we can see in the example, ``get_variable_from_registry(variable_key)`` is used to get access the parameters of the variable.
 
 Also, you can easily get the ``[min, max]`` range values using ``update_variable_registry_ranges(data, [variable_key])``. The yaml will automatically update. Then, you can modify the yaml to get a more suitable range to diplay in the plot.
 

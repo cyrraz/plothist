@@ -9,11 +9,11 @@ plothist
 
 .. |img1| image:: img/intro_2dhist_hep.png
    :alt: Complex hep example
-   :width: 320
+   :width: 350
 
 .. |img2| image:: img/intro_hist_hep.png
    :alt: Hep example
-   :width: 320
+   :width: 350
 
 
 |GitHub Project| |PyPI version| |Docs from latest| |Docs from main| |Code style: black|
@@ -30,8 +30,8 @@ Small presentation
 3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings
 
 
-.. image:: img/intro_2dhist_complexe.png
-   :alt: Hep example
+.. image:: img/intro_2dhist_complexe.svg
+   :alt: Complexe hep example
    :width: 500
    :align: center
 

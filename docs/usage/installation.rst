@@ -20,19 +20,17 @@ Using Flit (deprecated soon)
 
         pip3 install --upgrade flit --user
 
-2.  Install bboost_histogram package:
+2.  Install boost_histogram package:
 
     .. code-block:: bash
 
         pip3 install --upgrade boost_histogram --user
-
 
 3. Clone the plothist repository:
 
     .. code-block:: bash
 
         git clone git@github.com:cyrraz/plothist.git
-
 
 4. Go inside the plothist folder and run:
 
