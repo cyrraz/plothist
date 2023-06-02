@@ -7,6 +7,7 @@ import matplotlib as mpl
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 import warnings
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from dataclasses import dataclass
 import yaml
 import os
@@ -263,6 +264,14 @@ def plot_hist(hist, ax, **kwargs):
             weights=[h.values() for h in hist],
             **kwargs,
         )
+
+
+def plot_2d_hist(hist, fig, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
+    im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    ax.tick_params(axis="x", which="both", top=False, bottom=False)
+    fig.colorbar(im, cax=cax, **colorbar_kwargs)
 
 
 def plot_error_hist(hist, ax, **kwargs):

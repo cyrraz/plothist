@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import boost_histogram as bh
 
 from plothist.plotters import make_hist
+from plothist.plotters import make_2d_hist
 from plothist.plotters import plot_hist
+from plothist.plotters import plot_2d_hist
 from plothist.plotters import compare_two_hist
 from plothist.plotters import Variable
 from plothist.plotters import create_variable_registry
@@ -87,5 +89,19 @@ for variable_key in variable_keys:
         x2_label="c2",
         save_as=None,
     )
+
+# # V. How to plot a 2d histogram
+
+key_x = "variable_0"
+key_y = "variable_1"
+
+fig, ax = plt.subplots(figsize=(4,4))
+
+h = make_2d_hist([df[key_x], df[key_y]])
+
+plot_2d_hist(h, fig=fig, ax=ax, colorbar_kwargs={"label": "Entries"})
+
+ax.set_xlabel(key_x)
+ax.set_ylabel(key_y)
 
 plt.show()
