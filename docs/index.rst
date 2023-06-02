@@ -23,17 +23,17 @@ Small presentation
 
 **Major advantages over other plotting libraries**: scalability, style and user friendly way of managing variables.
 
-**First idea**: Default style is already presentation-ready and/or paper-ready (with no effort).
+1. **First idea**: Default style is already presentation-ready and/or paper-ready (with no effort).
 
-**Second idea**: separate the histogram creation from its data. Then you can easily manage histogram objects (`boostHist` library) and plot large amount of variables and data really fast.
+2. **Second idea**: separate the histogram creation from its data. Then you can easily manage histogram objects (``boostHist`` library) and plot large amount of variables and data really fast.
 
-**Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings
+3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings
 
-|img3|
 
-.. |img3| image:: img/intro_2dhist_complexe.png
+.. image:: img/intro_2dhist_complexe.png
    :alt: Hep example
-   :width: 320
+   :width: 500
+   :align: center
 
 Content
 -------

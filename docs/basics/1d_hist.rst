@@ -41,7 +41,7 @@ If you have multiple variable to plot, use the variable manager:
 
     create_variable_registry(variable_keys)
 
-It will automatically create a `yaml` file with all the plotting information for each variable:
+It will automatically create a ``yaml`` file with all the plotting information for each variable:
 
 .. code-block:: yaml
 
@@ -61,7 +61,7 @@ It will automatically create a `yaml` file with all the plotting information for
     variable_1:
         ...
 
-It is then really easy to modify the plotting information. Also really convenient to plot the same variable with different plotting parameters, as a variable is identified by its `variable_key`.
+It is then really easy to modify the plotting information. Also really convenient to plot the same variable with different plotting parameters, as a variable is identified by its ``variable_key``.
 
 Then, just get the variable from the registery to make every plots:
 
@@ -84,9 +84,9 @@ Then, just get the variable from the registery to make every plots:
         ax.set_ylabel("Entries")
 
 
-To access the parameters of the variable, use `get_variable_from_registry(variable_key)`.
+To access the parameters of the variable, use ``get_variable_from_registry(variable_key)``.
 
-Also, you can easily update the `[min, max]` range values using `update_variable_registry_ranges(data, [variable_key])`. The yaml will automatically update. Then, you can modify the yaml to get a more suitable range to diplay in the plot.
+Also, you can easily get the ``[min, max]`` range values using ``update_variable_registry_ranges(data, [variable_key])``. The yaml will automatically update. Then, you can modify the yaml to get a more suitable range to diplay in the plot.
 
 
 
