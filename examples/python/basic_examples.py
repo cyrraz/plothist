@@ -7,7 +7,6 @@ from plothist.plotters import make_2d_hist
 from plothist.plotters import plot_hist
 from plothist.plotters import plot_2d_hist
 from plothist.plotters import compare_two_hist
-from plothist.plotters import Variable
 from plothist.plotters import create_variable_registry
 from plothist.plotters import get_variable_from_registry
 from plothist.plotters import update_variable_registry_ranges

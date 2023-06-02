@@ -461,11 +461,3 @@ def cubehelix_palette(
     if reverse:
         pal = pal[::-1]
     return pal
-
-
-@dataclass
-class Variable:
-    """Simple structure containing information about how a variable is binned and plotted."""
-
-    name: str
-    binning: tuple
