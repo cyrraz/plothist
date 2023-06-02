@@ -266,12 +266,12 @@ def plot_hist(hist, ax, **kwargs):
         )
 
 
-def plot_2d_hist(hist, fig, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
+def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", size="5%", pad=0.05)
     ax.tick_params(axis="x", which="both", top=False, bottom=False)
-    fig.colorbar(im, cax=cax, **colorbar_kwargs)
+    ax.get_figure().colorbar(im, cax=cax, **colorbar_kwargs)
 
 
 def plot_error_hist(hist, ax, **kwargs):
