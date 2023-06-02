@@ -92,13 +92,27 @@ def update_variable_registry(
 def update_variable_registry_ranges(data, variables, path="./variable_registry.yaml"):
     for variable_key in variables:
         variable = get_variable_from_registry(variable_key, path=path)
-        binning = _format_binning(
-            data[variable_key], variable["range"], variable["bins"]
-        )
-        update_variable_registry(variable_key, binning[1], binning[2], path=path)
+        axis = create_axis(data[variable_key], variable["bins"], variable["range"])
+        if isinstance(axis, bh.axis.Regular):
+            update_variable_registry(
+                variable_key, float(axis.edges[0]), float(axis.edges[-1]), path=path
+            )
+        else:
+            raise NotImplemented(f"Only regular binning allowed in registry. {type(axis)}")
 
 
-def _format_binning(data, range, bins):
+def create_axis(data, bins, range):
+
+    try:
+        N = len(bins)
+    except TypeError:
+        N = 1
+
+    if N > 1:
+        if range is not None:
+            warnings.warn(f"Custom binning -> ignore supplied range ({range}).")
+        return bh.axis.Variable(bins)
+
     # Inspired from np.histograms
     if range is not None:
         x_min = min(data) if range[0] == "min" else range[0]
@@ -124,7 +138,7 @@ def _format_binning(data, range, bins):
         x_min = x_min - 0.5
         x_max = x_max + 0.5
 
-    return (bins, x_min, x_max)
+    return bh.axis.Regular(bins, x_min, x_max)
 
 
 def _flatten_2d_hist(hist):
@@ -153,14 +167,14 @@ def make_hist(data, bins=50, range=None, weights=1):
         filled histogram
     """
 
-    binning = _format_binning(data, range, bins)
+    axis = create_axis(data, bins, range)
 
     if weights is None:
         storage = bh.storage.Double()
     else:
         storage = bh.storage.Weight()
 
-    h = bh.Histogram(bh.axis.Regular(*binning), storage=storage)
+    h = bh.Histogram(axis, storage=storage)
     h.fill(data, weight=weights, threads=0)
 
     # Check what proportion of the data is in the underflow and overflow bins
@@ -168,13 +182,13 @@ def make_hist(data, bins=50, range=None, weights=1):
     # Issue a warning in more than 1% of the data is outside of the binning range
     if range_coverage < 0.99:
         warnings.warn(
-            f"Only {100*range_coverage:.2f}% of data contained in the binning range ({binning[1]}, {binning[2]})."
+            f"Only {100*range_coverage:.2f}% of data contained in the binning range ({axis.edges[0]}, {axis.edges[-1]})."
         )
 
     return h
 
 
-def make_2d_hist(data, bins=[10, 10], range=(None,None), weights=1):
+def make_2d_hist(data, bins=[10, 10], range=(None, None), weights=1):
     """Create a 2D histogram object and fill it
     Parameters
     ----------
@@ -194,16 +208,15 @@ def make_2d_hist(data, bins=[10, 10], range=(None,None), weights=1):
     if len(data[0]) != len(data[1]):
         raise ValueError("x and y must have the same length.")
 
-    binning_x = _format_binning(data[0], range[0], bins[0])
-    binning_y = _format_binning(data[1], range[1], bins[1])
-
     if weights is None:
         storage = bh.storage.Double()
     else:
         storage = bh.storage.Weight()
 
     h = bh.Histogram(
-        bh.axis.Regular(*binning_x), bh.axis.Regular(*binning_y), storage=storage
+        create_axis(data[0], bins[0], range[0]),
+        create_axis(data[1], bins[1], range[1]),
+        storage=storage,
     )
     h.fill(*data, weight=weights, threads=0)
 

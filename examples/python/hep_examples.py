@@ -81,8 +81,7 @@ plot_b2_logo(ax=ax_comparison)
 ## 2.1 Define the histograms
 key1 = "variable_1"
 key2 = "variable_2"
-bins = [2, 4]
-range = ((-10, 10), (-10, 10))
+bins = [[-10,0,10],[-10,-5,0,5,10]]
 category = "category"
 
 # Define datasets
@@ -105,16 +104,16 @@ background_masks = [df[category] == p for p in background_categories]
 # Make histograms
 
 data_hist = make_2d_hist(
-    [df[key][data_mask] for key in [key1, key2]], bins=bins, range=range, weights=1
+    [df[key][data_mask] for key in [key1, key2]], bins=bins, weights=1
 )
 background_hists = [
     make_2d_hist(
-        [df[key][mask] for key in [key1, key2]], bins=bins, range=range, weights=1
+        [df[key][mask] for key in [key1, key2]], bins=bins, weights=1
     )
     for mask in background_masks
 ]
 signal_hist = make_2d_hist(
-    [df[key][signal_mask] for key in [key1, key2]], bins=bins, range=range, weights=1
+    [df[key][signal_mask] for key in [key1, key2]], bins=bins, weights=1
 )
 
 ## 2.2 Compare data and stacked histogram
