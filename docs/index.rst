@@ -1,27 +1,25 @@
+
+========
 plothist
 ========
 
+**Plot histograms in a scalable way and a beautiful style.**
 
-|img1| |img2| |img3|
+|img1| |img2|
 
 .. |img1| image:: img/intro_2dhist_hep.png
    :alt: Complex hep example
    :width: 320
 
-.. |img3| image:: img/intro_hist_hep.png
+.. |img2| image:: img/intro_hist_hep.png
    :alt: Hep example
    :width: 320
 
-.. |img2| image:: img/intro_2dhist_complexe.png
-   :alt: Hep example
-   :width: 320
-
-**Plot histograms in a scalable way and a beautiful style.**
 
 |GitHub Project| |PyPI version| |Docs from latest| |Docs from main| |Code style: black|
 
-Main idea
----------
+Small presentation
+------------------
 
 **Major advantages over other plotting libraries**: scalability, style and user friendly way of managing variables.
 
@@ -31,7 +29,11 @@ Main idea
 
 **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings
 
+|img3|
 
+.. |img3| image:: img/intro_2dhist_complexe.png
+   :alt: Hep example
+   :width: 320
 
 Content
 -------
@@ -42,7 +44,7 @@ Content
     usage/installation
     basics/1d_hist
     basics/2d_hist
-    advanced/hep_example
+    advanced/hep_examples
 
 
 

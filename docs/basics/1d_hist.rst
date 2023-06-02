@@ -1,7 +1,12 @@
 .. _basics-1d_hist-label:
 
+=================
 Basic 1D examples
 =================
+
+
+Simple plot
+===========
 
 To plot a simple 1d histogram:
 
@@ -21,6 +26,11 @@ To plot a simple 1d histogram:
 .. image:: ../img/demo_simple_hist.png
    :alt: Simple hist
    :width: 320
+
+
+
+With variable manager
+=====================
 
 
 If you have multiple variable to plot, use the variable manager:
@@ -76,7 +86,7 @@ Then, just get the variable from the registery to make every plots:
 
 To access the parameters of the variable, use `get_variable_from_registry(variable_key)`.
 
-Also, you can easily update the `[min, max]` range values using `update_variable_registry_ranges(data, [variable_key])`. The yaml will automatically update.
+Also, you can easily update the `[min, max]` range values using `update_variable_registry_ranges(data, [variable_key])`. The yaml will automatically update. Then, you can modify the yaml to get a more suitable range to diplay in the plot.
 
 
 

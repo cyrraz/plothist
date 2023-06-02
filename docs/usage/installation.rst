@@ -1,10 +1,18 @@
 .. _installation-label:
 
+============
 Installation
 ============
 
+
+Using PyPI
+==========
+
+soon
+
+
 Using Flit (deprecated soon)
-----------------------------
+============================
 
 1.  Install flit:
 
