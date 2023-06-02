@@ -100,17 +100,24 @@ def update_variable_registry_ranges(data, variables, path="./variable_registry.y
 
 def _format_binning(data, range, bins):
     # Inspired from np.histograms
-    x_min = min(data) if range[0] in ["min", None] else range[0]
-    x_max = max(data) if range[1] in ["max", None] else range[1]
-    if x_min > x_max:
-        raise ValueError("max must be larger than min in range parameter.")
-    if not (np.isfinite(x_min) and np.isfinite(x_max)):
-        raise ValueError(
-            "supplied range of [{}, {}] is not finite".format(x_min, x_max)
-        )
+    if range is not None:
+        x_min = min(data) if range[0] == "min" else range[0]
+        x_max = max(data) if range[1] == "max" else range[1]
+        if x_min > x_max:
+            raise ValueError("max must be larger than min in range parameter.")
+        if not (np.isfinite(x_min) and np.isfinite(x_max)):
+            raise ValueError(
+                "supplied range of [{}, {}] is not finite".format(x_min, x_max)
+            )
     elif data.size == 0:
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0, 1
+    else:
+        x_min, x_max = min(data), max(data)
+        if not (np.isfinite(x_min) and np.isfinite(x_max)):
+            raise ValueError(
+                "autodetected range of [{}, {}] is not finite".format(x_min, x_max)
+            )
 
     # expand empty range to avoid divide by zero
     if x_min == x_max:
@@ -130,7 +137,7 @@ def _flatten_2d_hist(hist):
     return flatten_hist
 
 
-def make_hist(data, bins=50, range=[None, None], weights=1):
+def make_hist(data, bins=50, range=None, weights=1):
     """Create a histogram object and fill it
     Parameters
     ----------
