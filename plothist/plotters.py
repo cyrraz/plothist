@@ -174,7 +174,7 @@ def make_hist(data, bins=50, range=None, weights=1):
     return h
 
 
-def make_2d_hist(data, binning, weights=1):
+def make_2d_hist(data, bins=[10, 10], range=(None,None), weights=1):
     """Create a 2D histogram object and fill it
     Parameters
     ----------
@@ -189,6 +189,13 @@ def make_2d_hist(data, binning, weights=1):
     histogram: boost_histogram.Histogram
         filled histogram
     """
+    if len(data) != 2:
+        raise ValueError("data should have two components, x and y")
+    if len(data[0]) != len(data[1]):
+        raise ValueError("x and y must have the same length.")
+
+    binning_x = _format_binning(data[0], range[0], bins[0])
+    binning_y = _format_binning(data[1], range[1], bins[1])
 
     if weights is None:
         storage = bh.storage.Double()
@@ -196,7 +203,7 @@ def make_2d_hist(data, binning, weights=1):
         storage = bh.storage.Weight()
 
     h = bh.Histogram(
-        bh.axis.Variable(binning[0]), bh.axis.Variable(binning[1]), storage=storage
+        bh.axis.Regular(*binning_x), bh.axis.Regular(*binning_y), storage=storage
     )
     h.fill(*data, weight=weights, threads=0)
 
