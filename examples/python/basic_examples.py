@@ -39,9 +39,7 @@ for variable_key in variable_keys:
     variable = get_variable_from_registry(variable_key)
 
     fig, ax = plt.subplots()
-    h = make_hist(
-        df[variable["name"]], bins=variable["bins"], range=variable["range"]
-    )
+    h = make_hist(df[variable["name"]], bins=variable["bins"], range=variable["range"])
     plot_hist(h, ax=ax)
     ax.set_xlabel(variable["label"])
 
