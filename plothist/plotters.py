@@ -189,7 +189,7 @@ def make_hist(data, bins=50, range=None, weights=1):
     return h
 
 
-def make_2d_hist(data, bins=[10, 10], range=(None, None), weights=1):
+def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
     """Create a 2D histogram object and fill it
     Parameters
     ----------
