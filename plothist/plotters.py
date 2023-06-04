@@ -7,6 +7,7 @@ import matplotlib as mpl
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 import warnings
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from dataclasses import dataclass
 import yaml
 import os
@@ -92,32 +93,53 @@ def update_variable_registry(
 def update_variable_registry_ranges(data, variables, path="./variable_registry.yaml"):
     for variable_key in variables:
         variable = get_variable_from_registry(variable_key, path=path)
-        binning = _format_binning(
-            data[variable_key], variable["range"], variable["bins"]
-        )
-        update_variable_registry(variable_key, binning[1], binning[2], path=path)
+        axis = create_axis(data[variable_key], variable["bins"], variable["range"])
+        if isinstance(axis, bh.axis.Regular):
+            update_variable_registry(
+                variable_key, float(axis.edges[0]), float(axis.edges[-1]), path=path
+            )
+        else:
+            raise NotImplemented(f"Only regular binning allowed in registry. {type(axis)}")
 
 
-def _format_binning(data, range, bins):
+def create_axis(data, bins, range):
+
+    try:
+        N = len(bins)
+    except TypeError:
+        N = 1
+
+    if N > 1:
+        if range is not None:
+            warnings.warn(f"Custom binning -> ignore supplied range ({range}).")
+        return bh.axis.Variable(bins)
+
     # Inspired from np.histograms
-    x_min = min(data) if range[0] in ["min", None] else range[0]
-    x_max = max(data) if range[1] in ["max", None] else range[1]
-    if x_min > x_max:
-        raise ValueError("max must be larger than min in range parameter.")
-    if not (np.isfinite(x_min) and np.isfinite(x_max)):
-        raise ValueError(
-            "supplied range of [{}, {}] is not finite".format(x_min, x_max)
-        )
+    if range is not None:
+        x_min = min(data) if range[0] == "min" else range[0]
+        x_max = max(data) if range[1] == "max" else range[1]
+        if x_min > x_max:
+            raise ValueError("max must be larger than min in range parameter.")
+        if not (np.isfinite(x_min) and np.isfinite(x_max)):
+            raise ValueError(
+                "supplied range of [{}, {}] is not finite".format(x_min, x_max)
+            )
     elif data.size == 0:
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0, 1
+    else:
+        x_min, x_max = min(data), max(data)
+        if not (np.isfinite(x_min) and np.isfinite(x_max)):
+            raise ValueError(
+                "autodetected range of [{}, {}] is not finite".format(x_min, x_max)
+            )
 
     # expand empty range to avoid divide by zero
     if x_min == x_max:
         x_min = x_min - 0.5
         x_max = x_max + 0.5
 
-    return (bins, x_min, x_max)
+    return bh.axis.Regular(bins, x_min, x_max)
 
 
 def _flatten_2d_hist(hist):
@@ -130,7 +152,7 @@ def _flatten_2d_hist(hist):
     return flatten_hist
 
 
-def make_hist(data, bins=50, range=[None, None], weights=1):
+def make_hist(data, bins=50, range=None, weights=1):
     """Create a histogram object and fill it
     Parameters
     ----------
@@ -146,14 +168,14 @@ def make_hist(data, bins=50, range=[None, None], weights=1):
         filled histogram
     """
 
-    binning = _format_binning(data, range, bins)
+    axis = create_axis(data, bins, range)
 
     if weights is None:
         storage = bh.storage.Double()
     else:
         storage = bh.storage.Weight()
 
-    h = bh.Histogram(bh.axis.Regular(*binning), storage=storage)
+    h = bh.Histogram(axis, storage=storage)
     h.fill(data, weight=weights, threads=0)
 
     # Check what proportion of the data is in the underflow and overflow bins
@@ -161,13 +183,13 @@ def make_hist(data, bins=50, range=[None, None], weights=1):
     # Issue a warning in more than 1% of the data is outside of the binning range
     if range_coverage < 0.99:
         warnings.warn(
-            f"Only {100*range_coverage:.2f}% of data contained in the binning range ({binning[1]}, {binning[2]})."
+            f"Only {100*range_coverage:.2f}% of data contained in the binning range ({axis.edges[0]}, {axis.edges[-1]})."
         )
 
     return h
 
 
-def make_2d_hist(data, binning, weights=1):
+def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
     """Create a 2D histogram object and fill it
     Parameters
     ----------
@@ -182,6 +204,10 @@ def make_2d_hist(data, binning, weights=1):
     histogram: boost_histogram.Histogram
         filled histogram
     """
+    if len(data) != 2:
+        raise ValueError("data should have two components, x and y")
+    if len(data[0]) != len(data[1]):
+        raise ValueError("x and y must have the same length.")
 
     if weights is None:
         storage = bh.storage.Double()
@@ -189,7 +215,9 @@ def make_2d_hist(data, binning, weights=1):
         storage = bh.storage.Weight()
 
     h = bh.Histogram(
-        bh.axis.Variable(binning[0]), bh.axis.Variable(binning[1]), storage=storage
+        create_axis(data[0], bins[0], range[0]),
+        create_axis(data[1], bins[1], range[1]),
+        storage=storage,
     )
     h.fill(*data, weight=weights, threads=0)
 
@@ -236,6 +264,14 @@ def plot_hist(hist, ax, **kwargs):
             weights=[h.values() for h in hist],
             **kwargs,
         )
+
+
+def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
+    im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    ax.tick_params(axis="x", which="both", top=False, bottom=False)
+    ax.get_figure().colorbar(im, cax=cax, **colorbar_kwargs)
 
 
 def plot_error_hist(hist, ax, **kwargs):
@@ -425,11 +461,3 @@ def cubehelix_palette(
     if reverse:
         pal = pal[::-1]
     return pal
-
-
-@dataclass
-class Variable:
-    """Simple structure containing information about how a variable is binned and plotted."""
-
-    name: str
-    binning: tuple
