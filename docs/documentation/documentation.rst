@@ -1,12 +1,12 @@
 .. _documentation-label: Documentation
 
-=========================
+
 plotters.py documentation
 =========================
 
 
 Histogram
-=========
+---------
 
 .. autofunction:: plotters.make_hist
 
@@ -25,16 +25,8 @@ Histogram
 .. autofunction:: plotters.cubehelix_palette
 
 
-Helper functions
---------------
-
-.. autofunction:: plotters.create_axis
-
-.. autofunction:: plotters._flatten_2d_hist
-
-
 Variable registry
-=================
+-----------------
 
 .. autofunction:: plotters.create_variable_registry
 
@@ -46,22 +38,25 @@ Variable registry
 Helper functions
 ----------------
 
+.. autofunction:: plotters.create_axis
+
+.. autofunction:: plotters._flatten_2d_hist
+
 .. autofunction:: plotters.update_variable_registry
 
 
-=============================
 hep_examples.py documentation
 =============================
 
 
 Data/MC comparison
-==================
+------------------
 
 .. autofunction:: hep_examples.plot_mc
 
 .. autofunction:: hep_examples.compare_data_mc
 
 Misc
-====
+----
 
 .. autofunction:: hep_examples.plot_b2_logo
