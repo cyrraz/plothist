@@ -7,11 +7,11 @@ plothist
 
 |img1| |img2|
 
-.. |img1| image:: docs/img/intro_2dhist_hep.svg
+.. |img1| image:: https://github.com/cyrraz/plothist/blob/d868e5c7b8b15edcbbc22b937f11c121784af1b1/docs/img/intro_2dhist_hep.svg
    :alt: Complex hep example
    :width: 320
 
-.. |img2| image:: docs/img/intro_hist_hep.svg
+.. |img2| image:: https://github.com/cyrraz/plothist/blob/d868e5c7b8b15edcbbc22b937f11c121784af1b1/docs/img/intro_hist_hep.svg
    :alt: Hep example
    :width: 320
 
@@ -30,7 +30,7 @@ Small presentation
 3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings
 
 
-.. image:: docs/img/intro_2dhist_complexe.svg
+.. image:: https://github.com/cyrraz/plothist/blob/d868e5c7b8b15edcbbc22b937f11c121784af1b1/docs/img/intro_2dhist_complexe.svg
    :alt: Complexe hep example
    :width: 500
    :align: center
