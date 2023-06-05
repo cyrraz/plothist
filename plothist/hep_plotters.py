@@ -274,7 +274,7 @@ def plot_b2_logo(
     y=1.03,
     fontsize=12,
     is_data=True,
-    lumi="362",
+    lumi=362,
     preliminary=False,
     two_lines=False,
     white_background=False,
@@ -294,8 +294,8 @@ def plot_b2_logo(
         Font size, by default 12.
     is_data : bool, optional
         If True, plot integrated luminosity. If False, plot "Simulation", by default True.
-    lumi : str, optional
-        Integrated luminosity in fb-1 as a string. Default value is "362". If empty, do not plot luminosity.
+    lumi : int, optional
+        Integrated luminosity in fb-1. Default value is 362. If empty, do not plot luminosity.
     preliminary : bool, optional
         If True, print "preliminary", by default False.
     two_lines : bool, optional
@@ -324,7 +324,9 @@ def plot_b2_logo(
         s += " "
     if is_data:
         if lumi:
-            s += r"$\int\,\mathcal{L}\,\mathrm{d}t=" + lumi + r"\,\mathrm{fb}^{-1}$"
+            s += (
+                r"$\int\,\mathcal{L}\,\mathrm{d}t=" + str(lumi) + r"\,\mathrm{fb}^{-1}$"
+            )
     else:
         s += r"$\mathrm{\mathbf{simulation}}$"
 

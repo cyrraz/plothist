@@ -62,7 +62,8 @@ fig, ax_comparison, ax_ratio = compare_data_mc(
     save_as=None,
     stacked=True,
 )
-plot_b2_logo(ax=ax_comparison)
+plot_b2_logo(ax=ax_comparison, lumi=50000)
+
 ## 1.3 Compare data and un-stacked histogram
 fig, ax_comparison, ax_ratio = compare_data_mc(
     data_hist=data_hist,
@@ -75,8 +76,8 @@ fig, ax_comparison, ax_ratio = compare_data_mc(
     save_as=None,
     stacked=False,
 )
+plot_b2_logo(ax=ax_comparison, lumi=50000)
 
-plot_b2_logo(ax=ax_comparison)
 # 2 Compare data and stacked histogram for a flatten 2D variable
 ## 2.1 Define the histograms
 key1 = "variable_1"
@@ -129,7 +130,7 @@ fig, ax_comparison, ax_ratio = compare_data_mc(
     flatten_2d_hist=True,
 )  # /!\ Important argument
 
-plot_b2_logo(ax=ax_comparison)
+plot_b2_logo(ax=ax_comparison, lumi=50000)
 ax_comparison.legend(ncol=3, fontsize=10)
 
 plt.show()
