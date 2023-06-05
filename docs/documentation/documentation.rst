@@ -1,4 +1,4 @@
-.. _documentation-label:
+.. _documentation-label: Documentation
 
 =========================
 plotters.py documentation
