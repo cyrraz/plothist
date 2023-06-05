@@ -3,8 +3,8 @@ plothist
 
 **Plot histograms in a scalable way and a beautiful style.**
 
-![Complex hep example](img/intro_2dhist_hep.svg){width="320px"}
-![Hep example](img/intro_hist_hep.svg){width="320px"}
+![Complex hep example](docs/img/intro_2dhist_hep.svg){width="320px"}
+![Hep example](docs/img/intro_hist_hep.svg){width="320px"}
 
 [![GitHub
 Project](https://img.shields.io/badge/GitHub--blue?style=social&logo=GitHub)](https://github.com/cyrraz/plothist)
@@ -32,5 +32,5 @@ and user friendly way of managing variables.
     manager. Really easy to modify the plotting information and do
     multiple plots with same variable but different settings
 
-![Complexe hep example](img/intro_2dhist_complexe.svg){.align-center
+![Complexe hep example](docs/img/intro_2dhist_complexe.svg){.align-center
 width="500px"}
