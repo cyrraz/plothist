@@ -26,6 +26,7 @@ def create_variable_registry(variables, path="./variable_registry.yaml", reset=F
     Finally, it writes the updated variable registry back to the file.
 
     Parameters of one variable in the yaml:
+
     name : str
         variable name in data.
     bins : int
