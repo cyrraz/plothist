@@ -4,6 +4,9 @@
 plotters.py documentation
 =========================
 
+.. automodule:: plotters
+   :members:
+   :undoc-members:
 
 Histogram
 ---------
@@ -48,6 +51,9 @@ Helper functions
 hep_examples.py documentation
 =============================
 
+.. automodule:: hep_examples
+   :members:
+   :undoc-members:
 
 Data/MC comparison
 ------------------
