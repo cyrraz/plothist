@@ -25,17 +25,7 @@ def create_variable_registry(variables, path="./variable_registry.yaml", reset=F
     it adds the variable to the registry with default settings.
     Finally, it writes the updated variable registry back to the file.
 
-    Parameters
-    ----------
-    variables : list
-        A list of variable names to be registered.
-    path : str, optional
-        The path to the variable registry file (default is "./variable_registry.yaml").
-    reset : bool, optional
-        If True, the registry will be reset for all variables (default is False).
-
-    Parameters of one variable in the yaml
-    --------------------------------------
+    Parameters of one variable in the yaml:
     name : str
         variable name in data.
     bins : int
@@ -52,6 +42,16 @@ def create_variable_registry(variables, path="./variable_registry.yaml", reset=F
         Default set to 1
     docstring : str
         Default is empty
+
+    Parameters
+    ----------
+    variables : list
+        A list of variable names to be registered.
+    path : str, optional
+        The path to the variable registry file (default is "./variable_registry.yaml").
+    reset : bool, optional
+        If True, the registry will be reset for all variables (default is False).
+
 
     """
 
