@@ -168,4 +168,5 @@ if os.getenv("READTHEDOCS"):
     subprocess.check_call(["pip", "install", "flit"])
     subprocess.check_call(["pip", "install", "matplotlib"])
     subprocess.check_call(["pip", "install", "boost_histogram"])
+    subprocess.check_call(["pip", "install", "yaml"])
     subprocess.check_call(["flit", "install", "-s"], cwd="../")
