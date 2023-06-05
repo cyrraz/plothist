@@ -1,14 +1,18 @@
-.. _documentation-label: Documentation
+.. _documentation-label:
+
+=====================
+Package documentation
+=====================
 
 
-plothist.plotters.py documentation
-=========================
+plotters.py
+-----------
 
 .. automodule:: plothist.plotters
    :members:
 
-hep_examples.py documentation
-=============================
+hep_examples.py
+---------------
 
 .. automodule:: plothist.hep_plotters
    :members:
