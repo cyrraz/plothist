@@ -45,6 +45,7 @@ Content
     basics/1d_hist
     basics/2d_hist
     advanced/hep_examples
+    documentation/documentation
     documentation/plotters
     documentation/hep_plotters
 
