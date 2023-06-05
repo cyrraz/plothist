@@ -14,20 +14,20 @@ To plot a simple 1d histogram:
 
     from plothist.plotters import make_hist, plot_hist
 
-    key = "variable_0"
+    name = "variable_0"
 
     fig, ax = plt.subplots()
 
-    h = make_hist(df[key])
+    h = make_hist(df[name])
 
     plot_hist(h, ax=ax)
 
-    ax.set_xlabel(key)
+    ax.set_xlabel(name)
     ax.set_ylabel("Entries")
 
     plt.show()
 
-.. image:: ../img/demo_simple_hist.png
+.. image:: ../img/1d_hist_simple.png
    :alt: Simple hist
    :width: 320
 
@@ -73,6 +73,7 @@ Then, just get the variable from the registery to make every plots:
 
 .. code-block:: python
 
+    from plothist.plotters import make_hist, plot_hist
     from plothist.plotters import update_variable_registry_ranges, get_variable_from_registry
 
     # If no range specified for some variable_keys, update the yaml with actual min and max value

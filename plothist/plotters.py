@@ -99,7 +99,9 @@ def update_variable_registry_ranges(data, variables, path="./variable_registry.y
                 variable_key, float(axis.edges[0]), float(axis.edges[-1]), path=path
             )
         else:
-            raise NotImplemented(f"Only regular binning allowed in registry. {type(axis)}")
+            raise NotImplemented(
+                f"Only regular binning allowed in registry. {type(axis)}"
+            )
 
 
 def create_axis(data, bins, range):
