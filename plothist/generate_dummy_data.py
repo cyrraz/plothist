@@ -3,7 +3,14 @@ from sklearn.datasets import make_classification
 
 
 def generate_dummy_data():
-    """Generate dummy data and return a pandas dataframe containing these data.
+    """
+    Generate dummy data and return a pandas dataframe containing these data.
+
+    Returns
+    -------
+    pandas.DataFrame
+        The generated dummy data as a DataFrame.
+
     The dataframe columns contain:
     * 10 variables named variable_0, ..., variable_9
     * 1 categorical column with 9 categories: 0, ..., 8

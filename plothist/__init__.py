@@ -1,4 +1,6 @@
-"""Plot histograms in a scalable way and a beautiful style."""
+"""
+Plot histograms in a scalable way and a beautiful style.
+"""
 import matplotlib.pyplot as plt
 from importlib.resources import path as resources_path
 

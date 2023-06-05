@@ -1,6 +1,6 @@
-""" Collection of functions to plot histograms in the context of High Energy Physics
 """
-
+Collection of functions to plot histograms in the context of High Energy Physics
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 from plothist.plotters import plot_hist
@@ -20,13 +20,41 @@ def compare_data_mc(
     flatten_2d_hist=False,
     stacked=True,
 ):
-    """Compare data to mc.
-    The binning among all the histograms should be equal
+    """
+    Compare data to MC simulations.
+
+    Parameters
+    ----------
+    data_hist : boost_histogram.Histogram
+        Histogram of the data.
+    mc_hist_list : list of boost_histogram.Histogram
+        List of histograms representing the MC simulations.
+    signal_hist : boost_histogram.Histogram, optional
+        Histogram representing the signal MC simulation, by default None.
+    xlabel : str, optional
+        Label for the x-axis, by default None.
+    ylabel : str, optional
+        Label for the y-axis, by default None.
+    mc_labels : list of str, optional
+        List of labels for the MC simulations, by default None.
+    mc_colors : list of str, optional
+        List of colors for the MC simulations, by default None.
+    save_as : str, optional
+        File path to save the figure, by default None.
+    flatten_2d_hist : bool, optional
+        Whether to flatten 2D histograms, by default False.
+    stacked : bool, optional
+        Whether to stack the MC histograms, by default True.
+
     Returns
     -------
-    fig, ax_comparison, ax_ratio
+    fig : matplotlib.figure.Figure
+        The generated figure.
+    ax_comparison : matplotlib.axes.Axes
+        Axes instance for the comparison plot.
+    ax_ratio : matplotlib.axes.Axes
+        Axes instance for the ratio plot.
     """
-
     if flatten_2d_hist:
         data_hist = _flatten_2d_hist(data_hist)
         mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
@@ -169,11 +197,36 @@ def plot_mc(
     save_as=None,
     flatten_2d_hist=False,
 ):
-    """Plot mc.
-    The binning among all the histograms should be equal
+    """
+    Plot Monte Carlo (MC) simulations.
+
+    Parameters
+    ----------
+    mc_hist_list : list of boost_histogram.Histogram
+        List of histograms representing the MC simulations.
+    signal_hist : boost_histogram.Histogram, optional
+        Histogram representing the signal MC simulation, by default None.
+    xlabel : str, optional
+        Label for the x-axis, by default None.
+    ylabel : str, optional
+        Label for the y-axis, by default None.
+    mc_labels : list of str, optional
+        List of labels for the MC simulations, by default None.
+    mc_colors : list of str, optional
+        List of colors for the MC simulations, by default None.
+    signal_label : str, optional
+        Label for the signal histogram, by default "Signal".
+    save_as : str, optional
+        File path to save the figure, by default None.
+    flatten_2d_hist : bool, optional
+        Whether to flatten 2D histograms, by default False.
+
     Returns
     -------
-    fig, ax
+    fig : matplotlib.figure.Figure
+        The generated figure.
+    ax : matplotlib.axes.Axes
+        Axes instance for the plot.
     """
 
     if flatten_2d_hist:
@@ -229,20 +282,34 @@ def plot_b2_logo(
     **kwargs
 ):
     """
-    plot the Belle II logo and the integrated luminosity (or "Simulation").
+    Plot the Belle II logo and the integrated luminosity (or "Simulation").
 
     Parameters
     ----------
-    x : x position
-    y : y position
-    fontsize : fontsize
-    is_data : if True, plot int. luminosity. If False, plot "Simulation".
-    lumi : Integrated luminosity in fb-1 as a string. Default value is "63+9". If empty, do not plot luminosity.
-    preliminary : If True (default), print preliminary
-    two_lines : If True (default), write the information on two lines
-    white_background : draw white rectangle under the logo
-    ax : figure axis
-    kwargs : kwargs to be passed to the text function
+    x : float, optional
+        x position, by default 0.6.
+    y : float, optional
+        y position, by default 1.03.
+    fontsize : int, optional
+        Font size, by default 12.
+    is_data : bool, optional
+        If True, plot integrated luminosity. If False, plot "Simulation", by default True.
+    lumi : str, optional
+        Integrated luminosity in fb-1 as a string. Default value is "362". If empty, do not plot luminosity.
+    preliminary : bool, optional
+        If True, print "preliminary", by default False.
+    two_lines : bool, optional
+        If True, write the information on two lines, by default False.
+    white_background : bool, optional
+        Draw a white rectangle under the logo, by default False.
+    ax : matplotlib.axes.Axes, optional
+        Figure axis, by default None.
+    kwargs : dict
+        Keyword arguments to be passed to the text function.
+
+    Returns
+    -------
+    None
     """
     if ax is None:
         ax = plt.gca()
