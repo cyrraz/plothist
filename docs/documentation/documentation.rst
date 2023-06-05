@@ -56,18 +56,18 @@ Helper functions
 hep_examples.py documentation
 =============================
 
-.. automodule:: hep_examples
+.. automodule:: plothist.hep_examples
    :members:
    :undoc-members:
 
 Data/MC comparison
 ------------------
 
-.. autofunction:: hep_examples.plot_mc
+.. autofunction:: plothist.hep_examples.plot_mc
 
-.. autofunction:: hep_examples.compare_data_mc
+.. autofunction:: plothist.hep_examples.compare_data_mc
 
 Misc
 ----
 
-.. autofunction:: hep_examples.plot_b2_logo
+.. autofunction:: plothist.hep_examples.plot_b2_logo

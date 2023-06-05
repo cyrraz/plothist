@@ -166,4 +166,5 @@ texinfo_documents = [
 if os.getenv("READTHEDOCS"):
     import subprocess
     subprocess.check_call(["pip", "install", "flit"])
+    subprocess.check_call(["pip", "install", "matplotlib"])
     subprocess.check_call(["flit", "install", "-s"], cwd="../")
