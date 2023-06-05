@@ -9,7 +9,7 @@ plotters.py documentation
    :undoc-members:
 
 
-.. autofunction:: plotters.make_hist
+.. automodule:: plotters.make_hist
    :members:
    :undoc-members:
 
