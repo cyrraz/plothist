@@ -71,7 +71,7 @@ Then, to create stacked histogram:
 
 .. image:: ../img/hep_examples_dataMC_stacked.png
    :alt: Data/MC comparison, stacked plot
-   :width: 420
+   :width: 500
 
 or unstacked histogram:
 
@@ -93,7 +93,7 @@ or unstacked histogram:
 
 .. image:: ../img/hep_examples_dataMC_unstacked.png
    :alt: Data/MC comparison, stacked plot
-   :width: 420
+   :width: 500
 
 
 Advanced
@@ -166,5 +166,5 @@ Compare data and stacked histogram for a flatten 2D variable:
 
 .. image:: ../img/hep_examples_dataMC_flatten2D.png
    :alt: Data/MC comparison, flatten variable
-   :width: 420
+   :width: 500
 

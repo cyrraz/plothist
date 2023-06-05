@@ -32,7 +32,7 @@ To plot a simple 1d histogram:
 
 .. image:: ../img/2d_hist_simple.png
    :alt: Simple 2d hist
-   :width: 420
+   :width: 500
 
 
 Correlations with variable manager
@@ -105,7 +105,7 @@ Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins
 
 .. image:: ../img/2d_hist_uneven.png
    :alt: 2d hist with uneven binning
-   :width: 420
+   :width: 500
 
 
 

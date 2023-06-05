@@ -29,7 +29,7 @@ To plot a simple 1d histogram:
 
 .. image:: ../img/1d_hist_simple.png
    :alt: Simple hist
-   :width: 420
+   :width: 500
 
 
 
