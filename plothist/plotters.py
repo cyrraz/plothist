@@ -15,6 +15,7 @@ import os
 
 
 def create_variable_registry(variables, path="./variable_registry.yaml", reset=False):
+    # TODO: bins can be a list for 2D uneven binning
     """Create the variable registry yaml file given a list of variables
     It stores all the plotting information for each variable
 
@@ -33,17 +34,25 @@ def create_variable_registry(variables, path="./variable_registry.yaml", reset=F
     reset : bool, optional
         If True, the registry will be reset for all variables (default is False).
 
-    Plotting parameters
-    -------------------
-        Key: Key of the variable in the yaml
-        name: variable name in data
-        bins: default 50
-        range: default [min, max]
-        label: default name (latex supported, just add $label$)
-        log: True if logscale, default False
-        legend_location: default best
-        legend_ncols: default 1
-        docstring: default empty
+    Parameters of one variable in the yaml
+    --------------------------------------
+    name : str
+        variable name in data.
+    bins : int
+        Number of bins, default is 50.
+    range: list of two float
+        Range of the variables, default is [min, max] of the data.
+    label : str
+        Label to display, default is variable name. Latex supported by surrounding the label with $label$.
+    log : bool
+        True if plot in logscale, default is False
+    legend_location : str
+        Default is best
+    legend_ncols : int
+        Default set to 1
+    docstring : str
+        Default is empty
+
     """
 
     if not os.path.exists(path):
