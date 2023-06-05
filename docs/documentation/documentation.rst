@@ -44,14 +44,14 @@ Variable registry
 
 
 Helper functions
---------------
+----------------
 
 .. autofunction:: plotters.update_variable_registry
 
 
-=========================
+=============================
 hep_examples.py documentation
-=========================
+=============================
 
 
 Data/MC comparison
