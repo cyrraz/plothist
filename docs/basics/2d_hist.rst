@@ -36,7 +36,7 @@ To plot a simple 1d histogram:
 
 
 Correlations with variable manager
-=====================
+==================================
 
 Same as for 1D histogram, variable manager can be practical to manage and see the correlation between multiple variables:
 
