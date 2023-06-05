@@ -1,56 +1,56 @@
 .. _documentation-label: Documentation
 
 
-plotters.py documentation
+plothist.plotters.py documentation
 =========================
 
-.. automodule:: plotters
+.. automodule:: plothist.plotters
    :members:
    :undoc-members:
 
 
-.. automodule:: plotters.make_hist
+.. automodule:: plothist.plotters.make_hist
    :members:
    :undoc-members:
 
 Histogram
 ---------
 
-.. autofunction:: plotters.make_hist
+.. autofunction:: plothist.plotters.make_hist
 
-.. autofunction:: plotters.plot_hist
+.. autofunction:: plothist.plotters.plot_hist
 
-.. autofunction:: plotters.make_2d_hist
+.. autofunction:: plothist.plotters.make_2d_hist
 
-.. autofunction:: plotters.plot_2d_hist
+.. autofunction:: plothist.plotters.plot_2d_hist
 
-.. autofunction:: plotters.plot_error_hist
+.. autofunction:: plothist.plotters.plot_error_hist
 
-.. autofunction:: plotters.plot_hist_difference
+.. autofunction:: plothist.plotters.plot_hist_difference
 
-.. autofunction:: plotters.compare_two_hist
+.. autofunction:: plothist.plotters.compare_two_hist
 
-.. autofunction:: plotters.cubehelix_palette
+.. autofunction:: plothist.plotters.cubehelix_palette
 
 
 Variable registry
 -----------------
 
-.. autofunction:: plotters.create_variable_registry
+.. autofunction:: plothist.plotters.create_variable_registry
 
-.. autofunction:: plotters.get_variable_from_registry
+.. autofunction:: plothist.plotters.get_variable_from_registry
 
-.. autofunction:: plotters.update_variable_registry_ranges
+.. autofunction:: plothist.plotters.update_variable_registry_ranges
 
 
 Helper functions
 ----------------
 
-.. autofunction:: plotters.create_axis
+.. autofunction:: plothist.plotters.create_axis
 
-.. autofunction:: plotters._flatten_2d_hist
+.. autofunction:: plothist.plotters._flatten_2d_hist
 
-.. autofunction:: plotters.update_variable_registry
+.. autofunction:: plothist.plotters.update_variable_registry
 
 
 hep_examples.py documentation
