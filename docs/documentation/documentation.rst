@@ -8,6 +8,11 @@ plotters.py documentation
    :members:
    :undoc-members:
 
+
+.. autofunction:: plotters.make_hist
+   :members:
+   :undoc-members:
+
 Histogram
 ---------
 
