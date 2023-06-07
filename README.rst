@@ -5,6 +5,8 @@ plothist
 
 **Plot histograms in a scalable way and a beautiful style.**
 
+Installation and documentation: `https://plothist.readthedocs.io/ <https://plothist.readthedocs.io/>`_
+
 |img1| |img2|
 
 .. |img1| image:: https://raw.githubusercontent.com/cyrraz/plothist/docs/docs/img/intro_2dhist_hep.svg
