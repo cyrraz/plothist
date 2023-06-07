@@ -27,7 +27,7 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
 
 2. **Second idea**: separate the histogram creation from its plotting. Then you can easily manage histogram objects (``boost_histogram`` library) and plot large amount of variables and data really fast.
 
-3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings
+3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings.
 
 
 .. image:: https://raw.githubusercontent.com/cyrraz/plothist/docs/docs/img/intro_2dhist_complexe.svg
