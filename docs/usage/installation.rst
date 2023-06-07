@@ -5,26 +5,56 @@ Installation
 ============
 
 
-Using PyPI
-==========
+Using PyPI (stable version)
+===========================
 
-soon
+1.  (Optional) If you use a local environment:
+
+    For example, run:
+
+    .. code-block:: bash
+
+        source venv/bin/activate
+
+
+2. Install ``plothist`` from ``PyPI`` into your environment.
+
+   a.  If you have a local installation, you can use the normal setup command
+
+   .. code-block:: bash
+
+       pip3 install plothist
+
+
+   b.  If this fails because you do not have write access to where your virtual environment lives, you can also install ``plothist`` locally:
+
+   .. code-block:: bash
+
+       pip3 install --user plothist
+
+   This will automatically also install ``plothist`` into your current environment.
+   Please make sure to always setup your environment correctly before using ``plothist``.
+
+   The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the :ref:`basics-1d_hist-label`.
+
 
 
 Using Flit (development version)
-============================
+================================
 
-1.  Install flit:
+1.  (Optional) If you use a local environment:
 
-    .. code-block:: bash
-
-        pip3 install --upgrade flit --user
-
-2.  Install boost_histogram package:
+    For example, run:
 
     .. code-block:: bash
 
-        pip3 install --upgrade boost_histogram --user
+        source venv/bin/activate
+
+2.  Install flit:
+
+    .. code-block:: bash
+
+        pip3 install flit
 
 3. Clone the plothist repository:
 
@@ -44,6 +74,4 @@ Using Flit (development version)
 
         python3 -m flit install --symlink
 
-
-The plothist library can now be imported in any of your scripts. Now you can go on with the :ref:`basics-1d_hist-label`.
-To update the plothist library, go to the library repository, and run git pull.
+To update the ``plothist`` library, go to the library repository, and run ``git pull``.
