@@ -11,7 +11,7 @@ To plot a simple 1d histogram:
 
 .. code-block:: python
 
-    from plothist.plotters import make_2d_hist, plot_2d_hist
+    from plothist import make_2d_hist, plot_2d_hist
     import matplotlib.pyplot as plt
 
     name_x = "variable_0"
@@ -44,8 +44,8 @@ Same as for 1D histogram, variable manager can be practical to manage and see th
 .. code-block:: python
 
     from itertools import combinations
-    from plothist.plotters import make_2d_hist, plot_2d_hist
-    from plothist.plotters import create_variable_registry, update_variable_registry_ranges, get_variable_from_registry
+    from plothist import make_2d_hist, plot_2d_hist
+    from plothist import create_variable_registry, update_variable_registry_ranges, get_variable_from_registry
 
     # No need to redo this step if the registry was already created before
     variable_keys = ["variable_0", "variable_1", "variable_2"]
@@ -87,7 +87,7 @@ Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from plothist.plotters import make_2d_hist, plot_2d_hist
+    from plothist import make_2d_hist, plot_2d_hist
 
     name_x = "variable_0"
     name_y = "variable_1"

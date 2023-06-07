@@ -12,7 +12,7 @@ To plot a simple 1d histogram:
 
 .. code-block:: python
 
-    from plothist.plotters import make_hist, plot_hist
+    from plothist import make_hist, plot_hist
     import matplotlib.pyplot as plt
 
     name = "variable_0"
@@ -42,7 +42,7 @@ If you have multiple variable to plot, use the variable manager:
 
 .. code-block:: python
 
-    from plothist.plotters import create_variable_registry
+    from plothist import create_variable_registry
 
     variable_keys = ["variable_0", "variable_1", "variable_2"]
 
@@ -74,8 +74,8 @@ Then, just get the variable from the registery to make every plots:
 
 .. code-block:: python
 
-    from plothist.plotters import make_hist, plot_hist
-    from plothist.plotters import update_variable_registry_ranges, get_variable_from_registry
+    from plothist import make_hist, plot_hist
+    from plothist import update_variable_registry_ranges, get_variable_from_registry
 
     # If no range specified for some variable_keys, update the yaml with actual min and max value
     update_variable_registry_ranges(df, variable_keys)

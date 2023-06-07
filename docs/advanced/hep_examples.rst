@@ -11,8 +11,8 @@ To make simple data/MC comparison with different MC categories:
 
 .. code-block:: python
 
-    from plothist.plotters import make_hist
-    from plothist.plotters import cubehelix_palette
+    from plothist import make_hist
+    from plothist import cubehelix_palette
 
     # Define the histograms
 
@@ -51,7 +51,7 @@ Then, to create stacked histogram:
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from plothist.hep_plotters import compare_data_mc
+    from plothist import compare_data_mc
 
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
@@ -76,7 +76,7 @@ or unstacked histogram:
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from plothist.hep_plotters import compare_data_mc
+    from plothist import compare_data_mc
 
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
@@ -107,8 +107,8 @@ Compare data and stacked histogram for a flatten 2D variable:
 
 .. code-block:: python
 
-    from plothist.plotters import make_2d_hist, cubehelix_palette
-    from plothist.hep_plotters import compare_data_mc. plot_b2_logo
+    from plothist import make_2d_hist, cubehelix_palette
+    from plothist import compare_data_mc. plot_b2_logo
     import matplotlib.pyplot as plt
 
     # Define the histograms
