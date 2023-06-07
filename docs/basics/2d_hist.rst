@@ -31,7 +31,7 @@ To plot a simple 1d histogram:
 
     plt.show()
 
-.. image:: ../img/2d_hist_simple.png
+.. image:: ../img/2d_hist_simple.svg
    :alt: Simple 2d hist
    :width: 500
 
@@ -107,7 +107,7 @@ Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins
     plt.show()
 
 
-.. image:: ../img/2d_hist_uneven.png
+.. image:: ../img/2d_hist_uneven.svg
    :alt: 2d hist with uneven binning
    :width: 500
 

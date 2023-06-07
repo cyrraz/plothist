@@ -28,7 +28,7 @@ To plot a simple 1d histogram:
 
     plt.show()
 
-.. image:: ../img/1d_hist_simple.png
+.. image:: ../img/1d_hist_simple.svg
    :alt: Simple hist
    :width: 500
 
@@ -96,7 +96,7 @@ Then, just get the variable from the registery to make every plots:
 
 As we can see in the example, ``get_variable_from_registry(variable_key)`` is used to get access the parameters of the variable.
 
-Also, you can easily get the ``[min, max]`` range values using ``update_variable_registry_ranges(data, [variable_key])``. The yaml will automatically update. Then, you can modify the yaml to get a more suitable range to diplay in the plot.
+Also, you can easily get the ``[min, max]`` range values using ``update_variable_registry_ranges(data, [variable_key])``. The yaml will automatically update. Then, you can modify the yaml to get a more suitable range to display in the plot.
 
 
 

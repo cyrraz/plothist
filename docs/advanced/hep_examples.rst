@@ -51,7 +51,7 @@ Then, to create stacked histogram:
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from plothist import compare_data_mc
+    from plothist import compare_data_mc, plot_b2_logo
 
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
@@ -67,7 +67,7 @@ Then, to create stacked histogram:
     plt.show()
 
 
-.. image:: ../img/hep_examples_dataMC_stacked.png
+.. image:: ../img/hep_examples_dataMC_stacked.svg
    :alt: Data/MC comparison, stacked plot
    :width: 500
 
@@ -76,7 +76,7 @@ or unstacked histogram:
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from plothist import compare_data_mc
+    from plothist import compare_data_mc, plot_b2_logo
 
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
@@ -92,7 +92,7 @@ or unstacked histogram:
     plt.show()
 
 
-.. image:: ../img/hep_examples_dataMC_unstacked.png
+.. image:: ../img/hep_examples_dataMC_unstacked.svg
    :alt: Data/MC comparison, stacked plot
    :width: 500
 
@@ -108,7 +108,7 @@ Compare data and stacked histogram for a flatten 2D variable:
 .. code-block:: python
 
     from plothist import make_2d_hist, cubehelix_palette
-    from plothist import compare_data_mc. plot_b2_logo
+    from plothist import compare_data_mc, plot_b2_logo
     import matplotlib.pyplot as plt
 
     # Define the histograms
@@ -163,7 +163,7 @@ Compare data and stacked histogram for a flatten 2D variable:
     plt.show()
 
 
-.. image:: ../img/hep_examples_dataMC_flatten2D.png
+.. image:: ../img/hep_examples_dataMC_flatten2D.svg
    :alt: Data/MC comparison, flatten variable
    :width: 500
 
