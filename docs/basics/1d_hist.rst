@@ -4,6 +4,14 @@
 Basic 1D examples
 =================
 
+The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
+
+.. code-block:: python
+
+    from plothist.generate_dummy_data import generate_dummy_data()
+    df = generate_dummy_data()
+
+Example scripts are available in the repository in the ``examples/`` folder.
 
 Simple plot
 ===========

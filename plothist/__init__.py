@@ -1,4 +1,4 @@
-__doc__ = """Plot histograms in a scalable way and a beautiful style."""
+"""Plot histograms in a scalable way and a beautiful style."""
 __version__ = "0.1"
 
 from .plotters import (
