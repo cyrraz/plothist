@@ -18,14 +18,12 @@ plothist
 
 |GitHub Project| |PyPI version| |Docs from latest| |Docs from main| |Code style: black|
 
-Small presentation
-------------------
 
 **Major advantages over other plotting libraries**: scalability, style and user friendly way of managing variables.
 
 1. **First idea**: Default style is already presentation-ready and/or paper-ready (with no effort).
 
-2. **Second idea**: separate the histogram creation from its data. Then you can easily manage histogram objects (``boostHist`` library) and plot large amount of variables and data really fast.
+2. **Second idea**: separate the histogram creation from its plotting. Then you can easily manage histogram objects (``boost_histogram`` library) and plot large amount of variables and data really fast.
 
 3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings
 

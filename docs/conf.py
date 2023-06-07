@@ -156,7 +156,7 @@ texinfo_documents = [
         "plothist Documentation",
         author,
         "plothist",
-        "One line description of project.",
+        "Plot histograms in a scalable way and a beautiful style.",
         "Miscellaneous",
     ),
 ]

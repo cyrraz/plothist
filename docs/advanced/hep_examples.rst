@@ -11,6 +11,9 @@ To make simple data/MC comparison with different MC categories:
 
 .. code-block:: python
 
+    from plothist.plotters import make_hist
+    from plothist.plotters import cubehelix_palette
+
     # Define the histograms
 
     key = "variable_1"
@@ -23,14 +26,8 @@ To make simple data/MC comparison with different MC categories:
 
     background_categories = [0, 1, 2]
     background_categories_labels = [f"c{i}" for i in background_categories]
-    background_categories_colors = cubehelix_palette(
-        ncolors=len(background_categories),
-        start=1.5,
-        rotation=1.5,
-        darkest=0.3,
-        lightest=0.8,
-        reverse=True,
-    )
+    background_categories_colors = cubehelix_palette(ncolors=len(background_categories))
+
     background_masks = [df[category] == p for p in background_categories]
 
     # Make histograms
@@ -53,6 +50,9 @@ Then, to create stacked histogram:
 
 .. code-block:: python
 
+    import matplotlib.pyplot as plt
+    from plothist.hep_plotters import compare_data_mc
+
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
@@ -60,9 +60,7 @@ Then, to create stacked histogram:
         xlabel=key,
         ylabel="Entries",
         mc_labels=background_categories_labels,
-        mc_colors=background_categories_colors,
-        save_as=None,
-        stacked=True,
+        mc_colors=background_categories_colors
     )
     plot_b2_logo(ax=ax_comparison, lumi=50000)
 
@@ -76,6 +74,9 @@ Then, to create stacked histogram:
 or unstacked histogram:
 
 .. code-block:: python
+
+    import matplotlib.pyplot as plt
+    from plothist.hep_plotters import compare_data_mc
 
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
@@ -106,6 +107,10 @@ Compare data and stacked histogram for a flatten 2D variable:
 
 .. code-block:: python
 
+    from plothist.plotters import make_2d_hist, cubehelix_palette
+    from plothist.hep_plotters import compare_data_mc. plot_b2_logo
+    import matplotlib.pyplot as plt
+
     # Define the histograms
 
     key1 = "variable_1"
@@ -122,14 +127,8 @@ Compare data and stacked histogram for a flatten 2D variable:
 
     background_categories = [0, 1, 2, 3, 4, 5, 6]
     background_categories_labels = [f"c{i}" for i in background_categories]
-    background_categories_colors = cubehelix_palette(
-        ncolors=len(background_categories),
-        start=1.5,
-        rotation=1.5,
-        darkest=0.3,
-        lightest=0.8,
-        reverse=True,
-    )
+    background_categories_colors = cubehelix_palette(ncolors=len(background_categories))
+
     background_masks = [df[category] == p for p in background_categories]
 
     # Make histograms

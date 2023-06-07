@@ -23,14 +23,7 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2]  # [0, 1, 2, 3, 4, 5, 6]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = cubehelix_palette(
-    ncolors=len(background_categories),
-    start=1.5,
-    rotation=1.5,
-    darkest=0.3,
-    lightest=0.8,
-    reverse=True,
-)
+background_categories_colors = cubehelix_palette(ncolors=len(background_categories))
 background_masks = [df[category] == p for p in background_categories]
 
 # Make histograms

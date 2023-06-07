@@ -13,6 +13,7 @@ To plot a simple 1d histogram:
 .. code-block:: python
 
     from plothist.plotters import make_hist, plot_hist
+    import matplotlib.pyplot as plt
 
     name = "variable_0"
 

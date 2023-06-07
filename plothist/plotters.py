@@ -16,8 +16,8 @@ import os
 
 def create_variable_registry(variables, path="./variable_registry.yaml", reset=False):
     # TODO: bins can be a list for 2D uneven binning
-    """Create the variable registry yaml file given a list of variables
-    It stores all the plotting information for each variable
+    """Create the variable registry yaml file given a list of variables.
+    It stores all the plotting information for each variable.
 
     It checks if the variable registry file exists. If not, it creates an empty file at the specified path.
     It then loads the existing variable registry, or creates an empty registry if it doesn't exist.
@@ -93,10 +93,6 @@ def get_variable_from_registry(variable, path="./variable_registry.yaml"):
     This function retrieves the parameter information for a variable from the variable registry file specified by the 'path' parameter.
     It loads the variable registry file and returns the dictionary entry corresponding to the specified variable name.
 
-    If the variable registry file does not exist, a `RuntimeError` is raised, unless the default path ("./variable_registry.yaml") is used.
-    In that case, it is assumed that the `create_variable_registry` function has not been executed yet.
-
-
     Parameters
     ----------
     variable : str
@@ -108,11 +104,6 @@ def get_variable_from_registry(variable, path="./variable_registry.yaml"):
     -------
     dict
         A dictionary containing the parameter information for the specified variable.
-
-    Raises
-    ------
-    RuntimeError
-        If the variable registry file does not exist, and the default path is used.
 
     See also
     --------
@@ -149,11 +140,6 @@ def update_variable_registry(
     Returns
     -------
     None
-
-    Raises
-    ------
-    RuntimeError
-        If the variable registry file does not exist, and the default path is used.
 
     See Also
     --------
@@ -309,7 +295,7 @@ def make_hist(data, bins=50, range=None, weights=1):
     bins : int or tuple, optional
         Binning specification for the histogram (default is 50).
         If an integer, it represents the number of bins.
-        If a tuple, it should be in the format (number of bins, lower bound, upper bound).
+        If a tuple, it should be the explicit list of all bin edges.
     range : tuple, optional
         The range of values to consider for the histogram bins (default is None).
         If None, the range is determined from the data.
@@ -356,6 +342,7 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
     bins : tuple, optional
         Binning specification for each dimension of the histogram (default is (10, 10)).
         Each element of the tuple represents the number of bins for the corresponding dimension.
+        Also support explicit bin edges specification (for non-constant bin size).
     range : tuple, optional
         The range of values to consider for each dimension of the histogram (default is (None, None)).
         If None, the range is determined from the data for that dimension.

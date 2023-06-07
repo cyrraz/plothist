@@ -12,6 +12,7 @@ To plot a simple 1d histogram:
 .. code-block:: python
 
     from plothist.plotters import make_2d_hist, plot_2d_hist
+    import matplotlib.pyplot as plt
 
     name_x = "variable_0"
     name_y = "variable_1"
@@ -84,6 +85,9 @@ Uneven binning
 Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins parameter can be a list of all the edges:
 
 .. code-block:: python
+
+    import matplotlib.pyplot as plt
+    from plothist.plotters import make_2d_hist, plot_2d_hist
 
     name_x = "variable_0"
     name_y = "variable_1"

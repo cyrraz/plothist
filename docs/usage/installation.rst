@@ -11,7 +11,7 @@ Using PyPI
 soon
 
 
-Using Flit (deprecated soon)
+Using Flit (development version)
 ============================
 
 1.  Install flit:
