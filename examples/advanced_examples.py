@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
-import boost_histogram as bh
-
-from plothist.plotters import make_hist
-from plothist.plotters import plot_hist
-from plothist.plotters import plot_error_hist
-from plothist.plotters import plot_hist_difference
-from plothist.plotters import cubehelix_palette
 from plothist.generate_dummy_data import generate_dummy_data
+from plothist import (
+    make_hist,
+    plot_hist,
+    plot_error_hist,
+    plot_hist_difference,
+    cubehelix_palette,
+)
 
 
 # Generate dummy data

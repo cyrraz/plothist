@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
-from plothist.plotters import make_hist
-from plothist.plotters import make_2d_hist
-from plothist.plotters import cubehelix_palette
-from plothist.hep_plotters import compare_data_mc
-from plothist.hep_plotters import plot_b2_logo
 from plothist.generate_dummy_data import generate_dummy_data
+from plothist import (
+    make_hist,
+    make_2d_hist,
+    cubehelix_palette,
+    compare_data_mc,
+    plot_b2_logo,
+)
 
 # Generate dummy data
 

@@ -1,15 +1,16 @@
 import matplotlib.pyplot as plt
 from itertools import combinations
-
-from plothist.plotters import make_hist
-from plothist.plotters import make_2d_hist
-from plothist.plotters import plot_hist
-from plothist.plotters import plot_2d_hist
-from plothist.plotters import compare_two_hist
-from plothist.plotters import create_variable_registry
-from plothist.plotters import get_variable_from_registry
-from plothist.plotters import update_variable_registry_ranges
 from plothist.generate_dummy_data import generate_dummy_data
+from plothist import (
+    make_hist,
+    make_2d_hist,
+    plot_hist,
+    plot_2d_hist,
+    compare_two_hist,
+    create_variable_registry,
+    get_variable_from_registry,
+    update_variable_registry_ranges,
+)
 
 # Generate dummy data
 df = generate_dummy_data()
