@@ -1,2 +1,5 @@
 __pycache__/
 *.yaml
+.vscode/
+_build/
+test/

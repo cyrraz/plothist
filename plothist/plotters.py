@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-""" Collection of functions to plot histograms
+"""
+Collection of functions to plot histograms
 """
 
 import numpy as np
@@ -14,20 +15,45 @@ import os
 
 
 def create_variable_registry(variables, path="./variable_registry.yaml", reset=False):
-    """Create the variable registry yaml file given a list of variables
-    It stores all the plotting information for each variable
-    The user can then easily change the parameters in the yaml
+    # TODO: bins can be a list for 2D uneven binning
+    """Create the variable registry yaml file given a list of variables.
+    It stores all the plotting information for each variable.
 
-    Plotting parameters:
-        Key: Key of the variable in the yaml
-        name: variable name in data
-        bins
-        range
-        label: latex supported
-        log: True if logscale
-        legend_location
-        legend_ncols
-        docstring
+    It checks if the variable registry file exists. If not, it creates an empty file at the specified path.
+    It then loads the existing variable registry, or creates an empty registry if it doesn't exist.
+    For each variable in the input list, if the variable is not already in the registry or the reset flag is True,
+    it adds the variable to the registry with default settings.
+    Finally, it writes the updated variable registry back to the file.
+
+    Parameters of one variable in the yaml:
+
+    name : str
+        variable name in data.
+    bins : int
+        Number of bins, default is 50.
+    range: list of two float
+        Range of the variables, default is [min, max] of the data.
+    label : str
+        Label to display, default is variable name. Latex supported by surrounding the label with $label$.
+    log : bool
+        True if plot in logscale, default is False
+    legend_location : str
+        Default is best
+    legend_ncols : int
+        Default set to 1
+    docstring : str
+        Default is empty
+
+    Parameters
+    ----------
+    variables : list
+        A list of variable names to be registered.
+    path : str, optional
+        The path to the variable registry file (default is "./variable_registry.yaml").
+    reset : bool, optional
+        If True, the registry will be reset for all variables (default is False).
+
+
     """
 
     if not os.path.exists(path):
@@ -63,6 +89,27 @@ def create_variable_registry(variables, path="./variable_registry.yaml", reset=F
 
 
 def get_variable_from_registry(variable, path="./variable_registry.yaml"):
+    """
+    This function retrieves the parameter information for a variable from the variable registry file specified by the 'path' parameter.
+    It loads the variable registry file and returns the dictionary entry corresponding to the specified variable name.
+
+    Parameters
+    ----------
+    variable : str
+        The name of the variable for which to retrieve parameter information.
+    path : str, optional
+        The path to the variable registry file (default is "./variable_registry.yaml").
+
+    Returns
+    -------
+    dict
+        A dictionary containing the parameter information for the specified variable.
+
+    See also
+    --------
+    create_variable_registry
+    """
+
     if not os.path.exists(path):
         if path == "./variable_registry.yaml":
             raise RuntimeError("Did you forgot to run create_variable_registry()?")
@@ -76,6 +123,28 @@ def update_variable_registry(
     variable_key, x_min, x_max, path="./variable_registry.yaml"
 ):
     # TODO: extend updating function
+    """
+    Update the range parameter for a variable in the variable registry file.
+
+    Parameters
+    ----------
+    variable_key : str
+        The key identifier of the variable to update in the registry.
+    x_min : float
+        The new minimum value for the range of the variable.
+    x_max : float
+        The new maximum value for the range of the variable.
+    path : str, optional
+        The path to the variable registry file (default is "./variable_registry.yaml").
+
+    Returns
+    -------
+    None
+
+    See Also
+    --------
+    create_variable_registry
+    """
     if not os.path.exists(path):
         if path == "./variable_registry.yaml":
             raise RuntimeError("Did you forgot to run create_variable_registry()?")
@@ -91,6 +160,32 @@ def update_variable_registry(
 
 
 def update_variable_registry_ranges(data, variables, path="./variable_registry.yaml"):
+    """
+    Update the range parameters for multiple variables in the variable registry file.
+
+    Parameters
+    ----------
+    data : dict
+        A dictionary containing the data for the variables.
+    variables : list
+        A list of variable keys for which to update the range parameters in the registry.
+    path : str, optional
+        The path to the variable registry file (default is "./variable_registry.yaml").
+
+    Returns
+    -------
+    None
+
+    Raises
+    ------
+    NotImplementedError
+        If non-regular binning is encountered in the registry.
+
+    See Also
+    --------
+    get_variable_from_registry, update_variable_registry, create_axis
+
+    """
     for variable_key in variables:
         variable = get_variable_from_registry(variable_key, path=path)
         axis = create_axis(data[variable_key], variable["bins"], variable["range"])
@@ -99,10 +194,34 @@ def update_variable_registry_ranges(data, variables, path="./variable_registry.y
                 variable_key, float(axis.edges[0]), float(axis.edges[-1]), path=path
             )
         else:
-            raise NotImplemented(f"Only regular binning allowed in registry. {type(axis)}")
+            raise NotImplemented(
+                f"Only regular binning allowed in registry. {type(axis)}"
+            )
 
 
 def create_axis(data, bins, range):
+    """
+    Create an axis object for histogram binning based on the input data and parameters.
+
+    Parameters
+    ----------
+    data : array-like
+        The input data for determining the axis range.
+    bins : int or array-like
+        The number of bins or bin edges for the axis.
+    range : None or tuple, optional
+        The range of the axis. If None, it will be determined based on the data.
+
+    Returns
+    -------
+    Axis object
+        An axis object for histogram binning.
+
+    Raises
+    ------
+    ValueError
+        If the range parameter is invalid or not finite.
+    """
 
     try:
         N = len(bins)
@@ -144,6 +263,19 @@ def create_axis(data, bins, range):
 
 def _flatten_2d_hist(hist):
     # TODO: support other storages, generalise to N dimensions
+    """
+    Flatten a 2D histogram into a 1D histogram.
+
+    Parameters
+    ----------
+    hist : Histogram object
+        The 2D histogram to be flattened.
+
+    Returns
+    -------
+    Histogram object
+        The flattened 1D histogram.
+    """
     n_bins = hist.axes[0].size * hist.axes[1].size
     flatten_hist = bh.Histogram(
         bh.axis.Regular(n_bins, 0, n_bins), storage=bh.storage.Weight()
@@ -153,19 +285,29 @@ def _flatten_2d_hist(hist):
 
 
 def make_hist(data, bins=50, range=None, weights=1):
-    """Create a histogram object and fill it
+    """
+    Create a histogram object and fill it with the provided data.
+
     Parameters
     ----------
-    data : 1D array-like
-        Data used to fill a histogram.
-    binning : (int, float, float), default: (50,None,None)
-        Binning, with format (number of bins, lower bound, upper bound)
-    weights : float or array-like, default=1
-        A single weight to apply to all the data points, or an array-like to apply weights to each data point
+    data : array-like
+        1D array-like data used to fill the histogram.
+    bins : int or tuple, optional
+        Binning specification for the histogram (default is 50).
+        If an integer, it represents the number of bins.
+        If a tuple, it should be the explicit list of all bin edges.
+    range : tuple, optional
+        The range of values to consider for the histogram bins (default is None).
+        If None, the range is determined from the data.
+    weights : float or array-like, optional
+        Weight(s) to apply to the data points (default is 1).
+        If a float, a single weight is applied to all data points.
+        If an array-like, weights are applied element-wise.
+
     Returns
     -------
-    histogram: boost_histogram.Histogram
-        filled histogram
+    histogram : boost_histogram.Histogram
+        The filled histogram object.
     """
 
     axis = create_axis(data, bins, range)
@@ -190,19 +332,35 @@ def make_hist(data, bins=50, range=None, weights=1):
 
 
 def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
-    """Create a 2D histogram object and fill it
+    """
+    Create a 2D histogram object and fill it with the provided data.
+
     Parameters
     ----------
-    data : DD array-like
-        Data used to fill a histogram.
-    binning : list((int, float, float))
-        Binning, with format (number of bins, lower bound, upper bound)
-    weights : float or array-like, default=1
-        A single weight to apply to all the data points, or an array-like to apply weights to each data point
+    data : array-like
+        2D array-like data used to fill the histogram.
+    bins : tuple, optional
+        Binning specification for each dimension of the histogram (default is (10, 10)).
+        Each element of the tuple represents the number of bins for the corresponding dimension.
+        Also support explicit bin edges specification (for non-constant bin size).
+    range : tuple, optional
+        The range of values to consider for each dimension of the histogram (default is (None, None)).
+        If None, the range is determined from the data for that dimension.
+        The tuple should have the same length as the data.
+    weights : float or array-like, optional
+        Weight(s) to apply to the data points (default is 1).
+        If a float, a single weight is applied to all data points.
+        If an array-like, weights are applied element-wise.
+
     Returns
     -------
-    histogram: boost_histogram.Histogram
-        filled histogram
+    histogram : boost_histogram.Histogram
+        The filled 2D histogram object.
+
+    Raises
+    ------
+    ValueError
+        If the data does not have two components or if the lengths of x and y are not equal.
     """
     if len(data) != 2:
         raise ValueError("data should have two components, x and y")
@@ -233,18 +391,17 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
 
 
 def plot_hist(hist, ax, **kwargs):
-    """Histogram plot from boost histogram.
+    """
+    Plot a histogram or a list of histograms from boost_histogram.
+
     Parameters
     ----------
-    hist : boost_histogram.Histogram
-        Histogram or list of histograms to plot.
+    hist : boost_histogram.Histogram or list of boost_histogram.Histogram
+        The histogram(s) to plot.
     ax : matplotlib.axes.Axes
-        Axes instance for plotting.
+        The Axes instance for plotting.
     **kwargs
-        Keyword arguments forwarded to ax.hist().
-    Returns
-    -------
-    None
+        Additional keyword arguments forwarded to ax.hist().
     """
     if not isinstance(hist, list):
         # Single histogram
@@ -267,6 +424,20 @@ def plot_hist(hist, ax, **kwargs):
 
 
 def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
+    """
+    Plot a 2D histogram using a pcolormesh plot and add a colorbar.
+
+    Parameters
+    ----------
+    hist : boost_histogram.Histogram
+        The 2D histogram to plot.
+    ax : matplotlib.axes.Axes
+        The Axes instance for plotting.
+    pcolormesh_kwargs : dict, optional
+        Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
+    colorbar_kwargs : dict, optional
+        Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
+    """
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", size="5%", pad=0.05)
@@ -275,20 +446,19 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
 
 
 def plot_error_hist(hist, ax, **kwargs):
-    """Errorbar plot from boost histogram.
+    # TODO: Allow the user to provide xerr, yerr, fmt themselves.
+    """
+    Create an errorbar plot from a boost histogram.
+
     Parameters
     ----------
     hist : boost_histogram.Histogram
-        Histogram to plot.
+        The histogram to plot.
     ax : matplotlib.axes.Axes
-        Axes instance for plotting.
+        The Axes instance for plotting.
     **kwargs
-        Keyword arguments forwarded to ax.errorbar().
-    Returns
-    -------
-    None
+        Additional keyword arguments forwarded to ax.errorbar().
     """
-    # TODO: Allow the user to provide xerr, yerr, fmt themselves.
     ax.errorbar(
         x=hist.axes[0].centers,
         xerr=None,
@@ -300,18 +470,17 @@ def plot_error_hist(hist, ax, **kwargs):
 
 
 def plot_hist_difference(hist1, hist2, ax, **kwargs):
-    """Plot histogram difference.
+    """
+    Plot the difference between two histograms.
+
     Parameters
     ----------
     hist1, hist2 : boost_histogram.Histogram
-        Histogram for difference hist1-hist2.
+        The histograms for which the difference hist1 - hist2 will be plotted.
     ax : matplotlib.axes.Axes
-        Axes instance for plotting.
+        The Axes instance for plotting.
     **kwargs
-        Keyword arguments forwarded to ax.errorbar().
-    Returns
-    -------
-    None
+        Additional keyword arguments forwarded to ax.errorbar().
     """
     difference = hist1.values() - hist2.values()
     difference_uncertainty = np.sqrt(hist1.variances() + hist2.variances())
@@ -328,13 +497,32 @@ def plot_hist_difference(hist1, hist2, ax, **kwargs):
 def compare_two_hist(
     hist_1, hist_2, xlabel=None, ylabel=None, x1_label="x1", x2_label="x2", save_as=None
 ):
-    """Compare two histograms
+    """
+    Compare two histograms.
+
+    Parameters
+    ----------
+    hist_1, hist_2 : boost_histogram.Histogram
+        The histograms to be compared.
+    xlabel : str, optional
+        The label for the x-axis of the comparison plot.
+    ylabel : str, optional
+        The label for the y-axis of the comparison plot.
+    x1_label, x2_label : str, optional
+        The labels for the two histograms being compared.
+    save_as : str, optional
+        If provided, the filename to save the figure as.
+
     Returns
     -------
-    fig, ax_comparison, ax_ratio
+    fig : matplotlib.figure.Figure
+        The generated figure.
+    ax_comparison : matplotlib.axes.Axes
+        The axes for the histogram comparison plot.
+    ax_ratio : matplotlib.axes.Axes
+        The axes for the ratio plot.
 
     """
-
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
@@ -400,28 +588,30 @@ def cubehelix_palette(
 
     Parameters
     ----------
-    ncolors : int
+    ncolors : int, optional
         Number of colors in the palette.
-    start : float, 0 <= start <= 3
+    start : float, 0 <= start <= 3, optional
         Direction of the predominant colour deviation from black
         at the start of the colour scheme (1=red, 2=green, 3=blue).
-    rotation : float
+    rotation : float, optional
         Number of rotations around the hue wheel over the range of the palette.
-    gamma : float 0 <= gamma
+    gamma : float, 0 <= gamma, optional
         Gamma factor to emphasize darker (gamma < 1) or lighter (gamma > 1)
         colors.
-    hue : float, 0 <= hue <= 1
+    hue : float, 0 <= hue <= 1, optional
         Saturation of the colors.
-    darkest : float 0 <= dark <= 1
+    darkest : float, 0 <= darkest <= 1, optional
         Intensity of the darkest color in the palette.
-    lightest : float 0 <= light <= 1
+    lightest : float, 0 <= lightest <= 1, optional
         Intensity of the lightest color in the palette.
-    reverse : bool
+    reverse : bool, optional
         If True, the palette will go from dark to light.
 
     Returns
     -------
     list of RGB tuples
+        The generated palette of colors represented as a list of RGB tuples.
+
 
     References
     ----------
@@ -435,7 +625,7 @@ def cubehelix_palette(
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (γ > 1)
-            lambda_gamma = lambda_**gamma
+            lambda_gamma = lambda_ ** gamma
 
             # Angle and amplitude for the deviation
             # from the black to white diagonal
