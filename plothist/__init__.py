@@ -1,5 +1,5 @@
 """Plot histograms in a scalable way and a beautiful style."""
-__version__ = "0.1"
+__version__ = "0.1.1"
 
 from .plotters import (
     create_variable_registry,
@@ -18,6 +18,8 @@ from .plotters import (
 
 from .hep_plotters import compare_data_mc, plot_mc, plot_b2_logo
 
+from .plothist_style import set_paper_style, set_presentation_style
+
 __all__ = [
     "__version__",
     "create_variable_registry",
@@ -32,17 +34,21 @@ __all__ = [
     "plot_hist_difference",
     "compare_two_hist",
     "cubehelix_palette",
+
     "compare_data_mc",
     "plot_mc",
     "plot_b2_logo",
+
+    "set_paper_style",
+    "set_presentation_style",
 ]
 
 
 # Get style file and use it
-# Deprecated function to access style file, to be updated
+# Deprecated since 3.11 function to access style file, to be updated
 # https://docs.python.org/3/library/importlib.resources.html
 import matplotlib.pyplot as plt
 from importlib.resources import path as resources_path
 
-with resources_path("plothist", "style.mplstyle") as style_file:
+with resources_path("plothist", "presentation_style.mplstyle") as style_file:
     plt.style.use(style_file.as_posix())

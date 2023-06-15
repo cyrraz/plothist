@@ -562,7 +562,7 @@ def compare_two_hist(
     ax_ratio.set_ylim(0.0, 1.5)
     ax_ratio.set_xlim(xlim)
     ax_ratio.set_xlabel(xlabel)
-    ax_ratio.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$", fontsize=18)
+    ax_ratio.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
 
     _ = ax_comparison.xaxis.set_ticklabels([])
 

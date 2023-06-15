@@ -3,6 +3,7 @@ Collection of functions to plot histograms in the context of High Energy Physics
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from plothist.plotters import plot_hist
 from plothist.plotters import plot_error_hist
 from plothist.plotters import _flatten_2d_hist
@@ -136,7 +137,7 @@ def compare_data_mc(
         label="Stat. unc.",
     )
 
-    ax_comparison.legend(framealpha=0.5, fontsize=10)
+    ax_comparison.legend(framealpha=0.5)
 
     # Ignore divide-by-zero warning
     np.seterr(divide="ignore", invalid="ignore")
@@ -176,9 +177,10 @@ def compare_data_mc(
     ax_ratio.set_ylim(0.0, 2.0)
     ax_ratio.set_xlim(xlim)
     ax_ratio.set_xlabel(xlabel)
-    ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$", fontsize=18)
+    ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$")
 
     _ = ax_comparison.xaxis.set_ticklabels([])
+    fig.subplots_adjust(hspace=0.12)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -261,7 +263,7 @@ def plot_mc(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.tick_params(axis="x", labelbottom="off")
-    ax.legend(framealpha=0.5, fontsize=10, ncol=2)
+    ax.legend(framealpha=0.5, ncol=2)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -275,6 +277,7 @@ def plot_b2_logo(
     fontsize=12,
     is_data=True,
     lumi=362,
+    lumi_unit="fb",
     preliminary=False,
     two_lines=False,
     white_background=False,
@@ -295,7 +298,9 @@ def plot_b2_logo(
     is_data : bool, optional
         If True, plot integrated luminosity. If False, plot "Simulation", by default True.
     lumi : int, optional
-        Integrated luminosity in fb-1. Default value is 362. If empty, do not plot luminosity.
+        Integrated luminosity. Default value is 362. If empty, do not plot luminosity.
+    lumi_unit : string, optional
+        Integrated luminosity unit. Default value is fb-1.
     preliminary : bool, optional
         If True, print "preliminary", by default False.
     two_lines : bool, optional
@@ -325,7 +330,7 @@ def plot_b2_logo(
     if is_data:
         if lumi:
             s += (
-                r"$\int\,\mathcal{L}\,\mathrm{d}t=" + str(lumi) + r"\,\mathrm{fb}^{-1}$"
+                rf"$\int\,\mathcal{{L}}\,\mathrm{{d}}t={lumi}\,\mathrm{{{lumi_unit}}}^{{-1}}$"
             )
     else:
         s += r"$\mathrm{\mathbf{simulation}}$"
