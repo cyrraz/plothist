@@ -7,7 +7,7 @@ Advanced examples
 Setting style
 =============
 
-The default style of ```plothist`` is presentation-ready, with large and readable axis labels and legend. To have a paper-ready plotting style, you can use:
+The default style of ``plothist`` is presentation-ready, with large and readable axis labels and legend. To have a paper-ready plotting style, you can use:
 
 .. code-block:: python
 
