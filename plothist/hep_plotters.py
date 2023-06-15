@@ -282,7 +282,7 @@ def plot_b2_logo(
     two_lines=False,
     white_background=False,
     ax=None,
-    **kwargs
+    **kwargs,
 ):
     """
     Plot the Belle II logo and the integrated luminosity (or "Simulation").
@@ -329,9 +329,7 @@ def plot_b2_logo(
         s += " "
     if is_data:
         if lumi:
-            s += (
-                rf"$\int\,\mathcal{{L}}\,\mathrm{{d}}t={lumi}\,\mathrm{{{lumi_unit}}}^{{-1}}$"
-            )
+            s += rf"$\int\,\mathcal{{L}}\,\mathrm{{d}}t={lumi}\,\mathrm{{{lumi_unit}}}^{{-1}}$"
     else:
         s += r"$\mathrm{\mathbf{simulation}}$"
 

@@ -18,7 +18,7 @@ from .plotters import (
 
 from .hep_plotters import compare_data_mc, plot_mc, plot_b2_logo
 
-from .plothist_style import set_paper_style, set_presentation_style
+from .plothist_style import set_style
 
 __all__ = [
     "__version__",
@@ -34,13 +34,10 @@ __all__ = [
     "plot_hist_difference",
     "compare_two_hist",
     "cubehelix_palette",
-
     "compare_data_mc",
     "plot_mc",
     "plot_b2_logo",
-
-    "set_paper_style",
-    "set_presentation_style",
+    "set_style",
 ]
 
 

@@ -7,21 +7,23 @@ Advanced examples
 Setting style
 =============
 
-The default style of ``plothist`` is presentation-ready, with large and readable axis labels and legend. To have a paper-ready plotting style, you can use:
+``import plothist`` automatically sets the matplotlib style to a presentation-ready style, with large and readable axis labels and legend.
+
+To have a publication-ready plotting style, you can use:
 
 .. code-block:: python
 
-    from plothist import set_paper_style
-    set_paper_style()
+    from plothist import set_style
+    set_style("publication")
 
 You can also set both styles in the same script:
 
 .. code-block:: python
 
-    from plothist import set_paper_style, set_presentation_style
-    set_paper_style()
+    from plothist import set_style
+    set_style("publication")
     fig, ax = ...
 
-    set_presentation_style()
+    set_style("presentation")
     fig, ax = ...
 

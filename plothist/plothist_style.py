@@ -4,26 +4,34 @@
 import matplotlib.pyplot as plt
 from importlib.resources import path as resources_path
 
-def set_presentation_style():
+
+def set_style(style="presentation"):
     """
-    Set the matplotlib style to a presentation-friendly style.
-    Set by default when using plothist.
+    Set the matplotlib style.
+
+    Parameters
+    ----------
+    style : str, optional
+        Switch between different styles. Default is 'presentation'.
+        Available styles: ['presentation', 'publication']
 
     Returns
     -------
     None
-    """
-    with resources_path("plothist", "presentation_style.mplstyle") as style_file:
-        plt.style.use(style_file.as_posix())
 
+    Raises
+    ------
+    ValueError
+        If the specified style is not in the available styles.
 
-def set_paper_style():
+    Notes
+    -----
+    - The 'presentation' style is set by default when using plothist.
     """
-    Set the matplotlib style to a paper-friendly (PRD) style.
+    available_styles = ["presentation", "publication"]
 
-    Returns
-    -------
-    None
-    """
-    with resources_path("plothist", "paper_style.mplstyle") as style_file:
-        plt.style.use(style_file.as_posix())
+    if style in available_styles:
+        with resources_path("plothist", f"{style}_style.mplstyle") as style_file:
+            plt.style.use(style_file.as_posix())
+    else:
+        raise ValueError(f"{style} not in the available styles: {available_styles}")
