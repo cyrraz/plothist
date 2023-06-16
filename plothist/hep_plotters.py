@@ -271,9 +271,10 @@ def plot_mc(
     return fig, ax
 
 
-def plot_b2_logo(
-    x=0.6,
-    y=1.03,
+def add_luminosity(
+    collaboration="Belle II",
+    x=1.,
+    y=1.01,
     fontsize=12,
     is_data=True,
     lumi=362,
@@ -285,14 +286,16 @@ def plot_b2_logo(
     **kwargs,
 ):
     """
-    Plot the Belle II logo and the integrated luminosity (or "Simulation").
+    Add the collaboration name and the integrated luminosity (or "Simulation").
 
     Parameters
     ----------
+    collaboration : str
+        Add the collaboration name.
     x : float, optional
-        x position, by default 0.6.
+        x position, by default 1.0.
     y : float, optional
-        y position, by default 1.03.
+        y position, by default 1.0.
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
@@ -300,7 +303,7 @@ def plot_b2_logo(
     lumi : int, optional
         Integrated luminosity. Default value is 362. If empty, do not plot luminosity.
     lumi_unit : string, optional
-        Integrated luminosity unit. Default value is fb-1.
+        Integrated luminosity unit. Default value is fb. The exponent is automatically -1.
     preliminary : bool, optional
         If True, print "preliminary", by default False.
     two_lines : bool, optional
@@ -320,7 +323,7 @@ def plot_b2_logo(
         ax = plt.gca()
     transform = ax.transAxes
 
-    s = r"$\mathrm{\mathbf{Belle\,\,II}" + (
+    s = r"$\mathrm{\mathbf{"+collaboration.replace(' ','\,\,')+"}" + (
         r"\,\,preliminary}$" if preliminary else "}$"
     )
     if two_lines:
@@ -329,11 +332,12 @@ def plot_b2_logo(
         s += " "
     if is_data:
         if lumi:
-            s += rf"$\int\,\mathcal{{L}}\,\mathrm{{d}}t={lumi}\,\mathrm{{{lumi_unit}}}^{{-1}}$"
+            s += rf"$\int\,\mathcal{{L}}\,dt={lumi}\,{lumi_unit}^{{-1}}$"
     else:
         s += r"$\mathrm{\mathbf{simulation}}$"
 
-    t = ax.text(x, y, s, fontsize=fontsize, transform=transform, **kwargs)
+    t = ax.text(x, y, s, fontsize=fontsize, ha="right", va="bottom", transform=transform, **kwargs)
+
     # Add background
     if white_background:
         t.set_bbox(dict(facecolor="white", edgecolor="white"))

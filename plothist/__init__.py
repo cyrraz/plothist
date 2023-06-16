@@ -16,7 +16,7 @@ from .plotters import (
     cubehelix_palette,
 )
 
-from .hep_plotters import compare_data_mc, plot_mc, plot_b2_logo
+from .hep_plotters import compare_data_mc, plot_mc, add_luminosity
 
 from .plothist_style import set_style
 
@@ -36,7 +36,7 @@ __all__ = [
     "cubehelix_palette",
     "compare_data_mc",
     "plot_mc",
-    "plot_b2_logo",
+    "add_luminosity",
     "set_style",
 ]
 
