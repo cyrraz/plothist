@@ -34,7 +34,7 @@ To plot a simple 1d histogram:
     ax.set_xlabel(name)
     ax.set_ylabel("Entries")
 
-    plt.show()
+    fig.savefig("1d_hist_simple.svg", bbox_inches='tight')
 
 .. image:: ../img/1d_hist_simple.svg
    :alt: Simple hist

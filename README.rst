@@ -9,11 +9,11 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
 
 |img1| |img2|
 
-.. |img1| image:: https://raw.githubusercontent.com/cyrraz/plothist/docs/docs/img/intro_2dhist_hep.svg
-   :alt: Complex hep example
+.. |img1| image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/hep_examples_dataMC_stacked.svg
+   :alt: Hep example
    :width: 320
 
-.. |img2| image:: https://raw.githubusercontent.com/cyrraz/plothist/docs/docs/img/intro_hist_hep.svg
+.. |img2| image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/hep_examples_dataMC_flatten2D.svg
    :alt: Hep example
    :width: 320
 
@@ -30,7 +30,7 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
 3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings.
 
 
-.. image:: https://raw.githubusercontent.com/cyrraz/plothist/docs/docs/img/intro_2dhist_complexe.svg
+.. image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/intro_2dhist_complexe.svg
    :alt: Complexe hep example
    :width: 500
    :align: center
@@ -43,7 +43,7 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
    :target: https://badge.fury.io/py/plothist
 .. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
-.. |Docs from latest| image:: https://img.shields.io/badge/docs-v0.1-blue.svg
+.. |Docs from latest| image:: https://img.shields.io/badge/docs-v0.2-blue.svg
    :target: https://plothist.readthedocs.io/en/latest/
 .. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg
    :target: https://plothist.readthedocs.io/en/main/

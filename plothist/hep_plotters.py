@@ -3,6 +3,7 @@ Collection of functions to plot histograms in the context of High Energy Physics
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from plothist.plotters import plot_hist
 from plothist.plotters import plot_error_hist
 from plothist.plotters import _flatten_2d_hist
@@ -136,7 +137,7 @@ def compare_data_mc(
         label="Stat. unc.",
     )
 
-    ax_comparison.legend(framealpha=0.5, fontsize=10)
+    ax_comparison.legend(framealpha=0.5)
 
     # Ignore divide-by-zero warning
     np.seterr(divide="ignore", invalid="ignore")
@@ -176,9 +177,11 @@ def compare_data_mc(
     ax_ratio.set_ylim(0.0, 2.0)
     ax_ratio.set_xlim(xlim)
     ax_ratio.set_xlabel(xlabel)
-    ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$", fontsize=18)
+    # ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$")
+    ax_ratio.set_ylabel(r"$\frac{Data}{Pred.}$")
 
     _ = ax_comparison.xaxis.set_ticklabels([])
+    fig.subplots_adjust(hspace=0.125)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -261,7 +264,7 @@ def plot_mc(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.tick_params(axis="x", labelbottom="off")
-    ax.legend(framealpha=0.5, fontsize=10, ncol=2)
+    ax.legend(framealpha=0.5, ncol=2)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -269,33 +272,39 @@ def plot_mc(
     return fig, ax
 
 
-def plot_b2_logo(
-    x=0.6,
-    y=1.03,
+def add_luminosity(
+    collaboration="Belle II",
+    x=1.0,
+    y=1.01,
     fontsize=12,
     is_data=True,
     lumi=362,
+    lumi_unit="fb",
     preliminary=False,
     two_lines=False,
     white_background=False,
     ax=None,
-    **kwargs
+    **kwargs,
 ):
     """
-    Plot the Belle II logo and the integrated luminosity (or "Simulation").
+    Add the collaboration name and the integrated luminosity (or "Simulation").
 
     Parameters
     ----------
+    collaboration : str
+        Add the collaboration name.
     x : float, optional
-        x position, by default 0.6.
+        x position, by default 1.0.
     y : float, optional
-        y position, by default 1.03.
+        y position, by default 1.0.
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
         If True, plot integrated luminosity. If False, plot "Simulation", by default True.
     lumi : int, optional
-        Integrated luminosity in fb-1. Default value is 362. If empty, do not plot luminosity.
+        Integrated luminosity. Default value is 362. If empty, do not plot luminosity.
+    lumi_unit : string, optional
+        Integrated luminosity unit. Default value is fb. The exponent is automatically -1.
     preliminary : bool, optional
         If True, print "preliminary", by default False.
     two_lines : bool, optional
@@ -315,8 +324,11 @@ def plot_b2_logo(
         ax = plt.gca()
     transform = ax.transAxes
 
-    s = r"$\mathrm{\mathbf{Belle\,\,II}" + (
-        r"\,\,preliminary}$" if preliminary else "}$"
+    s = (
+        r"$\mathrm{\mathbf{"
+        + collaboration.replace(" ", "\,\,")
+        + "}"
+        + (r"\,\,preliminary}$" if preliminary else "}$")
     )
     if two_lines:
         s += "\n"
@@ -324,13 +336,21 @@ def plot_b2_logo(
         s += " "
     if is_data:
         if lumi:
-            s += (
-                r"$\int\,\mathcal{L}\,\mathrm{d}t=" + str(lumi) + r"\,\mathrm{fb}^{-1}$"
-            )
+            s += rf"$\int\,\mathcal{{L}}\,dt={lumi}\,{lumi_unit}^{{-1}}$"
     else:
         s += r"$\mathrm{\mathbf{simulation}}$"
 
-    t = ax.text(x, y, s, fontsize=fontsize, transform=transform, **kwargs)
+    t = ax.text(
+        x,
+        y,
+        s,
+        fontsize=fontsize,
+        ha="right",
+        va="bottom",
+        transform=transform,
+        **kwargs,
+    )
+
     # Add background
     if white_background:
         t.set_bbox(dict(facecolor="white", edgecolor="white"))

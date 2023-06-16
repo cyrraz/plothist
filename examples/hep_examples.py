@@ -5,7 +5,7 @@ from plothist import (
     make_2d_hist,
     cubehelix_palette,
     compare_data_mc,
-    plot_b2_logo,
+    add_luminosity,
 )
 
 # Generate dummy data
@@ -57,7 +57,7 @@ fig, ax_comparison, ax_ratio = compare_data_mc(
     save_as=None,
     stacked=True,
 )
-plot_b2_logo(ax=ax_comparison, lumi=50000)
+add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=200, preliminary=True)
 
 ## 1.3 Compare data and un-stacked histogram
 fig, ax_comparison, ax_ratio = compare_data_mc(
@@ -71,7 +71,7 @@ fig, ax_comparison, ax_ratio = compare_data_mc(
     save_as=None,
     stacked=False,
 )
-plot_b2_logo(ax=ax_comparison, lumi=50000)
+add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=50, lumi_unit="zb")
 
 # 2 Compare data and stacked histogram for a flatten 2D variable
 ## 2.1 Define the histograms
@@ -125,7 +125,7 @@ fig, ax_comparison, ax_ratio = compare_data_mc(
     flatten_2d_hist=True,
 )  # /!\ Important argument
 
-plot_b2_logo(ax=ax_comparison, lumi=50000)
+add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=50, lumi_unit="zb")
 ax_comparison.legend(ncol=3, fontsize=10)
 
 plt.show()

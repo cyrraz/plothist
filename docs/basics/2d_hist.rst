@@ -38,7 +38,7 @@ To plot a simple 1d histogram:
     ax.set_xlim(-9, 9)
     ax.set_ylim(-9, 9)
 
-    plt.show()
+    fig.savefig("2d_hist_simple.svg", bbox_inches='tight')
 
 .. image:: ../img/2d_hist_simple.svg
    :alt: Simple 2d hist
@@ -113,7 +113,7 @@ Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins
     ax.set_xlabel(name_x)
     ax.set_ylabel(name_y)
 
-    plt.show()
+    fig.savefig("2d_hist_uneven.svg", bbox_inches='tight')
 
 
 .. image:: ../img/2d_hist_uneven.svg

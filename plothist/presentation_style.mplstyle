@@ -1,0 +1,79 @@
+# Matplotlib style file
+
+# General Settings
+figure.figsize      : 6, 4
+figure.facecolor    : white
+text.color          : .1
+
+# Fonts
+
+font.size           : 20
+xtick.labelsize     : 15
+ytick.labelsize     : 15
+axes.labelsize      : 20
+legend.fontsize     : 10
+
+axes.labelcolor     : .1
+
+text.usetex         : False
+font.family         : serif, sans-serif
+font.serif          : Latin Modern Roman, DejaVu Serif
+font.sans-serif     : Latin Modern Roman Sans, DejaVu Sans
+
+# Text in math mode
+mathtext.cal        : cursive
+mathtext.rm         : serif
+mathtext.tt         : monospace
+mathtext.it         : serif:italic
+mathtext.bf         : serif:bold
+mathtext.sf         : sans
+mathtext.fontset    : cm
+mathtext.fallback   : cm
+mathtext.default    : regular
+
+
+legend.frameon      : False
+# legend.edgecolor  : white
+legend.framealpha   : 0.5
+
+
+# Ticks
+
+xtick.direction     : in
+ytick.direction     : in
+xtick.color         : .1
+ytick.color         : .1
+xtick.minor.visible : True
+ytick.minor.visible : True
+ytick.left          : True
+ytick.right         : True
+xtick.top           : True
+xtick.bottom        : True
+xtick.major.size    : 6
+ytick.major.size    : 6
+xtick.minor.size    : 3
+ytick.minor.size    : 3
+
+xtick.major.pad     : 6.
+ytick.major.pad     : 6.
+axes.axisbelow      : False
+image.cmap          : viridis
+
+grid.linestyle      : -
+lines.solid_capstyle: round
+
+axes.grid            : False
+axes.facecolor       : white
+axes.edgecolor       : .0
+axes.linewidth       : 1.2
+axes.formatter.limits: -4, 4
+axes.prop_cycle      : cycler('color', ['348ABD','E24A33', '988ED5', '777777', 'FBC15E', '8EBA42', 'FFB5B8'])
+axes.formatter.use_mathtext : True
+axes.formatter.useoffset    : False
+#axes.formatter.offset_threshold : 80
+# axes.labelpad       : 6.0
+axes.autolimit_mode : round_numbers
+
+grid.color          : .8
+
+errorbar.capsize    :  0

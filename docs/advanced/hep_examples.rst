@@ -60,7 +60,7 @@ Then, to create stacked histogram:
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from plothist import compare_data_mc, plot_b2_logo
+    from plothist import compare_data_mc, add_luminosity
 
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
@@ -71,9 +71,9 @@ Then, to create stacked histogram:
         mc_labels=background_categories_labels,
         mc_colors=background_categories_colors
     )
-    plot_b2_logo(ax=ax_comparison, lumi=50000)
+    add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=200, preliminary=True)
 
-    plt.show()
+    fig.savefig("hep_examples_dataMC_stacked.svg", bbox_inches='tight')
 
 
 .. image:: ../img/hep_examples_dataMC_stacked.svg
@@ -85,7 +85,7 @@ or unstacked histogram:
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from plothist import compare_data_mc, plot_b2_logo
+    from plothist import compare_data_mc, add_luminosity
 
     fig, ax_comparison, ax_ratio = compare_data_mc(
         data_hist=data_hist,
@@ -96,9 +96,9 @@ or unstacked histogram:
         mc_colors=background_categories_colors,
         stacked=False # <--
     )
-    plot_b2_logo(ax=ax_comparison, lumi=50000)
+    add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=50, lumi_unit="zb")
 
-    plt.show()
+    fig.savefig("hep_examples_dataMC_unstacked.svg", bbox_inches='tight')
 
 
 .. image:: ../img/hep_examples_dataMC_unstacked.svg
@@ -117,7 +117,7 @@ Compare data and stacked histogram for a flatten 2D variable:
 .. code-block:: python
 
     from plothist import make_2d_hist, cubehelix_palette
-    from plothist import compare_data_mc, plot_b2_logo
+    from plothist import compare_data_mc, add_luminosity
     import matplotlib.pyplot as plt
 
     # Define the histograms
@@ -166,10 +166,10 @@ Compare data and stacked histogram for a flatten 2D variable:
         flatten_2d_hist=True, # <--
     )
 
-    plot_b2_logo(ax=ax_comparison, lumi=50000)
+    add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=50, lumi_unit="zb")
     ax_comparison.legend(ncol=3, fontsize=10)
 
-    plt.show()
+    fig.savefig("hep_examples_dataMC_flatten2D.svg", bbox_inches='tight')
 
 
 .. image:: ../img/hep_examples_dataMC_flatten2D.svg
