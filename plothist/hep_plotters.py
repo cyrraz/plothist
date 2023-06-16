@@ -274,7 +274,7 @@ def plot_mc(
 
 def add_luminosity(
     collaboration="Belle II",
-    x=1.,
+    x=1.0,
     y=1.01,
     fontsize=12,
     is_data=True,
@@ -324,8 +324,11 @@ def add_luminosity(
         ax = plt.gca()
     transform = ax.transAxes
 
-    s = r"$\mathrm{\mathbf{"+collaboration.replace(' ','\,\,')+"}" + (
-        r"\,\,preliminary}$" if preliminary else "}$"
+    s = (
+        r"$\mathrm{\mathbf{"
+        + collaboration.replace(" ", "\,\,")
+        + "}"
+        + (r"\,\,preliminary}$" if preliminary else "}$")
     )
     if two_lines:
         s += "\n"
@@ -337,7 +340,16 @@ def add_luminosity(
     else:
         s += r"$\mathrm{\mathbf{simulation}}$"
 
-    t = ax.text(x, y, s, fontsize=fontsize, ha="right", va="bottom", transform=transform, **kwargs)
+    t = ax.text(
+        x,
+        y,
+        s,
+        fontsize=fontsize,
+        ha="right",
+        va="bottom",
+        transform=transform,
+        **kwargs,
+    )
 
     # Add background
     if white_background:
