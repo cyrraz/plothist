@@ -291,12 +291,12 @@ def add_luminosity(
 
     Parameters
     ----------
-    collaboration : str
-        Add the collaboration name.
+    collaboration : str, optional
+        Collaboration name, by default "Belle II"
     x : float, optional
         x position, by default 1.0.
     y : float, optional
-        y position, by default 1.0.
+        y position, by default 1.01.
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
