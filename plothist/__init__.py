@@ -1,5 +1,5 @@
 """Plot histograms in a scalable way and a beautiful style."""
-__version__ = "0.1.1"
+__version__ = "0.2"
 
 from .plotters import (
     create_variable_registry,

@@ -27,3 +27,17 @@ You can also set both styles in the same script:
     set_style("presentation")
     fig, ax = ...
 
+For the first hep example in :ref:`advanced-hep_examples-label`:
+
+Presentation style:
+
+.. image:: ../img/hep_examples_dataMC_stacked.svg
+   :alt: Presentation style
+   :width: 500
+
+
+Publication style:
+
+.. image:: ../img/hep_examples_dataMC_stacked_publication.svg
+   :alt: Publication style
+   :width: 500

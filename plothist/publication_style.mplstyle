@@ -7,10 +7,10 @@ text.color          : .1
 
 # Fonts
 
-font.size           : 13
-xtick.labelsize     : 13
-ytick.labelsize     : 13
-axes.labelsize      : 13
+font.size           : 14
+xtick.labelsize     : 14
+ytick.labelsize     : 14
+axes.labelsize      : 14
 legend.fontsize     : 10
 
 axes.labelcolor     : .1

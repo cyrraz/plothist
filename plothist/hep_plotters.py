@@ -177,10 +177,11 @@ def compare_data_mc(
     ax_ratio.set_ylim(0.0, 2.0)
     ax_ratio.set_xlim(xlim)
     ax_ratio.set_xlabel(xlabel)
-    ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$")
+    # ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$")
+    ax_ratio.set_ylabel(r"$\frac{Data}{Pred.}$")
 
     _ = ax_comparison.xaxis.set_ticklabels([])
-    fig.subplots_adjust(hspace=0.12)
+    fig.subplots_adjust(hspace=0.125)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
