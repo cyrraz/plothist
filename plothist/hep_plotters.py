@@ -296,7 +296,7 @@ def add_luminosity(
     x : float, optional
         x position, by default 1.0.
     y : float, optional
-        y position, by default 1.0.
+        y position, by default 1.01.
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
