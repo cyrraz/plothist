@@ -175,7 +175,6 @@ def compare_data_mc(
             0,
             np.nan,
         )
-        print("XD")
     else:
         raise ValueError(f"{ratio} not available as a ratio (use diff or pull).")
 
