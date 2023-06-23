@@ -41,6 +41,9 @@ def compare_data_mc(
         List of labels for the MC simulations, by default None.
     mc_colors : list of str, optional
         List of colors for the MC simulations, by default None.
+    ratio: str, optional
+        Which ratio to compare the two histograms.
+        Available ratios: 'diff' to compute the difference and 'pull' to compute the pulls between the two histograms
     save_as : str, optional
         File path to save the figure, by default None.
     flatten_2d_hist : bool, optional

@@ -517,6 +517,9 @@ def compare_two_hist(
         The label for the y-axis of the comparison plot.
     x1_label, x2_label : str, optional
         The labels for the two histograms being compared.
+    ratio: str, optional
+        Which ratio to compare the two histograms.
+        Available ratios: 'diff' to compute the difference and 'pull' to compute the pulls between the two histograms
     save_as : str, optional
         If provided, the filename to save the figure as.
 
