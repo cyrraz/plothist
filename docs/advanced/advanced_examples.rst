@@ -48,7 +48,7 @@ Color palette
 
 When displaying quantities such as yields or intensities, it is recommended to utilize Perceptually Uniform Sequential Colormaps like the cubehelix colormap for accurate representation.
 
-We provide the [``cubehelix_palette()``](https://plothist.readthedocs.io/en/latest/documentation/documentation.html#plothist.plotters.cubehelix_palette) function to create such colormap.
+We provide the ``cubehelix_palette()`` (see `here <https://plothist.readthedocs.io/en/latest/documentation/documentation.html#plothist.plotters.cubehelix_palette>`_) function to create such colormap. With ``ncolors = 11``:
 
 .. image:: ../img/adv_cubehelix.svg
    :alt: Presentation style
