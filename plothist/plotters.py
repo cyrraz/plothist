@@ -495,7 +495,14 @@ def plot_hist_difference(hist1, hist2, ax, **kwargs):
 
 
 def compare_two_hist(
-    hist_1, hist_2, xlabel=None, ylabel=None, x1_label="x1", x2_label="x2", save_as=None
+    hist_1,
+    hist_2,
+    xlabel=None,
+    ylabel=None,
+    x1_label="x1",
+    x2_label="x2",
+    ratio="diff",
+    save_as=None,
 ):
     """
     Compare two histograms.
@@ -540,29 +547,52 @@ def compare_two_hist(
     ax_comparison.legend(framealpha=0.5)
 
     np.seterr(divide="ignore", invalid="ignore")
-    ratio = np.where(hist_1.values() != 0, hist_2.values() / hist_1.values(), np.nan)
-    ratio_variance = np.where(
-        hist_1.values() != 0,
-        hist_2.variances() / hist_1.values() ** 2
-        + hist_1.variances() * hist_2.values() ** 2 / hist_1.values() ** 4,
-        np.nan,
-    )
+    if ratio == "diff":
+        ratio_values = np.where(
+            hist_1.values() != 0, hist_2.values() / hist_1.values(), np.nan
+        )
+        ratio_variance = np.where(
+            hist_1.values() != 0,
+            hist_2.variances() / hist_1.values() ** 2
+            + hist_1.variances() * hist_2.values() ** 2 / hist_1.values() ** 4,
+            np.nan,
+        )
+    elif ratio == "pull":
+        ratio_values = np.where(
+            hist_1.values() != 0,
+            (hist_2.values() - hist_1.values())
+            / np.sqrt(hist_1.variances() + hist_2.variances()),
+            np.nan,
+        )
+        ratio_variance = np.where(
+            hist_1.values() != 0,
+            1,
+            np.nan,
+        )
+    else:
+        raise ValueError(f"{ratio} not available as a ratio (use diff or pull).")
+
     np.seterr(divide="warn", invalid="warn")
 
     ax_ratio.errorbar(
         x=hist_1.axes[0].centers,
         xerr=None,
-        y=np.nan_to_num(ratio, nan=0),
+        y=np.nan_to_num(ratio_values, nan=0),
         yerr=np.nan_to_num(np.sqrt(ratio_variance), nan=0),
         fmt=".",
         color="dimgrey",
     )
 
-    ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
-    ax_ratio.set_ylim(0.0, 1.5)
+    if ratio == "diff":
+        ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
+        ax_ratio.set_ylim(0.0, 2.0)
+        ax_ratio.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
+    elif ratio == "pull":
+        ax_ratio.axhline(0, ls="--", lw=1.0, color="black")
+        ax_ratio.set_ylim(-5.0, 5.0)
+        ax_ratio.set_ylabel("Pulls")
     ax_ratio.set_xlim(xlim)
     ax_ratio.set_xlabel(xlabel)
-    ax_ratio.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
 
     _ = ax_comparison.xaxis.set_ticklabels([])
 

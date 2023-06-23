@@ -17,6 +17,7 @@ def compare_data_mc(
     ylabel=None,
     mc_labels=None,
     mc_colors=None,
+    ratio="diff",
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
@@ -141,13 +142,40 @@ def compare_data_mc(
 
     # Ignore divide-by-zero warning
     np.seterr(divide="ignore", invalid="ignore")
-    # Compute data/MC ratio
-    ratio = np.where(
-        mc_hist_total.values() != 0, data_hist.values() / mc_hist_total.values(), np.nan
-    )
-    # Compute scaled uncertainties
-    scaled_data_uncertainty = np.sqrt(data_hist.variances()) / data_hist.values()
-    scaled_mc_uncertainty = np.sqrt(mc_hist_total.variances()) / mc_hist_total.values()
+    if ratio == "diff":
+        # Compute data/MC ratio
+        ratio_values = np.where(
+            mc_hist_total.values() != 0,
+            data_hist.values() / mc_hist_total.values(),
+            np.nan,
+        )
+        # Compute scaled uncertainties
+        scaled_data_uncertainty = np.sqrt(data_hist.variances()) / data_hist.values()
+        scaled_mc_uncertainty = (
+            np.sqrt(mc_hist_total.variances()) / mc_hist_total.values()
+        )
+    elif ratio == "pull":
+        # Compute pulls
+        ratio_values = np.where(
+            data_hist.values() != 0,
+            (mc_hist_total.values() - data_hist.values())
+            / np.sqrt(data_hist.variances() + mc_hist_total.variances()),
+            np.nan,
+        )
+        scaled_data_uncertainty = np.where(
+            data_hist.values() != 0,
+            1,
+            np.nan,
+        )
+        scaled_mc_uncertainty = np.where(
+            data_hist.values() != 0,
+            0,
+            np.nan,
+        )
+        print("XD")
+    else:
+        raise ValueError(f"{ratio} not available as a ratio (use diff or pull).")
+
     # Turn on divide-by-zero warning
     np.seterr(divide="warn", invalid="warn")
 
@@ -155,7 +183,7 @@ def compare_data_mc(
     ax_ratio.errorbar(
         x=mc_hist_total.axes[0].centers,
         xerr=0,
-        y=np.nan_to_num(ratio, nan=0),
+        y=np.nan_to_num(ratio_values, nan=0),
         yerr=np.nan_to_num(scaled_data_uncertainty, nan=0),
         fmt=".",
         color="black",
@@ -165,7 +193,11 @@ def compare_data_mc(
     ax_ratio.bar(
         x=mc_hist_total.axes[0].centers,
         bottom=np.nan_to_num(1 - scaled_mc_uncertainty, nan=0),
-        height=np.nan_to_num(2 * scaled_mc_uncertainty, nan=100),
+        height=(
+            np.nan_to_num(2 * scaled_mc_uncertainty, nan=100)
+            if ratio == "diff"
+            else np.nan_to_num(2 * scaled_mc_uncertainty, nan=0)
+        ),
         width=mc_hist_total.axes[0].widths,
         edgecolor="dimgrey",
         hatch="////",
@@ -173,12 +205,16 @@ def compare_data_mc(
         lw=0,
     )
 
-    ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
-    ax_ratio.set_ylim(0.0, 2.0)
+    if ratio == "diff":
+        ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
+        ax_ratio.set_ylabel(r"$\frac{Data}{Pred.}$")
+        ax_ratio.set_ylim(0.0, 2.0)
+    elif ratio == "pull":
+        ax_ratio.axhline(0, ls="--", lw=1.0, color="black")
+        ax_ratio.set_ylim(-5.0, 5.0)
+        ax_ratio.set_ylabel("Pulls")
     ax_ratio.set_xlim(xlim)
     ax_ratio.set_xlabel(xlabel)
-    # ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$")
-    ax_ratio.set_ylabel(r"$\frac{Data}{Pred.}$")
 
     _ = ax_comparison.xaxis.set_ticklabels([])
     fig.subplots_adjust(hspace=0.125)

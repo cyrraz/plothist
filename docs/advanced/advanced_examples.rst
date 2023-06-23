@@ -41,3 +41,15 @@ Publication style:
 .. image:: ../img/hep_examples_dataMC_stacked_publication.svg
    :alt: Publication style
    :width: 500
+
+
+Color palette
+=============
+
+When displaying quantities such as yields or intensities, it is recommended to utilize Perceptually Uniform Sequential Colormaps like the cubehelix colormap for accurate representation.
+
+We provide the [``cubehelix_palette()``](https://plothist.readthedocs.io/en/latest/documentation/documentation.html#plothist.plotters.cubehelix_palette) function to create such colormap.
+
+.. image:: ../img/adv_cubehelix.svg
+   :alt: Presentation style
+..    :width: 500
