@@ -646,7 +646,7 @@ def compare_two_hist(
             ax_comparison.set_ylim(ylim_comparison)
     elif comparison == "pull":
         ax_comparison.axhline(0, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylabel("Pulls")
+        ax_comparison.set_ylabel(rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma_{{{x1_label}}} + \sigma_{{{x2_label}}}}} }} $")
         if ylim_comparison is None:
             ax_comparison.set_ylim(-5.0, 5.0)
         else:
