@@ -501,7 +501,7 @@ def compare_two_hist(
     ylabel=None,
     x1_label="x1",
     x2_label="x2",
-    ratio="diff",
+    comparison="ratio",
     save_as=None,
 ):
     """
@@ -517,9 +517,9 @@ def compare_two_hist(
         The label for the y-axis of the comparison plot.
     x1_label, x2_label : str, optional
         The labels for the two histograms being compared.
-    ratio: str, optional
-        Which ratio to compare the two histograms.
-        Available ratios: 'diff' to compute the difference and 'pull' to compute the pulls between the two histograms
+    comparison: str, optional
+        How to compare the two histograms.
+        Available comparisons: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
     save_as : str, optional
         If provided, the filename to save the figure as.
 
@@ -527,30 +527,30 @@ def compare_two_hist(
     -------
     fig : matplotlib.figure.Figure
         The generated figure.
-    ax_comparison : matplotlib.axes.Axes
+    ax_main : matplotlib.axes.Axes
         The axes for the histogram comparison plot.
-    ax_ratio : matplotlib.axes.Axes
-        The axes for the ratio plot.
+    ax_comparison : matplotlib.axes.Axes
+        The axes for the comparison plot.
 
     """
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
-    fig, (ax_comparison, ax_ratio) = plt.subplots(
+    fig, (ax_main, ax_comparison) = plt.subplots(
         2, gridspec_kw={"height_ratios": [4, 1]}
     )
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
 
-    plot_hist(hist_1, ax=ax_comparison, label=x1_label, histtype="step")
-    plot_hist(hist_2, ax=ax_comparison, label=x2_label, histtype="step")
-    ax_comparison.set_xlim(xlim)
-    ax_comparison.set_ylabel(ylabel)
-    ax_comparison.tick_params(axis="x", labelbottom="off")
-    ax_comparison.legend(framealpha=0.5)
+    plot_hist(hist_1, ax=ax_main, label=x1_label, histtype="step")
+    plot_hist(hist_2, ax=ax_main, label=x2_label, histtype="step")
+    ax_main.set_xlim(xlim)
+    ax_main.set_ylabel(ylabel)
+    ax_main.tick_params(axis="x", labelbottom="off")
+    ax_main.legend(framealpha=0.5)
 
     np.seterr(divide="ignore", invalid="ignore")
-    if ratio == "diff":
+    if comparison == "ratio":
         ratio_values = np.where(
             hist_1.values() != 0, hist_2.values() / hist_1.values(), np.nan
         )
@@ -560,7 +560,7 @@ def compare_two_hist(
             + hist_1.variances() * hist_2.values() ** 2 / hist_1.values() ** 4,
             np.nan,
         )
-    elif ratio == "pull":
+    elif comparison == "pull":
         ratio_values = np.where(
             hist_1.values() != 0,
             (hist_2.values() - hist_1.values())
@@ -573,11 +573,11 @@ def compare_two_hist(
             np.nan,
         )
     else:
-        raise ValueError(f"{ratio} not available as a ratio (use diff or pull).")
+        raise ValueError(f"{comparison} not available as a comparison (use ratio or pull).")
 
     np.seterr(divide="warn", invalid="warn")
 
-    ax_ratio.errorbar(
+    ax_comparison.errorbar(
         x=hist_1.axes[0].centers,
         xerr=None,
         y=np.nan_to_num(ratio_values, nan=0),
@@ -586,23 +586,23 @@ def compare_two_hist(
         color="dimgrey",
     )
 
-    if ratio == "diff":
-        ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
-        ax_ratio.set_ylim(0.0, 2.0)
-        ax_ratio.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
-    elif ratio == "pull":
-        ax_ratio.axhline(0, ls="--", lw=1.0, color="black")
-        ax_ratio.set_ylim(-5.0, 5.0)
-        ax_ratio.set_ylabel("Pulls")
-    ax_ratio.set_xlim(xlim)
-    ax_ratio.set_xlabel(xlabel)
+    if comparison == "ratio":
+        ax_comparison.axhline(1, ls="--", lw=1.0, color="black")
+        ax_comparison.set_ylim(0.0, 2.0)
+        ax_comparison.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
+    elif comparison == "pull":
+        ax_comparison.axhline(0, ls="--", lw=1.0, color="black")
+        ax_comparison.set_ylim(-5.0, 5.0)
+        ax_comparison.set_ylabel("Pulls")
+    ax_comparison.set_xlim(xlim)
+    ax_comparison.set_xlabel(xlabel)
 
-    _ = ax_comparison.xaxis.set_ticklabels([])
+    _ = ax_main.xaxis.set_ticklabels([])
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
 
-    return fig, ax_comparison, ax_ratio
+    return fig, ax_main, ax_comparison
 
 
 def cubehelix_palette(

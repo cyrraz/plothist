@@ -17,7 +17,7 @@ def compare_data_mc(
     ylabel=None,
     mc_labels=None,
     mc_colors=None,
-    ratio="diff",
+    comparison="ratio",
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
@@ -41,9 +41,9 @@ def compare_data_mc(
         List of labels for the MC simulations, by default None.
     mc_colors : list of str, optional
         List of colors for the MC simulations, by default None.
-    ratio: str, optional
-        Which ratio to compare the two histograms.
-        Available ratios: 'diff' to compute the difference and 'pull' to compute the pulls between the two histograms
+    comparison: str, optional
+        How to compare the two histograms.
+        Available ratios: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
     save_as : str, optional
         File path to save the figure, by default None.
     flatten_2d_hist : bool, optional
@@ -55,10 +55,10 @@ def compare_data_mc(
     -------
     fig : matplotlib.figure.Figure
         The generated figure.
+    ax_main : matplotlib.axes.Axes
+        Axes instance for the comparison plot.
     ax_comparison : matplotlib.axes.Axes
         Axes instance for the comparison plot.
-    ax_ratio : matplotlib.axes.Axes
-        Axes instance for the ratio plot.
     """
     if flatten_2d_hist:
         data_hist = _flatten_2d_hist(data_hist)
@@ -66,7 +66,7 @@ def compare_data_mc(
         if signal_hist:
             signal_hist = _flatten_2d_hist(signal_hist)
 
-    fig, (ax_comparison, ax_ratio) = plt.subplots(
+    fig, (ax_main, ax_comparison) = plt.subplots(
         2, gridspec_kw={"height_ratios": [4, 1]}
     )
 
@@ -74,7 +74,7 @@ def compare_data_mc(
     if stacked:
         plot_hist(
             mc_hist_list,
-            ax=ax_comparison,
+            ax=ax_main,
             stacked=True,
             edgecolor="black",
             histtype="stepfilled",
@@ -86,7 +86,7 @@ def compare_data_mc(
         # Plot the unstacked histograms
         plot_hist(
             mc_hist_list,
-            ax=ax_comparison,
+            ax=ax_main,
             color=mc_colors,
             label=mc_labels,
             stacked=False,
@@ -96,7 +96,7 @@ def compare_data_mc(
         # Replot the unstacked histograms, but only the edges
         plot_hist(
             mc_hist_list,
-            ax=ax_comparison,
+            ax=ax_main,
             color=mc_colors,
             label=None,
             stacked=False,
@@ -105,7 +105,7 @@ def compare_data_mc(
         # Plot the sum of the unstacked histograms
         plot_hist(
             sum(mc_hist_list),
-            ax=ax_comparison,
+            ax=ax_main,
             color="navy",
             label="Sum(MC)",
             histtype="step",
@@ -113,23 +113,23 @@ def compare_data_mc(
     if signal_hist is not None:
         plot_hist(
             signal_hist,
-            ax=ax_comparison,
+            ax=ax_main,
             stacked=False,
             color="red",
             label="Signal",
             histtype="step",
         )
-    plot_error_hist(data_hist, ax=ax_comparison, color="black", label="Data")
+    plot_error_hist(data_hist, ax=ax_main, color="black", label="Data")
 
-    ax_comparison.set_xlim(xlim)
-    ax_comparison.set_ylabel(ylabel)
-    ax_comparison.tick_params(axis="x", labelbottom="off")
+    ax_main.set_xlim(xlim)
+    ax_main.set_ylabel(ylabel)
+    ax_main.tick_params(axis="x", labelbottom="off")
 
     mc_hist_total = sum(mc_hist_list)
 
     # Plot MC statistical uncertainty
     mc_uncertainty = np.sqrt(mc_hist_total.variances())
-    ax_comparison.bar(
+    ax_main.bar(
         x=mc_hist_total.axes[0].centers,
         bottom=mc_hist_total.values() - mc_uncertainty,
         height=2 * mc_uncertainty,
@@ -141,11 +141,11 @@ def compare_data_mc(
         label="Stat. unc.",
     )
 
-    ax_comparison.legend(framealpha=0.5)
+    ax_main.legend(framealpha=0.5)
 
     # Ignore divide-by-zero warning
     np.seterr(divide="ignore", invalid="ignore")
-    if ratio == "diff":
+    if comparison == "ratio":
         # Compute data/MC ratio
         ratio_values = np.where(
             mc_hist_total.values() != 0,
@@ -157,7 +157,7 @@ def compare_data_mc(
         scaled_mc_uncertainty = (
             np.sqrt(mc_hist_total.variances()) / mc_hist_total.values()
         )
-    elif ratio == "pull":
+    elif comparison == "pull":
         # Compute pulls
         ratio_values = np.where(
             data_hist.values() != 0,
@@ -176,13 +176,13 @@ def compare_data_mc(
             np.nan,
         )
     else:
-        raise ValueError(f"{ratio} not available as a ratio (use diff or pull).")
+        raise ValueError(f"{comparison} not available as a comparison (use ratio or pull).")
 
     # Turn on divide-by-zero warning
     np.seterr(divide="warn", invalid="warn")
 
     # Plot the ratio with the (scaled) statistical uncertainty of data
-    ax_ratio.errorbar(
+    ax_comparison.errorbar(
         x=mc_hist_total.axes[0].centers,
         xerr=0,
         y=np.nan_to_num(ratio_values, nan=0),
@@ -192,12 +192,12 @@ def compare_data_mc(
     )
 
     # Plot the (scaled) statistical uncertainty of simulation as a hashed area
-    ax_ratio.bar(
+    ax_comparison.bar(
         x=mc_hist_total.axes[0].centers,
         bottom=np.nan_to_num(1 - scaled_mc_uncertainty, nan=0),
         height=(
             np.nan_to_num(2 * scaled_mc_uncertainty, nan=100)
-            if ratio == "diff"
+            if comparison == "ratio"
             else np.nan_to_num(2 * scaled_mc_uncertainty, nan=0)
         ),
         width=mc_hist_total.axes[0].widths,
@@ -207,24 +207,24 @@ def compare_data_mc(
         lw=0,
     )
 
-    if ratio == "diff":
-        ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
-        ax_ratio.set_ylabel(r"$\frac{Data}{Pred.}$")
-        ax_ratio.set_ylim(0.0, 2.0)
-    elif ratio == "pull":
-        ax_ratio.axhline(0, ls="--", lw=1.0, color="black")
-        ax_ratio.set_ylim(-5.0, 5.0)
-        ax_ratio.set_ylabel("Pulls")
-    ax_ratio.set_xlim(xlim)
-    ax_ratio.set_xlabel(xlabel)
+    if comparison == "ratio":
+        ax_comparison.axhline(1, ls="--", lw=1.0, color="black")
+        ax_comparison.set_ylabel(r"$\frac{Data}{Pred.}$")
+        ax_comparison.set_ylim(0.0, 2.0)
+    elif comparison == "pull":
+        ax_comparison.axhline(0, ls="--", lw=1.0, color="black")
+        ax_comparison.set_ylim(-5.0, 5.0)
+        ax_comparison.set_ylabel("Pulls")
+    ax_comparison.set_xlim(xlim)
+    ax_comparison.set_xlabel(xlabel)
 
-    _ = ax_comparison.xaxis.set_ticklabels([])
+    _ = ax_main.xaxis.set_ticklabels([])
     fig.subplots_adjust(hspace=0.125)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
 
-    return fig, ax_comparison, ax_ratio
+    return fig, ax_main, ax_comparison
 
 
 def plot_mc(
