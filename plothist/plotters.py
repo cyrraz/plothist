@@ -502,6 +502,7 @@ def compare_two_hist(
     x1_label="x1",
     x2_label="x2",
     comparison="ratio",
+    ylim_comparison=None,
     save_as=None,
 ):
     """
@@ -588,12 +589,18 @@ def compare_two_hist(
 
     if comparison == "ratio":
         ax_comparison.axhline(1, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylim(0.0, 2.0)
         ax_comparison.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
+        if ylim_comparison is None:
+            ax_comparison.set_ylim(0.0, 2.0)
+        else:
+            ax_comparison.set_ylim(ylim_comparison)
     elif comparison == "pull":
         ax_comparison.axhline(0, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylim(-5.0, 5.0)
         ax_comparison.set_ylabel("Pulls")
+        if ylim_comparison is None:
+            ax_comparison.set_ylim(-5.0, 5.0)
+        else:
+            ax_comparison.set_ylim(ylim_comparison)
     ax_comparison.set_xlim(xlim)
     ax_comparison.set_xlabel(xlabel)
 

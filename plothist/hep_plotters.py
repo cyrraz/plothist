@@ -18,6 +18,7 @@ def compare_data_mc(
     mc_labels=None,
     mc_colors=None,
     comparison="ratio",
+    ylim_comparison=None,
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
@@ -161,7 +162,7 @@ def compare_data_mc(
         # Compute pulls
         ratio_values = np.where(
             data_hist.values() != 0,
-            (mc_hist_total.values() - data_hist.values())
+            (data_hist.values() - mc_hist_total.values())
             / np.sqrt(data_hist.variances() + mc_hist_total.variances()),
             np.nan,
         )
@@ -210,11 +211,19 @@ def compare_data_mc(
     if comparison == "ratio":
         ax_comparison.axhline(1, ls="--", lw=1.0, color="black")
         ax_comparison.set_ylabel(r"$\frac{Data}{Pred.}$")
-        ax_comparison.set_ylim(0.0, 2.0)
+        if ylim_comparison is None:
+            ax_comparison.set_ylim(0.0, 2.0)
+        else:
+            ax_comparison.set_ylim(ylim_comparison)
+
     elif comparison == "pull":
         ax_comparison.axhline(0, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylim(-5.0, 5.0)
         ax_comparison.set_ylabel("Pulls")
+        if ylim_comparison is None:
+            ax_comparison.set_ylim(-5.0, 5.0)
+        else:
+            ax_comparison.set_ylim(ylim_comparison)
+
     ax_comparison.set_xlim(xlim)
     ax_comparison.set_xlabel(xlabel)
 
