@@ -4,9 +4,12 @@ Collection of functions to plot histograms in the context of High Energy Physics
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from plothist.plotters import plot_hist
-from plothist.plotters import plot_error_hist
-from plothist.plotters import _flatten_2d_hist
+from plothist.plotters import (
+    plot_hist,
+    plot_error_hist,
+    _flatten_2d_hist,
+    compare_two_hist,
+)
 
 
 def compare_data_mc(
@@ -69,11 +72,23 @@ def compare_data_mc(
         if signal_hist:
             signal_hist = _flatten_2d_hist(signal_hist)
 
-    fig, (ax_main, ax_comparison) = plt.subplots(
-        2, gridspec_kw={"height_ratios": [4, 1]}
+    mc_hist_total = sum(mc_hist_list)
+
+    fig, ax_main, ax_comparison = compare_two_hist(
+        data_hist,
+        mc_hist_total,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        x1_label="Data",
+        x2_label="Pred.",
+        comparison=comparison,
+        ylim_comparison=ylim_comparison,
+        scaled_uncertainty=True,
+        hist_2_uncertainty=True,
     )
 
-    xlim = (data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1])
+    ax_main.cla()
+
     if stacked:
         plot_hist(
             mc_hist_list,
@@ -124,11 +139,10 @@ def compare_data_mc(
         )
     plot_error_hist(data_hist, ax=ax_main, color="black", label="Data")
 
+    xlim = ax_comparison.get_xlim()
     ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
-    ax_main.tick_params(axis="x", labelbottom="off")
-
-    mc_hist_total = sum(mc_hist_list)
+    _ = ax_main.xaxis.set_ticklabels([])
 
     # Plot MC statistical uncertainty
     mc_uncertainty = np.sqrt(mc_hist_total.variances())
@@ -145,92 +159,6 @@ def compare_data_mc(
     )
 
     ax_main.legend(framealpha=0.5)
-
-    # Ignore divide-by-zero warning
-    np.seterr(divide="ignore", invalid="ignore")
-    if comparison == "ratio":
-        # Compute data/MC ratio
-        ratio_values = np.where(
-            mc_hist_total.values() != 0,
-            data_hist.values() / mc_hist_total.values(),
-            np.nan,
-        )
-        # Compute scaled uncertainties
-        scaled_data_uncertainty = np.sqrt(data_hist.variances()) / data_hist.values()
-        scaled_mc_uncertainty = (
-            np.sqrt(mc_hist_total.variances()) / mc_hist_total.values()
-        )
-    elif comparison == "pull":
-        # Compute pulls
-        ratio_values = np.where(
-            data_hist.values() != 0,
-            (data_hist.values() - mc_hist_total.values())
-            / np.sqrt(data_hist.variances() + mc_hist_total.variances()),
-            np.nan,
-        )
-        scaled_data_uncertainty = np.where(
-            data_hist.values() != 0,
-            1,
-            np.nan,
-        )
-        scaled_mc_uncertainty = np.where(
-            data_hist.values() != 0,
-            0,
-            np.nan,
-        )
-    else:
-        raise ValueError(f"{comparison} not available as a comparison (use ratio or pull).")
-
-    # Turn on divide-by-zero warning
-    np.seterr(divide="warn", invalid="warn")
-
-    # Plot the ratio with the (scaled) statistical uncertainty of data
-    ax_comparison.errorbar(
-        x=mc_hist_total.axes[0].centers,
-        xerr=0,
-        y=np.nan_to_num(ratio_values, nan=0),
-        yerr=np.nan_to_num(scaled_data_uncertainty, nan=0),
-        fmt=".",
-        color="black",
-    )
-
-    # Plot the (scaled) statistical uncertainty of simulation as a hashed area
-    ax_comparison.bar(
-        x=mc_hist_total.axes[0].centers,
-        bottom=np.nan_to_num(1 - scaled_mc_uncertainty, nan=0),
-        height=(
-            np.nan_to_num(2 * scaled_mc_uncertainty, nan=100)
-            if comparison == "ratio"
-            else np.nan_to_num(2 * scaled_mc_uncertainty, nan=0)
-        ),
-        width=mc_hist_total.axes[0].widths,
-        edgecolor="dimgrey",
-        hatch="////",
-        fill=False,
-        lw=0,
-    )
-
-    if comparison == "ratio":
-        ax_comparison.axhline(1, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylabel(r"$\frac{Data}{Pred.}$")
-        if ylim_comparison is None:
-            ax_comparison.set_ylim(0.0, 2.0)
-        else:
-            ax_comparison.set_ylim(ylim_comparison)
-
-    elif comparison == "pull":
-        ax_comparison.axhline(0, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylabel("Pulls")
-        if ylim_comparison is None:
-            ax_comparison.set_ylim(-5.0, 5.0)
-        else:
-            ax_comparison.set_ylim(ylim_comparison)
-
-    ax_comparison.set_xlim(xlim)
-    ax_comparison.set_xlabel(xlabel)
-
-    _ = ax_main.xaxis.set_ticklabels([])
-    fig.subplots_adjust(hspace=0.125)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")

@@ -503,6 +503,8 @@ def compare_two_hist(
     x2_label="x2",
     comparison="ratio",
     ylim_comparison=None,
+    hist_2_uncertainty=False,
+    scaled_uncertainty=False,
     save_as=None,
 ):
     """
@@ -523,6 +525,10 @@ def compare_two_hist(
         Available comparisons: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
     ylim_comparison: list of float, optional
         Set the ylim of the ax_comparison. If not specified, ylim = [0., 2.] for ratio comparison and [-5., 5.] for pull.
+    hist_2_uncertainty: bool, optional
+        Plot the statistical uncertainty of hist_2 as a hashed area.
+    scaled_uncertainty: bool, optional
+        Scale the uncertainties to the total hist values.
     save_as : str, optional
         If provided, the filename to save the figure as.
 
@@ -555,18 +561,36 @@ def compare_two_hist(
     np.seterr(divide="ignore", invalid="ignore")
     if comparison == "ratio":
         ratio_values = np.where(
-            hist_1.values() != 0, hist_2.values() / hist_1.values(), np.nan
+            hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
         )
-        ratio_variance = np.where(
-            hist_1.values() != 0,
-            hist_2.variances() / hist_1.values() ** 2
-            + hist_1.variances() * hist_2.values() ** 2 / hist_1.values() ** 4,
-            np.nan,
-        )
+        if scaled_uncertainty:
+            ratio_variance = (np.sqrt(hist_1.variances()) / hist_1.values()) ** 2
+        else:
+            ratio_variance = np.where(
+                hist_2.values() != 0,
+                hist_1.variances() / hist_2.values() ** 2
+                + hist_2.variances() * hist_1.values() ** 2 / hist_2.values() ** 4,
+                np.nan,
+            )
+        if hist_2_uncertainty:
+            if scaled_uncertainty:
+                h2_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
+            else:
+                h2_uncertainty = np.sqrt(
+                    np.where(
+                        hist_1.values() != 0,
+                        hist_2.variances() / hist_1.values() ** 2
+                        + hist_1.variances()
+                        * hist_2.values() ** 2
+                        / hist_1.values() ** 4,
+                        np.nan,
+                    )
+                )
+
     elif comparison == "pull":
         ratio_values = np.where(
-            hist_1.values() != 0,
-            (hist_2.values() - hist_1.values())
+            hist_2.values() != 0,
+            (hist_1.values() - hist_2.values())
             / np.sqrt(hist_1.variances() + hist_2.variances()),
             np.nan,
         )
@@ -575,23 +599,47 @@ def compare_two_hist(
             1,
             np.nan,
         )
+        if hist_2_uncertainty:
+            h2_uncertainty = np.where(
+                hist_2.values() != 0,
+                0,
+                np.nan,
+            )
     else:
-        raise ValueError(f"{comparison} not available as a comparison (use ratio or pull).")
+        raise ValueError(
+            f"{comparison} not available as a comparison (use ratio or pull)."
+        )
 
     np.seterr(divide="warn", invalid="warn")
 
     ax_comparison.errorbar(
-        x=hist_1.axes[0].centers,
+        x=hist_2.axes[0].centers,
         xerr=None,
         y=np.nan_to_num(ratio_values, nan=0),
         yerr=np.nan_to_num(np.sqrt(ratio_variance), nan=0),
         fmt=".",
-        color="dimgrey",
+        color="black",
     )
+
+    if hist_2_uncertainty:
+        ax_comparison.bar(
+            x=hist_2.axes[0].centers,
+            bottom=np.nan_to_num(1 - h2_uncertainty, nan=0),
+            height=(
+                np.nan_to_num(2 * h2_uncertainty, nan=100)
+                if comparison == "ratio"
+                else np.nan_to_num(2 * h2_uncertainty, nan=0)
+            ),
+            width=hist_2.axes[0].widths,
+            edgecolor="dimgrey",
+            hatch="////",
+            fill=False,
+            lw=0,
+        )
 
     if comparison == "ratio":
         ax_comparison.axhline(1, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
+        ax_comparison.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
         if ylim_comparison is None:
             ax_comparison.set_ylim(0.0, 2.0)
         else:
@@ -607,6 +655,7 @@ def compare_two_hist(
     ax_comparison.set_xlabel(xlabel)
 
     _ = ax_main.xaxis.set_ticklabels([])
+    fig.subplots_adjust(hspace=0.125)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
