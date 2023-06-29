@@ -521,6 +521,8 @@ def compare_two_hist(
     comparison: str, optional
         How to compare the two histograms.
         Available comparisons: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
+    ylim_comparison: list of float, optional
+        Set the ylim of the ax_comparison. If not specified, ylim = [0., 2.] for ratio comparison and [-5., 5.] for pull.
     save_as : str, optional
         If provided, the filename to save the figure as.
 

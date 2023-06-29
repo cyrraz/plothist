@@ -45,6 +45,8 @@ def compare_data_mc(
     comparison: str, optional
         How to compare the two histograms.
         Available ratios: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
+    ylim_comparison: list of float, optional
+        Set the ylim of the ax_comparison. If not specified, ylim = [0., 2.] for ratio comparison and [-5., 5.] for pull.
     save_as : str, optional
         File path to save the figure, by default None.
     flatten_2d_hist : bool, optional
