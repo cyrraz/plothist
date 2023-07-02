@@ -55,19 +55,21 @@ Same as for 1D histogram, variable manager can be practical to manage and see th
     from itertools import combinations
     from plothist import make_2d_hist, plot_2d_hist
     from plothist import create_variable_registry, update_variable_registry_ranges, get_variable_from_registry
+    import matplotlib.pyplot as plt
 
     # No need to redo this step if the registry was already created before
     variable_keys = ["variable_0", "variable_1", "variable_2"]
     create_variable_registry(variable_keys)
     update_variable_registry_ranges(df, variable_keys)
 
+    fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(15, 3))
+    plt.subplots_adjust(wspace=1)
+
     # Get all the correlation plot between the variables
-    variable_keys_combinations = list(itertools.combinations(variable_keys, 2))
-    for variable_keys_combination in variable_keys_combinations:
+    variable_keys_combinations = list(combinations(variable_keys, 2))
+    for variable_keys_combination, ax in zip(variable_keys_combinations, axs):
         variable0 = get_variable_from_registry(variable_keys_combination[0])
         variable1 = get_variable_from_registry(variable_keys_combination[1])
-
-        fig, ax = plt.subplots(figsize=(4, 4))
 
         h = make_2d_hist(
             [df[variable0["name"]], df[variable1["name"]]],
@@ -82,6 +84,12 @@ Same as for 1D histogram, variable manager can be practical to manage and see th
 
         ax.set_xlim(variable0["range"])
         ax.set_ylim(variable1["range"])
+
+    fig.savefig("2d_hist_correlations.svg", bbox_inches='tight')
+
+.. image:: ../img/2d_hist_correlations.svg
+   :alt: Simple 2d hist
+   :width: 1500
 
 
 Advanced
