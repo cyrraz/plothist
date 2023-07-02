@@ -125,7 +125,7 @@ It is really easy to add multiple histogram to the same figure:
     x1 = df[name][df[category] == 1]
     x2 = df[name][df[category] == 2]
 
-    x_range = [min([min(x) for x in [x1, x2]]), max([max(x) for x in [x1, x2]])]
+    x_range = (min(min(x1), min(x2)), max(max(x1), max(x2)))
 
     h1 = make_hist(x1, bins=50, range=x_range)
     h2 = make_hist(x2, bins=50, range=x_range)
@@ -147,7 +147,7 @@ It is really easy to add multiple histogram to the same figure:
    :width: 500
 
 
-To this, we can add a some error point histogram:
+To this, we can add an error-point histogram:
 
 .. code-block:: python
 
@@ -176,7 +176,7 @@ We can also add functions using ``scipy``:
     import numpy as np
     from scipy.stats import norm
 
-    x = np.linspace(x_range[0], x_range[1], 50)
+    x = np.linspace(x_range[0], x_range[1], 200)
 
     # Define the gaussian function of mean=8 and std_dev=1
     y = norm.pdf(x, 8, 1)
@@ -219,4 +219,3 @@ To compare two histograms, using the histograms defined above:
    :alt: Simple hist
    :width: 500
 
-The default comparison is a simple ratio between the histograms. Pulls comparison are also available, by adding ``comparison = "pull"`` to ``compare_two_hist()`` arguments.
