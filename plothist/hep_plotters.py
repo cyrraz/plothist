@@ -10,6 +10,7 @@ from plothist.plotters import (
     _flatten_2d_hist,
     compare_two_hist,
     plot_comparison,
+    create_comparison_figure,
 )
 
 
@@ -26,6 +27,9 @@ def compare_data_mc(
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
 ):
     """
     Compare data to MC simulations.
@@ -68,10 +72,12 @@ def compare_data_mc(
         Axes instance for the comparison plot.
     """
 
-    fig, (ax_main, ax_comparison) = plt.subplots(
-        2, gridspec_kw={"height_ratios": [4, 1]}
-    )
-    fig.subplots_adjust(hspace=0.125)
+    if fig is None and ax_main is None and ax_comparison is None:
+        fig, (ax_main, ax_comparison) = create_comparison_figure()
+    elif fig is not None or ax_main is not None or ax_comparison is not None:
+        raise ValueError(
+            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+        )
 
     plot_mc(
         mc_hist_list,
@@ -138,18 +144,14 @@ def plot_mc(
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
-    leg_ncol=1
+    leg_ncol=1,
 ):
-    """
-
-    """
+    """ """
 
     if fig is None and ax is None:
         fig, ax = plt.subplots()
-    elif fig is None:
-        fig, _ = plt.subplots()
-    elif ax is None:
-        _, ax = plt.subplots()
+    elif (fig is None and ax) or (fig and ax is None):
+        raise ValueError("Need to provid both fig and ax (or None).")
 
     if flatten_2d_hist:
         mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
@@ -249,7 +251,7 @@ def add_luminosity(
         Font size, by default 12.
     is_data : bool, optional
         If True, plot integrated luminosity. If False, plot "Simulation", by default True.
-    lumi : int, optional
+    lumi : int/string, optional
         Integrated luminosity. Default value is 362. If empty, do not plot luminosity.
     lumi_unit : string, optional
         Integrated luminosity unit. Default value is fb. The exponent is automatically -1.

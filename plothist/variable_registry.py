@@ -5,7 +5,7 @@ Collection of functions to manage the variable registry
 import yaml
 import os
 import boost_histogram as bh
-from .plotters import create_axis
+from plothist.plotters import create_axis
 
 
 def create_variable_registry(variables, path="./variable_registry.yaml", reset=False):

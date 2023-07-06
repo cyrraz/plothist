@@ -2,6 +2,7 @@
 __version__ = "0.2"
 
 from .plotters import (
+    create_comparison_figure,
     create_axis,
     make_hist,
     make_2d_hist,
@@ -9,6 +10,7 @@ from .plotters import (
     plot_2d_hist,
     plot_error_hist,
     compare_two_hist,
+    plot_comparison,
     cubehelix_palette,
 )
 
@@ -27,6 +29,7 @@ __all__ = [
     "create_variable_registry",
     "get_variable_from_registry",
     "update_variable_registry_ranges",
+    "create_comparison_figure",
     "create_axis",
     "make_hist",
     "make_2d_hist",
@@ -34,6 +37,7 @@ __all__ = [
     "plot_2d_hist",
     "plot_error_hist",
     "compare_two_hist",
+    "plot_comparison",
     "cubehelix_palette",
     "compare_data_mc",
     "plot_mc",

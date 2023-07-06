@@ -11,6 +11,22 @@ import warnings
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
+def create_comparison_figure(
+    figsize=(6, 4),
+    nrows=2,
+    ncols=1,
+    gridspec_kw={"height_ratios": [4, 1]},
+    hspace=0.125,
+):
+    fig, axes = plt.subplots(
+        nrows=nrows, ncols=ncols, figsize=figsize, gridspec_kw=gridspec_kw
+    )
+    if nrows > 1:
+        fig.subplots_adjust(hspace=hspace)
+
+    return fig, axes
+
+
 def create_axis(data, bins, range):
     """
     Create an axis object for histogram binning based on the input data and parameters.
@@ -300,9 +316,7 @@ def compare_two_hist(
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
-    fig, (ax_main, ax_comparison) = plt.subplots(
-        2, gridspec_kw={"height_ratios": [4, 1]}
-    )
+    fig, (ax_main, ax_comparison) = create_comparison_figure()
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
 
@@ -333,7 +347,6 @@ def compare_two_hist(
     return fig, ax_main, ax_comparison
 
 
-
 def plot_comparison(
     hist_1,
     hist_2,
@@ -346,9 +359,7 @@ def plot_comparison(
     hist_2_uncertainty=False,
     scaled_uncertainty=False,
 ):
-    """
-
-    """
+    """ """
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
@@ -452,9 +463,6 @@ def plot_comparison(
     ax.set_xlabel(xlabel)
 
     return ax
-
-
-
 
 
 def cubehelix_palette(
