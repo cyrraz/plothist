@@ -8,7 +8,6 @@ from .plotters import (
     plot_hist,
     plot_2d_hist,
     plot_error_hist,
-    plot_hist_difference,
     compare_two_hist,
     cubehelix_palette,
 )
@@ -34,7 +33,6 @@ __all__ = [
     "plot_hist",
     "plot_2d_hist",
     "plot_error_hist",
-    "plot_hist_difference",
     "compare_two_hist",
     "cubehelix_palette",
     "compare_data_mc",

@@ -9,6 +9,7 @@ from plothist.plotters import (
     plot_error_hist,
     _flatten_2d_hist,
     compare_two_hist,
+    plot_comparison,
 )
 
 
@@ -21,7 +22,7 @@ def compare_data_mc(
     mc_labels=None,
     mc_colors=None,
     comparison="ratio",
-    ylim_comparison=None,
+    comparison_ylim=None,
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
@@ -48,7 +49,7 @@ def compare_data_mc(
     comparison: str, optional
         How to compare the two histograms.
         Available ratios: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
-    ylim_comparison: list of float, optional
+    comparison_ylim: list of float, optional
         Set the ylim of the ax_comparison. If not specified, ylim = [0., 2.] for ratio comparison and [-5., 5.] for pull.
     save_as : str, optional
         File path to save the figure, by default None.
@@ -66,85 +67,30 @@ def compare_data_mc(
     ax_comparison : matplotlib.axes.Axes
         Axes instance for the comparison plot.
     """
-    if flatten_2d_hist:
-        data_hist = _flatten_2d_hist(data_hist)
-        mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
-        if signal_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
 
-    mc_hist_total = sum(mc_hist_list)
+    fig, (ax_main, ax_comparison) = plt.subplots(
+        2, gridspec_kw={"height_ratios": [4, 1]}
+    )
+    fig.subplots_adjust(hspace=0.125)
 
-    fig, ax_main, ax_comparison = compare_two_hist(
-        data_hist,
-        mc_hist_total,
-        xlabel=xlabel,
+    plot_mc(
+        mc_hist_list,
+        signal_hist=signal_hist,
         ylabel=ylabel,
-        x1_label="Data",
-        x2_label="Pred.",
-        comparison=comparison,
-        ylim_comparison=ylim_comparison,
-        scaled_uncertainty=True,
-        hist_2_uncertainty=True,
+        mc_labels=mc_labels,
+        mc_colors=mc_colors,
+        fig=fig,
+        ax=ax_main,
+        flatten_2d_hist=flatten_2d_hist,
+        stacked=stacked,
     )
 
-    ax_main.cla()
-
-    if stacked:
-        plot_hist(
-            mc_hist_list,
-            ax=ax_main,
-            stacked=True,
-            edgecolor="black",
-            histtype="stepfilled",
-            linewidth=0.5,
-            color=mc_colors,
-            label=mc_labels,
-        )
-    else:
-        # Plot the unstacked histograms
-        plot_hist(
-            mc_hist_list,
-            ax=ax_main,
-            color=mc_colors,
-            label=mc_labels,
-            stacked=False,
-            alpha=0.8,
-            histtype="stepfilled",
-        )
-        # Replot the unstacked histograms, but only the edges
-        plot_hist(
-            mc_hist_list,
-            ax=ax_main,
-            color=mc_colors,
-            label=None,
-            stacked=False,
-            histtype="step",
-        )
-        # Plot the sum of the unstacked histograms
-        plot_hist(
-            sum(mc_hist_list),
-            ax=ax_main,
-            color="navy",
-            label="Sum(MC)",
-            histtype="step",
-        )
-    if signal_hist is not None:
-        plot_hist(
-            signal_hist,
-            ax=ax_main,
-            stacked=False,
-            color="red",
-            label="Signal",
-            histtype="step",
-        )
     plot_error_hist(data_hist, ax=ax_main, color="black", label="Data")
 
-    xlim = ax_comparison.get_xlim()
-    ax_main.set_xlim(xlim)
-    ax_main.set_ylabel(ylabel)
     _ = ax_main.xaxis.set_ticklabels([])
 
     # Plot MC statistical uncertainty
+    mc_hist_total = sum(mc_hist_list)
     mc_uncertainty = np.sqrt(mc_hist_total.variances())
     ax_main.bar(
         x=mc_hist_total.axes[0].centers,
@@ -160,6 +106,19 @@ def compare_data_mc(
 
     ax_main.legend(framealpha=0.5)
 
+    plot_comparison(
+        data_hist,
+        mc_hist_total,
+        ax=ax_comparison,
+        xlabel=xlabel,
+        x1_label="Data",
+        x2_label="Pred.",
+        comparison=comparison,
+        comparison_ylim=comparison_ylim,
+        scaled_uncertainty=True,
+        hist_2_uncertainty=True,
+    )
+
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
 
@@ -174,59 +133,70 @@ def plot_mc(
     mc_labels=None,
     mc_colors=None,
     signal_label="Signal",
+    fig=None,
+    ax=None,
     save_as=None,
     flatten_2d_hist=False,
+    stacked=True,
+    leg_ncol=1
 ):
     """
-    Plot Monte Carlo (MC) simulations.
 
-    Parameters
-    ----------
-    mc_hist_list : list of boost_histogram.Histogram
-        List of histograms representing the MC simulations.
-    signal_hist : boost_histogram.Histogram, optional
-        Histogram representing the signal MC simulation, by default None.
-    xlabel : str, optional
-        Label for the x-axis, by default None.
-    ylabel : str, optional
-        Label for the y-axis, by default None.
-    mc_labels : list of str, optional
-        List of labels for the MC simulations, by default None.
-    mc_colors : list of str, optional
-        List of colors for the MC simulations, by default None.
-    signal_label : str, optional
-        Label for the signal histogram, by default "Signal".
-    save_as : str, optional
-        File path to save the figure, by default None.
-    flatten_2d_hist : bool, optional
-        Whether to flatten 2D histograms, by default False.
-
-    Returns
-    -------
-    fig : matplotlib.figure.Figure
-        The generated figure.
-    ax : matplotlib.axes.Axes
-        Axes instance for the plot.
     """
+
+    if fig is None and ax is None:
+        fig, ax = plt.subplots()
+    elif fig is None:
+        fig, _ = plt.subplots()
+    elif ax is None:
+        _, ax = plt.subplots()
 
     if flatten_2d_hist:
         mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
         if signal_hist:
             signal_hist = _flatten_2d_hist(signal_hist)
 
-    fig, ax = plt.subplots()
+    mc_hist_total = sum(mc_hist_list)
 
-    xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
-
-    plot_hist(
-        mc_hist_list,
-        ax=ax,
-        stacked=True,
-        color=mc_colors,
-        label=mc_labels,
-        histtype="stepfilled",
-        edgecolor="black",
-    )
+    if stacked:
+        plot_hist(
+            mc_hist_list,
+            ax=ax,
+            stacked=True,
+            edgecolor="black",
+            histtype="stepfilled",
+            linewidth=0.5,
+            color=mc_colors,
+            label=mc_labels,
+        )
+    else:
+        # Plot the unstacked histograms
+        plot_hist(
+            mc_hist_list,
+            ax=ax,
+            color=mc_colors,
+            label=mc_labels,
+            stacked=False,
+            alpha=0.8,
+            histtype="stepfilled",
+        )
+        # Replot the unstacked histograms, but only the edges
+        plot_hist(
+            mc_hist_list,
+            ax=ax,
+            color=mc_colors,
+            label=None,
+            stacked=False,
+            histtype="step",
+        )
+        # Plot the sum of the unstacked histograms
+        plot_hist(
+            sum(mc_hist_list),
+            ax=ax,
+            color="navy",
+            label="Sum(MC)",
+            histtype="step",
+        )
     if signal_hist is not None:
         plot_hist(
             signal_hist,
@@ -237,11 +207,12 @@ def plot_mc(
             histtype="step",
         )
 
+    xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.tick_params(axis="x", labelbottom="off")
-    ax.legend(framealpha=0.5, ncol=2)
+    ax.legend(framealpha=0.5, ncol=leg_ncol)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")

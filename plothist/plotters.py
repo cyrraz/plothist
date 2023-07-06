@@ -281,31 +281,6 @@ def plot_error_hist(hist, ax, **kwargs):
     )
 
 
-def plot_hist_difference(hist1, hist2, ax, **kwargs):
-    """
-    Plot the difference between two histograms.
-
-    Parameters
-    ----------
-    hist1, hist2 : boost_histogram.Histogram
-        The histograms for which the difference hist1 - hist2 will be plotted.
-    ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    **kwargs
-        Additional keyword arguments forwarded to ax.errorbar().
-    """
-    difference = hist1.values() - hist2.values()
-    difference_uncertainty = np.sqrt(hist1.variances() + hist2.variances())
-    ax.errorbar(
-        x=hist1.axes[0].centers,
-        xerr=None,
-        y=difference,
-        yerr=difference_uncertainty,
-        fmt=".",
-        **kwargs,
-    )
-
-
 def compare_two_hist(
     hist_1,
     hist_2,
@@ -314,44 +289,12 @@ def compare_two_hist(
     x1_label="x1",
     x2_label="x2",
     comparison="ratio",
-    ylim_comparison=None,
-    hist_2_uncertainty=False,
-    scaled_uncertainty=False,
+    comparison_ylim=None,
     save_as=None,
+    **kwargs,
 ):
     """
     Compare two histograms.
-
-    Parameters
-    ----------
-    hist_1, hist_2 : boost_histogram.Histogram
-        The histograms to be compared.
-    xlabel : str, optional
-        The label for the x-axis of the comparison plot.
-    ylabel : str, optional
-        The label for the y-axis of the comparison plot.
-    x1_label, x2_label : str, optional
-        The labels for the two histograms being compared.
-    comparison: str, optional
-        How to compare the two histograms.
-        Available comparisons: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
-    ylim_comparison: list of float, optional
-        Set the ylim of the ax_comparison. If not specified, ylim = [0., 2.] for ratio comparison and [-5., 5.] for pull.
-    hist_2_uncertainty: bool, optional
-        Plot the statistical uncertainty of hist_2 as a hashed area.
-    scaled_uncertainty: bool, optional
-        Scale the uncertainties to the total hist values.
-    save_as : str, optional
-        If provided, the filename to save the figure as.
-
-    Returns
-    -------
-    fig : matplotlib.figure.Figure
-        The generated figure.
-    ax_main : matplotlib.axes.Axes
-        The axes for the histogram comparison plot.
-    ax_comparison : matplotlib.axes.Axes
-        The axes for the comparison plot.
 
     """
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
@@ -369,6 +312,45 @@ def compare_two_hist(
     ax_main.set_ylabel(ylabel)
     ax_main.tick_params(axis="x", labelbottom="off")
     ax_main.legend(framealpha=0.5)
+    _ = ax_main.xaxis.set_ticklabels([])
+    fig.subplots_adjust(hspace=0.125)
+
+    plot_comparison(
+        hist_1,
+        hist_2,
+        ax_comparison,
+        xlabel=xlabel,
+        x1_label=x1_label,
+        x2_label=x2_label,
+        comparison=comparison,
+        comparison_ylim=comparison_ylim,
+        **kwargs,
+    )
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax_main, ax_comparison
+
+
+
+def plot_comparison(
+    hist_1,
+    hist_2,
+    ax,
+    xlabel="x1",
+    x1_label="x1",
+    x2_label="x2",
+    comparison="ratio",
+    comparison_ylim=None,
+    hist_2_uncertainty=False,
+    scaled_uncertainty=False,
+):
+    """
+
+    """
+    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
+        raise ValueError("The bins of the compared histograms must be equal.")
 
     np.seterr(divide="ignore", invalid="ignore")
     if comparison == "ratio":
@@ -424,7 +406,7 @@ def compare_two_hist(
 
     np.seterr(divide="warn", invalid="warn")
 
-    ax_comparison.errorbar(
+    ax.errorbar(
         x=hist_2.axes[0].centers,
         xerr=None,
         y=np.nan_to_num(ratio_values, nan=0),
@@ -434,7 +416,7 @@ def compare_two_hist(
     )
 
     if hist_2_uncertainty:
-        ax_comparison.bar(
+        ax.bar(
             x=hist_2.axes[0].centers,
             bottom=np.nan_to_num(1 - h2_uncertainty, nan=0),
             height=(
@@ -450,31 +432,29 @@ def compare_two_hist(
         )
 
     if comparison == "ratio":
-        ax_comparison.axhline(1, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
-        if ylim_comparison is None:
-            ax_comparison.set_ylim(0.0, 2.0)
+        ax.axhline(1, ls="--", lw=1.0, color="black")
+        ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
+        if comparison_ylim is None:
+            ax.set_ylim(0.0, 2.0)
         else:
-            ax_comparison.set_ylim(ylim_comparison)
+            ax.set_ylim(comparison_ylim)
     elif comparison == "pull":
-        ax_comparison.axhline(0, ls="--", lw=1.0, color="black")
-        ax_comparison.set_ylabel(
-            rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma_{{{x1_label}}} + \sigma_{{{x2_label}}}}} }} $"
+        ax.axhline(0, ls="--", lw=1.0, color="black")
+        ax.set_ylabel(
+            rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
         )
-        if ylim_comparison is None:
-            ax_comparison.set_ylim(-5.0, 5.0)
+        if comparison_ylim is None:
+            ax.set_ylim(-5.0, 5.0)
         else:
-            ax_comparison.set_ylim(ylim_comparison)
-    ax_comparison.set_xlim(xlim)
-    ax_comparison.set_xlabel(xlabel)
+            ax.set_ylim(comparison_ylim)
+    xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
+    ax.set_xlim(xlim)
+    ax.set_xlabel(xlabel)
 
-    _ = ax_main.xaxis.set_ticklabels([])
-    fig.subplots_adjust(hspace=0.125)
+    return ax
 
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
 
-    return fig, ax_main, ax_comparison
+
 
 
 def cubehelix_palette(
