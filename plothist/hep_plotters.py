@@ -37,44 +37,56 @@ def compare_data_mc(
     Parameters
     ----------
     data_hist : boost_histogram.Histogram
-        Histogram of the data.
+        The histogram for the data.
     mc_hist_list : list of boost_histogram.Histogram
-        List of histograms representing the MC simulations.
+        The list of histograms for MC simulations.
     signal_hist : boost_histogram.Histogram, optional
-        Histogram representing the signal MC simulation, by default None.
+        The histogram for the signal. Default is None.
     xlabel : str, optional
-        Label for the x-axis, by default None.
+        The label for the x-axis. Default is None.
     ylabel : str, optional
-        Label for the y-axis, by default None.
+        The label for the y-axis. Default is None.
     mc_labels : list of str, optional
-        List of labels for the MC simulations, by default None.
+        The labels for the MC simulations. Default is None.
     mc_colors : list of str, optional
-        List of colors for the MC simulations, by default None.
-    comparison: str, optional
-        How to compare the two histograms.
-        Available ratios: 'ratio' to compute the difference and 'pull' to compute the pulls between the two histograms
-    comparison_ylim: list of float, optional
-        Set the ylim of the ax_comparison. If not specified, ylim = [0., 2.] for ratio comparison and [-5., 5.] for pull.
-    save_as : str, optional
-        File path to save the figure, by default None.
+        The colors for the MC simulations. Default is None.
+    comparison : str, optional
+        The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
+    comparison_ylim : tuple or None, optional
+        The y-axis limits for the comparison axis. Default is None.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
-        Whether to flatten 2D histograms, by default False.
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
-        Whether to stack the MC histograms, by default True.
+        If True, stack the MC histograms. If False, plot them side by side. Default is True.
+    fig : matplotlib.figure.Figure or None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes or None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes or None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        The generated figure.
+        The Figure object containing the plots.
     ax_main : matplotlib.axes.Axes
-        Axes instance for the comparison plot.
+        The Axes object for the main plot.
     ax_comparison : matplotlib.axes.Axes
-        Axes instance for the comparison plot.
+        The Axes object for the comparison plot.
+
+    See Also
+    --------
+    plot_comparison : Plot the comparison between data and MC simulations.
+
     """
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
-    elif fig is not None or ax_main is not None or ax_comparison is not None:
+    elif (fig is not None or ax_main is not None or ax_comparison is not None) and (
+        fig is None or ax_main is None or ax_comparison is None
+    ):
         raise ValueError(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
         )
@@ -146,7 +158,46 @@ def plot_mc(
     stacked=True,
     leg_ncol=1,
 ):
-    """ """
+    """
+    Plot MC simulations.
+
+    Parameters
+    ----------
+    mc_hist_list : list of boost_histogram.Histogram
+        The list of histograms for MC simulations.
+    signal_hist : boost_histogram.Histogram, optional
+        The histogram for the signal. Default is None.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    mc_labels : list of str, optional
+        The labels for the MC simulations. Default is None.
+    mc_colors : list of str, optional
+        The colors for the MC simulations. Default is None.
+    signal_label : str, optional
+        The label for the signal. Default is "Signal".
+    fig : matplotlib.figure.Figure or None, optional
+        The Figure object to use for the plot. Create a new one if none is provided.
+    ax : matplotlib.axes.Axes or None, optional
+        The Axes object to use for the plot. Create a new one if none is provided.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
+    flatten_2d_hist : bool, optional
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    stacked : bool, optional
+        If True, stack the MC histograms. If False, plot them side by side. Default is True.
+    leg_ncol : int, optional
+        The number of columns for the legend. Default is 1.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object containing the plot.
+    ax : matplotlib.axes.Axes
+        The Axes object containing the plot.
+
+    """
 
     if fig is None and ax is None:
         fig, ax = plt.subplots()

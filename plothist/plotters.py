@@ -18,6 +18,30 @@ def create_comparison_figure(
     gridspec_kw={"height_ratios": [4, 1]},
     hspace=0.125,
 ):
+    """
+    Create a figure with subplots for comparison.
+
+    Parameters
+    ----------
+    figsize : tuple, optional
+        Figure size in inches. Default is (6, 4).
+    nrows : int, optional
+        Number of rows in the subplot grid. Default is 2.
+    ncols : int, optional
+        Number of columns in the subplot grid. Default is 1.
+    gridspec_kw : dict, optional
+        Additional keyword arguments for the GridSpec. Default is {"height_ratios": [4, 1]}.
+    hspace : float, optional
+        Height spacing between subplots. Default is 0.125.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The created figure.
+    axes : ndarray
+        Array of Axes objects representing the subplots.
+
+    """
     fig, axes = plt.subplots(
         nrows=nrows, ncols=ncols, figsize=figsize, gridspec_kw=gridspec_kw
     )
@@ -307,16 +331,68 @@ def compare_two_hist(
     comparison="ratio",
     comparison_ylim=None,
     save_as=None,
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
     **kwargs,
 ):
     """
     Compare two histograms.
 
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram to compare.
+    hist_2 : boost_histogram.Histogram
+        The second histogram to compare.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    x1_label : str, optional
+        The label for the first histogram. Default is "x1".
+    x2_label : str, optional
+        The label for the second histogram. Default is "x2".
+    comparison : str, optional
+        The type of comparison to plot. Default is "ratio".
+    comparison_ylim : tuple or None, optional
+        The y-axis limits for the comparison plot. Default is None.
+    save_as : str or None, optional
+        The path to save the figure. Default is None.
+    fig : matplotlib.figure.Figure or None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes or None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes or None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    **kwargs
+        Additional keyword arguments to be passed to the plot_comparison function.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The created figure.
+    ax_main : matplotlib.axes.Axes
+        The main axes for the histogram comparison.
+    ax_comparison : matplotlib.axes.Axes
+        The axes for the comparison plot.
+
+    See Also
+    --------
+    plot_comparison : Plot the comparison between two histograms.
+
     """
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
-    fig, (ax_main, ax_comparison) = create_comparison_figure()
+    if fig is None and ax_main is None and ax_comparison is None:
+        fig, (ax_main, ax_comparison) = create_comparison_figure()
+    elif (fig is not None or ax_main is not None or ax_comparison is not None) and (
+        fig is None or ax_main is None or ax_comparison is None
+    ):
+        raise ValueError(
+            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+        )
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
 
@@ -359,7 +435,47 @@ def plot_comparison(
     hist_2_uncertainty=False,
     scaled_uncertainty=False,
 ):
-    """ """
+    """
+    Plot the comparison between two histograms.
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram for comparison.
+    hist_2 : boost_histogram.Histogram
+        The second histogram for comparison.
+    ax : matplotlib.axes.Axes
+        The axes to plot the comparison.
+    xlabel : str, optional
+        The label for the x-axis. Default is "x1".
+    x1_label : str, optional
+        The label for the first histogram. Default is "x1".
+    x2_label : str, optional
+        The label for the second histogram. Default is "x2".
+    comparison : str, optional
+        The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
+    comparison_ylim : tuple or None, optional
+        The y-axis limits for the comparison plot. Default is None.
+    hist_2_uncertainty : bool, optional
+        If True, plot the uncertainty of the second histogram. Default is False.
+    scaled_uncertainty : bool, optional
+        If True, scale the uncertainty by the bin contents. Default is False.
+
+    Returns
+    -------
+    ax : matplotlib.axes.Axes
+        The axes with the plotted comparison.
+
+    Raises
+    ------
+    ValueError
+        If the bins of the compared histograms are not equal.
+
+    See Also
+    --------
+    compare_two_hist : Compare two histograms and plot the comparison.
+
+    """
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
