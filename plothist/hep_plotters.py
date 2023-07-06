@@ -133,8 +133,7 @@ def compare_data_mc(
         x2_label="Pred.",
         comparison=comparison,
         comparison_ylim=comparison_ylim,
-        scaled_uncertainty=True,
-        hist_2_uncertainty=True,
+        ratio_uncertainty="split",
     )
 
     if save_as is not None:
