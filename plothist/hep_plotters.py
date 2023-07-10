@@ -54,7 +54,7 @@ def compare_data_mc(
     comparison : str, optional
         The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
     comparison_ylim : tuple or None, optional
-        The y-axis limits for the comparison axis. Default is None.
+        The y-axis limits for the comparison axis. Default is (0, 2) for "ratio" and (-5, 5) for "pull".
     save_as : str or None, optional
         The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
@@ -106,7 +106,6 @@ def compare_data_mc(
         mc_colors=mc_colors,
         fig=fig,
         ax=ax_main,
-        flatten_2d_hist=False,
         stacked=stacked,
     )
 

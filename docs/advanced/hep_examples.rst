@@ -99,6 +99,7 @@ or unstacked histogram:
         ylabel="Entries",
         mc_labels=background_categories_labels,
         mc_colors=background_categories_colors,
+        comparison_ylim=(0.5, 1.5),
         stacked=False # <--
     )
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
