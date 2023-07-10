@@ -11,7 +11,6 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
     from plothist.generate_dummy_data import generate_dummy_data
     df = generate_dummy_data()
 
-Example scripts are available in the repository in the ``examples/`` folder.
 
 Compare data and MC
 ===================
@@ -63,7 +62,6 @@ Then, to create stacked histogram:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
     fig, ax_main, ax_comparison = compare_data_mc(
@@ -92,7 +90,6 @@ or unstacked histogram:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
     fig, ax_main, ax_comparison = compare_data_mc(
@@ -122,7 +119,6 @@ To use pulls instead of the ratio to compare the histograms:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
     fig, ax_main, ax_comparison = compare_data_mc(
@@ -158,7 +154,6 @@ Compare data and stacked histogram for a flatten 2D variable:
 
     from plothist import make_2d_hist, cubehelix_palette
     from plothist import compare_data_mc, add_luminosity
-    import matplotlib.pyplot as plt
 
     # Define the histograms
 
