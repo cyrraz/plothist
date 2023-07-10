@@ -62,7 +62,7 @@ Then, to create stacked histogram:
     import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
-    fig, ax_main, ax_main = compare_data_mc(
+    fig, ax_main, ax_comparison = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
         signal_hist=signal_hist,
@@ -87,7 +87,7 @@ or unstacked histogram:
     import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
-    fig, ax_main, ax_main = compare_data_mc(
+    fig, ax_main, ax_comparison = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
         xlabel=key,
@@ -154,7 +154,7 @@ Compare data and stacked histogram for a flatten 2D variable:
     )
 
     # Compare data and stacked histogram
-    fig, ax_main, ax_main = compare_data_mc(
+    fig, ax_main, ax_comparison = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
         signal_hist=signal_hist,
