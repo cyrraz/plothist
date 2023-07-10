@@ -9,194 +9,49 @@ import boost_histogram as bh
 import matplotlib.pyplot as plt
 import warnings
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from dataclasses import dataclass
-import yaml
-import os
 
 
-def create_variable_registry(variables, path="./variable_registry.yaml", reset=False):
-    # TODO: bins can be a list for 2D uneven binning
-    """Create the variable registry yaml file given a list of variables.
-    It stores all the plotting information for each variable.
-
-    It checks if the variable registry file exists. If not, it creates an empty file at the specified path.
-    It then loads the existing variable registry, or creates an empty registry if it doesn't exist.
-    For each variable in the input list, if the variable is not already in the registry or the reset flag is True,
-    it adds the variable to the registry with default settings.
-    Finally, it writes the updated variable registry back to the file.
-
-    Parameters of one variable in the yaml:
-
-    name : str
-        variable name in data.
-    bins : int
-        Number of bins, default is 50.
-    range: list of two float
-        Range of the variables, default is [min, max] of the data.
-    label : str
-        Label to display, default is variable name. Latex supported by surrounding the label with $label$.
-    log : bool
-        True if plot in logscale, default is False
-    legend_location : str
-        Default is best
-    legend_ncols : int
-        Default set to 1
-    docstring : str
-        Default is empty
-
-    Parameters
-    ----------
-    variables : list
-        A list of variable names to be registered.
-    path : str, optional
-        The path to the variable registry file (default is "./variable_registry.yaml").
-    reset : bool, optional
-        If True, the registry will be reset for all variables (default is False).
-
-
-    """
-
-    if not os.path.exists(path):
-        with open(path, "w") as f:
-            pass
-
-    with open(path, "r") as f:
-        variable_registry = yaml.safe_load(f)
-        if variable_registry is None:
-            variable_registry = {}
-
-        for variable in variables:
-            if variable not in variable_registry.keys() or reset:
-                variable_registry.update(
-                    {
-                        variable: {
-                            "name": variable,
-                            "bins": 50,
-                            "range": ["min", "max"],
-                            "label": variable,
-                            "log": False,
-                            "legend_location": "best",
-                            "legend_ncols": 1,
-                            "docstring": "",
-                        }
-                    }
-                )
-
-    with open(path, "w") as f:
-        for key, value in variable_registry.items():
-            yaml.safe_dump({key: value}, f, sort_keys=False)
-            f.write("\n" * 2)
-
-
-def get_variable_from_registry(variable, path="./variable_registry.yaml"):
-    """
-    This function retrieves the parameter information for a variable from the variable registry file specified by the 'path' parameter.
-    It loads the variable registry file and returns the dictionary entry corresponding to the specified variable name.
-
-    Parameters
-    ----------
-    variable : str
-        The name of the variable for which to retrieve parameter information.
-    path : str, optional
-        The path to the variable registry file (default is "./variable_registry.yaml").
-
-    Returns
-    -------
-    dict
-        A dictionary containing the parameter information for the specified variable.
-
-    See also
-    --------
-    create_variable_registry
-    """
-
-    if not os.path.exists(path):
-        if path == "./variable_registry.yaml":
-            raise RuntimeError("Did you forgot to run create_variable_registry()?")
-
-    with open(path, "r") as f:
-        variable_registry = yaml.safe_load(f)
-        return variable_registry[variable]
-
-
-def update_variable_registry(
-    variable_key, x_min, x_max, path="./variable_registry.yaml"
+def create_comparison_figure(
+    figsize=None,
+    nrows=2,
+    ncols=1,
+    gridspec_kw={"height_ratios": [4, 1]},
+    hspace=0.125,
 ):
-    # TODO: extend updating function
     """
-    Update the range parameter for a variable in the variable registry file.
+    Create a figure with subplots for comparison.
 
     Parameters
     ----------
-    variable_key : str
-        The key identifier of the variable to update in the registry.
-    x_min : float
-        The new minimum value for the range of the variable.
-    x_max : float
-        The new maximum value for the range of the variable.
-    path : str, optional
-        The path to the variable registry file (default is "./variable_registry.yaml").
+    figsize : tuple, optional
+        Figure size in inches. Default is (6, 4).
+    nrows : int, optional
+        Number of rows in the subplot grid. Default is 2.
+    ncols : int, optional
+        Number of columns in the subplot grid. Default is 1.
+    gridspec_kw : dict, optional
+        Additional keyword arguments for the GridSpec. Default is {"height_ratios": [4, 1]}.
+    hspace : float, optional
+        Height spacing between subplots. Default is 0.125.
 
     Returns
     -------
-    None
-
-    See Also
-    --------
-    create_variable_registry
-    """
-    if not os.path.exists(path):
-        if path == "./variable_registry.yaml":
-            raise RuntimeError("Did you forgot to run create_variable_registry()?")
-
-    with open(path, "r") as f:
-        variable_registry = yaml.safe_load(f)
-    variable_registry[variable_key]["range"] = [x_min, x_max]
-
-    with open(path, "w") as f:
-        for key, value in variable_registry.items():
-            yaml.safe_dump({key: value}, f, sort_keys=False)
-            f.write("\n" * 2)
-
-
-def update_variable_registry_ranges(data, variables, path="./variable_registry.yaml"):
-    """
-    Update the range parameters for multiple variables in the variable registry file.
-
-    Parameters
-    ----------
-    data : dict
-        A dictionary containing the data for the variables.
-    variables : list
-        A list of variable keys for which to update the range parameters in the registry.
-    path : str, optional
-        The path to the variable registry file (default is "./variable_registry.yaml").
-
-    Returns
-    -------
-    None
-
-    Raises
-    ------
-    NotImplementedError
-        If non-regular binning is encountered in the registry.
-
-    See Also
-    --------
-    get_variable_from_registry, update_variable_registry, create_axis
+    fig : matplotlib.figure.Figure
+        The created figure.
+    axes : ndarray
+        Array of Axes objects representing the subplots.
 
     """
-    for variable_key in variables:
-        variable = get_variable_from_registry(variable_key, path=path)
-        axis = create_axis(data[variable_key], variable["bins"], variable["range"])
-        if isinstance(axis, bh.axis.Regular):
-            update_variable_registry(
-                variable_key, float(axis.edges[0]), float(axis.edges[-1]), path=path
-            )
-        else:
-            raise NotImplemented(
-                f"Only regular binning allowed in registry. {type(axis)}"
-            )
+    if figsize is None:
+        figsize = plt.rcParams["figure.figsize"]
+
+    fig, axes = plt.subplots(
+        nrows=nrows, ncols=ncols, figsize=figsize, gridspec_kw=gridspec_kw
+    )
+    if nrows > 1:
+        fig.subplots_adjust(hspace=hspace)
+
+    return fig, axes
 
 
 def create_axis(data, bins, range):
@@ -469,107 +324,240 @@ def plot_error_hist(hist, ax, **kwargs):
     )
 
 
-def plot_hist_difference(hist1, hist2, ax, **kwargs):
-    """
-    Plot the difference between two histograms.
-
-    Parameters
-    ----------
-    hist1, hist2 : boost_histogram.Histogram
-        The histograms for which the difference hist1 - hist2 will be plotted.
-    ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    **kwargs
-        Additional keyword arguments forwarded to ax.errorbar().
-    """
-    difference = hist1.values() - hist2.values()
-    difference_uncertainty = np.sqrt(hist1.variances() + hist2.variances())
-    ax.errorbar(
-        x=hist1.axes[0].centers,
-        xerr=None,
-        y=difference,
-        yerr=difference_uncertainty,
-        fmt=".",
-        **kwargs,
-    )
-
-
 def compare_two_hist(
-    hist_1, hist_2, xlabel=None, ylabel=None, x1_label="x1", x2_label="x2", save_as=None
+    hist_1,
+    hist_2,
+    xlabel=None,
+    ylabel=None,
+    x1_label="x1",
+    x2_label="x2",
+    comparison="ratio",
+    comparison_ylim=None,
+    ratio_uncertainty="uncorrelated",
+    save_as=None,
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
 ):
     """
     Compare two histograms.
 
     Parameters
     ----------
-    hist_1, hist_2 : boost_histogram.Histogram
-        The histograms to be compared.
+    hist_1 : boost_histogram.Histogram
+        The first histogram to compare.
+    hist_2 : boost_histogram.Histogram
+        The second histogram to compare.
     xlabel : str, optional
-        The label for the x-axis of the comparison plot.
+        The label for the x-axis. Default is None.
     ylabel : str, optional
-        The label for the y-axis of the comparison plot.
-    x1_label, x2_label : str, optional
-        The labels for the two histograms being compared.
-    save_as : str, optional
-        If provided, the filename to save the figure as.
+        The label for the y-axis. Default is None.
+    x1_label : str, optional
+        The label for the first histogram. Default is "x1".
+    x2_label : str, optional
+        The label for the second histogram. Default is "x2".
+    comparison : str, optional
+        The type of comparison to plot. Default is "ratio".
+    comparison_ylim : tuple or None, optional
+        The y-axis limits for the comparison plot. Default is None.
+    save_as : str or None, optional
+        The path to save the figure. Default is None.
+    fig : matplotlib.figure.Figure or None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes or None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes or None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ratio_uncertainty : str, optional
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). Default is "uncorrelated"
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        The generated figure.
+        The created figure.
+    ax_main : matplotlib.axes.Axes
+        The main axes for the histogram comparison.
     ax_comparison : matplotlib.axes.Axes
-        The axes for the histogram comparison plot.
-    ax_ratio : matplotlib.axes.Axes
-        The axes for the ratio plot.
+        The axes for the comparison plot.
+
+    See Also
+    --------
+    plot_comparison : Plot the comparison between two histograms.
+
+    """
+    if fig is None and ax_main is None and ax_comparison is None:
+        fig, (ax_main, ax_comparison) = create_comparison_figure()
+    elif fig is None or ax_main is None or ax_comparison is None:
+        raise ValueError(
+            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+        )
+
+    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
+        raise ValueError("The bins of the compared histograms must be equal.")
+
+    xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
+
+    plot_hist(hist_1, ax=ax_main, label=x1_label, histtype="step")
+    plot_hist(hist_2, ax=ax_main, label=x2_label, histtype="step")
+    ax_main.set_xlim(xlim)
+    ax_main.set_ylabel(ylabel)
+    ax_main.tick_params(axis="x", labelbottom="off")
+    ax_main.legend()
+    _ = ax_main.xaxis.set_ticklabels([])
+
+    plot_comparison(
+        hist_1,
+        hist_2,
+        ax_comparison,
+        xlabel=xlabel,
+        x1_label=x1_label,
+        x2_label=x2_label,
+        comparison=comparison,
+        comparison_ylim=comparison_ylim,
+        ratio_uncertainty=ratio_uncertainty,
+    )
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax_main, ax_comparison
+
+
+def plot_comparison(
+    hist_1,
+    hist_2,
+    ax,
+    xlabel="x1",
+    x1_label="x1",
+    x2_label="x2",
+    comparison="ratio",
+    comparison_ylim=None,
+    ratio_uncertainty="uncorrelated",
+):
+    """
+    Plot the comparison between two histograms.
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram for comparison.
+    hist_2 : boost_histogram.Histogram
+        The second histogram for comparison.
+    ax : matplotlib.axes.Axes
+        The axes to plot the comparison.
+    xlabel : str, optional
+        The label for the x-axis. Default is "x1".
+    x1_label : str, optional
+        The label for the first histogram. Default is "x1".
+    x2_label : str, optional
+        The label for the second histogram. Default is "x2".
+    comparison : str, optional
+        The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
+    comparison_ylim : tuple or None, optional
+        The y-axis limits for the comparison plot. Default is None.
+    ratio_uncertainty : str, optional
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ration". Default is "uncorrelated".
+
+    Returns
+    -------
+    ax : matplotlib.axes.Axes
+        The axes with the plotted comparison.
+
+    See Also
+    --------
+    compare_two_hist : Compare two histograms and plot the comparison.
 
     """
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
-    fig, (ax_comparison, ax_ratio) = plt.subplots(
-        2, gridspec_kw={"height_ratios": [4, 1]}
-    )
-
-    xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
-
-    plot_hist(hist_1, ax=ax_comparison, label=x1_label, histtype="step")
-    plot_hist(hist_2, ax=ax_comparison, label=x2_label, histtype="step")
-    ax_comparison.set_xlim(xlim)
-    ax_comparison.set_ylabel(ylabel)
-    ax_comparison.tick_params(axis="x", labelbottom="off")
-    ax_comparison.legend(framealpha=0.5)
-
     np.seterr(divide="ignore", invalid="ignore")
-    ratio = np.where(hist_1.values() != 0, hist_2.values() / hist_1.values(), np.nan)
-    ratio_variance = np.where(
-        hist_1.values() != 0,
-        hist_2.variances() / hist_1.values() ** 2
-        + hist_1.variances() * hist_2.values() ** 2 / hist_1.values() ** 4,
-        np.nan,
-    )
+    if comparison == "ratio":
+        comparison_values = np.where(
+            hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
+        )
+        if ratio_uncertainty == "split":
+            h1_scaled_uncertainty = np.where(
+                hist_2.values() != 0,
+                np.sqrt(hist_1.variances()) / hist_2.values(),
+                np.nan,
+            )
+        elif ratio_uncertainty == "uncorrelated":
+            ratio_variance = np.where(
+                hist_2.values() != 0,
+                hist_1.variances() / hist_2.values() ** 2
+                + hist_2.variances() * hist_1.values() ** 2 / hist_2.values() ** 4,
+                np.nan,
+            )
+        else:
+            raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
+        if ratio_uncertainty == "split":
+            h2_scaled_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
+
+    elif comparison == "pull":
+        comparison_values = np.where(
+            hist_2.values() != 0,
+            (hist_1.values() - hist_2.values())
+            / np.sqrt(hist_1.variances() + hist_2.variances()),
+            np.nan,
+        )
+        ratio_variance = np.where(
+            hist_1.values() != 0,
+            1,
+            np.nan,
+        )
+    else:
+        raise ValueError(
+            f"{comparison} not available as a comparison (use ratio or pull)."
+        )
+
     np.seterr(divide="warn", invalid="warn")
 
-    ax_ratio.errorbar(
-        x=hist_1.axes[0].centers,
+    ax.errorbar(
+        x=hist_2.axes[0].centers,
         xerr=None,
-        y=np.nan_to_num(ratio, nan=0),
-        yerr=np.nan_to_num(np.sqrt(ratio_variance), nan=0),
+        y=comparison_values,
+        yerr=np.sqrt(ratio_variance)
+        if (ratio_uncertainty == "uncorrelated" or comparison == "pull")
+        else h1_scaled_uncertainty,
         fmt=".",
-        color="dimgrey",
+        color="black",
     )
 
-    ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
-    ax_ratio.set_ylim(0.0, 1.5)
-    ax_ratio.set_xlim(xlim)
-    ax_ratio.set_xlabel(xlabel)
-    ax_ratio.set_ylabel(r"$\frac{" + x2_label + "}{" + x1_label + "}$")
+    if comparison == "ratio":
+        if comparison_ylim is None:
+            comparison_ylim = (0.0, 2.0)
 
-    _ = ax_comparison.xaxis.set_ticklabels([])
+        if ratio_uncertainty == "split":
+            ax.bar(
+                x=hist_2.axes[0].centers,
+                bottom=np.nan_to_num(1 - h2_scaled_uncertainty, nan=comparison_ylim[0]),
+                height=np.nan_to_num(
+                    2 * h2_scaled_uncertainty, nan=2 * comparison_ylim[-1]
+                ),
+                width=hist_2.axes[0].widths,
+                edgecolor="dimgrey",
+                hatch="////",
+                fill=False,
+                lw=0,
+            )
+        ax.axhline(1, ls="--", lw=1.0, color="black")
+        ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
 
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
+    elif comparison == "pull":
+        if comparison_ylim is None:
+            comparison_ylim = (-5.0, 5.0)
+        ax.axhline(0, ls="--", lw=1.0, color="black")
+        ax.set_ylabel(
+            rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
+        )
 
-    return fig, ax_comparison, ax_ratio
+    xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
+    ax.set_xlim(xlim)
+    ax.set_ylim(comparison_ylim)
+    ax.set_xlabel(xlabel)
+
+    return ax
 
 
 def cubehelix_palette(

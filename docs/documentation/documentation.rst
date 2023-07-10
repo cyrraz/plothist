@@ -11,6 +11,12 @@ plotters.py
 .. automodule:: plothist.plotters
    :members:
 
+variable_registry.py
+-----------
+
+.. automodule:: plothist.variable_registry
+   :members:
+
 hep_examples.py
 ---------------
 

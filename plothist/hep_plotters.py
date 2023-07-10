@@ -4,9 +4,14 @@ Collection of functions to plot histograms in the context of High Energy Physics
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from plothist.plotters import plot_hist
-from plothist.plotters import plot_error_hist
-from plothist.plotters import _flatten_2d_hist
+from plothist.plotters import (
+    plot_hist,
+    plot_error_hist,
+    _flatten_2d_hist,
+    compare_two_hist,
+    plot_comparison,
+    create_comparison_figure,
+)
 
 
 def compare_data_mc(
@@ -17,9 +22,15 @@ def compare_data_mc(
     ylabel=None,
     mc_labels=None,
     mc_colors=None,
+    comparison="ratio",
+    comparison_ylim=None,
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
+    ratio_uncertainty="split",
 ):
     """
     Compare data to MC simulations.
@@ -27,105 +38,80 @@ def compare_data_mc(
     Parameters
     ----------
     data_hist : boost_histogram.Histogram
-        Histogram of the data.
+        The histogram for the data.
     mc_hist_list : list of boost_histogram.Histogram
-        List of histograms representing the MC simulations.
+        The list of histograms for MC simulations.
     signal_hist : boost_histogram.Histogram, optional
-        Histogram representing the signal MC simulation, by default None.
+        The histogram for the signal. Default is None.
     xlabel : str, optional
-        Label for the x-axis, by default None.
+        The label for the x-axis. Default is None.
     ylabel : str, optional
-        Label for the y-axis, by default None.
+        The label for the y-axis. Default is None.
     mc_labels : list of str, optional
-        List of labels for the MC simulations, by default None.
+        The labels for the MC simulations. Default is None.
     mc_colors : list of str, optional
-        List of colors for the MC simulations, by default None.
-    save_as : str, optional
-        File path to save the figure, by default None.
+        The colors for the MC simulations. Default is None.
+    comparison : str, optional
+        The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
+    comparison_ylim : tuple or None, optional
+        The y-axis limits for the comparison axis. Default is None.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
-        Whether to flatten 2D histograms, by default False.
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
-        Whether to stack the MC histograms, by default True.
+        If True, stack the MC histograms. If False, plot them side by side. Default is True.
+    fig : matplotlib.figure.Figure or None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes or None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes or None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ratio_uncertainty : str, optional
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). Default is "split".
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        The generated figure.
+        The Figure object containing the plots.
+    ax_main : matplotlib.axes.Axes
+        The Axes object for the main plot.
     ax_comparison : matplotlib.axes.Axes
-        Axes instance for the comparison plot.
-    ax_ratio : matplotlib.axes.Axes
-        Axes instance for the ratio plot.
-    """
-    if flatten_2d_hist:
-        data_hist = _flatten_2d_hist(data_hist)
-        mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
-        if signal_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
+        The Axes object for the comparison plot.
 
-    fig, (ax_comparison, ax_ratio) = plt.subplots(
-        2, gridspec_kw={"height_ratios": [4, 1]}
+    See Also
+    --------
+    plot_comparison : Plot the comparison between data and MC simulations.
+
+    """
+
+    if fig is None and ax_main is None and ax_comparison is None:
+        fig, (ax_main, ax_comparison) = create_comparison_figure()
+    elif fig is None or ax_main is None or ax_comparison is None:
+        raise ValueError(
+            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+        )
+
+    plot_mc(
+        mc_hist_list,
+        signal_hist=signal_hist,
+        ylabel=ylabel,
+        mc_labels=mc_labels,
+        mc_colors=mc_colors,
+        fig=fig,
+        ax=ax_main,
+        flatten_2d_hist=flatten_2d_hist,
+        stacked=stacked,
     )
 
-    xlim = (data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1])
-    if stacked:
-        plot_hist(
-            mc_hist_list,
-            ax=ax_comparison,
-            stacked=True,
-            edgecolor="black",
-            histtype="stepfilled",
-            linewidth=0.5,
-            color=mc_colors,
-            label=mc_labels,
-        )
-    else:
-        # Plot the unstacked histograms
-        plot_hist(
-            mc_hist_list,
-            ax=ax_comparison,
-            color=mc_colors,
-            label=mc_labels,
-            stacked=False,
-            alpha=0.8,
-            histtype="stepfilled",
-        )
-        # Replot the unstacked histograms, but only the edges
-        plot_hist(
-            mc_hist_list,
-            ax=ax_comparison,
-            color=mc_colors,
-            label=None,
-            stacked=False,
-            histtype="step",
-        )
-        # Plot the sum of the unstacked histograms
-        plot_hist(
-            sum(mc_hist_list),
-            ax=ax_comparison,
-            color="navy",
-            label="Sum(MC)",
-            histtype="step",
-        )
-    if signal_hist is not None:
-        plot_hist(
-            signal_hist,
-            ax=ax_comparison,
-            stacked=False,
-            color="red",
-            label="Signal",
-            histtype="step",
-        )
-    plot_error_hist(data_hist, ax=ax_comparison, color="black", label="Data")
+    plot_error_hist(data_hist, ax=ax_main, color="black", label="Data")
 
-    ax_comparison.set_xlim(xlim)
-    ax_comparison.set_ylabel(ylabel)
-    ax_comparison.tick_params(axis="x", labelbottom="off")
-
-    mc_hist_total = sum(mc_hist_list)
+    _ = ax_main.xaxis.set_ticklabels([])
 
     # Plot MC statistical uncertainty
+    mc_hist_total = sum(mc_hist_list)
     mc_uncertainty = np.sqrt(mc_hist_total.variances())
-    ax_comparison.bar(
+    ax_main.bar(
         x=mc_hist_total.axes[0].centers,
         bottom=mc_hist_total.values() - mc_uncertainty,
         height=2 * mc_uncertainty,
@@ -137,56 +123,24 @@ def compare_data_mc(
         label="Stat. unc.",
     )
 
-    ax_comparison.legend(framealpha=0.5)
+    ax_main.legend()
 
-    # Ignore divide-by-zero warning
-    np.seterr(divide="ignore", invalid="ignore")
-    # Compute data/MC ratio
-    ratio = np.where(
-        mc_hist_total.values() != 0, data_hist.values() / mc_hist_total.values(), np.nan
+    plot_comparison(
+        data_hist,
+        mc_hist_total,
+        ax=ax_comparison,
+        xlabel=xlabel,
+        x1_label="Data",
+        x2_label="Pred.",
+        comparison=comparison,
+        comparison_ylim=comparison_ylim,
+        ratio_uncertainty=ratio_uncertainty,
     )
-    # Compute scaled uncertainties
-    scaled_data_uncertainty = np.sqrt(data_hist.variances()) / data_hist.values()
-    scaled_mc_uncertainty = np.sqrt(mc_hist_total.variances()) / mc_hist_total.values()
-    # Turn on divide-by-zero warning
-    np.seterr(divide="warn", invalid="warn")
-
-    # Plot the ratio with the (scaled) statistical uncertainty of data
-    ax_ratio.errorbar(
-        x=mc_hist_total.axes[0].centers,
-        xerr=0,
-        y=np.nan_to_num(ratio, nan=0),
-        yerr=np.nan_to_num(scaled_data_uncertainty, nan=0),
-        fmt=".",
-        color="black",
-    )
-
-    # Plot the (scaled) statistical uncertainty of simulation as a hashed area
-    ax_ratio.bar(
-        x=mc_hist_total.axes[0].centers,
-        bottom=np.nan_to_num(1 - scaled_mc_uncertainty, nan=0),
-        height=np.nan_to_num(2 * scaled_mc_uncertainty, nan=100),
-        width=mc_hist_total.axes[0].widths,
-        edgecolor="dimgrey",
-        hatch="////",
-        fill=False,
-        lw=0,
-    )
-
-    ax_ratio.axhline(1, ls="--", lw=1.0, color="black")
-    ax_ratio.set_ylim(0.0, 2.0)
-    ax_ratio.set_xlim(xlim)
-    ax_ratio.set_xlabel(xlabel)
-    # ax_ratio.set_ylabel(r"$\frac{Data}{Simulation}$")
-    ax_ratio.set_ylabel(r"$\frac{Data}{Pred.}$")
-
-    _ = ax_comparison.xaxis.set_ticklabels([])
-    fig.subplots_adjust(hspace=0.125)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
 
-    return fig, ax_comparison, ax_ratio
+    return fig, ax_main, ax_comparison
 
 
 def plot_mc(
@@ -197,59 +151,105 @@ def plot_mc(
     mc_labels=None,
     mc_colors=None,
     signal_label="Signal",
+    fig=None,
+    ax=None,
     save_as=None,
     flatten_2d_hist=False,
+    stacked=True,
+    leg_ncol=1,
 ):
     """
-    Plot Monte Carlo (MC) simulations.
+    Plot MC simulation histograms.
 
     Parameters
     ----------
     mc_hist_list : list of boost_histogram.Histogram
-        List of histograms representing the MC simulations.
+        The list of histograms for MC simulations.
     signal_hist : boost_histogram.Histogram, optional
-        Histogram representing the signal MC simulation, by default None.
+        The histogram for the signal. Default is None.
     xlabel : str, optional
-        Label for the x-axis, by default None.
+        The label for the x-axis. Default is None.
     ylabel : str, optional
-        Label for the y-axis, by default None.
+        The label for the y-axis. Default is None.
     mc_labels : list of str, optional
-        List of labels for the MC simulations, by default None.
+        The labels for the MC simulations. Default is None.
     mc_colors : list of str, optional
-        List of colors for the MC simulations, by default None.
+        The colors for the MC simulations. Default is None.
     signal_label : str, optional
-        Label for the signal histogram, by default "Signal".
-    save_as : str, optional
-        File path to save the figure, by default None.
+        The label for the signal. Default is "Signal".
+    fig : matplotlib.figure.Figure or None, optional
+        The Figure object to use for the plot. Create a new one if none is provided.
+    ax : matplotlib.axes.Axes or None, optional
+        The Axes object to use for the plot. Create a new one if none is provided.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
-        Whether to flatten 2D histograms, by default False.
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    stacked : bool, optional
+        If True, stack the MC histograms. If False, plot them side by side. Default is True.
+    leg_ncol : int, optional
+        The number of columns for the legend. Default is 1.
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        The generated figure.
+        The Figure object containing the plot.
     ax : matplotlib.axes.Axes
-        Axes instance for the plot.
+        The Axes object containing the plot.
+
     """
+
+    if fig is None and ax is None:
+        fig, ax = plt.subplots()
+    elif fig is None or ax is None:
+        raise ValueError("Need to provid both fig and ax (or None).")
 
     if flatten_2d_hist:
         mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
         if signal_hist:
             signal_hist = _flatten_2d_hist(signal_hist)
 
-    fig, ax = plt.subplots()
+    mc_hist_total = sum(mc_hist_list)
 
-    xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
-
-    plot_hist(
-        mc_hist_list,
-        ax=ax,
-        stacked=True,
-        color=mc_colors,
-        label=mc_labels,
-        histtype="stepfilled",
-        edgecolor="black",
-    )
+    if stacked:
+        plot_hist(
+            mc_hist_list,
+            ax=ax,
+            stacked=True,
+            edgecolor="black",
+            histtype="stepfilled",
+            linewidth=0.5,
+            color=mc_colors,
+            label=mc_labels,
+        )
+    else:
+        # Plot the unstacked histograms
+        plot_hist(
+            mc_hist_list,
+            ax=ax,
+            color=mc_colors,
+            label=mc_labels,
+            stacked=False,
+            alpha=0.8,
+            histtype="stepfilled",
+        )
+        # Replot the unstacked histograms, but only the edges
+        plot_hist(
+            mc_hist_list,
+            ax=ax,
+            color=mc_colors,
+            label=None,
+            stacked=False,
+            histtype="step",
+        )
+        # Plot the sum of the unstacked histograms
+        plot_hist(
+            mc_hist_total,
+            ax=ax,
+            color="navy",
+            label="Sum(MC)",
+            histtype="step",
+        )
     if signal_hist is not None:
         plot_hist(
             signal_hist,
@@ -260,11 +260,12 @@ def plot_mc(
             histtype="step",
         )
 
+    xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.tick_params(axis="x", labelbottom="off")
-    ax.legend(framealpha=0.5, ncol=2)
+    ax.legend(ncol=leg_ncol)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -301,7 +302,7 @@ def add_luminosity(
         Font size, by default 12.
     is_data : bool, optional
         If True, plot integrated luminosity. If False, plot "Simulation", by default True.
-    lumi : int, optional
+    lumi : int/string, optional
         Integrated luminosity. Default value is 362. If empty, do not plot luminosity.
     lumi_unit : string, optional
         Integrated luminosity unit. Default value is fb. The exponent is automatically -1.

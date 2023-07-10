@@ -1,19 +1,23 @@
 """Plot histograms in a scalable way and a beautiful style."""
-__version__ = "0.2"
+__version__ = "0.3"
 
 from .plotters import (
-    create_variable_registry,
-    get_variable_from_registry,
-    update_variable_registry_ranges,
+    create_comparison_figure,
     create_axis,
     make_hist,
     make_2d_hist,
     plot_hist,
     plot_2d_hist,
     plot_error_hist,
-    plot_hist_difference,
     compare_two_hist,
+    plot_comparison,
     cubehelix_palette,
+)
+
+from .variable_registry import (
+    create_variable_registry,
+    get_variable_from_registry,
+    update_variable_registry_ranges,
 )
 
 from .hep_plotters import compare_data_mc, plot_mc, add_luminosity
@@ -25,14 +29,15 @@ __all__ = [
     "create_variable_registry",
     "get_variable_from_registry",
     "update_variable_registry_ranges",
+    "create_comparison_figure",
     "create_axis",
     "make_hist",
     "make_2d_hist",
     "plot_hist",
     "plot_2d_hist",
     "plot_error_hist",
-    "plot_hist_difference",
     "compare_two_hist",
+    "plot_comparison",
     "cubehelix_palette",
     "compare_data_mc",
     "plot_mc",
