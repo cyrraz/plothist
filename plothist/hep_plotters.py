@@ -107,6 +107,7 @@ def compare_data_mc(
         fig=fig,
         ax=ax_main,
         stacked=stacked,
+        flatten_2d_hist=False,  # Already done
     )
 
     plot_error_hist(data_hist, ax=ax_main, color="black", label="Data")
