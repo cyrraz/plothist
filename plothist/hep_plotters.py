@@ -30,6 +30,7 @@ def compare_data_mc(
     fig=None,
     ax_main=None,
     ax_comparison=None,
+    ratio_uncertainty="split",
 ):
     """
     Compare data to MC simulations.
@@ -66,6 +67,8 @@ def compare_data_mc(
         The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ratio_uncertainty : str, optional
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). Default is "split".
 
     Returns
     -------
@@ -84,9 +87,7 @@ def compare_data_mc(
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
-    elif (fig is not None or ax_main is not None or ax_comparison is not None) and (
-        fig is None or ax_main is None or ax_comparison is None
-    ):
+    elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
         )
@@ -122,7 +123,7 @@ def compare_data_mc(
         label="Stat. unc.",
     )
 
-    ax_main.legend(framealpha=0.5)
+    ax_main.legend()
 
     plot_comparison(
         data_hist,
@@ -133,7 +134,7 @@ def compare_data_mc(
         x2_label="Pred.",
         comparison=comparison,
         comparison_ylim=comparison_ylim,
-        ratio_uncertainty="split",
+        ratio_uncertainty=ratio_uncertainty,
     )
 
     if save_as is not None:
@@ -158,7 +159,7 @@ def plot_mc(
     leg_ncol=1,
 ):
     """
-    Plot MC simulations.
+    Plot MC simulation histograms.
 
     Parameters
     ----------
@@ -200,7 +201,7 @@ def plot_mc(
 
     if fig is None and ax is None:
         fig, ax = plt.subplots()
-    elif (fig is None and ax) or (fig and ax is None):
+    elif fig is None or ax is None:
         raise ValueError("Need to provid both fig and ax (or None).")
 
     if flatten_2d_hist:
@@ -243,7 +244,7 @@ def plot_mc(
         )
         # Plot the sum of the unstacked histograms
         plot_hist(
-            sum(mc_hist_list),
+            mc_hist_total,
             ax=ax,
             color="navy",
             label="Sum(MC)",
@@ -264,7 +265,7 @@ def plot_mc(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.tick_params(axis="x", labelbottom="off")
-    ax.legend(framealpha=0.5, ncol=leg_ncol)
+    ax.legend(ncol=leg_ncol)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")

@@ -9,7 +9,6 @@ from plothist.plotters import create_axis
 
 
 def create_variable_registry(variables, path="./variable_registry.yaml", reset=False):
-    # TODO: bins can be a list for 2D uneven binning
     """Create the variable registry yaml file given a list of variables.
     It stores all the plotting information for each variable.
 
@@ -116,6 +115,7 @@ def get_variable_from_registry(variable, path="./variable_registry.yaml"):
 def update_variable_registry(
     variable_key, x_min, x_max, path="./variable_registry.yaml"
 ):
+    # TODO: bins could be a list for 2D uneven binning
     # TODO: extend updating function
     """
     Update the range parameter for a variable in the variable registry file.

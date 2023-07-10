@@ -12,7 +12,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 def create_comparison_figure(
-    figsize=(6, 4),
+    figsize=None,
     nrows=2,
     ncols=1,
     gridspec_kw={"height_ratios": [4, 1]},
@@ -42,6 +42,9 @@ def create_comparison_figure(
         Array of Axes objects representing the subplots.
 
     """
+    if figsize is None:
+        figsize = plt.rcParams["figure.figsize"]
+
     fig, axes = plt.subplots(
         nrows=nrows, ncols=ncols, figsize=figsize, gridspec_kw=gridspec_kw
     )
@@ -365,8 +368,8 @@ def compare_two_hist(
         The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    **kwargs
-        Additional keyword arguments to be passed to the plot_comparison function.
+    ratio_uncertainty : str, optional
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). Default is "uncorrelated"
 
     Returns
     -------
@@ -382,17 +385,15 @@ def compare_two_hist(
     plot_comparison : Plot the comparison between two histograms.
 
     """
-    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
-        raise ValueError("The bins of the compared histograms must be equal.")
-
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
-    elif (fig is not None or ax_main is not None or ax_comparison is not None) and (
-        fig is None or ax_main is None or ax_comparison is None
-    ):
+    elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
         )
+
+    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
+        raise ValueError("The bins of the compared histograms must be equal.")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
 
@@ -401,9 +402,8 @@ def compare_two_hist(
     ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
     ax_main.tick_params(axis="x", labelbottom="off")
-    ax_main.legend(framealpha=0.5)
+    ax_main.legend()
     _ = ax_main.xaxis.set_ticklabels([])
-    fig.subplots_adjust(hspace=0.125)
 
     plot_comparison(
         hist_1,
@@ -456,7 +456,7 @@ def plot_comparison(
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None.
     ratio_uncertainty : str, optional
-        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties)
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ration". Default is "uncorrelated".
 
     Returns
     -------
@@ -473,16 +473,15 @@ def plot_comparison(
 
     np.seterr(divide="ignore", invalid="ignore")
     if comparison == "ratio":
-        ratio_values = np.where(
+        comparison_values = np.where(
             hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
         )
         if ratio_uncertainty == "split":
-            ratio_variance = np.where(
+            h1_scaled_uncertainty = np.where(
                 hist_2.values() != 0,
-                (np.sqrt(hist_1.variances()) / hist_2.values()) ** 2,
+                np.sqrt(hist_1.variances()) / hist_2.values(),
                 np.nan,
             )
-            print(ratio_variance, "\n", np.sqrt(hist_1.variances()),"\n",  hist_2.values())
         elif ratio_uncertainty == "uncorrelated":
             ratio_variance = np.where(
                 hist_2.values() != 0,
@@ -493,10 +492,10 @@ def plot_comparison(
         else:
             raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
         if ratio_uncertainty == "split":
-            h2_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
+            h2_scaled_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
 
     elif comparison == "pull":
-        ratio_values = np.where(
+        comparison_values = np.where(
             hist_2.values() != 0,
             (hist_1.values() - hist_2.values())
             / np.sqrt(hist_1.variances() + hist_2.variances()),
@@ -517,18 +516,26 @@ def plot_comparison(
     ax.errorbar(
         x=hist_2.axes[0].centers,
         xerr=None,
-        y=np.nan_to_num(ratio_values, nan=0),
-        yerr=np.nan_to_num(np.sqrt(ratio_variance), nan=0),
+        y=np.nan_to_num(comparison_values, nan=0),
+        yerr=np.nan_to_num(np.sqrt(ratio_variance), nan=0)
+        if (ratio_uncertainty == "uncorrelated" or comparison == "pull")
+        else np.nan_to_num(h1_scaled_uncertainty, nan=0),
         fmt=".",
         color="black",
     )
 
     if comparison == "ratio":
+        if comparison_ylim is None:
+            comparison_ylim = (0.0, 2.0)
+        ax.set_ylim(comparison_ylim)
+
         if ratio_uncertainty == "split":
             ax.bar(
                 x=hist_2.axes[0].centers,
-                bottom=np.nan_to_num(1 - h2_uncertainty, nan=0),
-                height=np.nan_to_num(2 * h2_uncertainty, nan=100),
+                bottom=np.nan_to_num(1 - h2_scaled_uncertainty, nan=0),
+                height=np.nan_to_num(
+                    2 * h2_scaled_uncertainty, nan=comparison_ylim[-1]
+                ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
                 hatch="////",
@@ -537,10 +544,6 @@ def plot_comparison(
             )
         ax.axhline(1, ls="--", lw=1.0, color="black")
         ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
-        if comparison_ylim is None:
-            ax.set_ylim(0.0, 2.0)
-        else:
-            ax.set_ylim(comparison_ylim)
 
     elif comparison == "pull":
         ax.axhline(0, ls="--", lw=1.0, color="black")
@@ -548,9 +551,8 @@ def plot_comparison(
             rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
         )
         if comparison_ylim is None:
-            ax.set_ylim(-5.0, 5.0)
-        else:
-            ax.set_ylim(comparison_ylim)
+            comparison_ylim = (-5.0, 5.0)
+        ax.set_ylim(comparison_ylim)
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
