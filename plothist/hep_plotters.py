@@ -92,6 +92,12 @@ def compare_data_mc(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
         )
 
+    if flatten_2d_hist:
+        mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
+        data_hist = _flatten_2d_hist(data_hist)
+        if signal_hist:
+            signal_hist = _flatten_2d_hist(signal_hist)
+
     plot_mc(
         mc_hist_list,
         signal_hist=signal_hist,
@@ -100,7 +106,7 @@ def compare_data_mc(
         mc_colors=mc_colors,
         fig=fig,
         ax=ax_main,
-        flatten_2d_hist=flatten_2d_hist,
+        flatten_2d_hist=False,
         stacked=stacked,
     )
 

@@ -11,10 +11,13 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
     from plothist.generate_dummy_data import generate_dummy_data
     df = generate_dummy_data()
 
-Example scripts are available in the repository in the ``examples/`` folder.
 
 Compare data and MC
 ===================
+
+
+Stacked histograms
+------------------
 
 To make simple data/MC comparison with different MC categories:
 
@@ -59,7 +62,6 @@ Then, to create stacked histogram:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
     fig, ax_main, ax_comparison = compare_data_mc(
@@ -80,11 +82,14 @@ Then, to create stacked histogram:
    :alt: Data/MC comparison, stacked plot
    :width: 500
 
+
+Unstacked histograms
+--------------------
+
 or unstacked histogram:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
     fig, ax_main, ax_comparison = compare_data_mc(
@@ -106,6 +111,37 @@ or unstacked histogram:
    :width: 500
 
 
+Pull comparison
+---------------
+
+To use pulls instead of the ratio to compare the histograms:
+
+
+.. code-block:: python
+
+    from plothist import compare_data_mc, add_luminosity
+
+    fig, ax_main, ax_comparison = compare_data_mc(
+        data_hist=data_hist,
+        mc_hist_list=background_hists,
+        xlabel=key,
+        ylabel="Entries",
+        mc_labels=background_categories_labels,
+        mc_colors=background_categories_colors,
+        stacked=True,
+        comparison="pull"
+    )
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi="(1 + 0.74)", lumi_unit="ab")
+
+    fig.savefig("hep_examples_dataMC_pull.svg", bbox_inches='tight')
+
+
+.. image:: ../img/hep_examples_dataMC_pull.svg
+   :alt: Data/MC comparison with pull, stacked plot
+   :width: 500
+
+
+
 Advanced
 ========
 
@@ -118,7 +154,6 @@ Compare data and stacked histogram for a flatten 2D variable:
 
     from plothist import make_2d_hist, cubehelix_palette
     from plothist import compare_data_mc, add_luminosity
-    import matplotlib.pyplot as plt
 
     # Define the histograms
 
