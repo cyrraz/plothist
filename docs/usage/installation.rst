@@ -1,8 +1,8 @@
 .. _installation-label:
 
-============
-Installation
-============
+=======================
+Installation and update
+=======================
 
 
 Using PyPI (stable version)
@@ -37,6 +37,7 @@ Using PyPI (stable version)
 
    The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the :ref:`basics-1d_hist-label`.
 
+To update ``plothist`` to its latest stable version, follow the instructions above, adding the argument ``--upgrade`` right after ``pip3 install``.
 
 
 Using Flit (development version)
@@ -74,4 +75,4 @@ Using Flit (development version)
 
         python3 -m flit install --symlink
 
-To update the ``plothist`` library, go to the library repository, and run ``git pull``.
+To update ``plothist`` to its latest development version, go to the package folder and run ``git pull``.
