@@ -140,7 +140,7 @@ To use pulls instead of the ratio to compare the histograms:
     fig.savefig("hep_examples_dataMC_pull.svg", bbox_inches='tight')
 
 
-.. image:: ../img/hep_examples_dataMC_unstacked.svg
+.. image:: ../img/hep_examples_dataMC_pull.svg
    :alt: Data/MC comparison with pull, stacked plot
    :width: 500
 
