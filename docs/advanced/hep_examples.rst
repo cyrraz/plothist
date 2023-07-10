@@ -62,7 +62,7 @@ Then, to create stacked histogram:
     import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
-    fig, ax_comparison, ax_ratio = compare_data_mc(
+    fig, ax_main, ax_main = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
         signal_hist=signal_hist,
@@ -71,7 +71,7 @@ Then, to create stacked histogram:
         mc_labels=background_categories_labels,
         mc_colors=background_categories_colors
     )
-    add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=200, preliminary=True)
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi=200, preliminary=True)
 
     fig.savefig("hep_examples_dataMC_stacked.svg", bbox_inches='tight')
 
@@ -87,7 +87,7 @@ or unstacked histogram:
     import matplotlib.pyplot as plt
     from plothist import compare_data_mc, add_luminosity
 
-    fig, ax_comparison, ax_ratio = compare_data_mc(
+    fig, ax_main, ax_main = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
         xlabel=key,
@@ -96,7 +96,7 @@ or unstacked histogram:
         mc_colors=background_categories_colors,
         stacked=False # <--
     )
-    add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=50, lumi_unit="zb")
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
     fig.savefig("hep_examples_dataMC_unstacked.svg", bbox_inches='tight')
 
@@ -154,7 +154,7 @@ Compare data and stacked histogram for a flatten 2D variable:
     )
 
     # Compare data and stacked histogram
-    fig, ax_comparison, ax_ratio = compare_data_mc(
+    fig, ax_main, ax_main = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
         signal_hist=signal_hist,
@@ -166,8 +166,8 @@ Compare data and stacked histogram for a flatten 2D variable:
         flatten_2d_hist=True, # <--
     )
 
-    add_luminosity(collaboration="Beast III", ax=ax_comparison, lumi=50, lumi_unit="zb")
-    ax_comparison.legend(ncol=3, fontsize=10)
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
+    ax_main.legend(ncol=3, fontsize=10)
 
     fig.savefig("hep_examples_dataMC_flatten2D.svg", bbox_inches='tight')
 

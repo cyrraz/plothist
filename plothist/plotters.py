@@ -516,10 +516,10 @@ def plot_comparison(
     ax.errorbar(
         x=hist_2.axes[0].centers,
         xerr=None,
-        y=np.nan_to_num(comparison_values, nan=0),
-        yerr=np.nan_to_num(np.sqrt(ratio_variance), nan=0)
+        y=comparison_values,
+        yerr=np.sqrt(ratio_variance)
         if (ratio_uncertainty == "uncorrelated" or comparison == "pull")
-        else np.nan_to_num(h1_scaled_uncertainty, nan=0),
+        else h1_scaled_uncertainty,
         fmt=".",
         color="black",
     )
@@ -527,14 +527,13 @@ def plot_comparison(
     if comparison == "ratio":
         if comparison_ylim is None:
             comparison_ylim = (0.0, 2.0)
-        ax.set_ylim(comparison_ylim)
 
         if ratio_uncertainty == "split":
             ax.bar(
                 x=hist_2.axes[0].centers,
-                bottom=np.nan_to_num(1 - h2_scaled_uncertainty, nan=0),
+                bottom=np.nan_to_num(1 - h2_scaled_uncertainty, nan=comparison_ylim[0]),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainty, nan=comparison_ylim[-1]
+                    2 * h2_scaled_uncertainty, nan=2 * comparison_ylim[-1]
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
@@ -546,16 +545,16 @@ def plot_comparison(
         ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
 
     elif comparison == "pull":
+        if comparison_ylim is None:
+            comparison_ylim = (-5.0, 5.0)
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(
             rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
         )
-        if comparison_ylim is None:
-            comparison_ylim = (-5.0, 5.0)
-        ax.set_ylim(comparison_ylim)
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
+    ax.set_ylim(comparison_ylim)
     ax.set_xlabel(xlabel)
 
     return ax
