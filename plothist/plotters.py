@@ -476,8 +476,13 @@ def plot_comparison(
         ratio_values = np.where(
             hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
         )
-        if ratio_uncertainty == "split" :
-            ratio_variance = (np.sqrt(hist_1.variances()) / hist_1.values()) ** 2
+        if ratio_uncertainty == "split":
+            ratio_variance = np.where(
+                hist_2.values() != 0,
+                (np.sqrt(hist_1.variances()) / hist_2.values()) ** 2,
+                np.nan,
+            )
+            print(ratio_variance, "\n", np.sqrt(hist_1.variances()),"\n",  hist_2.values())
         elif ratio_uncertainty == "uncorrelated":
             ratio_variance = np.where(
                 hist_2.values() != 0,
@@ -487,7 +492,7 @@ def plot_comparison(
             )
         else:
             raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
-        if ratio_uncertainty == "split" :
+        if ratio_uncertainty == "split":
             h2_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
 
     elif comparison == "pull":
