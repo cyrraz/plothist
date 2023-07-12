@@ -5,15 +5,15 @@ import matplotlib.pyplot as plt
 from importlib.resources import path as resources_path
 
 
-def set_style(style="presentation"):
+def set_style(style="default"):
     """
     Set the matplotlib style.
 
     Parameters
     ----------
     style : str, optional
-        Switch between different styles. Default is 'presentation'.
-        Available styles: ['presentation', 'publication']
+        Switch between different styles. Default is 'default'.
+        Available styles: ['default', 'small']
 
     Returns
     -------
@@ -26,9 +26,9 @@ def set_style(style="presentation"):
 
     Notes
     -----
-    - The 'presentation' style is set by default when using plothist.
+    - The default plothist style is tuned to be presentation and publication ready.
     """
-    available_styles = ["presentation", "publication"]
+    available_styles = ["default", "small"]
 
     if style in available_styles:
         with resources_path("plothist", f"{style}_style.mplstyle") as style_file:

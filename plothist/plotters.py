@@ -16,7 +16,7 @@ def create_comparison_figure(
     nrows=2,
     ncols=1,
     gridspec_kw={"height_ratios": [4, 1]},
-    hspace=0.125,
+    hspace=0.15,
 ):
     """
     Create a figure with subplots for comparison.
@@ -293,6 +293,8 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
     colorbar_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
     """
+    if "edgecolors" not in pcolormesh_kwargs.keys():
+        pcolormesh_kwargs["edgecolors"]="face"
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", size="5%", pad=0.05)

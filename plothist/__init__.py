@@ -52,5 +52,5 @@ __all__ = [
 import matplotlib.pyplot as plt
 from importlib.resources import path as resources_path
 
-with resources_path("plothist", "presentation_style.mplstyle") as style_file:
+with resources_path("plothist", "default_style.mplstyle") as style_file:
     plt.style.use(style_file.as_posix())
