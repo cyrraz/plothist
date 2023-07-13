@@ -209,8 +209,8 @@ To compare two histograms, using the histograms defined above:
         h3,
         xlabel=name,
         ylabel="Entries",
-        x1_label="c2",
-        x2_label="c3",
+        h1_label="c2",
+        h2_label="c3",
         save_as="1d_comparison.svg",
     )
 

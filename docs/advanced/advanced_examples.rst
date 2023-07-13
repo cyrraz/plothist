@@ -7,39 +7,39 @@ Advanced examples
 Setting style
 =============
 
-``import plothist`` automatically sets the matplotlib style to a presentation-ready style, with large and readable axis labels and legend.
+``import plothist`` automatically sets the matplotlib style to a presentation and publication ready style, with large and readable axis labels and legend.
 
-To have a publication-ready plotting style, you can use:
+To have a small plotting style, you can use:
 
 .. code-block:: python
 
     from plothist import set_style
-    set_style("publication")
+    set_style("small")
 
 You can also set both styles in the same script:
 
 .. code-block:: python
 
     from plothist import set_style
-    set_style("publication")
+    set_style("small")
     fig, ax = ...
 
-    set_style("presentation")
+    set_style("default")
     fig, ax = ...
 
 For the first hep example in :ref:`advanced-hep_examples-label`:
 
-Presentation style:
+Default style:
 
 .. image:: ../img/hep_examples_dataMC_stacked.svg
-   :alt: Presentation style
+   :alt: Default style
    :width: 500
 
 
-Publication style:
+Small style:
 
-.. image:: ../img/hep_examples_dataMC_stacked_publication.svg
-   :alt: Publication style
+.. image:: ../img/hep_examples_dataMC_stacked_small.svg
+   :alt: Small style
    :width: 500
 
 
@@ -52,9 +52,9 @@ We provide the ``cubehelix_palette()`` (see `here <https://plothist.readthedocs.
 
 .. code-block:: python
 
-   from plothist import cubehelix_palette
+    from plothist import cubehelix_palette
 
-   palette = cubehelix_palette(11)
+    palette = cubehelix_palette(11)
 
 .. image:: ../img/adv_cubehelix.svg
    :alt: Presentation style

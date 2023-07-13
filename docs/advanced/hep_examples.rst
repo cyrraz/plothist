@@ -29,7 +29,7 @@ To make simple data/MC comparison with different MC categories:
     # Define the histograms
 
     key = "variable_1"
-    range = [-10, 10]
+    range = [-10, 11]
     category = "category"
 
     # Define masks

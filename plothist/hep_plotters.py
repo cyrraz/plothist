@@ -22,15 +22,13 @@ def compare_data_mc(
     ylabel=None,
     mc_labels=None,
     mc_colors=None,
-    comparison="ratio",
-    comparison_ylim=None,
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
     fig=None,
     ax_main=None,
     ax_comparison=None,
-    ratio_uncertainty="split",
+    **comparison_kwargs,
 ):
     """
     Compare data to MC simulations.
@@ -51,10 +49,6 @@ def compare_data_mc(
         The labels for the MC simulations. Default is None.
     mc_colors : list of str, optional
         The colors for the MC simulations. Default is None.
-    comparison : str, optional
-        The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
-    comparison_ylim : tuple or None, optional
-        The y-axis limits for the comparison axis. Default is None. In case no range is provided, (0, 2) is used for "ratio" and (-5, 5) for "pull".
     save_as : str or None, optional
         The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
@@ -67,8 +61,8 @@ def compare_data_mc(
         The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    ratio_uncertainty : str, optional
-        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). Default is "split".
+    **comparison_kwargs : optional
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
 
     Returns
     -------
@@ -131,16 +125,21 @@ def compare_data_mc(
 
     ax_main.legend()
 
+    # Update the default comparison settings
+    default_comparison_kwargs = {
+        "h1_label": "Data",
+        "h2_label": "Pred.",
+        "comparison": "ratio",
+        "ratio_uncertainty": "split",
+    }
+    default_comparison_kwargs.update(comparison_kwargs)
+
     plot_comparison(
         data_hist,
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
-        x1_label="Data",
-        x2_label="Pred.",
-        comparison=comparison,
-        comparison_ylim=comparison_ylim,
-        ratio_uncertainty=ratio_uncertainty,
+        **default_comparison_kwargs,
     )
 
     if save_as is not None:
