@@ -63,7 +63,6 @@ Then, to create stacked histogram:
 .. code-block:: python
 
     from plothist import compare_data_mc, add_luminosity
-    from plothist import set_style
 
     fig, ax_main, ax_comparison = compare_data_mc(
         data_hist=data_hist,
