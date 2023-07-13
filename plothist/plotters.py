@@ -537,26 +537,22 @@ def plot_comparison(
                 lw=0,
             )
         ax.axhline(1, ls="--", lw=1.0, color="black")
-        if comparison_ylabel is None:
-            ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
-        else:
-            ax.set_ylabel(comparison_ylabel)
+        ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
 
     elif comparison == "pull":
         if comparison_ylim is None:
             comparison_ylim = (-5.0, 5.0)
         ax.axhline(0, ls="--", lw=1.0, color="black")
-        if comparison_ylabel is None:
-            ax.set_ylabel(
-                rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
-            )
-        else:
-            ax.set_ylabel(comparison_ylabel)
+        ax.set_ylabel(
+            rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
+        )
+
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_ylim(comparison_ylim)
     ax.set_xlabel(xlabel)
+    if comparison_ylabel is not None: ax.set_ylabel(comparison_ylabel)
 
     return ax
 
