@@ -365,7 +365,7 @@ def compare_two_hist(
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details)
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details).
 
     Returns
     -------
@@ -421,7 +421,7 @@ def plot_comparison(
     hist_1,
     hist_2,
     ax,
-    xlabel="h1",
+    xlabel="x1",
     h1_label="h1",
     h2_label="h2",
     comparison="ratio",
@@ -441,7 +441,7 @@ def plot_comparison(
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
     xlabel : str, optional
-        The label for the x-axis. Default is "h1".
+        The label for the x-axis. Default is "x1".
     h1_label : str, optional
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
@@ -549,12 +549,12 @@ def plot_comparison(
             rf"$\frac{{ {h1_label} - {h2_label} }}{{ \sqrt{{\sigma^2_{{{h1_label}}} + \sigma^2_{{{h2_label}}}}} }} $"
         )
 
-
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_ylim(comparison_ylim)
     ax.set_xlabel(xlabel)
-    if comparison_ylabel is not None: ax.set_ylabel(comparison_ylabel)
+    if comparison_ylabel is not None:
+        ax.set_ylabel(comparison_ylabel)
 
     return ax
 
