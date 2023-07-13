@@ -331,8 +331,8 @@ def compare_two_hist(
     hist_2,
     xlabel=None,
     ylabel=None,
-    x1_label="x1",
-    x2_label="x2",
+    h1_label="h1",
+    h2_label="h2",
     save_as=None,
     fig=None,
     ax_main=None,
@@ -352,10 +352,10 @@ def compare_two_hist(
         The label for the x-axis. Default is None.
     ylabel : str, optional
         The label for the y-axis. Default is None.
-    x1_label : str, optional
-        The label for the first histogram. Default is "x1".
-    x2_label : str, optional
-        The label for the second histogram. Default is "x2".
+    h1_label : str, optional
+        The label for the first histogram. Default is "h1".
+    h2_label : str, optional
+        The label for the second histogram. Default is "h2".
     save_as : str or None, optional
         The path to save the figure. Default is None.
     fig : matplotlib.figure.Figure or None, optional
@@ -393,8 +393,8 @@ def compare_two_hist(
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
 
-    plot_hist(hist_1, ax=ax_main, label=x1_label, histtype="step")
-    plot_hist(hist_2, ax=ax_main, label=x2_label, histtype="step")
+    plot_hist(hist_1, ax=ax_main, label=h1_label, histtype="step")
+    plot_hist(hist_2, ax=ax_main, label=h2_label, histtype="step")
     ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
     ax_main.tick_params(axis="x", labelbottom="off")
@@ -406,6 +406,8 @@ def compare_two_hist(
         hist_2,
         ax_comparison,
         xlabel=xlabel,
+        h1_label=h1_label,
+        h2_label=h2_label,
         **comparison_kwargs,
     )
 
@@ -419,9 +421,9 @@ def plot_comparison(
     hist_1,
     hist_2,
     ax,
-    xlabel="x1",
-    x1_label="x1",
-    x2_label="x2",
+    xlabel="h1",
+    h1_label="h1",
+    h2_label="h2",
     comparison="ratio",
     comparison_ylabel=None,
     comparison_ylim=None,
@@ -439,15 +441,15 @@ def plot_comparison(
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
     xlabel : str, optional
-        The label for the x-axis. Default is "x1".
-    x1_label : str, optional
-        The label for the first histogram. Default is "x1".
-    x2_label : str, optional
-        The label for the second histogram. Default is "x2".
+        The label for the x-axis. Default is "h1".
+    h1_label : str, optional
+        The label for the first histogram. Default is "h1".
+    h2_label : str, optional
+        The label for the second histogram. Default is "h2".
     comparison : str, optional
         The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
     comparison_ylabel : str, optional
-        The label for the y-axis. Default is x1_label/x2_label if comparison="ratio", and the pull formula used if "pull" .
+        The label for the y-axis. Default is h1_label/h2_label if comparison="ratio", and the pull formula used if "pull" .
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None.
     ratio_uncertainty : str, optional
@@ -537,14 +539,14 @@ def plot_comparison(
                 lw=0,
             )
         ax.axhline(1, ls="--", lw=1.0, color="black")
-        ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
+        ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
     elif comparison == "pull":
         if comparison_ylim is None:
             comparison_ylim = (-5.0, 5.0)
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(
-            rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
+            rf"$\frac{{ {h1_label} - {h2_label} }}{{ \sqrt{{\sigma^2_{{{h1_label}}} + \sigma^2_{{{h2_label}}}}} }} $"
         )
 
 
