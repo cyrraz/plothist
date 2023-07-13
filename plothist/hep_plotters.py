@@ -62,7 +62,7 @@ def compare_data_mc(
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison(). By default, x1_label="Data", x2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
+        Arguments to be passed to plot_comparison(). By default for compare_data_mc(), x1_label="Data", x2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
 
     Returns
     -------
@@ -126,10 +126,12 @@ def compare_data_mc(
     ax_main.legend()
 
     # Update the default comparison settings
-    default_comparison_kwargs = {"x1_label":"Data",
-                                 "x2_label":"Pred.",
-                                 "comparison":"ratio",
-                                 "ratio_uncertainty":"split"}
+    default_comparison_kwargs = {
+        "x1_label": "Data",
+        "x2_label": "Pred.",
+        "comparison": "ratio",
+        "ratio_uncertainty": "split",
+    }
     default_comparison_kwargs.update(comparison_kwargs)
 
     plot_comparison(

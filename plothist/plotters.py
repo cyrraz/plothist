@@ -294,7 +294,7 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
     """
     if "edgecolors" not in pcolormesh_kwargs.keys():
-        pcolormesh_kwargs["edgecolors"]="face"
+        pcolormesh_kwargs["edgecolors"] = "face"
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", size="5%", pad=0.05)
@@ -333,13 +333,11 @@ def compare_two_hist(
     ylabel=None,
     x1_label="x1",
     x2_label="x2",
-    comparison="ratio",
-    comparison_ylim=None,
-    ratio_uncertainty="uncorrelated",
     save_as=None,
     fig=None,
     ax_main=None,
     ax_comparison=None,
+    **comparison_kwargs,
 ):
     """
     Compare two histograms.
@@ -358,10 +356,6 @@ def compare_two_hist(
         The label for the first histogram. Default is "x1".
     x2_label : str, optional
         The label for the second histogram. Default is "x2".
-    comparison : str, optional
-        The type of comparison to plot. Default is "ratio".
-    comparison_ylim : tuple or None, optional
-        The y-axis limits for the comparison plot. Default is None.
     save_as : str or None, optional
         The path to save the figure. Default is None.
     fig : matplotlib.figure.Figure or None, optional
@@ -370,8 +364,8 @@ def compare_two_hist(
         The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    ratio_uncertainty : str, optional
-        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). Default is "uncorrelated"
+    **comparison_kwargs : optional
+        Arguments to be passed to plot_comparison().
 
     Returns
     -------
@@ -412,11 +406,7 @@ def compare_two_hist(
         hist_2,
         ax_comparison,
         xlabel=xlabel,
-        x1_label=x1_label,
-        x2_label=x2_label,
-        comparison=comparison,
-        comparison_ylim=comparison_ylim,
-        ratio_uncertainty=ratio_uncertainty,
+        **comparison_kwargs,
     )
 
     if save_as is not None:
