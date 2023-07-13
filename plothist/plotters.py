@@ -433,6 +433,7 @@ def plot_comparison(
     x1_label="x1",
     x2_label="x2",
     comparison="ratio",
+    comparison_ylabel=None,
     comparison_ylim=None,
     ratio_uncertainty="uncorrelated",
 ):
@@ -455,6 +456,8 @@ def plot_comparison(
         The label for the second histogram. Default is "x2".
     comparison : str, optional
         The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
+    comparison_ylabel : str, optional
+        The label for the y-axis. Default is x1_label/x2_label if comparison="ratio", and the pull formula used if "pull" .
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None.
     ratio_uncertainty : str, optional
@@ -544,15 +547,21 @@ def plot_comparison(
                 lw=0,
             )
         ax.axhline(1, ls="--", lw=1.0, color="black")
-        ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
+        if comparison_ylabel is None:
+            ax.set_ylabel(r"$\frac{" + x1_label + "}{" + x2_label + "}$")
+        else:
+            ax.set_ylabel(comparison_ylabel)
 
     elif comparison == "pull":
         if comparison_ylim is None:
             comparison_ylim = (-5.0, 5.0)
         ax.axhline(0, ls="--", lw=1.0, color="black")
-        ax.set_ylabel(
-            rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
-        )
+        if comparison_ylabel is None:
+            ax.set_ylabel(
+                rf"$\frac{{ {x1_label} - {x2_label} }}{{ \sqrt{{\sigma^2_{{{x1_label}}} + \sigma^2_{{{x2_label}}}}} }} $"
+            )
+        else:
+            ax.set_ylabel(comparison_ylabel)
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)

@@ -10,7 +10,7 @@ text.color          : .1
 font.size           : 15
 xtick.labelsize     : 15
 ytick.labelsize     : 15
-axes.labelsize      : 17.5
+axes.labelsize      : 17
 legend.fontsize     : 12
 
 axes.labelcolor     : .1

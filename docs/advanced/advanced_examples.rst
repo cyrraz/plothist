@@ -52,9 +52,9 @@ We provide the ``cubehelix_palette()`` (see `here <https://plothist.readthedocs.
 
 .. code-block:: python
 
-   from plothist import cubehelix_palette
+    from plothist import cubehelix_palette
 
-   palette = cubehelix_palette(11)
+    palette = cubehelix_palette(11)
 
 .. image:: ../img/adv_cubehelix.svg
    :alt: Presentation style

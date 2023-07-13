@@ -64,7 +64,7 @@ Then, to create stacked histogram:
 
     from plothist import compare_data_mc, add_luminosity
     from plothist import set_style
-    set_style("small")
+
     fig, ax_main, ax_comparison = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
@@ -76,7 +76,7 @@ Then, to create stacked histogram:
     )
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=200, preliminary=True)
 
-    fig.savefig("hep_examples_dataMC_stacked_small.svg", bbox_inches='tight')
+    fig.savefig("hep_examples_dataMC_stacked.svg", bbox_inches='tight')
 
 
 .. image:: ../img/hep_examples_dataMC_stacked.svg
