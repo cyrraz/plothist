@@ -365,7 +365,7 @@ def compare_two_hist(
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison().
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details)
 
     Returns
     -------
