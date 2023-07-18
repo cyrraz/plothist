@@ -2,6 +2,7 @@
 Collection of functions to plot histograms in the context of High Energy Physics
 """
 import numpy as np
+import scipy.stats as stats
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from plothist.plotters import (
@@ -78,6 +79,11 @@ def compare_data_mc(
     plot_comparison : Plot the comparison between data and MC simulations.
 
     """
+    comparison_kwargs.setdefault("h1_label", "Data")
+    comparison_kwargs.setdefault("h2_label", "Pred.")
+    comparison_kwargs.setdefault("comparison", "ratio")
+    comparison_kwargs.setdefault("ratio_uncertainty", "split")
+
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -92,6 +98,8 @@ def compare_data_mc(
         if signal_hist:
             signal_hist = _flatten_2d_hist(signal_hist)
 
+    mc_hist_total = sum(mc_hist_list)
+
     plot_mc(
         mc_hist_list,
         signal_hist=signal_hist,
@@ -104,12 +112,27 @@ def compare_data_mc(
         flatten_2d_hist=False,  # Already done
     )
 
-    plot_error_hist(data_hist, ax=ax_main, color="black", label="Data")
+    uncertainties_low, uncertainties_high = _get_poisson_uncertainties(data_hist)
+
+    if comparison_kwargs["comparison"] == "pull":
+        data_variances = np.where(
+            data_hist.values() >= mc_hist_total.values(),
+            uncertainties_low**2,
+            uncertainties_high**2,
+        )
+        data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
+
+    plot_error_hist(
+        data_hist,
+        ax=ax_main,
+        yerr=[uncertainties_low, uncertainties_high],
+        color="black",
+        label="Data",
+    )
 
     _ = ax_main.xaxis.set_ticklabels([])
 
     # Plot MC statistical uncertainty
-    mc_hist_total = sum(mc_hist_list)
     mc_uncertainty = np.sqrt(mc_hist_total.variances())
     ax_main.bar(
         x=mc_hist_total.axes[0].centers,
@@ -125,11 +148,6 @@ def compare_data_mc(
 
     ax_main.legend()
 
-    comparison_kwargs.setdefault("h1_label", "Data")
-    comparison_kwargs.setdefault("h2_label", "Pred.")
-    comparison_kwargs.setdefault("comparison", "ratio")
-    comparison_kwargs.setdefault("ratio_uncertainty", "split")
-
     plot_comparison(
         data_hist,
         mc_hist_total,
@@ -142,6 +160,15 @@ def compare_data_mc(
         fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax_main, ax_comparison
+
+
+def _get_poisson_uncertainties(data_hist):
+    conf_level = 0.682689492
+    alpha = 1.0 - conf_level
+    n = data_hist.values()
+    uncertainties_low = n - stats.gamma.ppf(alpha / 2, n, scale=1)
+    uncertainties_high = stats.gamma.ppf(1 - alpha / 2, n + 1, scale=1) - n
+    return uncertainties_low, uncertainties_high
 
 
 def plot_mc(

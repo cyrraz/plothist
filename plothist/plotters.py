@@ -265,7 +265,7 @@ def plot_hist(hist, ax, **kwargs):
         ax.hist(
             x=hist.axes[0].centers,
             bins=hist.axes[0].edges,
-            weights=hist.values(),
+            weights=np.nan_to_num(hist.values(), 0),
             **kwargs,
         )
     else:
@@ -273,7 +273,7 @@ def plot_hist(hist, ax, **kwargs):
         ax.hist(
             x=[h.axes[0].centers for h in hist],
             bins=hist[0].axes[0].edges,
-            weights=[h.values() for h in hist],
+            weights=[np.nan_to_num(h.values(), 0) for h in hist],
             **kwargs,
         )
 
@@ -516,9 +516,7 @@ def plot_comparison(
     )
 
     hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
-    hist_comparison[:] = np.stack(
-        [np.nan_to_num(comparison_values, 0), comparison_variances], axis=-1
-    )
+    hist_comparison[:] = np.stack([comparison_values, comparison_variances], axis=-1)
 
     if comparison == "pull":
         plot_hist(hist_comparison, ax=ax, histtype="stepfilled", color="darkgrey")
