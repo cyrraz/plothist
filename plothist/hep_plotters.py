@@ -125,21 +125,17 @@ def compare_data_mc(
 
     ax_main.legend()
 
-    # Update the default comparison settings
-    default_comparison_kwargs = {
-        "h1_label": "Data",
-        "h2_label": "Pred.",
-        "comparison": "ratio",
-        "ratio_uncertainty": "split",
-    }
-    default_comparison_kwargs.update(comparison_kwargs)
+    comparison_kwargs.setdefault("h1_label", "Data")
+    comparison_kwargs.setdefault("h2_label", "Pred.")
+    comparison_kwargs.setdefault("comparison", "ratio")
+    comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
     plot_comparison(
         data_hist,
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
-        **default_comparison_kwargs,
+        **comparison_kwargs,
     )
 
     if save_as is not None:

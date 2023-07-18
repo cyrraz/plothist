@@ -303,7 +303,6 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
 
 
 def plot_error_hist(hist, ax, **kwargs):
-    # TODO: Allow the user to provide xerr, yerr, fmt themselves.
     """
     Create an errorbar plot from a boost histogram.
 
@@ -316,12 +315,12 @@ def plot_error_hist(hist, ax, **kwargs):
     **kwargs
         Additional keyword arguments forwarded to ax.errorbar().
     """
+    kwargs.setdefault("yerr", np.sqrt(hist.variances()))
+    kwargs.setdefault("fmt", ".")
+
     ax.errorbar(
         x=hist.axes[0].centers,
-        xerr=None,
         y=hist.values(),
-        yerr=np.sqrt(hist.variances()),
-        fmt=".",
         **kwargs,
     )
 
@@ -453,7 +452,7 @@ def plot_comparison(
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None.
     ratio_uncertainty : str, optional
-        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ration". Default is "uncorrelated".
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio". Default is "uncorrelated".
 
     Returns
     -------
@@ -474,13 +473,13 @@ def plot_comparison(
             hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
         )
         if ratio_uncertainty == "split":
-            h1_scaled_uncertainty = np.where(
+            h1_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
                 np.sqrt(hist_1.variances()) / hist_2.values(),
                 np.nan,
             )
         elif ratio_uncertainty == "uncorrelated":
-            ratio_variance = np.where(
+            ratio_variances = np.where(
                 hist_2.values() != 0,
                 hist_1.variances() / hist_2.values() ** 2
                 + hist_2.variances() * hist_1.values() ** 2 / hist_2.values() ** 4,
@@ -498,7 +497,7 @@ def plot_comparison(
             / np.sqrt(hist_1.variances() + hist_2.variances()),
             np.nan,
         )
-        ratio_variance = np.where(
+        ratio_variances = np.where(
             hist_1.values() != 0,
             1,
             np.nan,
@@ -510,16 +509,21 @@ def plot_comparison(
 
     np.seterr(divide="warn", invalid="warn")
 
-    ax.errorbar(
-        x=hist_2.axes[0].centers,
-        xerr=None,
-        y=comparison_values,
-        yerr=np.sqrt(ratio_variance)
+    comparison_variances = (
+        ratio_variances
         if (ratio_uncertainty == "uncorrelated" or comparison == "pull")
-        else h1_scaled_uncertainty,
-        fmt=".",
-        color="black",
+        else h1_scaled_uncertainties ** 2
     )
+
+    hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+    hist_comparison[:] = np.stack(
+        [np.nan_to_num(comparison_values, 0), comparison_variances], axis=-1
+    )
+
+    if comparison == "pull":
+        plot_hist(hist_comparison, ax=ax, histtype="stepfilled", color="darkgrey")
+    else:
+        plot_error_hist(hist_comparison, ax=ax, color="black")
 
     if comparison == "ratio":
         if comparison_ylim is None:
