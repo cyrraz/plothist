@@ -517,37 +517,25 @@ def plot_comparison(
                 np.sqrt(hist_1.variances()) / hist_2.values(),
                 np.nan,
             )
+            h2_scaled_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
+            comparison_variances = h1_scaled_uncertainties**2
         elif ratio_uncertainty == "uncorrelated":
-            ratio_variances = _hist_ratio_variances(hist_1, hist_2)
+            comparison_variances = _hist_ratio_variances(hist_1, hist_2)
         else:
             raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
-        if ratio_uncertainty == "split":
-            h2_scaled_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
-
     elif comparison == "pull":
         comparison_values = np.where(
-            hist_2.values() != 0,
+            hist_1.variances() + hist_2.variances() != 0,
             (hist_1.values() - hist_2.values())
             / np.sqrt(hist_1.variances() + hist_2.variances()),
             np.nan,
         )
-        ratio_variances = np.where(
-            hist_1.values() != 0,
-            1,
-            np.nan,
-        )
+        comparison_variances = np.ones_like(comparison_values)
     else:
         raise ValueError(
             f"{comparison} not available as a comparison (use ratio or pull)."
         )
-
     np.seterr(divide="warn", invalid="warn")
-
-    comparison_variances = (
-        ratio_variances
-        if (ratio_uncertainty == "uncorrelated" or comparison == "pull")
-        else h1_scaled_uncertainties**2
-    )
 
     hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
     hist_comparison[:] = np.stack([comparison_values, comparison_variances], axis=-1)
