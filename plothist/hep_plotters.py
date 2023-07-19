@@ -112,7 +112,14 @@ def compare_data_mc(
         flatten_2d_hist=False,  # Already done
     )
 
-    uncertainties_low, uncertainties_high = _get_poisson_uncertainties(data_hist)
+    # Compute data uncertainties
+    if np.allclose(data_hist.variances(), data_hist.values()):
+        # If the variances are equal to the bin contents (i.e. un-weighted data), use the Poisson confidence intervals as uncertainties
+        uncertainties_low, uncertainties_high = _get_poisson_uncertainties(data_hist)
+    else:
+        # Otherwise, use the Gaussian uncertainties
+        uncertainties_low = np.sqrt(data_hist.variances())
+        uncertainties_high = uncertainties_low
 
     if comparison_kwargs["comparison"] == "pull":
         data_variances = np.where(
@@ -194,12 +201,25 @@ def compare_data_mc(
 def _get_poisson_uncertainties(data_hist):
     """
     Get Poisson asymmetrical uncertainties for a histogram.
+
+    Parameters
+    ----------
+    data_hist : boost_histogram.Histogram
+        The histogram.
+
+    Returns
+    -------
+    uncertainties_low : numpy.ndarray
+        The lower uncertainties.
+    uncertainties_high : numpy.ndarray
+        The upper uncertainties.
     """
     conf_level = 0.682689492
     alpha = 1.0 - conf_level
     n = data_hist.values()
     uncertainties_low = n - stats.gamma.ppf(alpha / 2, n, scale=1)
     uncertainties_high = stats.gamma.ppf(1 - alpha / 2, n + 1, scale=1) - n
+
     return uncertainties_low, uncertainties_high
 
 
