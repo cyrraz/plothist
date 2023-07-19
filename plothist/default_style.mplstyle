@@ -54,7 +54,7 @@ ytick.major.size    : 6
 xtick.minor.size    : 3
 ytick.minor.size    : 3
 
-xtick.major.pad     : 5.
+xtick.major.pad     : 7.
 ytick.major.pad     : 5.
 axes.axisbelow      : False
 image.cmap          : viridis
