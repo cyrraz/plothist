@@ -1,5 +1,5 @@
 """Plot histograms in a scalable way and a beautiful style."""
-__version__ = "0.5.2"
+__version__ = "0.5.3"
 
 from .plotters import (
     create_comparison_figure,
