@@ -265,7 +265,7 @@ def plot_hist(hist, ax, **kwargs):
         ax.hist(
             x=hist.axes[0].centers,
             bins=hist.axes[0].edges,
-            weights=hist.values(),
+            weights=np.nan_to_num(hist.values(), 0),
             **kwargs,
         )
     else:
@@ -273,7 +273,7 @@ def plot_hist(hist, ax, **kwargs):
         ax.hist(
             x=[h.axes[0].centers for h in hist],
             bins=hist[0].axes[0].edges,
-            weights=[h.values() for h in hist],
+            weights=[np.nan_to_num(h.values(), 0) for h in hist],
             **kwargs,
         )
 
@@ -303,7 +303,6 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
 
 
 def plot_error_hist(hist, ax, **kwargs):
-    # TODO: Allow the user to provide xerr, yerr, fmt themselves.
     """
     Create an errorbar plot from a boost histogram.
 
@@ -316,12 +315,12 @@ def plot_error_hist(hist, ax, **kwargs):
     **kwargs
         Additional keyword arguments forwarded to ax.errorbar().
     """
+    kwargs.setdefault("yerr", np.sqrt(hist.variances()))
+    kwargs.setdefault("fmt", ".")
+
     ax.errorbar(
         x=hist.axes[0].centers,
-        xerr=None,
         y=hist.values(),
-        yerr=np.sqrt(hist.variances()),
-        fmt=".",
         **kwargs,
     )
 
@@ -417,6 +416,42 @@ def compare_two_hist(
     return fig, ax_main, ax_comparison
 
 
+def _hist_ratio_variances(hist_1, hist_2):
+    """
+    Calculate the variances of the ratio of two histograms (hist_1/hist_2).
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram.
+    hist_2 : boost_histogram.Histogram
+        The second histogram.
+
+    Returns
+    -------
+    variances : np.ndarray
+        The variances of the ratio of the two histograms.
+
+    Raises
+    ------
+    ValueError
+        If the bins of the histograms are not equal.
+    """
+    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
+        raise ValueError("The bins of the histograms must be equal.")
+
+    np.seterr(divide="ignore", invalid="ignore")
+    ratio_variances = np.where(
+        hist_2.values() != 0,
+        hist_1.variances() / hist_2.values() ** 2
+        + hist_2.variances() * hist_1.values() ** 2 / hist_2.values() ** 4,
+        np.nan,
+    )
+    np.seterr(divide="warn", invalid="warn")
+
+    return ratio_variances
+
+
 def plot_comparison(
     hist_1,
     hist_2,
@@ -428,6 +463,7 @@ def plot_comparison(
     comparison_ylabel=None,
     comparison_ylim=None,
     ratio_uncertainty="uncorrelated",
+    **plot_hist_kwargs,
 ):
     """
     Plot the comparison between two histograms.
@@ -453,7 +489,9 @@ def plot_comparison(
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None.
     ratio_uncertainty : str, optional
-        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ration". Default is "uncorrelated".
+        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio". Default is "uncorrelated".
+    **plot_hist_kwargs : optional
+        Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 
     Returns
     -------
@@ -474,52 +512,45 @@ def plot_comparison(
             hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
         )
         if ratio_uncertainty == "split":
-            h1_scaled_uncertainty = np.where(
+            h1_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
                 np.sqrt(hist_1.variances()) / hist_2.values(),
                 np.nan,
             )
-        elif ratio_uncertainty == "uncorrelated":
-            ratio_variance = np.where(
+            h2_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
-                hist_1.variances() / hist_2.values() ** 2
-                + hist_2.variances() * hist_1.values() ** 2 / hist_2.values() ** 4,
+                np.sqrt(hist_2.variances()) / hist_2.values(),
                 np.nan,
             )
+            comparison_variances = h1_scaled_uncertainties**2
+        elif ratio_uncertainty == "uncorrelated":
+            comparison_variances = _hist_ratio_variances(hist_1, hist_2)
         else:
             raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
-        if ratio_uncertainty == "split":
-            h2_scaled_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
-
     elif comparison == "pull":
         comparison_values = np.where(
-            hist_2.values() != 0,
+            hist_1.variances() + hist_2.variances() != 0,
             (hist_1.values() - hist_2.values())
             / np.sqrt(hist_1.variances() + hist_2.variances()),
             np.nan,
         )
-        ratio_variance = np.where(
-            hist_1.values() != 0,
-            1,
-            np.nan,
-        )
+        comparison_variances = np.ones_like(comparison_values)
     else:
         raise ValueError(
             f"{comparison} not available as a comparison (use ratio or pull)."
         )
-
     np.seterr(divide="warn", invalid="warn")
 
-    ax.errorbar(
-        x=hist_2.axes[0].centers,
-        xerr=None,
-        y=comparison_values,
-        yerr=np.sqrt(ratio_variance)
-        if (ratio_uncertainty == "uncorrelated" or comparison == "pull")
-        else h1_scaled_uncertainty,
-        fmt=".",
-        color="black",
-    )
+    hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+    hist_comparison[:] = np.stack([comparison_values, comparison_variances], axis=-1)
+
+    if comparison == "pull":
+        plot_hist_kwargs.setdefault("histtype", "stepfilled")
+        plot_hist_kwargs.setdefault("color", "darkgrey")
+        plot_hist(hist_comparison, ax=ax, **plot_hist_kwargs)
+    else:
+        plot_hist_kwargs.setdefault("color", "black")
+        plot_error_hist(hist_comparison, ax=ax, **plot_hist_kwargs)
 
     if comparison == "ratio":
         if comparison_ylim is None:
@@ -528,9 +559,11 @@ def plot_comparison(
         if ratio_uncertainty == "split":
             ax.bar(
                 x=hist_2.axes[0].centers,
-                bottom=np.nan_to_num(1 - h2_scaled_uncertainty, nan=comparison_ylim[0]),
+                bottom=np.nan_to_num(
+                    1 - h2_scaled_uncertainties, nan=comparison_ylim[0]
+                ),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainty, nan=2 * comparison_ylim[-1]
+                    2 * h2_scaled_uncertainties, nan=2 * comparison_ylim[-1]
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
@@ -612,7 +645,7 @@ def cubehelix_palette(
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (γ > 1)
-            lambda_gamma = lambda_ ** gamma
+            lambda_gamma = lambda_**gamma
 
             # Angle and amplitude for the deviation
             # from the black to white diagonal
