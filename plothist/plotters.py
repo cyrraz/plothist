@@ -517,7 +517,11 @@ def plot_comparison(
                 np.sqrt(hist_1.variances()) / hist_2.values(),
                 np.nan,
             )
-            h2_scaled_uncertainty = np.sqrt(hist_2.variances()) / hist_2.values()
+            h2_scaled_uncertainties = np.where(
+                hist_2.values() != 0,
+                np.sqrt(hist_2.variances()) / hist_2.values(),
+                np.nan,
+            )
             comparison_variances = h1_scaled_uncertainties**2
         elif ratio_uncertainty == "uncorrelated":
             comparison_variances = _hist_ratio_variances(hist_1, hist_2)
@@ -555,9 +559,11 @@ def plot_comparison(
         if ratio_uncertainty == "split":
             ax.bar(
                 x=hist_2.axes[0].centers,
-                bottom=np.nan_to_num(1 - h2_scaled_uncertainty, nan=comparison_ylim[0]),
+                bottom=np.nan_to_num(
+                    1 - h2_scaled_uncertainties, nan=comparison_ylim[0]
+                ),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainty, nan=2 * comparison_ylim[-1]
+                    2 * h2_scaled_uncertainties, nan=2 * comparison_ylim[-1]
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
