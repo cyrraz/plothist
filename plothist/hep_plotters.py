@@ -12,6 +12,7 @@ from plothist.plotters import (
     compare_two_hist,
     plot_comparison,
     create_comparison_figure,
+    _hist_ratio_variances,
 )
 
 
@@ -84,7 +85,6 @@ def compare_data_mc(
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
-
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
@@ -121,6 +121,29 @@ def compare_data_mc(
             uncertainties_high**2,
         )
         data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
+    elif comparison_kwargs["comparison"] == "ratio":
+        if comparison_kwargs["ratio_uncertainty"] == "split":
+            np.seterr(divide="ignore", invalid="ignore")
+            # Compute asymmetrical uncertainties to plot_comparison()
+            comparison_kwargs["yerr"] = [
+                uncertainties_low / mc_hist_total.values(),
+                uncertainties_high / mc_hist_total.values(),
+            ]
+            np.seterr(divide="warn", invalid="warn")
+        elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
+            data_hist_high = data_hist.copy()
+            data_hist_high[:] = np.stack(
+                [data_hist_high.values(), uncertainties_high**2], axis=-1
+            )
+            data_hist_low = data_hist.copy()
+            data_hist_low[:] = np.stack(
+                [data_hist_low.values(), uncertainties_low**2], axis=-1
+            )
+            # Compute asymmetrical uncertainties to plot_comparison()
+            comparison_kwargs["yerr"] = [
+                np.sqrt(_hist_ratio_variances(data_hist_low, mc_hist_total)),
+                np.sqrt(_hist_ratio_variances(data_hist_high, mc_hist_total)),
+            ]
 
     plot_error_hist(
         data_hist,
@@ -163,6 +186,9 @@ def compare_data_mc(
 
 
 def _get_poisson_uncertainties(data_hist):
+    """
+    Get Poisson asymmetrical uncertainties for a histogram.
+    """
     conf_level = 0.682689492
     alpha = 1.0 - conf_level
     n = data_hist.values()
