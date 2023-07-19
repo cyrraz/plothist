@@ -33,7 +33,7 @@ def compare_data_mc(
     **comparison_kwargs,
 ):
     """
-    Compare data to MC simulations.
+    Compare data to MC simulations. The data uncertainties are computed using the Poisson confidence interval.
 
     Parameters
     ----------
@@ -125,10 +125,13 @@ def compare_data_mc(
         if comparison_kwargs["ratio_uncertainty"] == "split":
             np.seterr(divide="ignore", invalid="ignore")
             # Compute asymmetrical uncertainties to plot_comparison()
-            comparison_kwargs["yerr"] = [
-                uncertainties_low / mc_hist_total.values(),
-                uncertainties_high / mc_hist_total.values(),
-            ]
+            comparison_kwargs.setdefault(
+                "yerr",
+                [
+                    uncertainties_low / mc_hist_total.values(),
+                    uncertainties_high / mc_hist_total.values(),
+                ],
+            )
             np.seterr(divide="warn", invalid="warn")
         elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
             data_hist_high = data_hist.copy()
@@ -140,10 +143,13 @@ def compare_data_mc(
                 [data_hist_low.values(), uncertainties_low**2], axis=-1
             )
             # Compute asymmetrical uncertainties to plot_comparison()
-            comparison_kwargs["yerr"] = [
-                np.sqrt(_hist_ratio_variances(data_hist_low, mc_hist_total)),
-                np.sqrt(_hist_ratio_variances(data_hist_high, mc_hist_total)),
-            ]
+            comparison_kwargs.setdefault(
+                "yerr",
+                [
+                    np.sqrt(_hist_ratio_variances(data_hist_low, mc_hist_total)),
+                    np.sqrt(_hist_ratio_variances(data_hist_high, mc_hist_total)),
+                ],
+            )
 
     plot_error_hist(
         data_hist,
