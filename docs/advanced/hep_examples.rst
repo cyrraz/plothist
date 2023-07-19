@@ -203,7 +203,7 @@ Compare data and stacked histogram for a flatten 2D variable:
     )
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
-    ax_main.legend(ncol=3, fontsize=10)
+    ax_main.legend(ncol=3, fontsize=10, loc="upper left")
 
     fig.savefig("hep_examples_dataMC_flatten2D.svg", bbox_inches='tight')
 
