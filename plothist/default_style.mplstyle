@@ -17,8 +17,8 @@ axes.labelcolor     : .1
 
 text.usetex         : False
 font.family         : serif, sans-serif
-font.serif          : DejaVu Serif
-font.sans-serif     : DejaVu Sans
+font.serif          : Latin Modern Roman, DejaVu Serif
+font.sans-serif     : Latin Modern Roman Sans, DejaVu Sans
 
 # Text in math mode
 mathtext.cal        : cursive
