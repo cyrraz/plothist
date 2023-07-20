@@ -17,23 +17,15 @@ axes.labelcolor     : .1
 
 text.usetex         : False
 font.family         : serif, sans-serif
-font.serif          : DejaVu Serif
-font.sans-serif     : DejaVu Sans
+font.serif          : Latin Modern Math, Latin Modern Roman, DejaVu Serif
+font.sans-serif     : Latin Modern Sans, DejaVu Sans
 
 # Text in math mode
-mathtext.cal        : cursive
-mathtext.rm         : serif
-mathtext.tt         : monospace
-mathtext.it         : serif:italic
-mathtext.bf         : serif:bold
-mathtext.sf         : sans
 mathtext.fontset    : cm
-mathtext.fallback   : cm
 mathtext.default    : regular
 
 
 legend.frameon      : False
-# legend.edgecolor  : white
 legend.framealpha   : 0.5
 
 
