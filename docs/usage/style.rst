@@ -9,7 +9,7 @@ Setting style
 
 ``import plothist`` automatically sets the matplotlib style to a presentation and publication ready style, with large and readable axis labels and legend.
 
-Latin Modern fonts are used by default. You can install the font by using the script located in the github repository of plothist.
+Latin Modern fonts are used by default. You can install the font by using the script located in the `github repository of plothist <https://github.com/cyrraz/plothist/tree/main/scripts/install_latin_modern_fonts.sh>`.
 
 To have a small plotting style, you can use:
 
