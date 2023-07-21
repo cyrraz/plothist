@@ -485,11 +485,11 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ("ratio" or "pull"). Default is "ratio".
+        The type of comparison to plot ('ratio', 'pull' or 'difference'). Default is "ratio".
     comparison_ylabel : str, optional
         The label for the y-axis. Default is h1_label/h2_label if comparison="ratio", and the pull formula used if "pull" .
     comparison_ylim : tuple or None, optional
-        The y-axis limits for the comparison plot. Default is None.
+        The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio". Default is "uncorrelated".
     **plot_hist_kwargs : optional
@@ -537,9 +537,12 @@ def plot_comparison(
             np.nan,
         )
         comparison_variances = np.ones_like(comparison_values)
+    elif comparison == "difference":
+        comparison_values = hist_1.values() - hist_2.values()
+        comparison_variances = np.sqrt(hist_1.variances() + hist_2.variances())
     else:
         raise ValueError(
-            f"{comparison} not available as a comparison (use ratio or pull)."
+            f"{comparison} not available as a comparison ('ratio', 'pull' or 'difference')."
         )
     np.seterr(divide="warn", invalid="warn")
 
@@ -583,6 +586,12 @@ def plot_comparison(
         ax.set_ylabel(
             rf"$\frac{{ {h1_label} - {h2_label} }}{{ \sqrt{{\sigma^2_{{{h1_label}}} + \sigma^2_{{{h2_label}}}}} }} $"
         )
+
+    elif comparison == "difference":
+        if comparison_ylim is None:
+            comparison_ylim = (-10.0, 10.0)
+        ax.axhline(0, ls="--", lw=1.0, color="black")
+        ax.set_ylabel(f"{h1_label} - {h2_label}")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
