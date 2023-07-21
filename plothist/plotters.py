@@ -410,6 +410,8 @@ def compare_two_hist(
         **comparison_kwargs,
     )
 
+    fig.align_ylabels()
+
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
 
@@ -522,7 +524,7 @@ def plot_comparison(
                 np.sqrt(hist_2.variances()) / hist_2.values(),
                 np.nan,
             )
-            comparison_variances = h1_scaled_uncertainties**2
+            comparison_variances = h1_scaled_uncertainties ** 2
         elif ratio_uncertainty == "uncorrelated":
             comparison_variances = _hist_ratio_variances(hist_1, hist_2)
         else:
@@ -645,7 +647,7 @@ def cubehelix_palette(
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (γ > 1)
-            lambda_gamma = lambda_**gamma
+            lambda_gamma = lambda_ ** gamma
 
             # Angle and amplitude for the deviation
             # from the black to white diagonal
