@@ -27,6 +27,7 @@ def compare_data_mc(
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
+    mc_uncertainty=True,
     fig=None,
     ax_main=None,
     ax_comparison=None,
@@ -57,6 +58,8 @@ def compare_data_mc(
         If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
         If True, stack the MC histograms. If False, plot them side by side. Default is True.
+    mc_uncertainty : bool, optional
+        If False, set the MC uncertainties to zeros. Useful for postfit histograms.
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
@@ -124,8 +127,8 @@ def compare_data_mc(
     if comparison_kwargs["comparison"] == "pull":
         data_variances = np.where(
             data_hist.values() >= mc_hist_total.values(),
-            uncertainties_low**2,
-            uncertainties_high**2,
+            uncertainties_low ** 2,
+            uncertainties_high ** 2,
         )
         data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
     elif comparison_kwargs["comparison"] == "ratio":
@@ -143,11 +146,11 @@ def compare_data_mc(
         elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
             data_hist_high = data_hist.copy()
             data_hist_high[:] = np.stack(
-                [data_hist_high.values(), uncertainties_high**2], axis=-1
+                [data_hist_high.values(), uncertainties_high ** 2], axis=-1
             )
             data_hist_low = data_hist.copy()
             data_hist_low[:] = np.stack(
-                [data_hist_low.values(), uncertainties_low**2], axis=-1
+                [data_hist_low.values(), uncertainties_low ** 2], axis=-1
             )
             # Compute asymmetrical uncertainties to plot_comparison()
             comparison_kwargs.setdefault(
@@ -169,18 +172,27 @@ def compare_data_mc(
     _ = ax_main.xaxis.set_ticklabels([])
 
     # Plot MC statistical uncertainty
-    mc_uncertainty = np.sqrt(mc_hist_total.variances())
-    ax_main.bar(
-        x=mc_hist_total.axes[0].centers,
-        bottom=mc_hist_total.values() - mc_uncertainty,
-        height=2 * mc_uncertainty,
-        width=mc_hist_total.axes[0].widths,
-        edgecolor="dimgrey",
-        hatch="////",
-        fill=False,
-        lw=0,
-        label="Stat. unc.",
-    )
+    if mc_uncertainty:
+        mc_uncertainty = np.sqrt(mc_hist_total.variances())
+        ax_main.bar(
+            x=mc_hist_total.axes[0].centers,
+            bottom=mc_hist_total.values() - mc_uncertainty,
+            height=2 * mc_uncertainty,
+            width=mc_hist_total.axes[0].widths,
+            edgecolor="dimgrey",
+            hatch="////",
+            fill=False,
+            lw=0,
+            label="Stat. unc.",
+        )
+    else:
+        mc_hist_total[:] = np.stack(
+            [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
+        )
+        comparison_kwargs.setdefault(
+            "comparison_ylabel",
+            rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
+        )
 
     ax_main.legend()
 
@@ -191,6 +203,8 @@ def compare_data_mc(
         xlabel=xlabel,
         **comparison_kwargs,
     )
+
+    fig.align_ylabels()
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
