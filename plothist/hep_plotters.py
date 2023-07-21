@@ -189,10 +189,11 @@ def compare_data_mc(
         mc_hist_total[:] = np.stack(
             [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
         )
-        comparison_kwargs.setdefault(
-            "comparison_ylabel",
-            rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
-        )
+        if comparison_kwargs["comparison"] == "pull":
+            comparison_kwargs.setdefault(
+                "comparison_ylabel",
+                rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
+            )
 
     ax_main.legend()
 
