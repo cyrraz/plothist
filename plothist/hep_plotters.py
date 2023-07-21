@@ -160,6 +160,23 @@ def compare_data_mc(
                     np.sqrt(_hist_ratio_variances(data_hist_high, mc_hist_total)),
                 ],
             )
+    elif comparison_kwargs["comparison"] == "difference":
+        data_hist_high = data_hist.copy()
+        data_hist_high[:] = np.stack(
+            [data_hist_high.values(), uncertainties_high ** 2], axis=-1
+        )
+        data_hist_low = data_hist.copy()
+        data_hist_low[:] = np.stack(
+            [data_hist_low.values(), uncertainties_low ** 2], axis=-1
+        )
+        # Compute asymmetrical uncertainties to plot_comparison()
+        comparison_kwargs.setdefault(
+            "yerr",
+            [
+                np.sqrt(data_hist_low.variances() + mc_hist_total.variances()),
+                np.sqrt(data_hist_high.variances() + mc_hist_total.variances()),
+            ],
+        )
 
     plot_error_hist(
         data_hist,
