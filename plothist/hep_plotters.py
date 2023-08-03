@@ -434,7 +434,7 @@ def add_luminosity(
         if lumi:
             s += rf"$\int\,\mathcal{{L}}\,dt={lumi}\,{lumi_unit}^{{-1}}$"
     else:
-        s += r"$\mathrm{\mathbf{simulation}}$"
+        s += r"$\mathrm{\mathbf{Simulation}}$"
 
     t = ax.text(
         x,
