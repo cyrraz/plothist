@@ -24,6 +24,8 @@ def compare_data_mc(
     ylabel=None,
     mc_labels=None,
     mc_colors=None,
+    signal_label="Signal",
+    data_label="Data",
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
@@ -52,6 +54,10 @@ def compare_data_mc(
         The labels for the MC simulations. Default is None.
     mc_colors : list of str, optional
         The colors for the MC simulations. Default is None.
+    signal_label : str, optional
+        The label for the signal. Default is "Signal".
+    data_label : str, optional
+        The label for the data. Default is "Data".
     save_as : str or None, optional
         The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
@@ -109,6 +115,7 @@ def compare_data_mc(
         ylabel=ylabel,
         mc_labels=mc_labels,
         mc_colors=mc_colors,
+        signal_label=signal_label,
         fig=fig,
         ax=ax_main,
         stacked=stacked,
@@ -166,7 +173,7 @@ def compare_data_mc(
         ax=ax_main,
         yerr=[uncertainties_low, uncertainties_high],
         color="black",
-        label="Data",
+        label=data_label,
     )
 
     _ = ax_main.xaxis.set_ticklabels([])
