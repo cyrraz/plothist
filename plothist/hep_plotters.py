@@ -30,7 +30,7 @@ def compare_data_mc(
     flatten_2d_hist=False,
     stacked=True,
     mc_uncertainty=True,
-    mc_uncertainty_label="MC unc.",
+    mc_uncertainty_label="MC stat. unc.",
     fig=None,
     ax_main=None,
     ax_comparison=None,
@@ -68,7 +68,7 @@ def compare_data_mc(
     mc_uncertainty : bool, optional
         If False, set the MC uncertainties to zeros. Useful for post-fit histograms. Default is True.
     mc_uncertainty_label : str, optional
-        The label for the MC uncertainties. Default is "MC unc.".
+        The label for the MC uncertainties. Default is "MC stat. unc.".
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
