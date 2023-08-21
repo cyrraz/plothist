@@ -98,7 +98,7 @@ def compare_data_mc(
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
     if fig is None and ax_main is None and ax_comparison is None:
-        fig, (ax_main, ax_comparison) = create_comparison_figure(figsize=(6,5)) # TODO: find a better solution than this hard-coded value
+        fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
