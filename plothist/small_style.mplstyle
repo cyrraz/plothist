@@ -67,3 +67,5 @@ axes.labelpad        : 6
 grid.color          : .8
 
 errorbar.capsize    :  0
+
+svg.hashsalt        : 8311311
