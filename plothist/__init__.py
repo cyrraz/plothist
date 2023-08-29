@@ -66,5 +66,5 @@ for font_type in ["Math", "Sans", "Roman"]:
         print_font_message = True
 if print_font_message:
     print(
-        "[Warning] The recommended fonts to use plothist were not found. You can install them using this script from github: https://github.com/cyrraz/plothist/blob/main/scripts/install_latin_modern_fonts.sh \n"
+        "[Warning] The recommended fonts to use plothist were not found. You can install them using this script from github: https://raw.githubusercontent.com/cyrraz/plothist/main/scripts/install_latin_modern_fonts.sh \n"
     )
