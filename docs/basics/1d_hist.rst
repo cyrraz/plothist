@@ -268,26 +268,26 @@ Then, we plot the histograms and the comparison plots on different axes:
         figsize=(6, 6), nrows=3, gridspec_kw={"height_ratios": [5, 1, 1]}
     )
 
-    # Assign each axes: 1 to plot the histograms and 2 for the comparions
+    # Assign each axes: 1 to plot the histograms and 2 for the comparison plots
     ax_main, ax1_comparison, ax2_comparison = axes
 
     # Here, we use step as a histtype to only draw the line
     plot_hist(h1, label="Train A", ax=ax_main, histtype="step", linewidth=1.2)
     plot_hist(h3, label="Train B", ax=ax_main, histtype="step", linewidth=1.2)
-    # And then we redraw them with stepfilled to color below the line to make the plot easier to read
+    # And then, to make the plot easier to read, we redraw them with stepfilled, which add color below the line
     plot_hist(h1, ax=ax_main, histtype="stepfilled", color="#348ABD", alpha=0.2)
     plot_hist(h3, ax=ax_main, histtype="stepfilled", color="#E24A33", alpha=0.2)
 
-    # We plot 2 additionnal histogram with points
+    # We plot 2 additionnal histograms with point style
     plot_error_hist(h2, label="Test A", ax=ax_main, color="blue")
     plot_error_hist(h4, label="Test B", ax=ax_main, color="red")
 
     # First comparison is using pulls. We also change the color of the bars to make the plot easier to read
     plot_comparison(h4, h3, ax=ax1_comparison, comparison="pull", color="#348ABD", alpha=0.7)
-    # Second comparison is the default difference one. Same strategy
+    # Second comparison is using the default "difference". Same strategy as pulls
     plot_comparison(h2, h1, ax=ax2_comparison, color="#E24A33", alpha=0.7)
 
-    # Harmonise the range of each axes
+    # Harmonize the range of each axes
     ax_main.set_xlim(x_range)
     ax1_comparison.set_xlim(x_range)
     ax2_comparison.set_xlim(x_range)
