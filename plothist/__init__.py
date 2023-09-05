@@ -57,14 +57,11 @@ with resources_path("plothist", "default_style.mplstyle") as style_file:
 
 # Check the fonts
 from matplotlib.font_manager import findfont
+import warnings
 
-print_font_message = False
 for font_type in ["Math", "Sans", "Roman"]:
     try:
         findfont(f"Latin Modern {font_type}", fallback_to_default=False)
     except:
-        print_font_message = True
-if print_font_message:
-    print(
-        "[Warning] The recommended fonts to use plothist were not found. You can install them using this script from github: https://raw.githubusercontent.com/cyrraz/plothist/main/scripts/install_latin_modern_fonts.sh \n"
-    )
+        warnings.warn("The recommended fonts to use plothist were not found. You can install them using this script: https://raw.githubusercontent.com/cyrraz/plothist/main/scripts/install_latin_modern_fonts.sh \n", stacklevel=3)
+        break
