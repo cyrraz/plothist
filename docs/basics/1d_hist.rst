@@ -1,8 +1,8 @@
 .. _basics-1d_hist-label:
 
-=================
-Basic 1D examples
-=================
+========
+Basic 1D
+========
 
 The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
 
