@@ -204,6 +204,7 @@ To compare two histograms, using the histograms defined above:
 
     from plothist import compare_two_hist
 
+    # Default comparison is ratio
     fig, ax_main, ax_comparison = compare_two_hist(
         h2,
         h3,
@@ -211,10 +212,58 @@ To compare two histograms, using the histograms defined above:
         ylabel="Entries",
         h1_label="c2",
         h2_label="c3",
-        save_as="1d_comparison.svg",
+        save_as="1d_comparison_ratio.svg",
     )
 
-.. image:: ../img/1d_comparison.svg
-   :alt: Simple hist
+.. image:: ../img/1d_comparison_ratio.svg
+   :alt: Simple ratio comparison
+   :width: 500
+
+
+Three comparison method are available: ``ratio`` (default), ``pull`` and ``difference``.
+
+Pull comparison:
+
+.. code-block:: python
+
+    from plothist import compare_two_hist
+
+    # Default comparison is ratio
+    fig, ax_main, ax_comparison = compare_two_hist(
+        h2,
+        h3,
+        xlabel=name,
+        ylabel="Entries",
+        h1_label="c2",
+        h2_label="c3",
+        comparison = "pull",
+        save_as="1d_comparison_pull.svg",
+    )
+
+.. image:: ../img/1d_comparison_pull.svg
+   :alt: Simple pull comparison
+   :width: 500
+
+
+Difference comparison:
+
+.. code-block:: python
+
+    from plothist import compare_two_hist
+
+    # Default comparison is ratio
+    fig, ax_main, ax_comparison = compare_two_hist(
+        h2,
+        h3,
+        xlabel=name,
+        ylabel="Entries",
+        h1_label="c2",
+        h2_label="c3",
+        comparison = "difference",
+        save_as="1d_comparison_difference.svg",
+    )
+
+.. image:: ../img/1d_comparison_difference.svg
+   :alt: Simple difference comparison
    :width: 500
 

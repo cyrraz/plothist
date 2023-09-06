@@ -169,7 +169,6 @@ def compare_data_mc(
         data_hist_low[:] = np.stack(
             [data_hist_low.values(), uncertainties_low ** 2], axis=-1
         )
-        # Compute asymmetrical uncertainties to plot_comparison()
         comparison_kwargs.setdefault(
             "yerr",
             [

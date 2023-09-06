@@ -485,7 +485,7 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ('ratio', 'pull' or 'difference'). Default is "ratio".
+        The type of comparison to plot ("ratio", "pull" or "difference"). Default is "ratio".
     comparison_ylabel : str, optional
         The label for the y-axis. Default is h1_label/h2_label if comparison="ratio", and the pull formula used if "pull" .
     comparison_ylim : tuple or None, optional
@@ -539,7 +539,7 @@ def plot_comparison(
         comparison_variances = np.ones_like(comparison_values)
     elif comparison == "difference":
         comparison_values = hist_1.values() - hist_2.values()
-        comparison_variances = np.sqrt(hist_1.variances() + hist_2.variances())
+        comparison_variances = hist_1.variances() + hist_2.variances()
     else:
         raise ValueError(
             f"{comparison} not available as a comparison ('ratio', 'pull' or 'difference')."
