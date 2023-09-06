@@ -689,7 +689,7 @@ def cubehelix_palette(
 
 
 def get_math_text(text):
-    match = re.search(r'\$(.*?)\$', text)
+    match = re.search(r"\$(.*?)\$", text)
     if match:
         return match.group(1)
     else:
