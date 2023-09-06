@@ -458,7 +458,7 @@ def add_luminosity(
         s += " "
     if is_data:
         if lumi:
-            s += rf"$\int\,\mathcal{{L}}\,dt={lumi}\,{lumi_unit}^{{-1}}$"
+            s += rf"$\int\,\mathcal{{L}}\,\mathrm{{dt}}={lumi}\,{lumi_unit}^{{-1}}$"
     else:
         s += r"$\mathrm{\mathbf{Simulation}}$"
 
