@@ -92,7 +92,7 @@ def compare_data_mc(
     plot_comparison : Plot the comparison between data and MC simulations.
 
     """
-    comparison_kwargs.setdefault("h1_label", "Data")
+    comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")

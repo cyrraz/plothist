@@ -8,6 +8,7 @@ import matplotlib as mpl
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 import warnings
+import re
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
@@ -505,6 +506,10 @@ def plot_comparison(
     compare_two_hist : Compare two histograms and plot the comparison.
 
     """
+
+    h1_label = get_math_text(h1_label)
+    h2_label = get_math_text(h2_label)
+
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
@@ -589,7 +594,7 @@ def plot_comparison(
 
     elif comparison == "difference":
         ax.axhline(0, ls="--", lw=1.0, color="black")
-        ax.set_ylabel(f"{h1_label} - {h2_label}")
+        ax.set_ylabel(f"${h1_label} - {h2_label}$")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
@@ -681,3 +686,11 @@ def cubehelix_palette(
     if reverse:
         pal = pal[::-1]
     return pal
+
+
+def get_math_text(text):
+    match = re.search(r'\$(.*?)\$', text)
+    if match:
+        return match.group(1)
+    else:
+        return text

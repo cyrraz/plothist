@@ -234,8 +234,8 @@ Pull comparison:
         h3,
         xlabel=name,
         ylabel="Entries",
-        h1_label="c2",
-        h2_label="c3",
+        h1_label="$c_{2}$",
+        h2_label="$c_{3}$",
         comparison = "pull",
         save_as="1d_comparison_pull.svg",
     )
@@ -257,8 +257,8 @@ Difference comparison:
         h3,
         xlabel=name,
         ylabel="Entries",
-        h1_label="c2",
-        h2_label="c3",
+        h1_label="$\mathcal{C}_{2}$",
+        h2_label="$\mathcal{C}_{3}$",
         comparison = "difference",
         save_as="1d_comparison_difference.svg",
     )
