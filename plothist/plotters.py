@@ -588,14 +588,13 @@ def plot_comparison(
         )
 
     elif comparison == "difference":
-        if comparison_ylim is None:
-            comparison_ylim = (-10.0, 10.0)
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(f"{h1_label} - {h2_label}")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
-    ax.set_ylim(comparison_ylim)
+    if comparison_ylim is not None:
+        ax.set_ylim(comparison_ylim)
     ax.set_xlabel(xlabel)
     if comparison_ylabel is not None:
         ax.set_ylabel(comparison_ylabel)

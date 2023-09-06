@@ -260,7 +260,6 @@ Difference comparison:
         h1_label="c2",
         h2_label="c3",
         comparison = "difference",
-        comparison_ylim = [-350, 350],
         save_as="1d_comparison_difference.svg",
     )
 
