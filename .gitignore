@@ -1,5 +1,5 @@
 __pycache__/
-*.yaml
+variable_registry.yaml
 .vscode/
 _build/
 test/

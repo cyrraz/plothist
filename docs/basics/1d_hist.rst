@@ -1,8 +1,8 @@
 .. _basics-1d_hist-label:
 
-=================
-Basic 1D examples
-=================
+========
+Basic 1D
+========
 
 The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
 
@@ -266,4 +266,3 @@ Difference comparison:
 .. image:: ../img/1d_comparison_difference.svg
    :alt: Simple difference comparison
    :width: 500
-

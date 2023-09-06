@@ -12,7 +12,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 def create_comparison_figure(
-    figsize=None,
+    figsize=(6, 5),
     nrows=2,
     ncols=1,
     gridspec_kw={"height_ratios": [4, 1]},
@@ -24,7 +24,7 @@ def create_comparison_figure(
     Parameters
     ----------
     figsize : tuple, optional
-        Figure size in inches. Default is (6, 4).
+        Figure size in inches. Default is (6, 5).
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
     ncols : int, optional

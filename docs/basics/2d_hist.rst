@@ -1,8 +1,8 @@
 .. _basics-2d_hist-label:
 
-=================
-Basic 2D examples
-=================
+========
+Basic 2D
+========
 
 The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
 

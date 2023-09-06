@@ -24,10 +24,13 @@ def compare_data_mc(
     ylabel=None,
     mc_labels=None,
     mc_colors=None,
+    signal_label="Signal",
+    data_label="Data",
     save_as=None,
     flatten_2d_hist=False,
     stacked=True,
     mc_uncertainty=True,
+    mc_uncertainty_label="MC stat. unc.",
     fig=None,
     ax_main=None,
     ax_comparison=None,
@@ -52,6 +55,10 @@ def compare_data_mc(
         The labels for the MC simulations. Default is None.
     mc_colors : list of str, optional
         The colors for the MC simulations. Default is None.
+    signal_label : str, optional
+        The label for the signal. Default is "Signal".
+    data_label : str, optional
+        The label for the data. Default is "Data".
     save_as : str or None, optional
         The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
@@ -59,7 +66,9 @@ def compare_data_mc(
     stacked : bool, optional
         If True, stack the MC histograms. If False, plot them side by side. Default is True.
     mc_uncertainty : bool, optional
-        If False, set the MC uncertainties to zeros. Useful for postfit histograms.
+        If False, set the MC uncertainties to zeros. Useful for post-fit histograms. Default is True.
+    mc_uncertainty_label : str, optional
+        The label for the MC uncertainties. Default is "MC stat. unc.".
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
@@ -109,6 +118,7 @@ def compare_data_mc(
         ylabel=ylabel,
         mc_labels=mc_labels,
         mc_colors=mc_colors,
+        signal_label=signal_label,
         fig=fig,
         ax=ax_main,
         stacked=stacked,
@@ -182,7 +192,7 @@ def compare_data_mc(
         ax=ax_main,
         yerr=[uncertainties_low, uncertainties_high],
         color="black",
-        label="Data",
+        label=data_label,
     )
 
     _ = ax_main.xaxis.set_ticklabels([])
@@ -199,7 +209,7 @@ def compare_data_mc(
             hatch="////",
             fill=False,
             lw=0,
-            label="Stat. unc.",
+            label=mc_uncertainty_label,
         )
     else:
         mc_hist_total[:] = np.stack(
@@ -450,7 +460,7 @@ def add_luminosity(
         if lumi:
             s += rf"$\int\,\mathcal{{L}}\,dt={lumi}\,{lumi_unit}^{{-1}}$"
     else:
-        s += r"$\mathrm{\mathbf{simulation}}$"
+        s += r"$\mathrm{\mathbf{Simulation}}$"
 
     t = ax.text(
         x,
