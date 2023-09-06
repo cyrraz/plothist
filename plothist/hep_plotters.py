@@ -92,7 +92,7 @@ def compare_data_mc(
     plot_comparison : Plot the comparison between data and MC simulations.
 
     """
-    comparison_kwargs.setdefault("h1_label", "Data")
+    comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
@@ -170,6 +170,22 @@ def compare_data_mc(
                     np.sqrt(_hist_ratio_variances(data_hist_high, mc_hist_total)),
                 ],
             )
+    elif comparison_kwargs["comparison"] == "difference":
+        data_hist_high = data_hist.copy()
+        data_hist_high[:] = np.stack(
+            [data_hist_high.values(), uncertainties_high ** 2], axis=-1
+        )
+        data_hist_low = data_hist.copy()
+        data_hist_low[:] = np.stack(
+            [data_hist_low.values(), uncertainties_low ** 2], axis=-1
+        )
+        comparison_kwargs.setdefault(
+            "yerr",
+            [
+                np.sqrt(data_hist_low.variances() + mc_hist_total.variances()),
+                np.sqrt(data_hist_high.variances() + mc_hist_total.variances()),
+            ],
+        )
 
     plot_error_hist(
         data_hist,
@@ -442,7 +458,7 @@ def add_luminosity(
         s += " "
     if is_data:
         if lumi:
-            s += rf"$\int\,\mathcal{{L}}\,dt={lumi}\,{lumi_unit}^{{-1}}$"
+            s += rf"$\int\,\mathcal{{L}}\,\mathrm{{dt}}={lumi}\,{lumi_unit}^{{-1}}$"
     else:
         s += r"$\mathrm{\mathbf{Simulation}}$"
 
