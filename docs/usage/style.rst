@@ -12,12 +12,12 @@ Default style
 Latin Modern fonts are used by default. You can install the font by using the script located in the `github repository of plothist <https://github.com/cyrraz/plothist/tree/main/scripts/install_latin_modern_fonts.sh>`_.
 
 
-Color palette
-=============
+Color palettes
+==============
 
 When displaying quantities such as yields or intensities, it is recommended to utilize Perceptually Uniform Sequential Colormaps like the cubehelix colormap for accurate representation.
 
-We provide the ``cubehelix_palette()`` (see `here <https://plothist.readthedocs.io/en/latest/documentation/documentation.html#plothist.plotters.cubehelix_palette>`_) function to create such colormap.
+We provide the ``cubehelix_palette()`` (see `here <https://plothist.readthedocs.io/en/latest/documentation/documentation.html#plothist.plotters.cubehelix_palette>`_) function to create such colormap. All the examples in the documentation are using this colorpalette.
 
 .. code-block:: python
 
@@ -26,7 +26,23 @@ We provide the ``cubehelix_palette()`` (see `here <https://plothist.readthedocs.
     palette = cubehelix_palette(11)
 
 .. image:: ../img/adv_cubehelix.svg
-   :alt: Presentation style
+   :alt: Cubehelix example
+..    :width: 500
+
+
+We also provide the ``get_cmap_palette(cmap, N)``, which can take any ``cmap`` matplotlib colorpalette and sequence it in ``N`` different colors (see `here <https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_ for the different ``cmap`` names).
+
+Here are a few palette that we recommand using:
+
+.. code-block:: python
+
+    from plothist import get_cmap_palette
+
+    # From HEP examples
+    background_categories_colors = get_cmap_palette("any_cmap_name", len(background_categories))
+
+.. image:: ../img/usage_colorpalette_examples.svg
+   :alt: Color palette examples
 ..    :width: 500
 
 

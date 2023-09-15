@@ -9,7 +9,6 @@ from plothist.plotters import (
     plot_hist,
     plot_error_hist,
     _flatten_2d_hist,
-    compare_two_hist,
     plot_comparison,
     create_comparison_figure,
     _hist_ratio_variances,

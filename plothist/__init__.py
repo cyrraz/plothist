@@ -11,7 +11,6 @@ from .plotters import (
     plot_error_hist,
     compare_two_hist,
     plot_comparison,
-    cubehelix_palette,
 )
 
 from .variable_registry import (
@@ -22,7 +21,7 @@ from .variable_registry import (
 
 from .hep_plotters import compare_data_mc, plot_mc, add_luminosity
 
-from .plothist_style import set_style
+from .plothist_style import set_style, cubehelix_palette, get_cmap_palette
 
 __all__ = [
     "__version__",
@@ -38,11 +37,12 @@ __all__ = [
     "plot_error_hist",
     "compare_two_hist",
     "plot_comparison",
-    "cubehelix_palette",
     "compare_data_mc",
     "plot_mc",
     "add_luminosity",
     "set_style",
+    "cubehelix_palette",
+    "get_cmap_palette",
 ]
 
 
