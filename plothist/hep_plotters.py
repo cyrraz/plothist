@@ -59,7 +59,7 @@ def compare_data_mc(
     signal_label : str, optional
         The label for the signal. Default is "Signal".
     signal_color : str, optional
-        The color for the signal. Default is red.
+        The color for the signal. Default is "red".
     data_label : str, optional
         The label for the data. Default is "Data".
     save_as : str or None, optional
@@ -304,7 +304,7 @@ def plot_mc(
     signal_label : str, optional
         The label for the signal. Default is "Signal".
     signal_color : str, optional
-        The color for the signal. Default is red.
+        The color for the signal. Default is "red".
     fig : matplotlib.figure.Figure or None, optional
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
