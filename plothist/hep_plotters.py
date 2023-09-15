@@ -25,6 +25,7 @@ def compare_data_mc(
     mc_labels=None,
     mc_colors=None,
     signal_label="Signal",
+    signal_color="red",
     data_label="Data",
     save_as=None,
     flatten_2d_hist=False,
@@ -57,6 +58,8 @@ def compare_data_mc(
         The colors for the MC simulations. Default is None.
     signal_label : str, optional
         The label for the signal. Default is "Signal".
+    signal_color : str, optional
+        The color for the signal. Default is red.
     data_label : str, optional
         The label for the data. Default is "Data".
     save_as : str or None, optional
@@ -119,6 +122,7 @@ def compare_data_mc(
         mc_labels=mc_labels,
         mc_colors=mc_colors,
         signal_label=signal_label,
+        signal_color=signal_color,
         fig=fig,
         ax=ax_main,
         stacked=stacked,
