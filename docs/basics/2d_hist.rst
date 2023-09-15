@@ -49,7 +49,7 @@ Correlations with variable manager
 
 See :ref:`basics-variable_manager-label` on how to use the variable manager.
 
-Same as for 1D histogram, variable manager can be practical to manage and see the correlation between multiple variables:
+Variable manager is a really useful tool to manage and plot the correlation between multiple variables:
 
 .. code-block:: python
 
