@@ -13,6 +13,7 @@ from plothist.plotters import (
     plot_comparison,
     create_comparison_figure,
     _hist_ratio_variances,
+    plot_function,
 )
 
 
@@ -242,6 +243,70 @@ def compare_data_mc(
 
     return fig, ax_main, ax_comparison
 
+def compare_data_function(
+    data_hist,
+    pdf_list,
+    signal_pdf=None,
+    xlabel=None,
+    ylabel=None,
+    pdf_labels=None,
+    pdf_colors=None,
+    signal_label="Signal",
+    signal_color="red",
+    data_label="Data",
+    stacked=True,
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
+    **comparison_kwargs,
+):
+    """
+    Compare data to pdf.
+
+    Parameters
+    ----------
+    data_hist : boost_histogram.Histogram
+        The histogram for the data.
+    pdf_list : list of python functions.
+        The list of PDFs adapted to the data.
+    signal_hist : python function, optional
+        The PDF for the signal. Default is None.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    pdf_labels : list of str, optional
+        The labels for the PDFs. Default is None.
+    pdf_colors : list of str, optional
+        The colors for the PDFs. Default is None.
+    signal_label : str, optional
+        The label for the signal. Default is "Signal".
+    signal_color : str, optional
+        The color for the signal. Default is "red".
+    data_label : str, optional
+        The label for the data. Default is "Data".
+    stacked : bool, optional
+        If True, stack the PDFs. If False, plot them side by side. Default is True.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object containing the plots.
+    ax_main : matplotlib.axes.Axes
+        The Axes object for the main plot.
+    ax_comparison : matplotlib.axes.Axes
+        The Axes object for the comparison plot.
+    """
+
+    if fig is None and ax_main is None and ax_comparison is None:
+        fig, (ax_main, ax_comparison) = create_comparison_figure()
+    elif fig is None or ax_main is None or ax_comparison is None:
+        raise ValueError(
+            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+        )
+    
+
+
 
 def _get_poisson_uncertainties(data_hist):
     """
@@ -400,6 +465,112 @@ def plot_mc(
 
     return fig, ax
 
+def plot_fit(
+    x,
+    functions_list,
+    signal_function=None,
+    total_function=None,
+    xlabel=None,
+    ylabel=None,
+    function_labels=None,
+    function_colors=None,
+    signal_label="Signal",
+    total_label="Fit",
+    fig=None,
+    ax=None,
+    save_as=None,
+    stacked=True,
+    leg_ncol=1,
+):
+    """
+    Plot MC simulation histograms.
+
+    Parameters
+    ----------
+    x: np.array
+        The range in which to plot the functions.
+    functions_list : list of function
+        The list of python functions.
+    signal_function : function, optional
+        The function for the signal. Default is None.
+    total_function : function, optional
+        The total function. Default is None.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    function_labels : list of str, optional
+        The labels for the functions. Default is None.
+    function_colors : list of str, optional
+        The colors for the functions. Default is None.
+    signal_label : str, optional
+        The label for the signal. Default is "Signal".
+    signal_color : str, optional
+        The color for the signal. Default is "red".
+    fig : matplotlib.figure.Figure or None, optional
+        The Figure object to use for the plot. Create a new one if none is provided.
+    ax : matplotlib.axes.Axes or None, optional
+        The Axes object to use for the plot. Create a new one if none is provided.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
+    flatten_2d_hist : bool, optional
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    stacked : bool, optional
+        If True, stack the MC histograms. If False, plot them side by side. Default is True.
+    leg_ncol : int, optional
+        The number of columns for the legend. Default is 1.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object containing the plot.
+    ax : matplotlib.axes.Axes
+        The Axes object containing the plot.
+
+    """
+
+    if fig is None and ax is None:
+        fig, ax = plt.subplots()
+    elif fig is None or ax is None:
+        raise ValueError("Need to provid both fig and ax (or None).")
+
+    plot_function(
+        x,
+        functions_list,
+        ax=ax,
+        stacked=stacked,
+        colors=function_colors,
+        labels=function_labels,
+    )
+    
+    if signal_function is not None:
+        ax.plot(
+            x,
+            signal_function(x),
+            color='black',
+            linestyle='--',
+            label=signal_label
+        )
+
+    if total_function is not None:
+        ax.plot(
+            x,
+            total_function(x),
+            color='tab:blue',
+            label=total_label,
+        )
+
+    xlim = (x[0], x[-1])
+    ax.set_xlim(xlim)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.tick_params(axis="x", labelbottom="off")
+    ax.legend(ncol=leg_ncol)
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax
 
 def add_luminosity(
     collaboration="Belle II",

@@ -457,6 +457,41 @@ def _hist_ratio_variances(hist_1, hist_2):
 
     return ratio_variances
 
+def plot_function(x, func, ax, stacked=True, **kwargs):
+    """
+    Plot a function or a list of functions.
+
+    Parameters
+    ----------
+    x : np.array
+        The x values of the function.
+    func : function or list of function.
+        The function(s) to plot.
+    ax : matplotlib.axes.Axes
+        The Axes instance for plotting.
+    **kwargs
+        Additional keyword arguments forwarded to ax.plot() and ax.stackplot().
+    """
+    if not isinstance(func, list):
+        # Single function
+        ax.plot(
+            x,
+            func(x),
+            **kwargs,
+        )
+    elif stacked:
+        ax.stackplot(
+            x,
+            [function(x) for function in func],
+            **kwargs,
+        )
+    else: 
+        for function in func:
+            ax.plot(
+                x,
+                function,
+                **kwargs,
+            )
 
 def plot_comparison(
     hist_1,
