@@ -39,7 +39,9 @@ Here are a few palette that we recommand using:
     from plothist import get_cmap_palette
 
     # From HEP examples
+    ...
     background_categories_colors = get_cmap_palette("any_cmap_name", len(background_categories))
+    ...
 
 .. image:: ../img/usage_colorpalette_examples.svg
    :alt: Color palette examples
