@@ -91,10 +91,6 @@ Then, we plot the histograms and the comparison plots on different axes:
     ax2_comparison.set_ylabel("$Ratio_{B}$")
     ax2_comparison.set_xlabel("Variable [unit]")
 
-    # Remove the ticks between the axes
-    _ = ax_main.xaxis.set_ticklabels([])
-    _ = ax1_comparison.xaxis.set_ticklabels([])
-
     # Add the legend
     ax_main.legend(loc="upper left")
 
