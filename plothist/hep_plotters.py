@@ -25,6 +25,7 @@ def compare_data_mc(
     mc_labels=None,
     mc_colors=None,
     signal_label="Signal",
+    signal_color="red",
     data_label="Data",
     save_as=None,
     flatten_2d_hist=False,
@@ -57,6 +58,8 @@ def compare_data_mc(
         The colors for the MC simulations. Default is None.
     signal_label : str, optional
         The label for the signal. Default is "Signal".
+    signal_color : str, optional
+        The color for the signal. Default is "red".
     data_label : str, optional
         The label for the data. Default is "Data".
     save_as : str or None, optional
@@ -119,6 +122,7 @@ def compare_data_mc(
         mc_labels=mc_labels,
         mc_colors=mc_colors,
         signal_label=signal_label,
+        signal_color=signal_color,
         fig=fig,
         ax=ax_main,
         stacked=stacked,
@@ -272,6 +276,7 @@ def plot_mc(
     mc_labels=None,
     mc_colors=None,
     signal_label="Signal",
+    signal_color="red",
     fig=None,
     ax=None,
     save_as=None,
@@ -298,6 +303,8 @@ def plot_mc(
         The colors for the MC simulations. Default is None.
     signal_label : str, optional
         The label for the signal. Default is "Signal".
+    signal_color : str, optional
+        The color for the signal. Default is "red".
     fig : matplotlib.figure.Figure or None, optional
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
@@ -376,7 +383,7 @@ def plot_mc(
             signal_hist,
             ax=ax,
             stacked=False,
-            color="red",
+            color=signal_color,
             label=signal_label,
             histtype="step",
         )

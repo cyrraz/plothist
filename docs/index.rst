@@ -8,6 +8,7 @@ Content
 
     usage/installation
     usage/style
+    basics/variable_manager
     basics/1d_hist
     basics/2d_hist
     advanced/1d_advanced
