@@ -13,7 +13,7 @@ from plothist.plotters import (
     plot_comparison,
     create_comparison_figure,
     _hist_ratio_variances,
-    plot_function,
+    plot_function
 )
 
 
@@ -246,12 +246,14 @@ def compare_data_mc(
 def compare_data_fit(
     data_hist,
     fit_function,
-    functions_list,
+    function_list=None,
     signal_function=None,
     xlabel=None,
     ylabel=None,
     function_labels=None,
     function_colors=None,
+    fit_label="Fit",
+    fit_color="black",
     signal_label="Signal",
     data_label="Data",
     stacked=True,
@@ -260,33 +262,46 @@ def compare_data_fit(
     ax_comparison=None,
     **comparison_kwargs,
 ):
+    
     """
-    Compare data to fit.
+    Compare data to a fit and plot the results.
 
     Parameters
     ----------
     data_hist : boost_histogram.Histogram
-        The histogram for the data.
-    pdf_list : list of python functions.
-        The list of PDFs adapted to the data.
-    signal_hist : python function, optional
-        The PDF for the signal. Default is None.
+        The histogram representing the data.
+    fit_function : function
+        The total fit function.
+    function_list : list of functions, optional
+        List of probability density functions adapted to the data. Default is None.
+    signal_function : function, optional
+        Probability density function for the signal component. Default is None.
     xlabel : str, optional
-        The label for the x-axis. Default is None.
+        Label for the x-axis. Default is None.
     ylabel : str, optional
-        The label for the y-axis. Default is None.
-    pdf_labels : list of str, optional
-        The labels for the PDFs. Default is None.
-    pdf_colors : list of str, optional
-        The colors for the PDFs. Default is None.
+        Label for the y-axis. Default is None.
+    function_labels: list of str, optional
+        Labels for the individual functions in the function_list.
+    function_colors : list of str, optional
+        Colors for the individual functions in the function_list.
+    fit_label : str, optional
+        Label for the fit curve. Default is "Fit".
+    fit_color : str, optional
+        Color for the fit curve. Default is "black".
     signal_label : str, optional
-        The label for the signal. Default is "Signal".
-    signal_color : str, optional
-        The color for the signal. Default is "red".
+        Label for the signal component. Default is "Signal".
     data_label : str, optional
-        The label for the data. Default is "Data".
+        Label for the data histogram. Default is "Data".
     stacked : bool, optional
-        If True, stack the PDFs. If False, plot them side by side. Default is True.
+        If True, stack the PDFs; if False, plot them side by side. Default is True.
+    fig : matplotlib.figure.Figure, optional
+        Figure object for plotting. If None, a new Figure will be created.
+    ax_main : matplotlib.axes.Axes, optional
+        Axes object for the main plot. If None, a new Axes will be created.
+    ax_comparison : matplotlib.axes.Axes, optional
+        Axes object for the comparison plot. If None, a new Axes will be created.
+    **comparison_kwargs : dict, optional
+        Additional keyword arguments passed to the comparison plotting function.
 
     Returns
     -------
@@ -297,6 +312,7 @@ def compare_data_fit(
     ax_comparison : matplotlib.axes.Axes
         The Axes object for the comparison plot.
     """
+    
     comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "pull")
@@ -308,34 +324,137 @@ def compare_data_fit(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
         )
     
-    # Plot data and fit
+    # Plot fit
     plot_fit(
-        np.linspace(data_hist.axes.edges[0][0],data_hist.axes.edges[0][-1],1000), 
-        functions_list=functions_list,
-        signal_function=signal_function, 
+        x=np.linspace(data_hist.axes.edges[0][0],data_hist.axes.edges[0][-1],1000), 
         fit_function=fit_function,
+        signal_function=signal_function,         
+        function_list=function_list,
         xlabel=None,
         ylabel=ylabel,
+        fit_label=fit_label,
+        fit_color=fit_color,
         signal_label=signal_label, 
         function_labels=function_labels,
         function_colors=function_colors,
-        stacked=stacked,
+        fig=fig,
         ax=ax_main,
-        fig=fig
+        stacked=stacked,
     )
 
-    # Compute pulls
+    # Plot data
     fit_hist = data_hist.copy()
     fit_hist[:] = np.stack([fit_function(fit_hist.axes[0].centers), np.zeros(len(fit_hist.axes[0].centers))], axis=-1)
-    plot_error_hist(data_hist,ax=ax_main,color='black')
+
+    plot_error_hist(
+        data_hist,
+        ax=ax_main,
+        color='black',
+        label=data_label,
+    )
+    ax_main.legend()
+
+    # Plot pulls
     plot_comparison(data_hist,fit_hist,comparison='pull',
         ax=ax_comparison,h1_label='Data',h2_label='Fit',
         comparison_ylabel=rf"$\frac{{ Data - Fit }}{{ \sigma_{{Data}} }} $")
     ax_comparison.set_xlabel(xlabel)
 
+    fig.align_ylabels()
+
     return fig, ax_main, ax_comparison
 
+def plot_asymmetry(
+    btag_hist,
+    bartag_hist,
+    btag_fit,
+    bartag_fit,
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
+    xlabel=None,
+    ylabel=None,
+):
+    
+    if fig is None and ax_main is None and ax_comparison is None:
+        fig, (ax_main, ax_comparison) = create_comparison_figure(gridspec_kw = { "height_ratios": [2, 1] })
+    elif fig is None or ax_main is None or ax_comparison is None:
+        raise ValueError(
+            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+        )
 
+    # Plot the data
+    marker_btag = {
+        'color':'tab:red',
+        'markeredgecolor':'tab:red',
+        'ls':'None',
+        'marker':'o',
+        'markersize':5,
+        'label':r'$\mathit{B^0}_{tag}$ ($\mathit{q=+1}$)'
+    }
+
+    marker_bartag = {
+        'color':'tab:blue',
+        'markerfacecolor':'white', 
+        'markeredgecolor':'tab:blue',
+        'ls':'None',
+        'marker':'o',
+        'markersize':5,
+        'label':r'$\mathit{\overline{B}^0}_{tag}$ ($\mathit{q=-1}$)'
+    }
+
+    plot_error_hist(
+        btag_hist,
+        ax_main,
+        **marker_btag,
+    )
+
+    plot_error_hist(
+        bartag_hist,
+        ax_main,
+        **marker_bartag,
+    )
+
+    # Plot fit functions
+    xmin = btag_hist.axes.edges[0][0]
+    xmax = btag_hist.axes.edges[0][-1]
+    x=np.linspace(xmin,xmax,1000)
+
+    ax_main.plot(
+        x,
+        btag_fit(x),
+        color=marker_btag['color'],
+    )
+
+    ax_main.plot(
+        x,
+        bartag_fit(x),
+        color=marker_bartag['color'],
+        linestyle='--'
+    )
+
+    ax_main.legend()
+    ax_main.set_xlim(xmin,xmax)
+    ax_main.set_ylim(0)
+    ax_main.set_ylabel(ylabel)
+
+    # Asymmetry
+    asymmetry_func = lambda x: (btag_fit(x) - bartag_fit(x)) / (btag_fit(x) + bartag_fit(x))
+
+    plot_comparison(
+        btag_hist,
+        bartag_hist,
+        ax_comparison,
+        comparison='asymmetry',
+        comparison_ylim=(-1,1),
+        )
+    ax_comparison.plot(x,asymmetry_func(x),color='black')
+    ax_comparison.set_xlabel(xlabel)
+
+    fig.align_ylabels()
+
+    return fig, ax_main, ax_comparison
+    
 
 def _get_poisson_uncertainties(data_hist):
     """
@@ -496,64 +615,67 @@ def plot_mc(
 
 def plot_fit(
     x,
-    functions_list,
-    signal_function=None,
     fit_function=None,
+    signal_function=None,
+    function_list=None,
     xlabel=None,
     ylabel=None,
-    function_labels=(),
-    function_colors=None,
-    signal_label="Signal",
     fit_label="Fit",
+    fit_color="black",
+    signal_label="Signal",
+    function_labels=None,
+    function_colors=None,
     fig=None,
     ax=None,
     save_as=None,
     stacked=True,
     leg_ncol=1,
 ):
+    
     """
-    Plot fit curves
+    Plot a fit and/or signal function on the specified axes.
 
     Parameters
     ----------
-    x: np.array
-        The range in which to plot the functions.
-    functions_list : list of function
-        The list of python functions.
-    signal_function : function, optional
-        The function for the signal. Default is None.
+    x : array_like
+        The x-values for plotting.
     fit_function : function, optional
-        The fit function. Default is None.
+        The fit function to be plotted.
+    signal_function : function, optional
+        The signal function to be plotted.
+    function_list : list of functions, optional
+        List of probability density functions to be plotted.
     xlabel : str, optional
-        The label for the x-axis. Default is None.
+        Label for the x-axis.
     ylabel : str, optional
-        The label for the y-axis. Default is None.
-    function_labels : list of str, optional
-        The labels for the functions. Default is ().
-    function_colors : list of str, optional
-        The colors for the functions. Default is None.
-    signal_label : str, optional
-        The label for the signal function. Default is "Signal".
+        Label for the y-axis.
     fit_label : str, optional
-        The label for the fit function. Default is "Fit".
-    fig : matplotlib.figure.Figure or None, optional
-        The Figure object to use for the plot. Create a new one if none is provided.
-    ax : matplotlib.axes.Axes or None, optional
-        The Axes object to use for the plot. Create a new one if none is provided.
-    save_as : str or None, optional
-        The file path to save the figure. Default is None.
+        Label for the fit curve. Default is "Fit".
+    fit_color : str, optional
+        Color for the fit curve. Default is "black".
+    signal_label : str, optional
+        Label for the signal curve.
+    function_labels : list of str, optional
+        Labels for the individual functions in function_list.
+    function_colors : list of str, optional
+        Colors for the individual functions in function_list.
+    fig : matplotlib.figure.Figure, optional
+        Figure object for plotting. If None, a new Figure will be created.
+    ax : matplotlib.axes.Axes, optional
+        Axes object for the plot. If None, a new Axes will be created.
+    save_as : str, optional
+        File path to save the figure (e.g., "plot.png"). Default is None (no saving).
     stacked : bool, optional
-        If True, stack the MC histograms. If False, plot them side by side. Default is True.
+        If True, stack the PDFs; if False, plot them side by side.
     leg_ncol : int, optional
-        The number of columns for the legend. Default is 1.
+        Number of columns in the legend. Default is 1.
 
     Returns
     -------
     fig : matplotlib.figure.Figure
         The Figure object containing the plot.
     ax : matplotlib.axes.Axes
-        The Axes object containing the plot.
-
+        The Axes object for the plot.
     """
 
     if fig is None and ax is None:
@@ -561,14 +683,15 @@ def plot_fit(
     elif fig is None or ax is None:
         raise ValueError("Need to provid both fig and ax (or None).")
 
-    plot_function(
-        x,
-        functions_list,
-        ax=ax,
-        stacked=stacked,
-        colors=function_colors,
-        labels=function_labels,
-    )
+    if function_list is not None:
+        plot_function(
+            x,
+            function_list=function_list,
+            ax=ax,
+            stacked=stacked,
+            function_labels=function_labels,
+            function_colors=function_colors,
+        )
     
     if signal_function is not None:
         ax.plot(
@@ -583,7 +706,7 @@ def plot_fit(
         ax.plot(
             x,
             fit_function(x),
-            color='tab:blue',
+            color=fit_color,
             label=fit_label,
         )
 

@@ -457,42 +457,61 @@ def _hist_ratio_variances(hist_1, hist_2):
 
     return ratio_variances
 
-def plot_function(x, func, ax, stacked=True, **kwargs):
+def plot_function(x, function_list, ax, function_labels=None, function_colors=None, stacked=True, **kwargs):
     """
-    Plot a function or a list of functions.
+    Plot one or more functions on the same axes.
 
     Parameters
     ----------
-    x : np.array
-        The x values of the function.
-    func : function or list of function.
-        The function(s) to plot.
+    x : array_like
+        The x-values for plotting.
+    function_list : function or list of functions
+        The function(s) to be plotted.
     ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    **kwargs
-        Additional keyword arguments forwarded to ax.plot() and ax.stackplot().
+        The Axes object where the plot will be drawn.
+    function_labels : str or list of str, optional
+        Labels for the function(s) in the legend.
+    function_colors : str or list of str, optional
+        Color(s) for the function(s).
+    stacked : bool, optional
+        If True, stack the function plots; if False, plot them side by side.
+    **kwargs : dict, optional
+        Additional keyword arguments passed to the plotting functions.
+
+    Returns
+    -------
+    None
     """
-    if not isinstance(func, list):
-        # Single function
-        ax.plot(
-            x,
-            func(x),
-            **kwargs,
-        )
-    elif stacked:
+
+    if isinstance(function_list, list) and stacked:
         ax.stackplot(
             x,
-            [function(x) for function in func],
+            [function(x) for function in function_list],
             edgecolor='black',
+            colors=function_colors,
+            labels=function_labels,
+            linewidth=0.5,
             **kwargs,
         )
-    else: 
-        for function in func:
+    elif isinstance(function_list, list) and not stacked: 
+        for index, function in enumerate(function_list):
             ax.plot(
                 x,
                 function(x),
+                color=function_colors[index] if function_colors is not None else None,
+                label=function_labels[index] if function_labels is not None else None,
                 **kwargs,
             )
+    else:
+        ax.plot(
+            x,
+            function_list(x),
+            label=function_labels,
+            color=function_colors,
+            **kwargs,
+        )
+
+
 
 def plot_comparison(
     hist_1,
@@ -584,6 +603,13 @@ def plot_comparison(
     elif comparison == "difference":
         comparison_values = hist_1.values() - hist_2.values()
         comparison_variances = hist_1.variances() + hist_2.variances()
+    elif comparison == "asymmetry":
+        hist_sum = hist_1 + hist_2
+        hist_diff = hist_1 + (-1*hist_2) 
+        comparison_values = np.where(
+            hist_sum.values() != 0, hist_diff.values() / hist_sum.values(), np.nan
+        )
+        comparison_variances = _hist_ratio_variances(hist_diff, hist_sum)
     else:
         raise ValueError(
             f"{comparison} not available as a comparison ('ratio', 'pull' or 'difference')."
@@ -634,6 +660,10 @@ def plot_comparison(
     elif comparison == "difference":
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(f"${h1_label} - {h2_label}$")
+
+    elif comparison == "asymmetry":
+        ax.axhline(0, ls="--", lw=1.0, color="black")
+        ax.set_ylabel("Asymmetry")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
