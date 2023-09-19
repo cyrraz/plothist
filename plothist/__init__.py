@@ -21,7 +21,7 @@ from .variable_registry import (
     update_variable_registry_ranges,
 )
 
-from .hep_plotters import compare_data_mc, plot_mc, add_luminosity, plot_fit
+from .hep_plotters import compare_data_mc, plot_mc, add_luminosity, plot_fit, compare_data_fit
 
 from .plothist_style import set_style
 

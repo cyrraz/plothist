@@ -483,13 +483,14 @@ def plot_function(x, func, ax, stacked=True, **kwargs):
         ax.stackplot(
             x,
             [function(x) for function in func],
+            edgecolor='black',
             **kwargs,
         )
     else: 
         for function in func:
             ax.plot(
                 x,
-                function,
+                function(x),
                 **kwargs,
             )
 

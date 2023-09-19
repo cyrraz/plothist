@@ -243,16 +243,16 @@ def compare_data_mc(
 
     return fig, ax_main, ax_comparison
 
-def compare_data_function(
+def compare_data_fit(
     data_hist,
-    pdf_list,
-    signal_pdf=None,
+    fit_function,
+    functions_list,
+    signal_function=None,
     xlabel=None,
     ylabel=None,
-    pdf_labels=None,
-    pdf_colors=None,
+    function_labels=None,
+    function_colors=None,
     signal_label="Signal",
-    signal_color="red",
     data_label="Data",
     stacked=True,
     fig=None,
@@ -261,7 +261,7 @@ def compare_data_function(
     **comparison_kwargs,
 ):
     """
-    Compare data to pdf.
+    Compare data to fit.
 
     Parameters
     ----------
@@ -297,6 +297,9 @@ def compare_data_function(
     ax_comparison : matplotlib.axes.Axes
         The Axes object for the comparison plot.
     """
+    comparison_kwargs.setdefault("h1_label", data_label)
+    comparison_kwargs.setdefault("h2_label", "Pred.")
+    comparison_kwargs.setdefault("comparison", "pull")
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -305,6 +308,32 @@ def compare_data_function(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
         )
     
+    # Plot data and fit
+    plot_fit(
+        np.linspace(data_hist.axes.edges[0][0],data_hist.axes.edges[0][-1],1000), 
+        functions_list=functions_list,
+        signal_function=signal_function, 
+        fit_function=fit_function,
+        xlabel=None,
+        ylabel=ylabel,
+        signal_label=signal_label, 
+        function_labels=function_labels,
+        function_colors=function_colors,
+        stacked=stacked,
+        ax=ax_main,
+        fig=fig
+    )
+
+    # Compute pulls
+    fit_hist = data_hist.copy()
+    fit_hist[:] = np.stack([fit_function(fit_hist.axes[0].centers), np.zeros(len(fit_hist.axes[0].centers))], axis=-1)
+    plot_error_hist(data_hist,ax=ax_main,color='black')
+    plot_comparison(data_hist,fit_hist,comparison='pull',
+        ax=ax_comparison,h1_label='Data',h2_label='Fit',
+        comparison_ylabel=rf"$\frac{{ Data - Fit }}{{ \sigma_{{Data}} }} $")
+    ax_comparison.set_xlabel(xlabel)
+
+    return fig, ax_main, ax_comparison
 
 
 
@@ -469,13 +498,13 @@ def plot_fit(
     x,
     functions_list,
     signal_function=None,
-    total_function=None,
+    fit_function=None,
     xlabel=None,
     ylabel=None,
-    function_labels=None,
+    function_labels=(),
     function_colors=None,
     signal_label="Signal",
-    total_label="Fit",
+    fit_label="Fit",
     fig=None,
     ax=None,
     save_as=None,
@@ -483,7 +512,7 @@ def plot_fit(
     leg_ncol=1,
 ):
     """
-    Plot MC simulation histograms.
+    Plot fit curves
 
     Parameters
     ----------
@@ -493,28 +522,26 @@ def plot_fit(
         The list of python functions.
     signal_function : function, optional
         The function for the signal. Default is None.
-    total_function : function, optional
-        The total function. Default is None.
+    fit_function : function, optional
+        The fit function. Default is None.
     xlabel : str, optional
         The label for the x-axis. Default is None.
     ylabel : str, optional
         The label for the y-axis. Default is None.
     function_labels : list of str, optional
-        The labels for the functions. Default is None.
+        The labels for the functions. Default is ().
     function_colors : list of str, optional
         The colors for the functions. Default is None.
     signal_label : str, optional
-        The label for the signal. Default is "Signal".
-    signal_color : str, optional
-        The color for the signal. Default is "red".
+        The label for the signal function. Default is "Signal".
+    fit_label : str, optional
+        The label for the fit function. Default is "Fit".
     fig : matplotlib.figure.Figure or None, optional
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
         The Axes object to use for the plot. Create a new one if none is provided.
     save_as : str or None, optional
         The file path to save the figure. Default is None.
-    flatten_2d_hist : bool, optional
-        If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
         If True, stack the MC histograms. If False, plot them side by side. Default is True.
     leg_ncol : int, optional
@@ -552,12 +579,12 @@ def plot_fit(
             label=signal_label
         )
 
-    if total_function is not None:
+    if fit_function is not None:
         ax.plot(
             x,
-            total_function(x),
+            fit_function(x),
             color='tab:blue',
-            label=total_label,
+            label=fit_label,
         )
 
     xlim = (x[0], x[-1])
