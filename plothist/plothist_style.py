@@ -56,10 +56,12 @@ def get_fitting_ylabel_fontsize(ax):
         ax.yaxis.get_label().get_window_extent().transformed(ax.transData.inverted()).y1
         > ax.get_ylim()[1]
     ):
-        ylabel_fontsize -= 0.1
-        ax.get_yaxis().get_label().set_size(ylabel_fontsize)
-        if ylabel_fontsize < 0:
+        if ylabel_fontsize <= 0:
             raise ValueError(
                 "Only a y-label with a negative font size would fit on the y-axis."
             )
+
+        ylabel_fontsize -= 0.1
+        ax.get_yaxis().get_label().set_size(ylabel_fontsize)
+
     return ylabel_fontsize
