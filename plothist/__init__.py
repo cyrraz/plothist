@@ -21,7 +21,12 @@ from .variable_registry import (
 
 from .hep_plotters import compare_data_mc, plot_mc, add_luminosity
 
-from .plothist_style import set_style, cubehelix_palette, get_cmap_palette
+from .plothist_style import (
+    set_style,
+    cubehelix_palette,
+    get_cmap_palette,
+    get_fitting_ylabel_fontsize,
+)
 
 __all__ = [
     "__version__",
@@ -43,6 +48,7 @@ __all__ = [
     "set_style",
     "cubehelix_palette",
     "get_cmap_palette",
+    "get_fitting_ylabel_fontsize",
 ]
 
 

@@ -147,3 +147,34 @@ def get_cmap_palette(cmap, N):
     colors = [plt_cmap(value) for value in values]
 
     return colors[::-1]
+
+
+def get_fitting_ylabel_fontsize(ax):
+    """
+    Get the suitable font size for a ylabel text that fits within the plot's y-axis limits.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The matplotlib subplot to adjust the ylabel font size for.
+
+    Returns
+    -------
+    float
+        The adjusted font size for the ylabel text.
+    """
+    ylabel_fontsize = ax.yaxis.get_label().get_fontsize()
+    while (
+        ax.yaxis.get_label().get_window_extent().transformed(ax.transData.inverted()).y1
+        > ax.get_ylim()[1]
+    ):
+        ylabel_fontsize -= 0.1
+
+        if ylabel_fontsize <= 0:
+            raise ValueError(
+                "Only a y-label with a negative font size would fit on the y-axis."
+            )
+
+        ax.get_yaxis().get_label().set_size(ylabel_fontsize)
+
+    return ylabel_fontsize
