@@ -125,8 +125,8 @@ To use pulls instead of the ratio to compare the histograms:
     fig, ax_main, ax_comparison = compare_data_mc(
         data_hist=data_hist,
         mc_hist_list=background_hists,
-        xlabel=f"${key}\,\,[KeV/c^2]$",
-        ylabel="Candidates per 0.381984 $[KeV/c^2]$",
+        xlabel=f"${key}\,\,[TeV/c^2]$",
+        ylabel="Candidates per 0.38719841 $TeV/c^2$",
         mc_labels=background_categories_labels,
         mc_colors=background_categories_colors,
         stacked=True,
