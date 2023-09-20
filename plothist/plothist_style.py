@@ -43,7 +43,7 @@ def get_fitting_ylabel_fontsize(ax):
 
     Parameters
     ----------
-    ax : matplotlib.axes._subplots.AxesSubplot
+    ax : matplotlib.axes.Axes
         The matplotlib subplot to adjust the ylabel font size for.
 
     Returns
@@ -55,4 +55,6 @@ def get_fitting_ylabel_fontsize(ax):
     while ax.yaxis.get_label().get_window_extent().transformed(ax.transData.inverted()).y1 > ax.get_ylim()[1]:
         ylabel_fontsize -= .1
         ax.get_yaxis().get_label().set_size(ylabel_fontsize)
+        if ylabel_fontsize<0:
+            raise ValueError("Only a y-label with a negative font size would fit on the y-axis.")
     return ylabel_fontsize
