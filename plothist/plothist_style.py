@@ -169,9 +169,6 @@ def get_color_palette(cmap, N):
     return colors
 
 
-# def get_cycle
-
-
 def get_fitting_ylabel_fontsize(ax):
     """
     Get the suitable font size for a ylabel text that fits within the plot's y-axis limits.
