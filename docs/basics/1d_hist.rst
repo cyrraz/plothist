@@ -131,7 +131,12 @@ We can also add functions using ``scipy``:
 Comparing two histograms
 ========================
 
-To compare two histograms, using the histograms defined above:
+To compare two histograms, three comparison method are available: ``ratio``, ``pull`` and ``difference``. The examples after are using the histograms defined above.
+
+Ratio
+-----
+
+``ratio`` is the default comparison method:
 
 .. code-block:: python
 
@@ -152,10 +157,10 @@ To compare two histograms, using the histograms defined above:
    :alt: Simple ratio comparison
    :width: 500
 
+Pull
+----
 
-Three comparison method are available: ``ratio`` (default), ``pull`` and ``difference``.
-
-Pull comparison:
+To perform a pull comparison:
 
 .. code-block:: python
 
@@ -178,7 +183,10 @@ Pull comparison:
    :width: 500
 
 
-Difference comparison:
+Difference
+----------
+
+To plot the difference between the two histograms:
 
 .. code-block:: python
 
