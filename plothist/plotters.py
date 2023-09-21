@@ -509,8 +509,8 @@ def plot_comparison(
 
     """
 
-    h1_label = get_math_text(h1_label)
-    h2_label = get_math_text(h2_label)
+    h1_label = _get_math_text(h1_label)
+    h2_label = _get_math_text(h2_label)
 
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
@@ -609,7 +609,7 @@ def plot_comparison(
     return ax
 
 
-def get_math_text(text):
+def _get_math_text(text):
     match = re.search(r"\$(.*?)\$", text)
     if match:
         return match.group(1)
