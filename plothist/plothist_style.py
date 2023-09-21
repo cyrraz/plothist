@@ -4,6 +4,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
+import matplotlib.colors as mcolors
+import warnings
 from importlib.resources import path as resources_path
 
 
@@ -120,33 +122,54 @@ def cubehelix_palette(
     return pal
 
 
-def get_cmap_palette(cmap, N):
+def get_color_palette(cmap, N):
     """
-    Get N different colors from a specified colormap from matplotlib.
+    Get N different colors from a chosen colormap.
 
     Parameters
     ----------
     cmap : str
-        The name of the colormap to use.
+        The name of the colormap to use. Use "ggplot" get the cycle of the default style. Use "cubehelix" to get the cubehelix palette with default settings. Can also be any colormap from matplotlib (we recommand "viridis", "coolwarm" or "YlGnBu_r").
     N : int
         The number of colors to sample.
 
     Returns
     -------
     list
-        A list of RGB color tuples sampled from the colormap, reversed.
+        A list of RGB color tuples sampled from the colormap.
 
     References
     ----------
+    ggplot colormap: https://matplotlib.org/stable/gallery/style_sheets/ggplot.html
     Matplotlib colormaps: https://matplotlib.org/stable/gallery/color/colormap_reference.html
+
+    See also
+    --------
+    cubehelix_palette : Make a sequential palette from the cubehelix system.
     """
-    plt_cmap = plt.get_cmap(cmap)
+    if N < 2:
+        raise ValueError("The number of colors asked should be >1.")
 
-    values = np.linspace(0, 1, N)
+    if cmap == "ggplot":
+        if N > 7:
+            warnings.warn(
+                f"Only 7 colors are available in the default style cycle ({N} asked). Will return 7 colors.",
+            )
+            N = 7
+        prop_cycle = plt.rcParams["axes.prop_cycle"]
+        colors = [mcolors.hex2color(prop["color"]) for prop in prop_cycle][:N]
 
-    colors = [plt_cmap(value) for value in values]
+    elif cmap == "cubehelix":
+        colors = cubehelix_palette(N)
 
-    return colors[::-1]
+    else:
+        plt_cmap = plt.get_cmap(cmap)
+        colors = plt_cmap(np.linspace(0, 1, N))
+
+    return colors
+
+
+# def get_cycle
 
 
 def get_fitting_ylabel_fontsize(ax):
