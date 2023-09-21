@@ -136,7 +136,7 @@ To compare two histograms, three comparison method are available: ``ratio``, ``p
 Ratio
 -----
 
-``ratio`` is the default comparison method:
+Ratio is the default comparison method:
 
 .. code-block:: python
 
