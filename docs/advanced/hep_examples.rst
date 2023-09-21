@@ -138,12 +138,15 @@ To use pulls instead of the ratio to compare the histograms:
 
 
 .. image:: ../img/hep_examples_dataMC_pull.svg
-   :alt: Data/fit comparison with pull, stacked pdfs
+   :alt: Data/MC comparison with pull, stacked plot
    :width: 500
 
 
-Compare data and Fit
+Compare data and fit
 ====================
+
+Delta E plot
+------------------
 
 To make simple data/fit comparison with different fit components:
 
@@ -201,6 +204,60 @@ To make simple data/fit comparison with different fit components:
     add_luminosity(collaboration="Belle III", ax=ax_main, lumi=3, lumi_unit='ab', preliminary=True)
     ax_main.set_ylim(0)
     fig.savefig("hep_examples_compare_data_fit.svg",bbox_inches="tight")
+
+.. image:: ../img/compare_data_fit.svg
+   :alt: Data/fit comparison with pull, stacked pdfs
+   :width: 500
+
+Asymmetry plot
+--------------
+
+To make a simple asymmetry plot with oppositely tagged evets:
+
+.. code-block:: python
+
+    from plothist.pdfs import bdecay, resolution, exp_bdecay
+    import numpy as np
+
+    # generate data
+    xlim = (-10,10)
+    bdec = bdecay(tau=1,dm=0.5,C=0,S=0.7,omega=0.1)
+    res = resolution(0,0.8)
+    jpsiks = exp_bdecay(bdec,res)
+    nsamples = 60000
+    data_btag = jpsiks.generate(nsamples,*xlim,q=+1)
+    data_bartag = jpsiks.generate(nsamples,*xlim,q=-1)
+
+    from plothist import make_hist
+    from plothist import plot_asymmetry
+    from plothist import add_luminosity
+
+    # Plot the asymmetry
+    bins = 40
+    bw = (xlim[1]-xlim[0])/bins
+    norm = bw*nsamples
+
+    btag_hist = make_hist(data_btag, bins=bins, range=xlim, weights=1)
+    bartag_hist = make_hist(data_bartag, bins=bins, range=xlim, weights=1)
+
+    btag_func = lambda x: norm*jpsiks.pdf(x,q=+1)
+    bartag_func = lambda x: norm*jpsiks.pdf(x,q=-1)
+
+    fig, ax_main, ax_comparison = plot_asymmetry(
+        btag_hist = btag_hist,
+        bartag_hist = bartag_hist,
+        btag_fit = btag_func,
+        bartag_fit = bartag_func,
+        ylabel = r'Candidates / '+f'{bw:.1f} ps',
+        xlabel = r'$\mathit{\Delta t}$ [ps]'
+    )
+
+    add_luminosity(collaboration="Belle III", ax=ax_main, lumi=3, lumi_unit='ab', preliminary=True)
+    fig.savefig('asymmetry.pdf', bbox_inches="tight")
+
+.. image:: ../img/asymmetry.svg
+   :alt: Asymmetry plot
+   :width: 500
 
 Advanced
 ========
