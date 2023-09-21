@@ -166,7 +166,6 @@ To perform a pull comparison:
 
     from plothist import compare_two_hist
 
-    # Default comparison is ratio
     fig, ax_main, ax_comparison = compare_two_hist(
         h2,
         h3,
@@ -174,7 +173,7 @@ To perform a pull comparison:
         ylabel="Entries",
         h1_label="$c_{2}$",
         h2_label="$c_{3}$",
-        comparison = "pull",
+        comparison = "pull", # <--
         save_as="1d_comparison_pull.svg",
     )
 
@@ -192,7 +191,6 @@ To plot the difference between the two histograms:
 
     from plothist import compare_two_hist
 
-    # Default comparison is ratio
     fig, ax_main, ax_comparison = compare_two_hist(
         h2,
         h3,
@@ -200,7 +198,7 @@ To plot the difference between the two histograms:
         ylabel="Entries",
         h1_label="$\mathcal{C}_{2}$",
         h2_label="$\mathcal{C}_{3}$",
-        comparison = "difference",
+        comparison = "difference", # <--
         save_as="1d_comparison_difference.svg",
     )
 
