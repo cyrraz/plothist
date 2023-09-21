@@ -143,6 +143,35 @@ To use pulls instead of the ratio to compare the histograms:
 
 
 
+If the MC uncertainties are not relevant (after a rescaling for example), setting them to ``False`` update the definition of the pulls:
+
+
+.. code-block:: python
+
+    from plothist import compare_data_mc, add_luminosity
+
+    fig, ax_main, ax_comparison = compare_data_mc(
+        data_hist=data_hist,
+        mc_hist_list=background_hists,
+        xlabel=f"${key}\,\,[keV/c^2]$",
+        ylabel="Candidates per 0.193 $keV/c^2$",
+        mc_labels=background_categories_labels,
+        mc_colors=background_categories_colors,
+        stacked=True,
+        comparison="pull",
+        mc_uncertainty=False # <--
+    )
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi=8.2, lumi_unit="zb", preliminary=True)
+
+    fig.savefig("hep_examples_dataMC_pull_no_MC_stat_unc.svg", bbox_inches='tight')
+
+
+.. image:: ../img/hep_examples_dataMC_pull_no_MC_stat_unc.svg
+   :alt: Data/MC comparison with pull, no MC stat. unc., stacked plot
+   :width: 500
+
+
+
 Advanced
 ========
 
