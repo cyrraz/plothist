@@ -138,10 +138,69 @@ To use pulls instead of the ratio to compare the histograms:
 
 
 .. image:: ../img/hep_examples_dataMC_pull.svg
-   :alt: Data/MC comparison with pull, stacked plot
+   :alt: Data/fit comparison with pull, stacked pdfs
    :width: 500
 
 
+Compare data and Fit
+====================
+
+To make simple data/fit comparison with different fit components:
+
+.. code-block:: python
+
+    from plothist.pdfs import gauss, cball, expo
+    import numpy as np
+
+
+    # Generate the data 
+    xlim = (-0.2,0.2)
+
+    signal = gauss(mean=0,sigma=0.04)
+    signal_nevt = 3000
+    signal_data = signal.generate(signal_nevt,*xlim)
+
+    background = cball(mean=-0.15,sigma=0.04,alpha=0.5,n=5)
+    background_nevt = 1000
+    background_data = background.generate(background_nevt,*xlim)
+
+    continuum = expo(c=0)
+    continuum_nevt = 500
+    continuum_data = continuum.generate(continuum_nevt,*xlim)
+
+    data = np.concatenate([signal_data,background_data,continuum_data])
+
+    from plothist import compare_data_fit
+    from plothist import make_hist
+    from plothist import add_luminosity
+
+    # Plot data and fit
+    bins = 40
+    bw = (xlim[1] - xlim[0])/bins
+
+    data_hist = make_hist(data, bins=bins, range=xlim)
+
+    signal_func = lambda x: bw*signal_nevt*signal.pdf(x)
+    background_func = lambda x: bw*background_nevt*background.pdf(x)
+    continuum_func = lambda x: bw*continuum_nevt*continuum.pdf(x)
+    total_func = lambda x: signal_func(x)+background_func(x)+continuum_func(x)
+
+    fig, ax_main, ax_comparison = compare_data_fit(
+        data_hist=data_hist,
+        fit_function=total_func,
+        function_list=[continuum_func,background_func],
+        signal_function=signal_func,
+        xlabel=r'$\mathit{\Delta E}$ [GeV]',
+        ylabel=r'Candidates / '+f'{bw:.2f} GeV',
+        function_labels=[r"$\mathit{q\overline{q}}$",r"$\mathit{B\overline{B}}$"],
+        fit_label="Fit",
+        signal_label="Signal",
+        data_label="Data",
+        stacked=True,
+    )
+    add_luminosity(collaboration="Belle III", ax=ax_main, lumi=3, lumi_unit='ab', preliminary=True)
+    ax_main.set_ylim(0)
+    fig.savefig("hep_examples_compare_data_fit.svg",bbox_inches="tight")
 
 Advanced
 ========
