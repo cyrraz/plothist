@@ -24,7 +24,7 @@ To make simple data/MC comparison with different MC categories:
 .. code-block:: python
 
     from plothist import make_hist
-    from plothist import cubehelix_palette
+    from plothist import get_color_palette
 
     # Define the histograms
 
@@ -38,7 +38,7 @@ To make simple data/MC comparison with different MC categories:
 
     background_categories = [0, 1, 2]
     background_categories_labels = [f"c{i}" for i in background_categories]
-    background_categories_colors = cubehelix_palette(ncolors=len(background_categories))
+    background_categories_colors = get_color_palette("cubehelix", len(background_categories))
 
     background_masks = [df[category] == p for p in background_categories]
 
@@ -181,7 +181,7 @@ Compare data and stacked histogram for a flatten 2D variable:
 
 .. code-block:: python
 
-    from plothist import make_2d_hist, cubehelix_palette
+    from plothist import make_2d_hist, get_color_palette
     from plothist import compare_data_mc, add_luminosity
 
     # Define the histograms
@@ -200,7 +200,7 @@ Compare data and stacked histogram for a flatten 2D variable:
 
     background_categories = [0, 1, 2, 3, 4, 5, 6]
     background_categories_labels = [f"c{i}" for i in background_categories]
-    background_categories_colors = cubehelix_palette(ncolors=len(background_categories))
+    background_categories_colors = get_color_palette("cubehelix", len(background_categories))
 
     background_masks = [df[category] == p for p in background_categories]
 
