@@ -9,7 +9,37 @@ Default style
 
 ``import plothist`` automatically sets the matplotlib style to a presentation and publication ready style, with large and readable axis labels and legend.
 
+Fonts
+=====
+
 Latin Modern fonts are used by default. You can install the font by using the script located in the `github repository of plothist <https://github.com/cyrraz/plothist/tree/main/scripts/install_latin_modern_fonts.sh>`_.
+
+On Linux/Ubuntu
+---------------
+
+Just run:
+
+.. code-block:: bash
+
+    source install_latin_modern_fonts.sh
+
+
+On MacOS
+--------
+
+The fonts have to be moved to a specific folder after launching the script:
+
+.. code-block:: bash
+
+    source install_latin_modern_fonts.sh
+
+    # Move the font file and the 2 font folders
+    mv ~/.fonts/latin* /Users/USERNAME/Library/Fonts/
+
+    # Delete the matplotlib cache
+    rm ~/.matplotlib/fontlist-v330.json
+    # Warning: The cache may have another name
+
 
 
 Color palettes
@@ -40,7 +70,7 @@ Cubehelix palette
 
 When displaying quantities such as yields or intensities, it is recommended to utilize Perceptually Uniform Sequential Colormaps like the cubehelix colormap for accurate representation.
 
-We provide the cubehelix palette (see `here <https://plothist.readthedocs.io/en/latest/documentation/documentation.html#plothist.plotters.cubehelix_palette>`_) to create such colormap:
+We provide the cubehelix palette (adapted from `here <https://seaborn.pydata.org/generated/seaborn.cubehelix_palette.html>`_) to create such colormap:
 
 .. code-block:: python
 
