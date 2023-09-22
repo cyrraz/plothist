@@ -126,7 +126,7 @@ To use pulls instead of the ratio to compare the histograms:
         data_hist=data_hist,
         mc_hist_list=background_hists,
         xlabel=f"${key}\,\,[TeV/c^2]$",
-        ylabel="Candidates per 0.38719841 $TeV/c^2$",
+        ylabel="Candidates per 0.42 $TeV/c^2$",
         mc_labels=background_categories_labels,
         mc_colors=background_categories_colors,
         stacked=True,
@@ -139,6 +139,34 @@ To use pulls instead of the ratio to compare the histograms:
 
 .. image:: ../img/hep_examples_dataMC_pull.svg
    :alt: Data/MC comparison with pull, stacked plot
+   :width: 500
+
+
+
+If you do not want to show and take into account the MC uncertainties, setting ``mc_uncertainty`` to ``False`` updates the definition of the pulls:
+
+.. code-block:: python
+
+    from plothist import compare_data_mc, add_luminosity
+
+    fig, ax_main, ax_comparison = compare_data_mc(
+        data_hist=data_hist,
+        mc_hist_list=background_hists,
+        xlabel=f"${key}\,\,[eV/c^2]$",
+        ylabel="Hits in the LMN per $4.2\\times 10^{-1}\,\,eV/c^2$",
+        mc_labels=background_categories_labels,
+        mc_colors=background_categories_colors,
+        stacked=True,
+        comparison="pull",
+        mc_uncertainty=False # <--
+    )
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi=8.2, lumi_unit="zb", preliminary=True)
+
+    fig.savefig("hep_examples_dataMC_pull_no_MC_stat_unc.svg", bbox_inches='tight')
+
+
+.. image:: ../img/hep_examples_dataMC_pull_no_MC_stat_unc.svg
+   :alt: Data/MC comparison with pull, no MC stat. unc., stacked plot
    :width: 500
 
 

@@ -17,4 +17,4 @@ rm -f latin-modern-sans.zip
 # Return to starting folder
 cd $STARTING_POINT
 # Clear matplotlib cache
-rm -r ~/.cache/matplotlib
+rm -rf ~/.cache/matplotlib

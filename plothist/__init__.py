@@ -1,5 +1,5 @@
 """Plot histograms in a scalable way and a beautiful style."""
-__version__ = "0.6"
+__version__ = "0.7"
 
 from .plotters import (
     create_comparison_figure,
@@ -11,7 +11,6 @@ from .plotters import (
     plot_error_hist,
     compare_two_hist,
     plot_comparison,
-    cubehelix_palette,
 )
 
 from .variable_registry import (
@@ -22,7 +21,12 @@ from .variable_registry import (
 
 from .hep_plotters import compare_data_mc, plot_mc, add_luminosity
 
-from .plothist_style import set_style, get_fitting_ylabel_fontsize
+from .plothist_style import (
+    set_style,
+    cubehelix_palette,
+    get_color_palette,
+    get_fitting_ylabel_fontsize,
+)
 
 __all__ = [
     "__version__",
@@ -38,11 +42,12 @@ __all__ = [
     "plot_error_hist",
     "compare_two_hist",
     "plot_comparison",
-    "cubehelix_palette",
     "compare_data_mc",
     "plot_mc",
     "add_luminosity",
     "set_style",
+    "cubehelix_palette",
+    "get_color_palette",
     "get_fitting_ylabel_fontsize",
 ]
 
