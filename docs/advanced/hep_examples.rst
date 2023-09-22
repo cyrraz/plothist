@@ -143,8 +143,7 @@ To use pulls instead of the ratio to compare the histograms:
 
 
 
-If the MC uncertainties are not relevant (after a rescaling for example), setting them to ``False`` update the definition of the pulls:
-
+If you do not want to show and take into account the MC uncertainties, setting ``mc_uncertainty`` to ``False`` update the definition of the pulls:
 
 .. code-block:: python
 

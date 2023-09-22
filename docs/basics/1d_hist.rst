@@ -131,7 +131,7 @@ We can also add functions using ``scipy``:
 Comparing two histograms
 ========================
 
-To compare two histograms, three comparison method are available: ``ratio``, ``pull`` and ``difference``. The examples after are using the histograms defined above.
+To compare two histograms, three comparison methods are available: ``ratio``, ``pull`` and ``difference``. The examples below are using the histograms defined above.
 
 Ratio
 -----

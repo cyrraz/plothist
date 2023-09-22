@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
 import matplotlib.colors as mcolors
-import warnings
 from importlib.resources import path as resources_path
 
 
@@ -152,10 +151,9 @@ def get_color_palette(cmap, N):
 
     if cmap == "ggplot":
         if N > 7:
-            warnings.warn(
-                f"Only 7 colors are available in the default style cycle ({N} asked). Will return 7 colors.",
+            raise ValueError(
+                f"Only 7 colors are available in the default style cycle ({N} asked).",
             )
-            N = 7
         prop_cycle = plt.rcParams["axes.prop_cycle"]
         colors = [mcolors.hex2color(prop["color"]) for prop in prop_cycle][:N]
 
