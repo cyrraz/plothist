@@ -182,6 +182,11 @@ def get_fitting_ylabel_fontsize(ax):
         The adjusted font size for the ylabel text.
     """
     ylabel_fontsize = ax.yaxis.get_label().get_fontsize()
+
+    # Force rendering to access window_extent
+    fig = ax.figure
+    fig.canvas.draw()
+
     while (
         ax.yaxis.get_label().get_window_extent().transformed(ax.transData.inverted()).y1
         > ax.get_ylim()[1]
