@@ -490,7 +490,7 @@ def plot_comparison(
     comparison : str, optional
         The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference"). Default is "ratio".
     comparison_ylabel : str, optional
-        The label for the y-axis. Default is the explicite formula used to compute the comparison plot.
+        The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
     ratio_uncertainty : str, optional
