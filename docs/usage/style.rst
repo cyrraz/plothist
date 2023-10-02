@@ -9,7 +9,7 @@ Default style
 
 ``import plothist`` automatically sets the matplotlib style to a presentation and publication ready style, with large and readable axis labels and legend.
 
-Here are shown a simple comparison plot only done with matplotlib functions. On the left, the default matplotlib style is used. On the right, only ``import plothist`` has been added to the script:
+Here are shown two simple comparison plots done with matplotlib functions only. On the left, the default matplotlib style is used. On the right, ``import plothist`` has been added to the same script used to generate the plot on the left:
 
 |img1| |img2|
 
