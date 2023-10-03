@@ -171,8 +171,7 @@ If you do not want to show and take into account the MC uncertainties, setting `
 
 
 
-For other type of comparisons, see :ref:`_basics-1d_hist_comparison-label`.
-
+For other type of comparisons, see :ref:`basics-1d_hist_comparison-label`.
 
 Advanced
 ========
