@@ -128,10 +128,11 @@ We can also add functions using ``scipy``:
    :width: 500
 
 
+.. _basics-1d_hist_comparison-label:
 Comparing two histograms
 ========================
 
-To compare two histograms, three comparison methods are available: ``ratio``, ``pull`` and ``difference``. The examples below are using the histograms defined above.
+To compare two histograms, four comparison methods are available: ``ratio``, ``pull``, ``difference`` and ``relative_difference``. The examples below are using the histograms defined above.
 
 Ratio
 -----
@@ -203,5 +204,31 @@ To plot the difference between the two histograms:
     )
 
 .. image:: ../img/1d_comparison_difference.svg
+   :alt: Simple difference comparison
+   :width: 500
+
+
+
+Relative difference
+-------------------
+
+To plot the relative difference between the two histograms:
+
+.. code-block:: python
+
+    from plothist import compare_two_hist
+
+    fig, ax_main, ax_comparison = compare_two_hist(
+        h2,
+        h3,
+        xlabel=name,
+        ylabel="Entries",
+        h1_label="$\mathbf{H\,\,1}$",
+        h2_label="$\mathbf{H\,\,2}$",
+        comparison = "relative_difference", # <--
+        save_as="1d_comparison_relative_difference.svg",
+    )
+
+.. image:: ../img/1d_comparison_relative_difference.svg
    :alt: Simple difference comparison
    :width: 500
