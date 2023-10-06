@@ -1,5 +1,8 @@
 #! /bin/bash
-# To install Latin Modern fonts on your user space, run "source install_latin_modern_fonts.sh" in a terminal
+# To install Latin Modern fonts on your user space, run:
+# "plothist_install_fonts" in a terminal
+# or
+# "source install_latin_modern_fonts.sh" in a terminal
 STARTING_POINT=$PWD
 mkdir -p ~/.fonts
 cd ~/.fonts
