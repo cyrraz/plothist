@@ -518,12 +518,14 @@ def plot_comparison(
     np.seterr(divide="ignore", invalid="ignore")
 
     if comparison in ["ratio", "relative_difference"]:
-        if comparison == "relative_difference":
-            hist_1 = hist_1 + (-1*hist_2)
-
-        comparison_values = np.where(
-            hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
-        )
+        if comparison == "ratio":
+            comparison_values = np.where(
+                hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
+            )
+        else:
+            comparison_values = np.where(
+                hist_2.values() != 0, (hist_1.values() / hist_2.values()) - 1, np.nan
+            )
         if ratio_uncertainty == "split":
             h1_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
