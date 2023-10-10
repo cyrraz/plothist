@@ -1,0 +1,1 @@
+from .install_latin_modern_fonts import install_fonts
