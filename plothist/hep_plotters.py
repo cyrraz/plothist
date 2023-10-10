@@ -141,8 +141,8 @@ def compare_data_mc(
     if comparison_kwargs["comparison"] == "pull":
         data_variances = np.where(
             data_hist.values() >= mc_hist_total.values(),
-            uncertainties_low ** 2,
-            uncertainties_high ** 2,
+            uncertainties_low**2,
+            uncertainties_high**2,
         )
         data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
     elif comparison_kwargs["comparison"] == "ratio":
@@ -160,11 +160,11 @@ def compare_data_mc(
         elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
             data_hist_high = data_hist.copy()
             data_hist_high[:] = np.stack(
-                [data_hist_high.values(), uncertainties_high ** 2], axis=-1
+                [data_hist_high.values(), uncertainties_high**2], axis=-1
             )
             data_hist_low = data_hist.copy()
             data_hist_low[:] = np.stack(
-                [data_hist_low.values(), uncertainties_low ** 2], axis=-1
+                [data_hist_low.values(), uncertainties_low**2], axis=-1
             )
             # Compute asymmetrical uncertainties to plot_comparison()
             comparison_kwargs.setdefault(
@@ -177,11 +177,11 @@ def compare_data_mc(
     elif comparison_kwargs["comparison"] == "difference":
         data_hist_high = data_hist.copy()
         data_hist_high[:] = np.stack(
-            [data_hist_high.values(), uncertainties_high ** 2], axis=-1
+            [data_hist_high.values(), uncertainties_high**2], axis=-1
         )
         data_hist_low = data_hist.copy()
         data_hist_low[:] = np.stack(
-            [data_hist_low.values(), uncertainties_low ** 2], axis=-1
+            [data_hist_low.values(), uncertainties_low**2], axis=-1
         )
         comparison_kwargs.setdefault(
             "yerr",
@@ -447,7 +447,8 @@ def add_luminosity(
     ax : matplotlib.axes.Axes, optional
         Figure axis, by default None.
     kwargs : dict
-        Keyword arguments to be passed to the text function.
+        Keyword arguments to be passed to the ax.text() function.
+        In particular, the keyword arguments ha and va, which are set to "right" and "bottom" by default, can be used to change the text alignment.
 
     Returns
     -------
@@ -456,6 +457,9 @@ def add_luminosity(
     if ax is None:
         ax = plt.gca()
     transform = ax.transAxes
+
+    kwargs.setdefault("ha", "right")
+    kwargs.setdefault("va", "bottom")
 
     s = (
         r"$\mathrm{\mathbf{"
@@ -478,8 +482,6 @@ def add_luminosity(
         y,
         s,
         fontsize=fontsize,
-        ha="right",
-        va="bottom",
         transform=transform,
         **kwargs,
     )
