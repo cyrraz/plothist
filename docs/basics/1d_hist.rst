@@ -189,7 +189,7 @@ To plot the difference between the two histograms:
 
 .. code-block:: python
 
-    from plothist import compare_two_hist
+    from plothist import compare_two_hist, add_text
 
     fig, ax_main, ax_comparison = compare_two_hist(
         h2,
@@ -199,8 +199,12 @@ To plot the difference between the two histograms:
         h1_label="$\mathcal{C}_{2}$",
         h2_label="$\mathcal{C}_{3}$",
         comparison = "difference", # <--
-        save_as="1d_comparison_difference.svg",
     )
+
+    add_text("Comparison of two hist with difference plot", ax=ax_main)
+    add_text("Difference ax", x="right", ax=ax_comparison)
+
+    fig.savefig("1d_comparison_difference.svg", bbox_inches='tight')
 
 .. image:: ../img/1d_comparison_difference.svg
    :alt: Simple difference comparison

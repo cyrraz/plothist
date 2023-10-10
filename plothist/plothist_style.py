@@ -201,3 +201,70 @@ def get_fitting_ylabel_fontsize(ax):
         ax.get_yaxis().get_label().set_size(ylabel_fontsize)
 
     return ylabel_fontsize
+
+
+def add_text(
+    text="",
+    x="left",
+    y="top",
+    fontsize=12,
+    white_background=False,
+    ax=None,
+    **kwargs,
+):
+    """
+    Add text to an axis.
+
+    Parameters
+    ----------
+    x : float, optional
+        x position, can be a float in [0, 1] or "left"/"right" to put the text to the left (x=0) or right (x=1) of the plot, by default "left".
+    y : float, optional
+        y position, can be a float in [0, 1] or "top"/"bottom" to put the text to the top (y=1.01) or bottom (y=0) of the plot, by default "top".
+    fontsize : int, optional
+        Font size, by default 12.
+    white_background : bool, optional
+        Draw a white rectangle under the text, by default False.
+    ax : matplotlib.axes.Axes, optional
+        Figure axis, by default None.
+    kwargs : dict
+        Keyword arguments to be passed to the ax.text() function.
+        In particular, the keyword arguments ha and va, which are set to "left" (or "right" if x="right") and "bottom" by default, can be used to change the text alignment.
+
+    Returns
+    -------
+    None
+    """
+    kwargs.setdefault("ha", x if x in ["left", "right"] else "left")
+    kwargs.setdefault("va", "bottom")
+
+    if ax is None:
+        ax = plt.gca()
+    transform = ax.transAxes
+
+    if x=="left":
+        x = 0.0
+    elif x=="right":
+        x = 1.0
+    elif type(x)!=float or type(x)!=int:
+        raise ValueError(f"x should be a float in [0, 1] or 'left'/'right' ({x} given))")
+
+    if y=="top":
+        y = 1.01
+    elif y=="bottom":
+        y = 0.0
+    elif type(y)!=float or type(y)!=int:
+        raise ValueError(f"y should be a float in [0, 1] or 'top'/'bottom' ({y} given)")
+
+    t = ax.text(
+        x,
+        y,
+        text,
+        fontsize=fontsize,
+        transform=transform,
+        **kwargs,
+    )
+
+    # Add background
+    if white_background:
+        t.set_bbox(dict(facecolor="white", edgecolor="white"))
