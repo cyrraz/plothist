@@ -204,7 +204,7 @@ def get_fitting_ylabel_fontsize(ax):
 
 
 def add_text(
-    text="",
+    text,
     x="left",
     y="top",
     fontsize=12,
@@ -217,6 +217,8 @@ def add_text(
 
     Parameters
     ----------
+    text : str
+        The text to add.
     x : float, optional
         x position, can be a float in [0, 1] or "left"/"right" to put the text to the left (x=0) or right (x=1) of the plot, by default "left".
     y : float, optional
