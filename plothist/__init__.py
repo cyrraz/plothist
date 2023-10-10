@@ -70,7 +70,7 @@ for font_type in ["Math", "Sans", "Roman"]:
         findfont(f"Latin Modern {font_type}", fallback_to_default=False)
     except:
         warnings.warn(
-            "The recommended fonts to use plothist were not found. You can install them using this script: https://raw.githubusercontent.com/cyrraz/plothist/main/scripts/install_latin_modern_fonts.sh \n",
+            "The recommended fonts to use plothist were not found. You can install them by typing 'plothist_install_fonts' in your terminal. \n",
             stacklevel=3,
         )
         break
