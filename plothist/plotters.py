@@ -593,7 +593,7 @@ def plot_comparison(
                     bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainties, nan=2 * comparison_ylim[-1]
+                    2 * h2_scaled_uncertainties, nan = comparison_ylim[-1] - comparison_ylim[0]
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
