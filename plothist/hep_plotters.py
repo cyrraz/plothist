@@ -13,7 +13,7 @@ from plothist.plotters import (
     create_comparison_figure,
     _hist_ratio_variances,
 )
-from plothist.plothist_style import get_fitting_ylabel_fontsize
+from plothist.plothist_style import get_fitting_ylabel_fontsize, add_text
 
 
 def compare_data_mc(
@@ -141,8 +141,8 @@ def compare_data_mc(
     if comparison_kwargs["comparison"] == "pull":
         data_variances = np.where(
             data_hist.values() >= mc_hist_total.values(),
-            uncertainties_low ** 2,
-            uncertainties_high ** 2,
+            uncertainties_low**2,
+            uncertainties_high**2,
         )
         data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
     elif comparison_kwargs["comparison"] == "ratio":
@@ -160,11 +160,11 @@ def compare_data_mc(
         elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
             data_hist_high = data_hist.copy()
             data_hist_high[:] = np.stack(
-                [data_hist_high.values(), uncertainties_high ** 2], axis=-1
+                [data_hist_high.values(), uncertainties_high**2], axis=-1
             )
             data_hist_low = data_hist.copy()
             data_hist_low[:] = np.stack(
-                [data_hist_low.values(), uncertainties_low ** 2], axis=-1
+                [data_hist_low.values(), uncertainties_low**2], axis=-1
             )
             # Compute asymmetrical uncertainties to plot_comparison()
             comparison_kwargs.setdefault(
@@ -177,11 +177,11 @@ def compare_data_mc(
     elif comparison_kwargs["comparison"] == "difference":
         data_hist_high = data_hist.copy()
         data_hist_high[:] = np.stack(
-            [data_hist_high.values(), uncertainties_high ** 2], axis=-1
+            [data_hist_high.values(), uncertainties_high**2], axis=-1
         )
         data_hist_low = data_hist.copy()
         data_hist_low[:] = np.stack(
-            [data_hist_low.values(), uncertainties_low ** 2], axis=-1
+            [data_hist_low.values(), uncertainties_low**2], axis=-1
         )
         comparison_kwargs.setdefault(
             "yerr",
@@ -407,8 +407,8 @@ def plot_mc(
 
 def add_luminosity(
     collaboration="Belle II",
-    x=1.0,
-    y=1.01,
+    x="right",
+    y="top",
     fontsize=12,
     is_data=True,
     lumi=362,
@@ -427,9 +427,9 @@ def add_luminosity(
     collaboration : str, optional
         Collaboration name, by default "Belle II"
     x : float, optional
-        x position, by default 1.0.
+        Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0.
     y : float, optional
-        y position, by default 1.01.
+        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01.
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
@@ -443,47 +443,44 @@ def add_luminosity(
     two_lines : bool, optional
         If True, write the information on two lines, by default False.
     white_background : bool, optional
-        Draw a white rectangle under the logo, by default False.
+        Draw a white rectangle under the text, by default False.
     ax : matplotlib.axes.Axes, optional
         Figure axis, by default None.
     kwargs : dict
-        Keyword arguments to be passed to the text function.
+        Keyword arguments to be passed to the ax.text() function.
+        In particular, the keyword arguments ha and va, which are set to "left" (or "right" if x="right") and "bottom" by default, can be used to change the text alignment.
 
     Returns
     -------
     None
-    """
-    if ax is None:
-        ax = plt.gca()
-    transform = ax.transAxes
 
-    s = (
+    See Also
+    --------
+    add_text : Add information on the plot.
+    """
+
+    text = (
         r"$\mathrm{\mathbf{"
         + collaboration.replace(" ", "\,\,")
         + "}"
         + (r"\,\,preliminary}$" if preliminary else "}$")
     )
     if two_lines:
-        s += "\n"
+        text += "\n"
     else:
-        s += " "
+        text += " "
     if is_data:
         if lumi:
-            s += rf"$\int\,\mathcal{{L}}\,\mathrm{{dt}}={lumi}\,{lumi_unit}^{{-1}}$"
+            text += rf"$\int\,\mathcal{{L}}\,\mathrm{{dt}}={lumi}\,{lumi_unit}^{{-1}}$"
     else:
-        s += r"$\mathrm{\mathbf{Simulation}}$"
+        text += r"$\mathrm{\mathbf{Simulation}}$"
 
-    t = ax.text(
+    add_text(
+        text,
         x,
         y,
-        s,
         fontsize=fontsize,
-        ha="right",
-        va="bottom",
-        transform=transform,
+        white_background=white_background,
+        ax=ax,
         **kwargs,
     )
-
-    # Add background
-    if white_background:
-        t.set_bbox(dict(facecolor="white", edgecolor="white"))

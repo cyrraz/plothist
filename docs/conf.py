@@ -26,9 +26,9 @@ copyright = "2023, Cyrille Praz, Tristan Fillinger"
 author = "Cyrille Praz, Tristan Fillinger"
 
 # The short X.Y version
-version = "0.7"
+version = "0.7.1"
 # The full version, including alpha/beta/rc tags
-release = "0.7"
+release = "0.7.1"
 
 
 # -- General configuration ---------------------------------------------------
@@ -171,4 +171,5 @@ if os.getenv("READTHEDOCS"):
     subprocess.check_call(["pip", "install", "matplotlib"])
     subprocess.check_call(["pip", "install", "boost_histogram"])
     subprocess.check_call(["pip", "install", "PyYAML"])
+    subprocess.check_call(["pip", "install", "sphinx_rtd_theme"])
     subprocess.check_call(["flit", "install", "-s"], cwd="../")
