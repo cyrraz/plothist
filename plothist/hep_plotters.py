@@ -427,9 +427,9 @@ def add_luminosity(
     collaboration : str, optional
         Collaboration name, by default "Belle II"
     x : float, optional
-        x position, by default "right" = 1.0.
+        Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0.
     y : float, optional
-        y position, by default "top" = 1.01.
+        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01.
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
@@ -475,7 +475,7 @@ def add_luminosity(
     else:
         text += r"$\mathrm{\mathbf{Simulation}}$"
 
-    t = add_text(
+    add_text(
         text,
         x,
         y,

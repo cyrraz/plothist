@@ -220,9 +220,9 @@ def add_text(
     text : str
         The text to add.
     x : float, optional
-        x position, can be a float in [0, 1] or "left"/"right" to put the text to the left (x=0) or right (x=1) of the plot, by default "left".
+        Horizontal position of the text in unit of the normalized x-axis length. The default is value "left", which is an alias for 0.0. The other alias "right" corresponds to 1.0.
     y : float, optional
-        y position, can be a float in [0, 1] or "top"/"bottom" to put the text to the top (y=1.01) or bottom (y=0) of the plot, by default "top".
+        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01. The other alias "bottom" corresponds to 0.0.
     fontsize : int, optional
         Font size, by default 12.
     white_background : bool, optional
@@ -237,7 +237,7 @@ def add_text(
     -------
     None
     """
-    kwargs.setdefault("ha", x if x in ["left", "right"] else "left")
+    kwargs.setdefault("ha", "right" if x=="right" else "left")
     kwargs.setdefault("va", "bottom")
 
     if ax is None:
@@ -249,14 +249,14 @@ def add_text(
     elif x=="right":
         x = 1.0
     elif type(x)!=float or type(x)!=int:
-        raise ValueError(f"x should be a float in [0, 1] or 'left'/'right' ({x} given))")
+        raise ValueError(f"x should be a float or 'left'/'right' ({x} given))")
 
     if y=="top":
         y = 1.01
     elif y=="bottom":
         y = 0.0
     elif type(y)!=float or type(y)!=int:
-        raise ValueError(f"y should be a float in [0, 1] or 'top'/'bottom' ({y} given)")
+        raise ValueError(f"y should be a float or 'top'/'bottom' ({y} given)")
 
     t = ax.text(
         x,
