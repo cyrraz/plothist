@@ -488,13 +488,13 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ("ratio", "pull" or "difference"). Default is "ratio".
+        The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference"). Default is "ratio".
     comparison_ylabel : str, optional
-        The label for the y-axis. Default is h1_label/h2_label if comparison="ratio", and the pull formula used if "pull".
+        The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
     ratio_uncertainty : str, optional
-        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio". Default is "uncorrelated".
+        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 
@@ -516,10 +516,16 @@ def plot_comparison(
         raise ValueError("The bins of the compared histograms must be equal.")
 
     np.seterr(divide="ignore", invalid="ignore")
-    if comparison == "ratio":
-        comparison_values = np.where(
-            hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
-        )
+
+    if comparison in ["ratio", "relative_difference"]:
+        if comparison == "ratio":
+            comparison_values = np.where(
+                hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
+            )
+        else:
+            comparison_values = np.where(
+                hist_2.values() != 0, (hist_1.values() / hist_2.values()) - 1, np.nan
+            )
         if ratio_uncertainty == "split":
             h1_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
@@ -549,7 +555,7 @@ def plot_comparison(
         comparison_variances = hist_1.variances() + hist_2.variances()
     else:
         raise ValueError(
-            f"{comparison} not available as a comparison ('ratio', 'pull' or 'difference')."
+            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference' or 'relative_difference')."
         )
     np.seterr(divide="warn", invalid="warn")
 
@@ -564,18 +570,30 @@ def plot_comparison(
         plot_hist_kwargs.setdefault("color", "black")
         plot_error_hist(hist_comparison, ax=ax, **plot_hist_kwargs)
 
-    if comparison == "ratio":
+    if comparison in ["ratio", "relative_difference"]:
         if comparison_ylim is None:
-            comparison_ylim = (0.0, 2.0)
+            if comparison == "relative_difference":
+                comparison_ylim = (-1.0, 1.0)
+            else:
+                comparison_ylim = (0.0, 2.0)
+
+        if comparison == "relative_difference":
+            bottom_shift = 0
+            ax.axhline(0, ls="--", lw=1.0, color="black")
+            ax.set_ylabel(r"$\frac{" + h1_label + " - " + h2_label +"}{" + h2_label + "}$")
+        else:
+            bottom_shift = 1
+            ax.axhline(1, ls="--", lw=1.0, color="black")
+            ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
         if ratio_uncertainty == "split":
             ax.bar(
                 x=hist_2.axes[0].centers,
                 bottom=np.nan_to_num(
-                    1 - h2_scaled_uncertainties, nan=comparison_ylim[0]
+                    bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainties, nan=2 * comparison_ylim[-1]
+                    2 * h2_scaled_uncertainties, nan = comparison_ylim[-1] - comparison_ylim[0]
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
@@ -583,8 +601,6 @@ def plot_comparison(
                 fill=False,
                 lw=0,
             )
-        ax.axhline(1, ls="--", lw=1.0, color="black")
-        ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
     elif comparison == "pull":
         if comparison_ylim is None:
