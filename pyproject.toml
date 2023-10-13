@@ -29,4 +29,4 @@ Documentation = "https://plothist.readthedocs.io/"
 "Bug Tracker" = "https://github.com/cyrraz/plothist/issues"
 
 [project.scripts]
-plothist_install_fonts = "plothist.scripts.install_latin_modern_fonts:install_fonts"
+install_latin_modern_fonts = "plothist.scripts.install_latin_modern_fonts:install_latin_modern_fonts"
