@@ -281,7 +281,7 @@ def plot_hist(hist, ax, **kwargs):
         )
 
 
-def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
+def plot_2d_hist(hist, ax, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}):
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
 
@@ -291,18 +291,121 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
         The 2D histogram to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
+    ax_colorbar : matplotlib.axes.Axes or None, optional
+        The Axes instance for the colorbar. If None, the colorbar is appended to ax. Default is None.
     pcolormesh_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
     colorbar_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
     """
-    if "edgecolors" not in pcolormesh_kwargs.keys():
-        pcolormesh_kwargs["edgecolors"] = "face"
+    if ax_colorbar is None:
+        divider = make_axes_locatable(ax)
+        ax_colorbar = divider.append_axes("right", size="5%", pad=0.05)
+    pcolormesh_kwargs.setdefault("edgecolors", "face")
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="5%", pad=0.05)
-    ax.tick_params(axis="x", which="both", top=False, bottom=False)
-    ax.get_figure().colorbar(im, cax=cax, **colorbar_kwargs)
+    ax.get_figure().colorbar(im, cax=ax_colorbar, **colorbar_kwargs)
+
+
+def plot_2d_hist_with_projections(
+    hist,
+    xlabel=None,
+    ylabel=None,
+    ylabel_x_projection=None,
+    colorbar_label=None,
+    save_as=None,
+    pcolormesh_kwargs={},
+    colorbar_kwargs={},
+):
+    """Plot a 2D histogram with projections on the x and y axes.
+
+    Parameters
+    ----------
+    hist : 2D boost_histogram.Histogram
+        The 2D histogram to plot.
+    xlabel : str, optional
+        Label for the x axis. Default is None.
+    ylabel : str, optional
+        Label for the y axis. Default is None.
+    ylabel_x_projection : str, optional
+        Label for the y label of the x projection. Default is None.
+    colorbar_label : str, optional
+        Label for the colorbar. Default is None.
+    save_as : str, optional
+        Path to save the figure to. Default is None.
+    pcolormesh_kwargs : dict, optional
+        Keyword arguments for the pcolormesh call. Default is {}.
+    colorbar_kwargs : dict, optional
+        Keyword arguments for the colorbar call. Default is {}.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The figure.
+    ax_2d : matplotlib.axes.Axes
+        The axes for the 2D histogram.
+    ax_x_projection : matplotlib.axes.Axes
+        The axes for the x projection.
+    ax_y_projection : matplotlib.axes.Axes
+        The axes for the y projection.
+    ax_colorbar : matplotlib.axes.Axes
+        The axes for the colorbar.
+    """
+
+    colorbar_kwargs.setdefault("label", colorbar_label)
+
+    fig, axes = plt.subplots(
+        figsize=(5.25, 5),
+        nrows=2,
+        ncols=3,
+        gridspec_kw={"width_ratios": [4, 1, 0.25], "height_ratios": [1, 4]},
+    )
+
+    ax_2d = axes[1][0]
+    ax_x_projection = axes[0][0]
+    ax_y_projection = axes[1][1]
+    ax_colorbar = axes[1][2]
+    axes[0, 1].axis("off")
+    axes[0, 2].axis("off")
+
+    plot_2d_hist(
+        hist,
+        ax=ax_2d,
+        ax_colorbar=ax_colorbar,
+        pcolormesh_kwargs=pcolormesh_kwargs,
+        colorbar_kwargs=colorbar_kwargs,
+    )
+    plot_hist(hist[:, :: bh.sum], ax=ax_x_projection)
+    plot_hist(hist[:: bh.sum, :], ax=ax_y_projection, orientation="horizontal")
+
+    _ = ax_x_projection.xaxis.set_ticklabels([])
+    _ = ax_y_projection.yaxis.set_ticklabels([])
+
+    ax_y_projection.xaxis.set_ticks_position("top")
+    ax_y_projection.xaxis.set_label_position("top")
+
+    ax_colorbar.yaxis.set_offset_position("left")
+
+    xlim = (hist.axes[0].edges[0], hist.axes[0].edges[-1])
+    ylim = (hist.axes[1].edges[0], hist.axes[1].edges[-1])
+    ax_2d.set_xlim(xlim)
+    ax_x_projection.set_xlim(xlim)
+    ax_2d.set_ylim(ylim)
+    ax_y_projection.set_ylim(ylim)
+
+    ax_2d.set_xlabel(xlabel)
+    ax_2d.set_ylabel(ylabel)
+    ax_x_projection.set_ylabel(ylabel_x_projection)
+
+    hspace = 0.15
+    wspace = 0.15
+    fig.subplots_adjust(hspace=hspace, wspace=wspace)
+
+    fig.align_ylabels()
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
 def plot_error_hist(hist, ax, **kwargs):
@@ -537,7 +640,7 @@ def plot_comparison(
                 np.sqrt(hist_2.variances()) / hist_2.values(),
                 np.nan,
             )
-            comparison_variances = h1_scaled_uncertainties ** 2
+            comparison_variances = h1_scaled_uncertainties**2
         elif ratio_uncertainty == "uncorrelated":
             comparison_variances = _hist_ratio_variances(hist_1, hist_2)
         else:
@@ -580,7 +683,9 @@ def plot_comparison(
         if comparison == "relative_difference":
             bottom_shift = 0
             ax.axhline(0, ls="--", lw=1.0, color="black")
-            ax.set_ylabel(r"$\frac{" + h1_label + " - " + h2_label +"}{" + h2_label + "}$")
+            ax.set_ylabel(
+                r"$\frac{" + h1_label + " - " + h2_label + "}{" + h2_label + "}$"
+            )
         else:
             bottom_shift = 1
             ax.axhline(1, ls="--", lw=1.0, color="black")
@@ -593,7 +698,8 @@ def plot_comparison(
                     bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainties, nan = comparison_ylim[-1] - comparison_ylim[0]
+                    2 * h2_scaled_uncertainties,
+                    nan=comparison_ylim[-1] - comparison_ylim[0],
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
