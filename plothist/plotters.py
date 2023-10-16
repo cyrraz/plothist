@@ -315,6 +315,7 @@ def plot_2d_hist_with_projections(
     save_as=None,
     pcolormesh_kwargs={},
     colorbar_kwargs={},
+    plot_hist_kwargs={},
 ):
     """Plot a 2D histogram with projections on the x and y axes.
 
@@ -336,6 +337,8 @@ def plot_2d_hist_with_projections(
         Keyword arguments for the pcolormesh call. Default is {}.
     colorbar_kwargs : dict, optional
         Keyword arguments for the colorbar call. Default is {}.
+    plot_hist_kwargs : dict, optional
+        Keyword arguments for the plot_hist call (x and y projections). Default is {}.
 
     Returns
     -------
@@ -353,11 +356,11 @@ def plot_2d_hist_with_projections(
 
     colorbar_kwargs.setdefault("label", colorbar_label)
 
-    fig, axes = plt.subplots(
-        figsize=(5.25, 5),
+    fig, axes = plt.(
+        figsize=(6.25, 6),
         nrows=2,
         ncols=3,
-        gridspec_kw={"width_ratios": [4, 1, 0.25], "height_ratios": [1, 4]},
+        gridspec_kw={"width_ratios": [4, 2, 0.25], "height_ratios": [2, 4]},
     )
 
     ax_2d = axes[1][0]
@@ -374,8 +377,13 @@ def plot_2d_hist_with_projections(
         pcolormesh_kwargs=pcolormesh_kwargs,
         colorbar_kwargs=colorbar_kwargs,
     )
-    plot_hist(hist[:, :: bh.sum], ax=ax_x_projection)
-    plot_hist(hist[:: bh.sum, :], ax=ax_y_projection, orientation="horizontal")
+    plot_hist(hist[:, :: bh.sum], ax=ax_x_projection, **plot_hist_kwargs)
+    plot_hist(
+        hist[:: bh.sum, :],
+        ax=ax_y_projection,
+        orientation="horizontal",
+        **plot_hist_kwargs,
+    )
 
     _ = ax_x_projection.xaxis.set_ticklabels([])
     _ = ax_y_projection.yaxis.set_ticklabels([])

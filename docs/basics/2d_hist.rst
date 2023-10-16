@@ -43,27 +43,6 @@ To plot a simple 2d histogram:
    :alt: Simple 2d hist
    :width: 500
 
-Plot with x and y projections
-=============================
-
-To plot a 2d histogram with x and y projections:
-
-.. code-block:: python
-
-    from plothist import plot_2d_hist_with_projections
-
-    plot_2d_hist_with_projections(
-        h,
-        xlabel="variable_0",
-        ylabel="variable_1",
-        ylabel_x_projection="Entries",
-        colorbar_kwargs={"label": "Entries"},
-        save_as="2d_hist_with_projections.svg",
-    )
-
-.. image:: ../img/2d_hist_with_projections.svg
-   :alt: 2d hist with x and y projections
-   :width: 500
 
 Correlations with variable manager
 ==================================
@@ -155,4 +134,28 @@ Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins
 Display 1D distributions
 ------------------------
 
-In development.
+To plot a 2d histogram with x and y projections:
+
+.. code-block:: python
+
+    from plothist import make_2d_hist, plot_2d_hist_with_projections
+
+    name_x = "variable_0"
+    name_y = "variable_1"
+
+    h = make_2d_hist([df[df[name_x]%2==0][name_x], df[df[name_x]%2==0][name_y]])
+
+    fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar = plot_2d_hist_with_projections(
+        h,
+        xlabel="variable_0",
+        ylabel="variable_1",
+        ylabel_x_projection="Entries",
+        colorbar_kwargs={"label": "Entries"},
+        save_as="2d_hist_with_projections.svg",
+    )
+
+    fig.savefig("2d_hist_with_projections.svg", bbox_inches='tight')
+
+.. image:: ../img/2d_hist_with_projections.svg
+   :alt: 2d hist with x and y projections
+   :width: 500
