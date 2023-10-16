@@ -26,34 +26,18 @@ Here are shown two simple comparison plots done with matplotlib functions only. 
 Fonts
 =====
 
-Latin Modern fonts are used by default. You can install the font by using the script located in the `github repository of plothist <https://github.com/cyrraz/plothist/tree/main/scripts/install_latin_modern_fonts.sh>`_.
+Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
 
-On Linux/Ubuntu
----------------
+You can install the fonts by running on your terminal:
 
-Just run:
-
-.. code-block:: bash
-
-    source install_latin_modern_fonts.sh
-
-
-On MacOS
---------
-
-The fonts have to be moved to a specific folder after launching the script:
+On Linux/Ubuntu/MacOS
+---------------------
 
 .. code-block:: bash
 
-    source install_latin_modern_fonts.sh
+    install_latin_modern_fonts
 
-    # Move the font file and the 2 font folders
-    mv ~/.fonts/latin* /Users/USERNAME/Library/Fonts/
-
-    # Delete the matplotlib cache
-    rm ~/.matplotlib/fontlist-v330.json
-    # Warning: The cache may have another name
-
+If the command above does not work, you can install the fonts by using the script located in the `github repository of plothist <https://github.com/cyrraz/plothist/tree/main/scripts/install_latin_modern_fonts.py>`_.
 
 
 Color palettes
