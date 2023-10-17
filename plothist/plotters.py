@@ -361,6 +361,7 @@ def plot_2d_hist_with_projections(
     """
 
     colorbar_kwargs.setdefault("label", colorbar_label)
+    plot_hist_kwargs.setdefault("histtype", "stepfilled")
 
     fig_width = 6
     fig_height = 6
