@@ -281,7 +281,7 @@ def plot_hist(hist, ax, **kwargs):
         )
 
 
-def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
+def plot_2d_hist(hist, ax, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}):
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
 
@@ -291,18 +291,148 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
         The 2D histogram to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
+    ax_colorbar : matplotlib.axes.Axes or None, optional
+        The Axes instance for the colorbar. If None, the colorbar is appended to ax. Default is None.
     pcolormesh_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
     colorbar_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
     """
-    if "edgecolors" not in pcolormesh_kwargs.keys():
-        pcolormesh_kwargs["edgecolors"] = "face"
+    if ax_colorbar is None:
+        divider = make_axes_locatable(ax)
+        ax_colorbar = divider.append_axes("right", size="5%", pad=0.05)
+    pcolormesh_kwargs.setdefault("edgecolors", "face")
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="5%", pad=0.05)
-    ax.tick_params(axis="x", which="both", top=False, bottom=False)
-    ax.get_figure().colorbar(im, cax=cax, **colorbar_kwargs)
+    ax.get_figure().colorbar(im, cax=ax_colorbar, **colorbar_kwargs)
+
+
+def plot_2d_hist_with_projections(
+    hist,
+    xlabel=None,
+    ylabel=None,
+    ylabel_x_projection=None,
+    xlabel_y_projection=None,
+    colorbar_label=None,
+    offset_x_labels=False,
+    save_as=None,
+    pcolormesh_kwargs={},
+    colorbar_kwargs={},
+    plot_hist_kwargs={},
+):
+    """Plot a 2D histogram with projections on the x and y axes.
+
+    Parameters
+    ----------
+    hist : 2D boost_histogram.Histogram
+        The 2D histogram to plot.
+    xlabel : str, optional
+        Label for the x axis. Default is None.
+    ylabel : str, optional
+        Label for the y axis. Default is None.
+    ylabel_x_projection : str, optional
+        Label for the y axis of the x projection. Default is None.
+    xlabel_y_projection : str, optional
+        Label for the x axis of the y projection. Default is None.
+    colorbar_label : str, optional
+        Label for the colorbar. Default is None.
+    offset_x_labels : bool, optional
+        Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
+    save_as : str, optional
+        Path to save the figure to. Default is None.
+    pcolormesh_kwargs : dict, optional
+        Keyword arguments for the pcolormesh call. Default is {}.
+    colorbar_kwargs : dict, optional
+        Keyword arguments for the colorbar call. Default is {}.
+    plot_hist_kwargs : dict, optional
+        Keyword arguments for the plot_hist call (x and y projections). Default is {}.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The figure.
+    ax_2d : matplotlib.axes.Axes
+        The axes for the 2D histogram.
+    ax_x_projection : matplotlib.axes.Axes
+        The axes for the x projection.
+    ax_y_projection : matplotlib.axes.Axes
+        The axes for the y projection.
+    ax_colorbar : matplotlib.axes.Axes
+        The axes for the colorbar.
+    """
+
+    colorbar_kwargs.setdefault("label", colorbar_label)
+    plot_hist_kwargs.setdefault("histtype", "stepfilled")
+
+    fig_width = 6
+    fig_height = 6
+
+    fig, axes = plt.subplots(
+        figsize=(fig_width, fig_height),
+        nrows=2,
+        ncols=2,
+        gridspec_kw={"width_ratios": [4, 2], "height_ratios": [2, 4]},
+    )
+
+    ax_2d = axes[1][0]
+    ax_x_projection = axes[0][0]
+    ax_y_projection = axes[1][1]
+    ax_colorbar = axes[0][1]
+    axes[0, 1].axis("off")
+
+    ax_colorbar = fig.add_axes(
+        [
+            ax_colorbar.get_position().x0,
+            ax_colorbar.get_position().y0,
+            0.07,
+            ax_colorbar.get_position().y1 - ax_colorbar.get_position().y0,
+        ]
+    )
+
+    plot_2d_hist(
+        hist,
+        ax=ax_2d,
+        ax_colorbar=ax_colorbar,
+        pcolormesh_kwargs=pcolormesh_kwargs,
+        colorbar_kwargs=colorbar_kwargs,
+    )
+    plot_hist(hist[:, :: bh.sum], ax=ax_x_projection, **plot_hist_kwargs)
+    plot_hist(
+        hist[:: bh.sum, :],
+        ax=ax_y_projection,
+        orientation="horizontal",
+        **plot_hist_kwargs,
+    )
+
+    _ = ax_x_projection.xaxis.set_ticklabels([])
+    _ = ax_y_projection.yaxis.set_ticklabels([])
+
+    xlim = (hist.axes[0].edges[0], hist.axes[0].edges[-1])
+    ylim = (hist.axes[1].edges[0], hist.axes[1].edges[-1])
+    ax_2d.set_xlim(xlim)
+    ax_x_projection.set_xlim(xlim)
+    ax_2d.set_ylim(ylim)
+    ax_y_projection.set_ylim(ylim)
+
+    if offset_x_labels:
+        labelpad = 20
+    else:
+        labelpad = None
+
+    ax_2d.set_xlabel(xlabel, labelpad=labelpad)
+    ax_2d.set_ylabel(ylabel)
+    ax_x_projection.set_ylabel(ylabel_x_projection)
+    ax_y_projection.set_xlabel(xlabel_y_projection, labelpad=labelpad)
+
+    hspace = 0.18
+    wspace = 0.18
+    fig.subplots_adjust(hspace=hspace, wspace=wspace)
+
+    fig.align_ylabels()
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
 def plot_error_hist(hist, ax, **kwargs):
@@ -537,7 +667,7 @@ def plot_comparison(
                 np.sqrt(hist_2.variances()) / hist_2.values(),
                 np.nan,
             )
-            comparison_variances = h1_scaled_uncertainties ** 2
+            comparison_variances = h1_scaled_uncertainties**2
         elif ratio_uncertainty == "uncorrelated":
             comparison_variances = _hist_ratio_variances(hist_1, hist_2)
         else:
@@ -580,7 +710,9 @@ def plot_comparison(
         if comparison == "relative_difference":
             bottom_shift = 0
             ax.axhline(0, ls="--", lw=1.0, color="black")
-            ax.set_ylabel(r"$\frac{" + h1_label + " - " + h2_label +"}{" + h2_label + "}$")
+            ax.set_ylabel(
+                r"$\frac{" + h1_label + " - " + h2_label + "}{" + h2_label + "}$"
+            )
         else:
             bottom_shift = 1
             ax.axhline(1, ls="--", lw=1.0, color="black")
@@ -593,7 +725,8 @@ def plot_comparison(
                     bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainties, nan = comparison_ylim[-1] - comparison_ylim[0]
+                    2 * h2_scaled_uncertainties,
+                    nan=comparison_ylim[-1] - comparison_ylim[0],
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",

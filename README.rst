@@ -30,8 +30,8 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
 3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings.
 
 
-.. image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/intro_2dhist_complexe.svg
-   :alt: Complexe hep example
+.. image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/2d_hist_with_projections.svg
+   :alt: 2D histogram with projections
    :width: 500
    :align: center
 
@@ -43,7 +43,7 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
    :target: https://badge.fury.io/py/plothist
 .. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
-.. |Docs from latest| image:: https://img.shields.io/badge/docs-v0.7.2-blue.svg
+.. |Docs from latest| image:: https://img.shields.io/badge/docs-v0.8-blue.svg
    :target: https://plothist.readthedocs.io/en/latest/
 .. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg
    :target: https://plothist.readthedocs.io/en/main/

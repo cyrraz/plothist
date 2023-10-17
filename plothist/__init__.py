@@ -1,5 +1,5 @@
 """Plot histograms in a scalable way and a beautiful style."""
-__version__ = "0.7.2"
+__version__ = "0.8"
 
 from .plotters import (
     create_comparison_figure,
@@ -8,6 +8,7 @@ from .plotters import (
     make_2d_hist,
     plot_hist,
     plot_2d_hist,
+    plot_2d_hist_with_projections,
     plot_error_hist,
     compare_two_hist,
     plot_comparison,
@@ -40,6 +41,7 @@ __all__ = [
     "make_2d_hist",
     "plot_hist",
     "plot_2d_hist",
+    "plot_2d_hist_with_projections",
     "plot_error_hist",
     "compare_two_hist",
     "plot_comparison",
