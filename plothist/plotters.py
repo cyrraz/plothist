@@ -313,7 +313,7 @@ def plot_2d_hist_with_projections(
     ylabel_x_projection=None,
     xlabel_y_projection=None,
     colorbar_label=None,
-    ticks_position_y_projection="top",
+    offset_x_labels=False,
     save_as=None,
     pcolormesh_kwargs={},
     colorbar_kwargs={},
@@ -332,14 +332,11 @@ def plot_2d_hist_with_projections(
     ylabel_x_projection : str, optional
         Label for the y axis of the x projection. Default is None.
     xlabel_y_projection : str, optional
-        Label for the x axis of the y projection.
-        Since this label may overlay with the exponent label (i.e. "10^X") of the axis, we recommend to not always set it.
-        Default is None.
+        Label for the x axis of the y projection. Default is None.
     colorbar_label : str, optional
         Label for the colorbar. Default is None.
-    ticks_position_y_projection : str, optional
-        Position of the ticks and label of the y projection ("top" or "bottom").
-        Default is "top" to avoid a possible overlay of the tick labels.
+    offset_x_labels : bool, optional
+        Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
     save_as : str, optional
         Path to save the figure to. Default is None.
     pcolormesh_kwargs : dict, optional
@@ -365,37 +362,28 @@ def plot_2d_hist_with_projections(
 
     colorbar_kwargs.setdefault("label", colorbar_label)
 
-    fig_width = 6.5
+    fig_width = 6
     fig_height = 6
 
-    fig = plt.figure(figsize=(fig_width, fig_height))
-    fig_ratio = fig_height / fig_width
-    intra_space = 0.05
-    margin = 0.1
-    height_2d = 0.5
-    ax_2d = fig.add_axes([margin * fig_ratio, margin, height_2d * fig_ratio, height_2d])
-    ax_x_projection = fig.add_axes(
-        [
-            margin * fig_ratio,
-            margin + height_2d + intra_space,
-            height_2d * fig_ratio,
-            1 - (2 * margin + height_2d + intra_space),
-        ]
+    fig, axes = plt.subplots(
+        figsize=(fig_width, fig_height),
+        nrows=2,
+        ncols=2,
+        gridspec_kw={"width_ratios": [4, 2], "height_ratios": [2, 4]},
     )
-    ax_y_projection = fig.add_axes(
-        [
-            (margin + height_2d + intra_space) * fig_ratio,
-            margin,
-            (1 - (2 * margin + height_2d + intra_space)) * fig_ratio,
-            height_2d,
-        ]
-    )
+
+    ax_2d = axes[1][0]
+    ax_x_projection = axes[0][0]
+    ax_y_projection = axes[1][1]
+    ax_colorbar = axes[0][1]
+    axes[0, 1].axis("off")
+
     ax_colorbar = fig.add_axes(
         [
-            (1 - margin + intra_space) * fig_ratio,
-            margin,
-            (1 - margin) - (1 - margin + intra_space) * fig_ratio,
-            height_2d,
+            ax_colorbar.get_position().x0,
+            ax_colorbar.get_position().y0,
+            0.07,
+            ax_colorbar.get_position().y1 - ax_colorbar.get_position().y0,
         ]
     )
 
@@ -417,11 +405,6 @@ def plot_2d_hist_with_projections(
     _ = ax_x_projection.xaxis.set_ticklabels([])
     _ = ax_y_projection.yaxis.set_ticklabels([])
 
-    ax_y_projection.xaxis.set_ticks_position(ticks_position_y_projection)
-    ax_y_projection.xaxis.set_label_position(ticks_position_y_projection)
-
-    ax_colorbar.yaxis.set_offset_position("left")
-
     xlim = (hist.axes[0].edges[0], hist.axes[0].edges[-1])
     ylim = (hist.axes[1].edges[0], hist.axes[1].edges[-1])
     ax_2d.set_xlim(xlim)
@@ -429,10 +412,21 @@ def plot_2d_hist_with_projections(
     ax_2d.set_ylim(ylim)
     ax_y_projection.set_ylim(ylim)
 
-    ax_2d.set_xlabel(xlabel)
+    if offset_x_labels:
+        labelpad = 20
+    else:
+        labelpad = None
+
+    ax_2d.set_xlabel(xlabel, labelpad=labelpad)
     ax_2d.set_ylabel(ylabel)
     ax_x_projection.set_ylabel(ylabel_x_projection)
-    ax_y_projection.set_xlabel(xlabel_y_projection)
+    ax_y_projection.set_xlabel(xlabel_y_projection, labelpad=labelpad)
+
+    hspace = 0.18
+    wspace = 0.18
+    fig.subplots_adjust(hspace=hspace, wspace=wspace)
+
+    fig.align_ylabels()
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
