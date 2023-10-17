@@ -143,7 +143,7 @@ To plot a 2d histogram with x and y projections:
     name_x = "variable_0"
     name_y = "variable_1"
 
-    h = make_2d_hist([df[df[name_x]%2==0][name_x], df[df[name_x]%2==0][name_y]])
+    h = make_2d_hist([df[name_x], df[name_y]])
 
     fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar = plot_2d_hist_with_projections(
         h,

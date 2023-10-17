@@ -311,7 +311,9 @@ def plot_2d_hist_with_projections(
     xlabel=None,
     ylabel=None,
     ylabel_x_projection=None,
+    xlabel_y_projection=None,
     colorbar_label=None,
+    ticks_position_y_projection="top",
     save_as=None,
     pcolormesh_kwargs={},
     colorbar_kwargs={},
@@ -328,9 +330,16 @@ def plot_2d_hist_with_projections(
     ylabel : str, optional
         Label for the y axis. Default is None.
     ylabel_x_projection : str, optional
-        Label for the y label of the x projection. Default is None.
+        Label for the y axis of the x projection. Default is None.
+    xlabel_y_projection : str, optional
+        Label for the x axis of the y projection.
+        Since this label may overlay with the exponent label (i.e. "10^X") of the axis, we recommend to not always set it.
+        Default is None.
     colorbar_label : str, optional
         Label for the colorbar. Default is None.
+    ticks_position_y_projection : str, optional
+        Position of the ticks and label of the y projection ("top" or "bottom").
+        Default is "top" to avoid a possible overlay of the tick labels.
     save_as : str, optional
         Path to save the figure to. Default is None.
     pcolormesh_kwargs : dict, optional
@@ -356,19 +365,39 @@ def plot_2d_hist_with_projections(
 
     colorbar_kwargs.setdefault("label", colorbar_label)
 
-    fig, axes = plt.(
-        figsize=(6.25, 6),
-        nrows=2,
-        ncols=3,
-        gridspec_kw={"width_ratios": [4, 2, 0.25], "height_ratios": [2, 4]},
-    )
+    fig_width = 6.5
+    fig_height = 6
 
-    ax_2d = axes[1][0]
-    ax_x_projection = axes[0][0]
-    ax_y_projection = axes[1][1]
-    ax_colorbar = axes[1][2]
-    axes[0, 1].axis("off")
-    axes[0, 2].axis("off")
+    fig = plt.figure(figsize=(fig_width, fig_height))
+    fig_ratio = fig_height / fig_width
+    intra_space = 0.05
+    margin = 0.1
+    height_2d = 0.5
+    ax_2d = fig.add_axes([margin * fig_ratio, margin, height_2d * fig_ratio, height_2d])
+    ax_x_projection = fig.add_axes(
+        [
+            margin * fig_ratio,
+            margin + height_2d + intra_space,
+            height_2d * fig_ratio,
+            1 - (2 * margin + height_2d + intra_space),
+        ]
+    )
+    ax_y_projection = fig.add_axes(
+        [
+            (margin + height_2d + intra_space) * fig_ratio,
+            margin,
+            (1 - (2 * margin + height_2d + intra_space)) * fig_ratio,
+            height_2d,
+        ]
+    )
+    ax_colorbar = fig.add_axes(
+        [
+            (1 - margin + intra_space) * fig_ratio,
+            margin,
+            (1 - margin) - (1 - margin + intra_space) * fig_ratio,
+            height_2d,
+        ]
+    )
 
     plot_2d_hist(
         hist,
@@ -388,8 +417,8 @@ def plot_2d_hist_with_projections(
     _ = ax_x_projection.xaxis.set_ticklabels([])
     _ = ax_y_projection.yaxis.set_ticklabels([])
 
-    ax_y_projection.xaxis.set_ticks_position("top")
-    ax_y_projection.xaxis.set_label_position("top")
+    ax_y_projection.xaxis.set_ticks_position(ticks_position_y_projection)
+    ax_y_projection.xaxis.set_label_position(ticks_position_y_projection)
 
     ax_colorbar.yaxis.set_offset_position("left")
 
@@ -403,12 +432,7 @@ def plot_2d_hist_with_projections(
     ax_2d.set_xlabel(xlabel)
     ax_2d.set_ylabel(ylabel)
     ax_x_projection.set_ylabel(ylabel_x_projection)
-
-    hspace = 0.15
-    wspace = 0.15
-    fig.subplots_adjust(hspace=hspace, wspace=wspace)
-
-    fig.align_ylabels()
+    ax_y_projection.set_xlabel(xlabel_y_projection)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
