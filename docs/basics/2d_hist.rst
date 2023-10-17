@@ -151,7 +151,6 @@ To plot a 2d histogram with x and y projections:
         ylabel="variable_1",
         ylabel_x_projection="Entries",
         colorbar_kwargs={"label": "Entries"},
-        save_as="2d_hist_with_projections.svg",
     )
 
     fig.savefig("2d_hist_with_projections.svg", bbox_inches='tight')
