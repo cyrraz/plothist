@@ -12,6 +12,7 @@ from .plotters import (
     plot_error_hist,
     compare_two_hist,
     plot_comparison,
+    savefig,
 )
 
 from .variable_registry import (
@@ -45,6 +46,7 @@ __all__ = [
     "plot_error_hist",
     "compare_two_hist",
     "plot_comparison",
+    "savefig",
     "compare_data_mc",
     "plot_mc",
     "add_luminosity",

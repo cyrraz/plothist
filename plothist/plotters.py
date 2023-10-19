@@ -6,6 +6,7 @@ Collection of functions to plot histograms
 import numpy as np
 import boost_histogram as bh
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Bbox
 import warnings
 import re
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -756,6 +757,33 @@ def plot_comparison(
         ax.set_ylabel(comparison_ylabel)
 
     return ax
+
+
+def savefig(fig, path):
+    """
+    Save a Matplotlib figure with consistent figsize, axes size and subplot spacing.
+
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        The Matplotlib figure to be saved.
+
+    path : str
+        The output file path where the figure will be saved.
+
+    Returns
+    -------
+    None
+    """
+    axes = fig.get_axes()
+    axes_dimensions = [(pos.width, pos.height) for pos in [ax.get_position() for ax in axes]]
+    wspace, hspace = fig.subplotpars.wspace, fig.subplotpars.hspace
+    fig.tight_layout()
+    fig.subplots_adjust(wspace=wspace, hspace=hspace)
+    for k_ax, ax in enumerate(axes):
+        ax.set_position(Bbox.from_bounds(ax.get_position().x0, ax.get_position().y0, axes_dimensions[k_ax][0], axes_dimensions[k_ax][1]))
+    fig.savefig(path)
+
 
 
 def _get_math_text(text):
