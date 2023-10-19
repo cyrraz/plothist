@@ -760,7 +760,7 @@ def plot_comparison(
 
 
 def savefig(fig, path, new_figsize=None):
-   """
+    """
     Save a Matplotlib figure with consistent figsize, axes size and subplot spacing.
 
     Parameters
