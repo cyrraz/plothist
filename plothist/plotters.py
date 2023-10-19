@@ -759,8 +759,8 @@ def plot_comparison(
     return ax
 
 
-def savefig(fig, path):
-    """
+def savefig(fig, path, new_figsize=None):
+   """
     Save a Matplotlib figure with consistent figsize, axes size and subplot spacing.
 
     Parameters
@@ -771,19 +771,45 @@ def savefig(fig, path):
     path : str
         The output file path where the figure will be saved.
 
+    new_figsize : tuple, optional
+        The new figsize as a (width, height) tuple. If None, the original figsize is preserved.
+
     Returns
     -------
     None
     """
+    old_width, old_height = fig.get_size_inches()
+
+    if new_figsize is not None:
+        width_scale = new_figsize[0] / old_width
+        height_scale = new_figsize[1] / old_height
+    else:
+        width_scale = 1.0
+        height_scale = 1.0
+
     axes = fig.get_axes()
-    axes_dimensions = [(pos.width, pos.height) for pos in [ax.get_position() for ax in axes]]
+    axes_dimensions = [
+        (pos.width / width_scale, pos.height / height_scale)
+        for pos in [ax.get_position() for ax in axes]
+    ]
     wspace, hspace = fig.subplotpars.wspace, fig.subplotpars.hspace
+
     fig.tight_layout()
     fig.subplots_adjust(wspace=wspace, hspace=hspace)
-    for k_ax, ax in enumerate(axes):
-        ax.set_position(Bbox.from_bounds(ax.get_position().x0, ax.get_position().y0, axes_dimensions[k_ax][0], axes_dimensions[k_ax][1]))
-    fig.savefig(path)
 
+    for k_ax, ax in enumerate(axes):
+        ax.set_position(
+            Bbox.from_bounds(
+                ax.get_position().x0,
+                ax.get_position().y0,
+                axes_dimensions[k_ax][0],
+                axes_dimensions[k_ax][1],
+            )
+        )
+
+    fig.set_size_inches(old_width * width_scale, old_height * height_scale)
+
+    fig.savefig(path)
 
 
 def _get_math_text(text):
