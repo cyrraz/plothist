@@ -28,9 +28,9 @@ Save figure
 
 When saving a figure, doing ``fig.savefig(path, bbox_inches="tight")`` works fine in most cases. However, it will crop all the unnecessary white space, which will reduce the final figure size. If you want to have a fixed figure size (e.g. when putting plots into a LaTeX document), the option matplotlib provides is to call fig.tight_layout() then saving without ``bbox_inches`` argument. This will set the figure size to the value you specify in ``plt.figure(figsize=(x, y))``, but it will also change the size and position of the sub-plots, which usually have a negative effect on the overall appearance of the figure.
 
-``savefig()`` is a function that keeps the ``figsize`` you specify, but also keeps the sub-plots as they are. If the plots are too big for the figure, you can also specify a new ``figsize`` and the sub-plots will remain the same size and position, while the final figure will be larger.
+``savefig(fig, path)`` is a function that keeps the ``figsize`` you specify, but also keeps the sub-plots as they are. If the plots are too big for the figure, you can also specify a new ``figsize`` and the sub-plots will remain the same size and position, while the final figure will be larger.
 
-For example, from right to left, the first figure is saved with ``bbox_inches="tight"``, the second with ``fig.tight_layout()``, and the third with the ``savefig()`` from ``plothist``:
+For example, from right to left, the first figure is saved with ``fig.savefig(path, bbox_inches="tight")``, the second has ``fig.tight_layout()`` then is saved with ``fig.savefig(path)``, and the third with the ``savefig()`` from ``plothist``:
 
 |img1| |img2| |img3|
 
