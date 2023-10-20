@@ -26,11 +26,11 @@ Add text
 Save figure
 ===========
 
-When saving a figure, in the majority of the cases doing ``fig.savefig(path, bbox_inches="tight")`` works great. However, it will crop all the unecessary white spaces, which will decrease the final figure size. If you want to have a fix figure size (when putting plots in a LaTeX document for example), the option matplotlib provides is to do ``fig.tight_layout()`` before saving without ``bbox_inches`` argument. This will set the ``figsize`` to the one you specified in ``plt.figure(figsize=(x, y))``, but it will also alter the size and position of the subplots, which can negatively impact the overall appearance of the figure.
+When saving a figure, doing ``fig.savefig(path, bbox_inches="tight")`` works fine in most cases. However, it will crop all the unnecessary white space, which will reduce the final figure size. If you want to have a fixed figure size (e.g. when putting plots into a LaTeX document), the option matplotlib provides is to call fig.tight_layout() then saving without ``bbox_inches`` argument. This will set the figure size to the value you specify in ``plt.figure(figsize=(x, y))``, but it will also change the size and position of the sub-plots, which usually have a negative effect on the overall appearance of the figure.
 
-``savefig()`` is a function that keep the ``figsize`` you specified, but also keeps the subplots as they are. If the plots are too big for the figure, you can also specify a new ``figsize`` and the subplots will remain the same size and position, while the final figure will be bigger.
+``savefig()`` is a function that keeps the ``figsize`` you specify, but also keeps the sub-plots as they are. If the plots are too big for the figure, you can also specify a new ``figsize`` and the sub-plots will remain the same size and position, while the final figure will be larger.
 
-For example, from right to left, the first figure is saved with ``bbox_inches="tight"``, the second with ``fig.tight_layout()``, and the third with ``savefig()``:
+For example, from right to left, the first figure is saved with ``bbox_inches="tight"``, the second with ``fig.tight_layout()``, and the third with the ``savefig()`` from ``plothist``:
 
 |img1| |img2| |img3|
 

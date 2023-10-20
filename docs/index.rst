@@ -12,6 +12,6 @@ Content
     basics/1d_hist
     basics/2d_hist
     advanced/1d_advanced
-    advanced/hep_examples
     usage/utilities
+    advanced/hep_examples
     documentation/documentation
