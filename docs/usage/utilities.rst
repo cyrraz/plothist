@@ -36,12 +36,12 @@ For example, from right to left, the first figure is saved with ``bbox_inches="t
 
 .. |img1| image:: ../img/savefig_bbox.png
    :alt: With fig.savefig( path, bbox_inches="tight")
-   :width: 300
+   :width: 210
 
 .. |img2| image:: ../img/savefig_tight.png
    :alt: With fig.tight_layout() then fig.savefig()
-   :width: 300
+   :width: 210
 
-.. |img2| image:: ../img/savefig_custom.png
+.. |img3| image:: ../img/savefig_custom.png
    :alt: With lothist savefig
-   :width: 300
+   :width: 210
