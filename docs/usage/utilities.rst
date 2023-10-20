@@ -1,8 +1,8 @@
 .. _usage-utilities-label:
 
-===================
-Utilities functions
-===================
+=================
+Utility functions
+=================
 
 Add text
 ========
