@@ -145,7 +145,7 @@ def compare_data_mc(
             uncertainties_high**2,
         )
         data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
-    elif comparison_kwargs["comparison"] == "ratio":
+    elif comparison_kwargs["comparison"] in ["ratio", "relative_difference"]:
         if comparison_kwargs["ratio_uncertainty"] == "split":
             np.seterr(divide="ignore", invalid="ignore")
             # Compute asymmetrical uncertainties to plot_comparison()
