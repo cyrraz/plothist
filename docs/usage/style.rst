@@ -28,16 +28,11 @@ Fonts
 
 Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
 
-You can install the fonts by running on your terminal:
-
-On Linux/Ubuntu/MacOS
----------------------
+On Linux/Ubuntu/MacOS, you can install the fonts by running on your terminal:
 
 .. code-block:: bash
 
     install_latin_modern_fonts
-
-If the command above does not work, you can install the fonts by using the script located in the `github repository of plothist <https://github.com/cyrraz/plothist/tree/main/scripts/install_latin_modern_fonts.py>`_.
 
 
 Color palettes
