@@ -23,6 +23,25 @@ Add text
    :width: 500
 
 
+Automatic ylabel fontsize
+=========================
+
+``set_fitting_ylabel_fontsize(ax)`` is a function that will automatically adjust the fontsize of the ylabel so that it fits in the given sub-plot height. It also output the fontsize it used, so you can use it to set the same fontsize for other labels.
+
+.. code-block:: python
+
+    from plothist import set_fitting_ylabel_fontsize
+
+    # Example from pull comparion in HEP section
+    set_fitting_ylabel_fontsize(ax_main)
+    ...
+
+.. image:: ../img/hep_examples_dataMC_pull_no_MC_stat_unc.svg
+   :alt: Pull comparison
+   :width: 500
+
+
+
 Save figure
 ===========
 
