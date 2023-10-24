@@ -33,7 +33,7 @@ def create_comparison_figure(
     gridspec_kw : dict, optional
         Additional keyword arguments for the GridSpec. Default is {"height_ratios": [4, 1]}.
     hspace : float, optional
-        Height spacing between subplots. Default is 0.125.
+        Height spacing between subplots. Default is 0.15.
 
     Returns
     -------
@@ -282,7 +282,9 @@ def plot_hist(hist, ax, **kwargs):
         )
 
 
-def plot_2d_hist(hist, ax, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}):
+def plot_2d_hist(
+    hist, fig=None, ax=None, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}
+):
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
 
@@ -290,21 +292,30 @@ def plot_2d_hist(hist, ax, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwar
     ----------
     hist : boost_histogram.Histogram
         The 2D histogram to plot.
-    ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    ax_colorbar : matplotlib.axes.Axes or None, optional
-        The Axes instance for the colorbar. If None, the colorbar is appended to ax. Default is None.
+    fig : matplotlib.figure.Figure, optional
+        The Figure instance for plotting. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
+    ax : matplotlib.axes.Axes, optional
+        The Axes instance for plotting. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
+    ax_colorbar : matplotlib.axes.Axes
+        The Axes instance for the colorbar. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
     pcolormesh_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
     colorbar_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
     """
-    if ax_colorbar is None:
-        divider = make_axes_locatable(ax)
-        ax_colorbar = divider.append_axes("right", size="5%", pad=0.05)
     pcolormesh_kwargs.setdefault("edgecolors", "face")
+
+    if fig is None and ax is None and ax_colorbar is None:
+        fig, (ax, ax_colorbar) = plt.subplots(
+            figsize=(5, 4.2), ncols=2, gridspec_kw={"width_ratios": [4, 0.3]}
+        )
+    elif fig is None or ax is None or ax_colorbar is None:
+        raise ValueError("Need to provid fig, ax and ax_colorbar (or None of them).")
+
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
     ax.get_figure().colorbar(im, cax=ax_colorbar, **colorbar_kwargs)
+
+    return fig, ax, ax_colorbar
 
 
 def plot_2d_hist_with_projections(
@@ -366,10 +377,14 @@ def plot_2d_hist_with_projections(
 
     fig_width = 6
     fig_height = 6
-    gridspec = [6, 0.72, 1.]
+    gridspec = [6, 0.72, 1.0]
 
-    fig,axs = plt.subplots(
-        figsize=(fig_width, fig_height), ncols=3, nrows=3, gridspec_kw={"width_ratios": gridspec, "height_ratios": gridspec[::-1]})
+    fig, axs = plt.subplots(
+        figsize=(fig_width, fig_height),
+        ncols=3,
+        nrows=3,
+        gridspec_kw={"width_ratios": gridspec, "height_ratios": gridspec[::-1]},
+    )
 
     for x in range(3):
         for y in range(3):
@@ -385,6 +400,7 @@ def plot_2d_hist_with_projections(
 
     plot_2d_hist(
         hist,
+        fig=fig,
         ax=ax_2d,
         ax_colorbar=ax_colorbar,
         pcolormesh_kwargs=pcolormesh_kwargs,
@@ -662,7 +678,7 @@ def plot_comparison(
                 np.sqrt(hist_2.variances()) / hist_2.values(),
                 np.nan,
             )
-            comparison_variances = h1_scaled_uncertainties**2
+            comparison_variances = h1_scaled_uncertainties ** 2
         elif ratio_uncertainty == "uncorrelated":
             comparison_variances = _hist_ratio_variances(hist_1, hist_2)
         else:
