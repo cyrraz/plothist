@@ -55,4 +55,4 @@ For example, from right to left, the first figure is saved with ``fig.savefig(pa
 
 .. only:: html
 
-   .. figure:: savefig_comparisons.gif
+   .. figure:: ../img/savefig_comparisons.gif
