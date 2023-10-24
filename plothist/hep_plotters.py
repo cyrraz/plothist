@@ -138,8 +138,6 @@ def compare_data_mc(
         uncertainties_low = np.sqrt(data_hist.variances())
         uncertainties_high = uncertainties_low
 
-    data_hist_ = data_hist.copy()
-
     print(comparison_kwargs["comparison"], data_hist.variances())
     if comparison_kwargs["comparison"] == "pull":
         data_variances = np.where(
@@ -147,7 +145,8 @@ def compare_data_mc(
             uncertainties_low**2,
             uncertainties_high**2,
         )
-        data_hist_[:] = np.stack([data_hist.values(), data_variances], axis=-1)
+        data_hist = data_hist.copy()
+        data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
     elif comparison_kwargs["comparison"] in ["ratio", "relative_difference"]:
         if comparison_kwargs["ratio_uncertainty"] == "split":
             np.seterr(divide="ignore", invalid="ignore")
@@ -199,7 +198,7 @@ def compare_data_mc(
         )
 
     plot_error_hist(
-        data_hist_,
+        data_hist,
         ax=ax_main,
         yerr=[uncertainties_low, uncertainties_high],
         color="black",
@@ -235,7 +234,7 @@ def compare_data_mc(
     ax_main.legend()
 
     plot_comparison(
-        data_hist_,
+        data_hist,
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
