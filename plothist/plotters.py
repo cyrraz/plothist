@@ -366,28 +366,22 @@ def plot_2d_hist_with_projections(
 
     fig_width = 6
     fig_height = 6
+    gridspec = [6, 0.72, 1.]
 
-    fig, axes = plt.subplots(
-        figsize=(fig_width, fig_height),
-        nrows=2,
-        ncols=2,
-        gridspec_kw={"width_ratios": [4, 2], "height_ratios": [2, 4]},
-    )
+    fig,axs = plt.subplots(
+        figsize=(fig_width, fig_height), ncols=3, nrows=3, gridspec_kw={"width_ratios": gridspec, "height_ratios": gridspec[::-1]})
 
-    ax_2d = axes[1][0]
-    ax_x_projection = axes[0][0]
-    ax_y_projection = axes[1][1]
-    ax_colorbar = axes[0][1]
-    axes[0, 1].axis("off")
+    for x in range(3):
+        for y in range(3):
+            if not (x == 2 and y == 0):
+                axs[x, y].remove()
 
-    ax_colorbar = fig.add_axes(
-        [
-            ax_colorbar.get_position().x0,
-            ax_colorbar.get_position().y0,
-            0.07,
-            ax_colorbar.get_position().y1 - ax_colorbar.get_position().y0,
-        ]
-    )
+    gs = axs[0, 0].get_gridspec()
+
+    ax_2d = axs[2, 0]
+    ax_x_projection = fig.add_subplot(gs[0:2, 0:1])
+    ax_y_projection = fig.add_subplot(gs[-1, 1:])
+    ax_colorbar = fig.add_subplot(gs[0:2, 1])
 
     plot_2d_hist(
         hist,
@@ -424,8 +418,8 @@ def plot_2d_hist_with_projections(
     ax_x_projection.set_ylabel(ylabel_x_projection)
     ax_y_projection.set_xlabel(xlabel_y_projection, labelpad=labelpad)
 
-    hspace = 0.18
-    wspace = 0.18
+    hspace = 0.25
+    wspace = 0.25
     fig.subplots_adjust(hspace=hspace, wspace=wspace)
 
     fig.align_ylabels()
@@ -759,7 +753,7 @@ def plot_comparison(
     return ax
 
 
-def savefig(fig, path, new_figsize=None):
+def savefig(fig, path, new_figsize=None, adjust_after_tight_layout=False):
     """
     Save a Matplotlib figure with consistent figsize, axes size and subplot spacing.
 
@@ -806,6 +800,8 @@ def savefig(fig, path, new_figsize=None):
                 axes_dimensions[k_ax][1],
             )
         )
+    if adjust_after_tight_layout:
+        fig.subplots_adjust(wspace=wspace, hspace=hspace)
 
     fig.set_size_inches(old_width * width_scale, old_height * height_scale)
 
