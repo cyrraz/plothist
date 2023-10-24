@@ -92,7 +92,7 @@ Variable manager is a really useful tool to manage and plot the correlation betw
 
 .. image:: ../img/2d_hist_correlations.svg
    :alt: Simple 2d hist
-   :width: 1500
+   :width: 500
 
 
 Advanced
