@@ -34,6 +34,7 @@ On Linux/Ubuntu/MacOS, you can install the fonts by running on your terminal:
 
     install_latin_modern_fonts
 
+If the command doesn't work, you can read the detailed instructions direclty in the python script `here <https://github.com/cyrraz/plothist/blob/main/plothist/scripts/install_latin_modern_fonts.py>`_.
 
 Color palettes
 ==============
