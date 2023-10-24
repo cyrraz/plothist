@@ -51,7 +51,7 @@ If you want to have a fixed figure size (e.g. when putting plots into a LaTeX do
 
 ``savefig(fig, path)`` is a function that keeps the ``figsize`` you specify, but also keeps the sub-plots as they are. If the sub-plots are too big for the figure, you can also specify a new ``figsize`` and the sub-plots will remain the same size and position, while the final figure will be larger.
 
-For example, from right to left, the first figure is saved with ``fig.savefig(path, bbox_inches="tight")``, the second has ``fig.tight_layout()`` then is saved with ``fig.savefig(path)``, and the third with the ``savefig(fig, path)`` from ``plothist``:
+For example, below is shown a plot saved with ``fig.savefig(path, bbox_inches="tight")``, then with ``fig.tight_layout()`` and saved with ``fig.savefig(path)``, and finally with ``savefig(fig, path)`` from ``plothist``:
 
 .. only:: html
 
