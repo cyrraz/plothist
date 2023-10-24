@@ -228,7 +228,7 @@ Example plot with all comparisons, using the same histograms as above:
 Same example plot but we removing the MC statistical uncertainties (``mc_uncertainty=False`` option):
 
 
-.. image:: ../img/hep_all_comparisons_no_MC_unc.svg
+.. image:: ../img/hep_all_comparisons_no_stat_MC_unc.svg
    :alt: Data/MC comparison with all comparisons, no mc uncertainties, stacked plot
    :width: 500
 
