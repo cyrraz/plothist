@@ -53,16 +53,6 @@ If you want to have a fixed figure size (e.g. when putting plots into a LaTeX do
 
 For example, from right to left, the first figure is saved with ``fig.savefig(path, bbox_inches="tight")``, the second has ``fig.tight_layout()`` then is saved with ``fig.savefig(path)``, and the third with the ``savefig(fig, path)`` from ``plothist``:
 
-|img1| |img2| |img3|
+.. only:: html
 
-.. |img1| image:: ../img/savefig_bbox.png
-   :alt: With fig.savefig( path, bbox_inches="tight")
-   :width: 210
-
-.. |img2| image:: ../img/savefig_tight.png
-   :alt: With fig.tight_layout() then fig.savefig()
-   :width: 210
-
-.. |img3| image:: ../img/savefig_custom.png
-   :alt: With lothist savefig
-   :width: 210
+   .. figure:: savefig_comparisons.gif
