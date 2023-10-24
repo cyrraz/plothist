@@ -777,12 +777,12 @@ def savefig(fig, path, new_figsize=None, adjust_after_tight_layout=False):
     ----------
     fig : matplotlib.figure.Figure
         The Matplotlib figure to be saved.
-
     path : str
         The output file path where the figure will be saved.
-
     new_figsize : tuple, optional
         The new figsize as a (width, height) tuple. If None, the original figsize is preserved.
+    adjust_after_tight_layout : bool, optional
+        Adjust the space between the subplots just before saving. Useful for 2D plots.
 
     Returns
     -------
