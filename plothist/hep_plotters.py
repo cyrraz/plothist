@@ -193,6 +193,10 @@ def compare_data_mc(
                 np.sqrt(data_hist_high.variances() + mc_hist_total.variances()),
             ],
         )
+    else:
+        raise ValueError(
+            f"Unknown comparison {comparison_kwargs['comparison']}. Please choose from 'pull', 'ratio', 'relative_difference', or 'difference'."
+        )
 
     plot_error_hist(
         data_hist_,
