@@ -13,7 +13,7 @@ from plothist.plotters import (
     create_comparison_figure,
     _hist_ratio_variances,
 )
-from plothist.plothist_style import get_fitting_ylabel_fontsize, add_text
+from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
 
 
 def compare_data_mc(
@@ -138,7 +138,6 @@ def compare_data_mc(
         uncertainties_low = np.sqrt(data_hist.variances())
         uncertainties_high = uncertainties_low
 
-    print(comparison_kwargs["comparison"], data_hist.variances())
     if comparison_kwargs["comparison"] == "pull":
         data_variances = np.where(
             data_hist.values() >= mc_hist_total.values(),
@@ -241,7 +240,7 @@ def compare_data_mc(
         **comparison_kwargs,
     )
 
-    ylabel_fontsize = get_fitting_ylabel_fontsize(ax_main)
+    ylabel_fontsize = set_fitting_ylabel_fontsize(ax_main)
     ax_main.get_yaxis().get_label().set_size(ylabel_fontsize)
     ax_comparison.get_yaxis().get_label().set_size(ylabel_fontsize)
 
@@ -401,7 +400,7 @@ def plot_mc(
     xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel, fontsize=get_fitting_ylabel_fontsize(ax))
+    ax.set_ylabel(ylabel, fontsize=set_fitting_ylabel_fontsize(ax))
     ax.tick_params(axis="x", labelbottom="off")
     ax.legend(ncol=leg_ncol)
 
