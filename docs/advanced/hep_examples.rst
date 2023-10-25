@@ -171,7 +171,128 @@ If you do not want to show and take into account the MC uncertainties, setting `
 
 
 
-For other type of comparisons, see :ref:`basics-1d_hist_comparison-label`.
+Other comparisons
+-----------------
+
+Every type of comparisons available with ``plot_comparison()`` are available for ``compare_data_mc()`` (see :ref:`basics-1d_hist_comparison-label`).
+
+Example plot with all comparisons, using the same histograms as above:
+
+.. code-block:: python
+    from plothist import (
+        create_comparison_figure,
+        compare_data_mc,
+        add_text,
+        set_fitting_ylabel_fontsize
+    )
+    import matplotlib.pyplot as plt
+
+    fig, axes = create_comparison_figure(
+        figsize=(6, 11),
+        nrows=5,
+        gridspec_kw={"height_ratios": [3.3, 1, 1, 1, 1]},
+        hspace=0.3,
+    )
+
+    fig_temp, ax_temp = plt.subplots()
+
+    for k_comp, comparison in enumerate(["ratio", "pull", "relative_difference", "difference"], 1):
+
+        fig_comp, ax_main, ax_comparison = compare_data_mc(
+            data_hist=data_hist,
+            mc_hist_list=background_hists,
+            signal_hist=signal_hist,
+            xlabel=key,
+            ylabel="Entries",
+            mc_labels=background_categories_labels,
+            mc_colors=background_categories_colors,
+            comparison=comparison,
+            fig=fig,
+            ax_main=axes[0] if k_comp == 1 else ax_temp,
+            ax_comparison=axes[k_comp],
+        )
+
+        axes[k_comp].set_xlabel("")
+        add_text(f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13)
+        set_fitting_ylabel_fontsize(ax_comparison)
+
+    fig.savefig("hep_all_comparisons.svg", bbox_inches="tight")
+
+
+.. image:: ../img/hep_all_comparisons.svg
+   :alt: Data/MC comparison with all comparisons, stacked plot
+   :width: 500
+
+
+
+Same example plot but we remove the MC statistical uncertainties by adding ``mc_uncertainty=False`` in ``compare_data_mc()``:
+
+
+.. image:: ../img/hep_all_comparisons_no_stat_MC_unc.svg
+   :alt: Data/MC comparison with all comparisons, no mc uncertainties, stacked plot
+   :width: 500
+
+
+
+For ``ratio`` or ``relative_difference``, the uncertainties can be split between MC and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty="uncorrelated"``). Here are all the possible options:
+
+.. code-block:: python
+
+    from plothist import (
+        compare_data_mc,
+        add_luminosity,
+        create_comparison_figure,
+        set_fitting_ylabel_fontsize,
+        add_text,
+        compare_two_hist,
+    )
+    import matplotlib.pyplot as plt
+
+    fig, axes = create_comparison_figure(
+        figsize=(6, 11),
+        nrows=5,
+        gridspec_kw={"height_ratios": [3.3, 1, 1, 1, 1]},
+        hspace=0.3,
+    )
+
+    fig_temp, ax_temp = plt.subplots()
+
+    for k_comp in [1, 2, 3, 4]:
+        ratio_uncertainty = "uncorrelated" if k_comp % 2 == 0 else "split"
+        mc_uncertainty = False if k_comp > 2 else True
+
+        fig_comp, ax_main, ax_comparison = compare_data_mc(
+            data_hist=data_hist,
+            mc_hist_list=background_hists,
+            signal_hist=signal_hist,
+            xlabel=key,
+            ylabel="Entries",
+            mc_labels=background_categories_labels,
+            mc_colors=background_categories_colors,
+            comparison="ratio",
+            fig=fig,
+            ax_main=axes[0] if k_comp == 1 else ax_temp,
+            ax_comparison=axes[k_comp],
+            ratio_uncertainty=ratio_uncertainty,
+            mc_uncertainty=mc_uncertainty,
+        )
+        axes[k_comp].set_xlabel("")
+        add_text(
+            f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="{ratio_uncertainty}", mc_uncertainty = {mc_uncertainty}',
+            ax=ax_comparison,
+            fontsize=10,
+        )
+
+    fig.savefig("hep_comparisons_ratio_options.svg", bbox_inches="tight")
+
+
+
+.. image:: ../img/hep_comparisons_ratio_options.svg
+   :alt: Data/MC comparison with all comparisons option for ratio
+   :width: 500
+
+
+
 
 Advanced
 ========

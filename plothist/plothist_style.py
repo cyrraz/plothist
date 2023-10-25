@@ -167,7 +167,7 @@ def get_color_palette(cmap, N):
     return colors
 
 
-def get_fitting_ylabel_fontsize(ax):
+def set_fitting_ylabel_fontsize(ax):
     """
     Get the suitable font size for a ylabel text that fits within the plot's y-axis limits.
 
@@ -248,14 +248,14 @@ def add_text(
         x = 0.0
     elif x=="right":
         x = 1.0
-    elif type(x)!=float and type(x)!=int:
+    elif type(x) not in [float, int]:
         raise ValueError(f"x should be a float or 'left'/'right' ({x} given))")
 
     if y=="top":
         y = 1.01
     elif y=="bottom":
         y = 0.0
-    elif type(y)!=float and type(y)!=int:
+    elif type(y) not in [float, int]:
         raise ValueError(f"y should be a float or 'top'/'bottom' ({y} given)")
 
     t = ax.text(

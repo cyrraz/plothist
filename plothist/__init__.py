@@ -26,7 +26,7 @@ from .plothist_style import (
     set_style,
     cubehelix_palette,
     get_color_palette,
-    get_fitting_ylabel_fontsize,
+    set_fitting_ylabel_fontsize,
     add_text,
 )
 
@@ -51,7 +51,7 @@ __all__ = [
     "set_style",
     "cubehelix_palette",
     "get_color_palette",
-    "get_fitting_ylabel_fontsize",
+    "set_fitting_ylabel_fontsize",
     "add_text",
 ]
 
