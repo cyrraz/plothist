@@ -129,6 +129,11 @@ def compare_data_mc(
         flatten_2d_hist=False,  # Already done
     )
 
+    if not mc_uncertainty:
+        mc_hist_total[:] = np.stack(
+            [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
+        )
+
     # Compute data uncertainties
     if np.allclose(data_hist.variances(), data_hist.values()):
         # If the variances are equal to the bin contents (i.e. un-weighted data), use the Poisson confidence intervals as uncertainties
@@ -221,9 +226,6 @@ def compare_data_mc(
             label=mc_uncertainty_label,
         )
     else:
-        mc_hist_total[:] = np.stack(
-            [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
-        )
         if comparison_kwargs["comparison"] == "pull":
             comparison_kwargs.setdefault(
                 "comparison_ylabel",

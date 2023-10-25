@@ -225,7 +225,7 @@ Example plot with all comparisons, using the same histograms as above:
 
 
 
-Same example plot but we removing the MC statistical uncertainties (``mc_uncertainty=False`` option):
+Same example plot but we remove the MC statistical uncertainties by adding ``mc_uncertainty=False`` in ``compare_data_mc()``:
 
 
 .. image:: ../img/hep_all_comparisons_no_stat_MC_unc.svg
