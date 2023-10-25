@@ -234,7 +234,7 @@ Same example plot but we remove the MC statistical uncertainties by adding ``mc_
 
 
 
-For ``ratio`` or ``relative_difference``, the uncertainties can be split between MC and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty="uncorrelated"``). Here are all the options possible:
+For ``ratio`` or ``relative_difference``, the uncertainties can be split between MC and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty="uncorrelated"``). Here are all the possible options:
 
 .. code-block:: python
 
@@ -278,7 +278,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
         )
         axes[k_comp].set_xlabel("")
         add_text(
-            f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="{ratio_uncertainty}", mc_uncertainty = "{mc_uncertainty}"',
+            f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="{ratio_uncertainty}", mc_uncertainty = {mc_uncertainty}',
             ax=ax_comparison,
             fontsize=10,
         )

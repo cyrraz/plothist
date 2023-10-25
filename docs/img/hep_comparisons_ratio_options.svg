@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2023-10-25T18:59:09.865726</dc:date>
+    <dc:date>2023-10-25T23:24:12.765086</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -3562,7 +3562,7 @@ z
      <use xlink:href="#LatinModernMath-Regular-2c" transform="translate(1117.499786 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(1145.299774 0.5)"/>
     </g>
-    <!--   $\mathbf{→}$ ratio_uncertainty="split", mc_uncertainty = "True" -->
+    <!--   $\mathbf{→}$ ratio_uncertainty="split", mc_uncertainty = True -->
     <g style="fill: #1a1a1a" transform="translate(64.28 256.258144) scale(0.1 -0.1)">
      <defs>
       <path id="LatinModernMath-Regular-5f" d="M 2131 -896 
@@ -3674,12 +3674,10 @@ z
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2006.999603 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-3d" transform="translate(2040.1996 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2117.999588 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2151.199585 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-54" transform="translate(2188.599579 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-72" transform="translate(2260.799561 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-75" transform="translate(2299.999557 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2355.599548 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2399.999542 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-54" transform="translate(2151.199585 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-72" transform="translate(2223.399567 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-75" transform="translate(2262.599564 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2318.199554 0.5)"/>
     </g>
    </g>
   </g>
@@ -4203,7 +4201,7 @@ z
      <use xlink:href="#LatinModernMath-Regular-2c" transform="translate(1117.499786 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(1145.299774 0.5)"/>
     </g>
-    <!--   $\mathbf{→}$ ratio_uncertainty="uncorrelated", mc_uncertainty = "True" -->
+    <!--   $\mathbf{→}$ ratio_uncertainty="uncorrelated", mc_uncertainty = True -->
     <g style="fill: #1a1a1a" transform="translate(64.28 353.137278) scale(0.1 -0.1)">
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(0 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(33.199997 0.5)"/>
@@ -4260,12 +4258,10 @@ z
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2362.599548 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-3d" transform="translate(2395.799545 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2473.599533 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2506.79953 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-54" transform="translate(2544.199524 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-72" transform="translate(2616.399506 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-75" transform="translate(2655.599503 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2711.199493 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2755.599487 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-54" transform="translate(2506.79953 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-72" transform="translate(2578.999512 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-75" transform="translate(2618.199509 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2673.7995 0.5)"/>
     </g>
    </g>
   </g>
@@ -5189,7 +5185,7 @@ z
      <use xlink:href="#LatinModernMath-Regular-2c" transform="translate(1117.499786 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(1145.299774 0.5)"/>
     </g>
-    <!--   $\mathbf{→}$ ratio_uncertainty="split", mc_uncertainty = "False" -->
+    <!--   $\mathbf{→}$ ratio_uncertainty="split", mc_uncertainty = False -->
     <g style="fill: #1a1a1a" transform="translate(64.28 450.016412) scale(0.1 -0.1)">
      <defs>
       <path id="LatinModernMath-Regular-46" d="M 3904 2912 
@@ -5271,13 +5267,11 @@ z
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2006.999603 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-3d" transform="translate(2040.1996 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2117.999588 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2151.199585 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-46" transform="translate(2188.599579 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-61" transform="translate(2253.899567 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-6c" transform="translate(2303.899551 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-73" transform="translate(2331.699539 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2371.099533 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2415.499527 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-46" transform="translate(2151.199585 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-61" transform="translate(2216.499573 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-6c" transform="translate(2266.499557 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-73" transform="translate(2294.299545 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2333.699539 0.5)"/>
     </g>
    </g>
   </g>
@@ -5867,7 +5861,7 @@ z
      <use xlink:href="#LatinModernMath-Regular-2c" transform="translate(1117.499786 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(1145.299774 0.5)"/>
     </g>
-    <!--   $\mathbf{→}$ ratio_uncertainty="uncorrelated", mc_uncertainty = "False" -->
+    <!--   $\mathbf{→}$ ratio_uncertainty="uncorrelated", mc_uncertainty = False -->
     <g style="fill: #1a1a1a" transform="translate(64.28 546.895546) scale(0.1 -0.1)">
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(0 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(33.199997 0.5)"/>
@@ -5924,13 +5918,11 @@ z
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2362.599548 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-3d" transform="translate(2395.799545 0.5)"/>
      <use xlink:href="#LatinModernMath-Regular-20" transform="translate(2473.599533 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2506.79953 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-46" transform="translate(2544.199524 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-61" transform="translate(2609.499512 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-6c" transform="translate(2659.499496 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-73" transform="translate(2687.299484 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2726.699478 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-22" transform="translate(2771.099472 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-46" transform="translate(2506.79953 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-61" transform="translate(2572.099518 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-6c" transform="translate(2622.099503 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-73" transform="translate(2649.89949 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-65" transform="translate(2689.299484 0.5)"/>
     </g>
    </g>
   </g>
