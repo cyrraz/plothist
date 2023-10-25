@@ -283,7 +283,7 @@ def plot_hist(hist, ax, **kwargs):
 
 
 def plot_2d_hist(
-    hist, fig=None, ax=None, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}
+    hist, fig=None, ax=None, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}, square_ax=True
 ):
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
@@ -302,15 +302,21 @@ def plot_2d_hist(
         Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
     colorbar_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
+    square_ax : bool, optional
+        Whether to make the main ax square (default is True).
     """
     pcolormesh_kwargs.setdefault("edgecolors", "face")
 
     if fig is None and ax is None and ax_colorbar is None:
         fig, (ax, ax_colorbar) = plt.subplots(
-            figsize=(5, 4.2), ncols=2, gridspec_kw={"width_ratios": [4, 0.3]}
+            figsize=(6,4.5),ncols=2, gridspec_kw={"width_ratios": [4, 0.23]}
         )
     elif fig is None or ax is None or ax_colorbar is None:
         raise ValueError("Need to provid fig, ax and ax_colorbar (or None of them).")
+
+    if square_ax:
+        ax.set_box_aspect(1)
+        fig.subplots_adjust(wspace=0, hspace=0)
 
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
     ax.get_figure().colorbar(im, cax=ax_colorbar, **colorbar_kwargs)

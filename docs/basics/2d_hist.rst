@@ -61,9 +61,6 @@ Variable manager is a really useful tool to manage and plot the correlation betw
     create_variable_registry(variable_keys)
     update_variable_registry_ranges(df, variable_keys)
 
-    fig, axs = plt.subplots(nrows=3, ncols=2, figsize=(3.5, 12), gridspec_kw={"width_ratios": [4, 0.3]})
-    plt.subplots_adjust(hspace=.5)
-
     # Get all the correlation plot between the variables
     variable_keys_combinations = list(combinations(variable_keys, 2))
 
@@ -77,10 +74,7 @@ Variable manager is a really useful tool to manage and plot the correlation betw
             range=(variable0["range"], variable1["range"]),
         )
 
-        ax = axs[k_combination][0]
-        ax_colorbar = axs[k_combination][1]
-
-        plot_2d_hist(h, fig=fig, ax=ax, ax_colorbar=ax_colorbar, colorbar_kwargs={"label": "Entries"})
+        fig, ax, ax_colorbar = plot_2d_hist(h, colorbar_kwargs={"label": "Entries"})
 
         ax.set_xlabel(variable0["name"])
         ax.set_ylabel(variable1["name"])
@@ -88,11 +82,22 @@ Variable manager is a really useful tool to manage and plot the correlation betw
         ax.set_xlim(variable0["range"])
         ax.set_ylim(variable1["range"])
 
-    fig.savefig("2d_hist_correlations.svg", bbox_inches='tight')
+        fig.savefig(f"2d_hist_correlations_{k_combination}.svg", bbox_inches="tight")
 
-.. image:: ../img/2d_hist_correlations.svg
-   :alt: Simple 2d hist
-   :width: 200
+
+|img1| |img2| |img3|
+
+.. |img1| image:: ../img/2d_hist_correlations_0.svg
+   :alt: 2d correlation plot
+   :width: 210
+
+.. |img2| image:: ../img/2d_hist_correlations_1.svg
+   :alt: 2d correlation plot
+   :width: 210
+
+.. |img3| image:: ../img/2d_hist_correlations_2.svg
+   :alt: 2d correlation plot
+   :width: 210
 
 
 Advanced
