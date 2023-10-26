@@ -283,7 +283,13 @@ def plot_hist(hist, ax, **kwargs):
 
 
 def plot_2d_hist(
-    hist, fig=None, ax=None, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}, square_ax=True
+    hist,
+    fig=None,
+    ax=None,
+    ax_colorbar=None,
+    pcolormesh_kwargs={},
+    colorbar_kwargs={},
+    square_ax=True,
 ):
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
@@ -309,7 +315,7 @@ def plot_2d_hist(
 
     if fig is None and ax is None and ax_colorbar is None:
         fig, (ax, ax_colorbar) = plt.subplots(
-            figsize=(6,4.5),ncols=2, gridspec_kw={"width_ratios": [4, 0.23]}
+            figsize=(6, 4.5), ncols=2, gridspec_kw={"width_ratios": [4, 0.23]}
         )
     elif fig is None or ax is None or ax_colorbar is None:
         raise ValueError("Need to provid fig, ax and ax_colorbar (or None of them).")

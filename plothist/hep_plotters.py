@@ -132,7 +132,7 @@ def compare_data_mc(
     # Compute data uncertainties
     if np.allclose(data_hist.variances(), data_hist.values()):
         # If the variances are equal to the bin contents (i.e. un-weighted data), use the Poisson confidence intervals as uncertainties
-        uncertainties_low, uncertainties_high = _get_poisson_uncertainties(data_hist)
+        uncertainties_low, uncertainties_high = get_poisson_uncertainties(data_hist)
     else:
         # Otherwise, use the Gaussian uncertainties
         uncertainties_low = np.sqrt(data_hist.variances())
@@ -141,8 +141,8 @@ def compare_data_mc(
     if comparison_kwargs["comparison"] == "pull":
         data_variances = np.where(
             data_hist.values() >= mc_hist_total.values(),
-            uncertainties_low**2,
-            uncertainties_high**2,
+            uncertainties_low ** 2,
+            uncertainties_high ** 2,
         )
         data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
     elif comparison_kwargs["comparison"] == "ratio":
@@ -160,11 +160,11 @@ def compare_data_mc(
         elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
             data_hist_high = data_hist.copy()
             data_hist_high[:] = np.stack(
-                [data_hist_high.values(), uncertainties_high**2], axis=-1
+                [data_hist_high.values(), uncertainties_high ** 2], axis=-1
             )
             data_hist_low = data_hist.copy()
             data_hist_low[:] = np.stack(
-                [data_hist_low.values(), uncertainties_low**2], axis=-1
+                [data_hist_low.values(), uncertainties_low ** 2], axis=-1
             )
             # Compute asymmetrical uncertainties to plot_comparison()
             comparison_kwargs.setdefault(
@@ -177,11 +177,11 @@ def compare_data_mc(
     elif comparison_kwargs["comparison"] == "difference":
         data_hist_high = data_hist.copy()
         data_hist_high[:] = np.stack(
-            [data_hist_high.values(), uncertainties_high**2], axis=-1
+            [data_hist_high.values(), uncertainties_high ** 2], axis=-1
         )
         data_hist_low = data_hist.copy()
         data_hist_low[:] = np.stack(
-            [data_hist_low.values(), uncertainties_low**2], axis=-1
+            [data_hist_low.values(), uncertainties_low ** 2], axis=-1
         )
         comparison_kwargs.setdefault(
             "yerr",
@@ -247,7 +247,7 @@ def compare_data_mc(
     return fig, ax_main, ax_comparison
 
 
-def _get_poisson_uncertainties(data_hist):
+def get_poisson_uncertainties(data_hist):
     """
     Get Poisson asymmetrical uncertainties for a histogram.
 
