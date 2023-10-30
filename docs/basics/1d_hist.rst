@@ -128,10 +128,16 @@ We can also add functions using ``scipy``:
    :width: 500
 
 
+.. _basics-1d_hist_comparison-label:
 Comparing two histograms
 ========================
 
-To compare two histograms, using the histograms defined above:
+To compare two histograms, four comparison methods are available: ``ratio``, ``pull``, ``difference`` and ``relative_difference``. The examples below are using the histograms defined above.
+
+Ratio
+-----
+
+Ratio is the default comparison method:
 
 .. code-block:: python
 
@@ -152,16 +158,15 @@ To compare two histograms, using the histograms defined above:
    :alt: Simple ratio comparison
    :width: 500
 
+Pull
+----
 
-Three comparison method are available: ``ratio`` (default), ``pull`` and ``difference``.
-
-Pull comparison:
+To perform a pull comparison:
 
 .. code-block:: python
 
     from plothist import compare_two_hist
 
-    # Default comparison is ratio
     fig, ax_main, ax_comparison = compare_two_hist(
         h2,
         h3,
@@ -169,7 +174,7 @@ Pull comparison:
         ylabel="Entries",
         h1_label="$c_{2}$",
         h2_label="$c_{3}$",
-        comparison = "pull",
+        comparison = "pull", # <--
         save_as="1d_comparison_pull.svg",
     )
 
@@ -178,13 +183,15 @@ Pull comparison:
    :width: 500
 
 
-Difference comparison:
+Difference
+----------
+
+To plot the difference between the two histograms:
 
 .. code-block:: python
 
-    from plothist import compare_two_hist
+    from plothist import compare_two_hist, add_text
 
-    # Default comparison is ratio
     fig, ax_main, ax_comparison = compare_two_hist(
         h2,
         h3,
@@ -192,10 +199,40 @@ Difference comparison:
         ylabel="Entries",
         h1_label="$\mathcal{C}_{2}$",
         h2_label="$\mathcal{C}_{3}$",
-        comparison = "difference",
-        save_as="1d_comparison_difference.svg",
+        comparison = "difference", # <--
     )
 
+    add_text("Comparison of two hist with difference plot", ax=ax_main)
+    add_text("Difference ax", x="right", ax=ax_comparison)
+
+    fig.savefig("1d_comparison_difference.svg", bbox_inches='tight')
+
 .. image:: ../img/1d_comparison_difference.svg
+   :alt: Simple difference comparison
+   :width: 500
+
+
+
+Relative difference
+-------------------
+
+To plot the relative difference between the two histograms:
+
+.. code-block:: python
+
+    from plothist import compare_two_hist
+
+    fig, ax_main, ax_comparison = compare_two_hist(
+        h2,
+        h3,
+        xlabel=name,
+        ylabel="Entries",
+        h1_label="$\mathbf{H\,\,1}$",
+        h2_label="$\mathbf{H\,\,2}$",
+        comparison = "relative_difference", # <--
+        save_as="1d_comparison_relative_difference.svg",
+    )
+
+.. image:: ../img/1d_comparison_relative_difference.svg
    :alt: Simple difference comparison
    :width: 500

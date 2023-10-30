@@ -4,7 +4,6 @@ Collection of functions to plot histograms
 """
 
 import numpy as np
-import matplotlib as mpl
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 import warnings
@@ -282,7 +281,7 @@ def plot_hist(hist, ax, **kwargs):
         )
 
 
-def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
+def plot_2d_hist(hist, ax, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}):
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
 
@@ -292,18 +291,148 @@ def plot_2d_hist(hist, ax, pcolormesh_kwargs={}, colorbar_kwargs={}):
         The 2D histogram to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
+    ax_colorbar : matplotlib.axes.Axes or None, optional
+        The Axes instance for the colorbar. If None, the colorbar is appended to ax. Default is None.
     pcolormesh_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
     colorbar_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
     """
-    if "edgecolors" not in pcolormesh_kwargs.keys():
-        pcolormesh_kwargs["edgecolors"] = "face"
+    if ax_colorbar is None:
+        divider = make_axes_locatable(ax)
+        ax_colorbar = divider.append_axes("right", size="5%", pad=0.05)
+    pcolormesh_kwargs.setdefault("edgecolors", "face")
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="5%", pad=0.05)
-    ax.tick_params(axis="x", which="both", top=False, bottom=False)
-    ax.get_figure().colorbar(im, cax=cax, **colorbar_kwargs)
+    ax.get_figure().colorbar(im, cax=ax_colorbar, **colorbar_kwargs)
+
+
+def plot_2d_hist_with_projections(
+    hist,
+    xlabel=None,
+    ylabel=None,
+    ylabel_x_projection=None,
+    xlabel_y_projection=None,
+    colorbar_label=None,
+    offset_x_labels=False,
+    save_as=None,
+    pcolormesh_kwargs={},
+    colorbar_kwargs={},
+    plot_hist_kwargs={},
+):
+    """Plot a 2D histogram with projections on the x and y axes.
+
+    Parameters
+    ----------
+    hist : 2D boost_histogram.Histogram
+        The 2D histogram to plot.
+    xlabel : str, optional
+        Label for the x axis. Default is None.
+    ylabel : str, optional
+        Label for the y axis. Default is None.
+    ylabel_x_projection : str, optional
+        Label for the y axis of the x projection. Default is None.
+    xlabel_y_projection : str, optional
+        Label for the x axis of the y projection. Default is None.
+    colorbar_label : str, optional
+        Label for the colorbar. Default is None.
+    offset_x_labels : bool, optional
+        Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
+    save_as : str, optional
+        Path to save the figure to. Default is None.
+    pcolormesh_kwargs : dict, optional
+        Keyword arguments for the pcolormesh call. Default is {}.
+    colorbar_kwargs : dict, optional
+        Keyword arguments for the colorbar call. Default is {}.
+    plot_hist_kwargs : dict, optional
+        Keyword arguments for the plot_hist call (x and y projections). Default is {}.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The figure.
+    ax_2d : matplotlib.axes.Axes
+        The axes for the 2D histogram.
+    ax_x_projection : matplotlib.axes.Axes
+        The axes for the x projection.
+    ax_y_projection : matplotlib.axes.Axes
+        The axes for the y projection.
+    ax_colorbar : matplotlib.axes.Axes
+        The axes for the colorbar.
+    """
+
+    colorbar_kwargs.setdefault("label", colorbar_label)
+    plot_hist_kwargs.setdefault("histtype", "stepfilled")
+
+    fig_width = 6
+    fig_height = 6
+
+    fig, axes = plt.subplots(
+        figsize=(fig_width, fig_height),
+        nrows=2,
+        ncols=2,
+        gridspec_kw={"width_ratios": [4, 2], "height_ratios": [2, 4]},
+    )
+
+    ax_2d = axes[1][0]
+    ax_x_projection = axes[0][0]
+    ax_y_projection = axes[1][1]
+    ax_colorbar = axes[0][1]
+    axes[0, 1].axis("off")
+
+    ax_colorbar = fig.add_axes(
+        [
+            ax_colorbar.get_position().x0,
+            ax_colorbar.get_position().y0,
+            0.07,
+            ax_colorbar.get_position().y1 - ax_colorbar.get_position().y0,
+        ]
+    )
+
+    plot_2d_hist(
+        hist,
+        ax=ax_2d,
+        ax_colorbar=ax_colorbar,
+        pcolormesh_kwargs=pcolormesh_kwargs,
+        colorbar_kwargs=colorbar_kwargs,
+    )
+    plot_hist(hist[:, :: bh.sum], ax=ax_x_projection, **plot_hist_kwargs)
+    plot_hist(
+        hist[:: bh.sum, :],
+        ax=ax_y_projection,
+        orientation="horizontal",
+        **plot_hist_kwargs,
+    )
+
+    _ = ax_x_projection.xaxis.set_ticklabels([])
+    _ = ax_y_projection.yaxis.set_ticklabels([])
+
+    xlim = (hist.axes[0].edges[0], hist.axes[0].edges[-1])
+    ylim = (hist.axes[1].edges[0], hist.axes[1].edges[-1])
+    ax_2d.set_xlim(xlim)
+    ax_x_projection.set_xlim(xlim)
+    ax_2d.set_ylim(ylim)
+    ax_y_projection.set_ylim(ylim)
+
+    if offset_x_labels:
+        labelpad = 20
+    else:
+        labelpad = None
+
+    ax_2d.set_xlabel(xlabel, labelpad=labelpad)
+    ax_2d.set_ylabel(ylabel)
+    ax_x_projection.set_ylabel(ylabel_x_projection)
+    ax_y_projection.set_xlabel(xlabel_y_projection, labelpad=labelpad)
+
+    hspace = 0.18
+    wspace = 0.18
+    fig.subplots_adjust(hspace=hspace, wspace=wspace)
+
+    fig.align_ylabels()
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
 def plot_error_hist(hist, ax, **kwargs):
@@ -544,13 +673,13 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ("ratio", "pull" or "difference"). Default is "ratio".
+        The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference"). Default is "ratio".
     comparison_ylabel : str, optional
-        The label for the y-axis. Default is h1_label/h2_label if comparison="ratio", and the pull formula used if "pull" .
+        The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
     ratio_uncertainty : str, optional
-        How to treat the uncertainties of the histograms when comparison = "ratio" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio". Default is "uncorrelated".
+        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 
@@ -565,17 +694,23 @@ def plot_comparison(
 
     """
 
-    h1_label = get_math_text(h1_label)
-    h2_label = get_math_text(h2_label)
+    h1_label = _get_math_text(h1_label)
+    h2_label = _get_math_text(h2_label)
 
     if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
         raise ValueError("The bins of the compared histograms must be equal.")
 
     np.seterr(divide="ignore", invalid="ignore")
-    if comparison == "ratio":
-        comparison_values = np.where(
-            hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
-        )
+
+    if comparison in ["ratio", "relative_difference"]:
+        if comparison == "ratio":
+            comparison_values = np.where(
+                hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
+            )
+        else:
+            comparison_values = np.where(
+                hist_2.values() != 0, (hist_1.values() / hist_2.values()) - 1, np.nan
+            )
         if ratio_uncertainty == "split":
             h1_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
@@ -587,7 +722,7 @@ def plot_comparison(
                 np.sqrt(hist_2.variances()) / hist_2.values(),
                 np.nan,
             )
-            comparison_variances = h1_scaled_uncertainties ** 2
+            comparison_variances = h1_scaled_uncertainties**2
         elif ratio_uncertainty == "uncorrelated":
             comparison_variances = _hist_ratio_variances(hist_1, hist_2)
         else:
@@ -612,7 +747,7 @@ def plot_comparison(
         comparison_variances = _hist_ratio_variances(hist_diff, hist_sum)
     else:
         raise ValueError(
-            f"{comparison} not available as a comparison ('ratio', 'pull' or 'difference')."
+            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference' or 'relative_difference')."
         )
     np.seterr(divide="warn", invalid="warn")
 
@@ -627,18 +762,33 @@ def plot_comparison(
         plot_hist_kwargs.setdefault("color", "black")
         plot_error_hist(hist_comparison, ax=ax, **plot_hist_kwargs)
 
-    if comparison == "ratio":
+    if comparison in ["ratio", "relative_difference"]:
         if comparison_ylim is None:
-            comparison_ylim = (0.0, 2.0)
+            if comparison == "relative_difference":
+                comparison_ylim = (-1.0, 1.0)
+            else:
+                comparison_ylim = (0.0, 2.0)
+
+        if comparison == "relative_difference":
+            bottom_shift = 0
+            ax.axhline(0, ls="--", lw=1.0, color="black")
+            ax.set_ylabel(
+                r"$\frac{" + h1_label + " - " + h2_label + "}{" + h2_label + "}$"
+            )
+        else:
+            bottom_shift = 1
+            ax.axhline(1, ls="--", lw=1.0, color="black")
+            ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
         if ratio_uncertainty == "split":
             ax.bar(
                 x=hist_2.axes[0].centers,
                 bottom=np.nan_to_num(
-                    1 - h2_scaled_uncertainties, nan=comparison_ylim[0]
+                    bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
                 height=np.nan_to_num(
-                    2 * h2_scaled_uncertainties, nan=2 * comparison_ylim[-1]
+                    2 * h2_scaled_uncertainties,
+                    nan=comparison_ylim[-1] - comparison_ylim[0],
                 ),
                 width=hist_2.axes[0].widths,
                 edgecolor="dimgrey",
@@ -646,8 +796,6 @@ def plot_comparison(
                 fill=False,
                 lw=0,
             )
-        ax.axhline(1, ls="--", lw=1.0, color="black")
-        ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
     elif comparison == "pull":
         if comparison_ylim is None:
@@ -676,88 +824,7 @@ def plot_comparison(
     return ax
 
 
-def cubehelix_palette(
-    ncolors=7,
-    start=1.5,
-    rotation=1.5,
-    gamma=1.0,
-    hue=0.8,
-    lightest=0.8,
-    darkest=0.3,
-    reverse=True,
-):
-    """
-    Make a sequential palette from the cubehelix system, in which the perceived brightness is linearly increasing.
-    This code is adapted from seaborn, which implements equation (2) of reference [1] below.
-
-    Parameters
-    ----------
-    ncolors : int, optional
-        Number of colors in the palette.
-    start : float, 0 <= start <= 3, optional
-        Direction of the predominant colour deviation from black
-        at the start of the colour scheme (1=red, 2=green, 3=blue).
-    rotation : float, optional
-        Number of rotations around the hue wheel over the range of the palette.
-    gamma : float, 0 <= gamma, optional
-        Gamma factor to emphasize darker (gamma < 1) or lighter (gamma > 1)
-        colors.
-    hue : float, 0 <= hue <= 1, optional
-        Saturation of the colors.
-    darkest : float, 0 <= darkest <= 1, optional
-        Intensity of the darkest color in the palette.
-    lightest : float, 0 <= lightest <= 1, optional
-        Intensity of the lightest color in the palette.
-    reverse : bool, optional
-        If True, the palette will go from dark to light.
-
-    Returns
-    -------
-    list of RGB tuples
-        The generated palette of colors represented as a list of RGB tuples.
-
-
-    References
-    ----------
-    [1] Green, D. A. (2011). "A colour scheme for the display of astronomical
-    intensity images". Bulletin of the Astromical Society of India, Vol. 39,
-    p. 289-295.
-    """
-
-    def f(x0, x1):
-        # Adapted from matplotlib
-        def color(lambda_):
-            # emphasise either low intensity values (gamma < 1),
-            # or high intensity values (γ > 1)
-            lambda_gamma = lambda_ ** gamma
-
-            # Angle and amplitude for the deviation
-            # from the black to white diagonal
-            # in the plane of constant perceived intensity
-            a = hue * lambda_gamma * (1 - lambda_gamma) / 2
-
-            phi = 2 * np.pi * (start / 3 + rotation * lambda_)
-
-            return lambda_gamma + a * (x0 * np.cos(phi) + x1 * np.sin(phi))
-
-        return color
-
-    cdict = {
-        "red": f(-0.14861, 1.78277),
-        "green": f(-0.29227, -0.90649),
-        "blue": f(1.97294, 0.0),
-    }
-
-    cmap = mpl.colors.LinearSegmentedColormap("cubehelix", cdict)
-
-    x = np.linspace(lightest, darkest, int(ncolors))
-    pal = cmap(x)[:, :3].tolist()
-    if reverse:
-        pal = pal[::-1]
-    return pal
-
-
-def get_math_text(text):
+def _get_math_text(text):
     match = re.search(r"\$(.*?)\$", text)
     if match:
         return match.group(1)

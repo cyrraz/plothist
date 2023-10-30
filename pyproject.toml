@@ -27,3 +27,6 @@ dependencies = [
 Homepage = "https://github.com/cyrraz/plothist"
 Documentation = "https://plothist.readthedocs.io/"
 "Bug Tracker" = "https://github.com/cyrraz/plothist/issues"
+
+[project.scripts]
+install_latin_modern_fonts = "plothist.scripts.install_latin_modern_fonts:install_latin_modern_fonts"
