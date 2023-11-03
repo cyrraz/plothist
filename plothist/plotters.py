@@ -683,7 +683,7 @@ def plot_comparison(
     np.seterr(divide="warn", invalid="warn")
 
     hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
-    hist_comparison[:] = np.stack([comparison_values, comparison_variances], axis=-1)
+    hist_comparison[:] = np.c_[comparison_values, comparison_variances]
 
     if comparison == "pull":
         plot_hist_kwargs.setdefault("histtype", "stepfilled")

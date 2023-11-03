@@ -130,9 +130,9 @@ def compare_data_mc(
     )
 
     if not mc_uncertainty:
-        mc_hist_total[:] = np.stack(
-            [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
-        )
+        mc_hist_total[:] = np.c_[
+            mc_hist_total.values(), np.zeros_like(mc_hist_total.values())
+        ]
 
     # Compute data uncertainties
     if np.allclose(data_hist.variances(), data_hist.values()):
@@ -150,7 +150,7 @@ def compare_data_mc(
             uncertainties_high**2,
         )
         data_hist = data_hist.copy()
-        data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
+        data_hist[:] = np.c_[data_hist.values(), data_variances]
     elif comparison_kwargs["comparison"] in ["ratio", "relative_difference"]:
         if comparison_kwargs["ratio_uncertainty"] == "split":
             np.seterr(divide="ignore", invalid="ignore")
@@ -165,13 +165,10 @@ def compare_data_mc(
             np.seterr(divide="warn", invalid="warn")
         elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
             data_hist_high = data_hist.copy()
-            data_hist_high[:] = np.stack(
-                [data_hist_high.values(), uncertainties_high**2], axis=-1
-            )
+            data_hist_high[:] = np.c_[data_hist_high.values(), uncertainties_high**2]
+
             data_hist_low = data_hist.copy()
-            data_hist_low[:] = np.stack(
-                [data_hist_low.values(), uncertainties_low**2], axis=-1
-            )
+            data_hist_low[:] = np.c_[data_hist_low.values(), uncertainties_low**2]
             # Compute asymmetrical uncertainties to plot_comparison()
             comparison_kwargs.setdefault(
                 "yerr",
@@ -182,13 +179,9 @@ def compare_data_mc(
             )
     elif comparison_kwargs["comparison"] == "difference":
         data_hist_high = data_hist.copy()
-        data_hist_high[:] = np.stack(
-            [data_hist_high.values(), uncertainties_high**2], axis=-1
-        )
+        data_hist_high[:] = np.c_[data_hist_high.values(), uncertainties_high**2]
         data_hist_low = data_hist.copy()
-        data_hist_low[:] = np.stack(
-            [data_hist_low.values(), uncertainties_low**2], axis=-1
-        )
+        data_hist_low[:] = np.c_[data_hist_low.values(), uncertainties_low**2]
         comparison_kwargs.setdefault(
             "yerr",
             [
