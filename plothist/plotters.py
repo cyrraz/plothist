@@ -52,7 +52,7 @@ def create_comparison_figure(
     return fig, axes
 
 
-def create_axis(data, bins, range):
+def create_axis(data, bins, range=None):
     """
     Create an axis object for histogram binning based on the input data and parameters.
 
@@ -91,20 +91,18 @@ def create_axis(data, bins, range):
         x_min = min(data) if range[0] == "min" else range[0]
         x_max = max(data) if range[1] == "max" else range[1]
         if x_min > x_max:
-            raise ValueError("max must be larger than min in range parameter.")
-        if not (np.isfinite(x_min) and np.isfinite(x_max)):
             raise ValueError(
-                "supplied range of [{}, {}] is not finite".format(x_min, x_max)
+                f"Range of [{x_min}, {x_max}] is not valid. Max must be larger than min."
             )
+        if not (np.isfinite(x_min) and np.isfinite(x_max)):
+            raise ValueError(f"Range of [{x_min}, {x_max}] is not finite.")
     elif data.size == 0:
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0, 1
     else:
         x_min, x_max = min(data), max(data)
         if not (np.isfinite(x_min) and np.isfinite(x_max)):
-            raise ValueError(
-                "autodetected range of [{}, {}] is not finite".format(x_min, x_max)
-            )
+            raise ValueError(f"Autodetected range of [{x_min}, {x_max}] is not finite.")
 
     # expand empty range to avoid divide by zero
     if x_min == x_max:
