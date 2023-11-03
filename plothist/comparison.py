@@ -4,7 +4,7 @@ import scipy.stats as stats
 
 def _is_unweighted(hist):
     """
-    Check if the histogram is unweighted.
+    Check whether a histogram is unweighted.
 
     Parameters
     ----------
@@ -34,6 +34,12 @@ def _get_poisson_uncertainties(data_hist):
         The lower uncertainties.
     uncertainties_high : numpy.ndarray
         The upper uncertainties.
+
+    Raise
+    -----
+    ValueError
+        If the histogram is weighted.
+
     """
     if not _is_unweighted(data_hist):
         raise ValueError(
@@ -108,7 +114,27 @@ def _hist_ratio_variances(hist_1, hist_2):
 
 
 def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
-    """ """
+    """
+    Compute the pull between two histograms.
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram.
+    hist_2 : boost_histogram.Histogram
+        The second histogram.
+    poisson_for_hist_1 : bool, optional
+        Whether to use Poisson uncertainties for hist_1. Default is False.
+
+    Returns
+    -------
+    comparison_values : numpy.ndarray
+        The pull values.
+    comparison_lower_uncertainties : numpy.ndarray
+        The lower uncertainties on the pull. Always ones.
+    comparison_upper_uncertainties : numpy.ndarray
+        The upper uncertainties on the pull. Always ones.
+    """
     if poisson_for_hist_1:
         uncertainties_low, uncertainties_high = _get_poisson_uncertainties(hist_1)
         hist_1_variances = np.where(
@@ -125,8 +151,7 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
         / np.sqrt(hist_1.variances() + hist_2.variances()),
         np.nan,
     )
-    comparison_variances = np.ones_like(comparison_values)
-    comparison_lower_uncertainties = np.sqrt(comparison_variances)
+    comparison_lower_uncertainties = np.ones_like(comparison_values)
     comparison_upper_uncertainties = comparison_lower_uncertainties
 
     return (
@@ -137,6 +162,27 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
 
 
 def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
+    """
+    Compute the difference between two histograms.
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram.
+    hist_2 : boost_histogram.Histogram
+        The second histogram.
+    poisson_for_hist_1 : bool, optional
+        Whether to use Poisson uncertainties for hist_1. Default is False.
+
+    Returns
+    -------
+    comparison_values : numpy.ndarray
+        The difference values.
+    comparison_lower_uncertainties : numpy.ndarray
+        The lower uncertainties on the difference.
+    comparison_upper_uncertainties : numpy.ndarray
+        The upper uncertainties on the difference.
+    """
     comparison_values = hist_1.values() - hist_2.values()
 
     if poisson_for_hist_1:
@@ -164,6 +210,30 @@ def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
 def compute_ratio(
     hist_1, hist_2, ratio_uncertainty="uncorrelated", poisson_for_hist_1=False
 ):
+    """
+    Compute the ratio between two histograms.
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The numerator histogram.
+    hist_2 : boost_histogram.Histogram
+        The denominator histogram.
+    ratio_uncertainty : str, optional
+        How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties. Default is "uncorrelated".
+    poisson_for_hist_1 : bool, optional
+        Whether to use Poisson uncertainties for hist_1. Default is False.
+
+    Returns
+    -------
+    comparison_values : numpy.ndarray
+        The ratio values.
+    comparison_lower_uncertainties : numpy.ndarray
+        The lower uncertainties on the ratio.
+    comparison_upper_uncertainties : numpy.ndarray
+        The upper uncertainties on the ratio.
+    """
+
     comparison_values = np.where(
         hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
     )
@@ -235,8 +305,12 @@ def compute_comparison(
 
     Returns
     -------
-    hist_comparison : boost_histogram.Histogram
-        The histogram with the comparison values and variances.
+    values : numpy.ndarray
+        The comparison values.
+    lower_uncertainties : numpy.ndarray
+        The lower uncertainties on the comparison values.
+    upper_uncertainties : numpy.ndarray
+        The upper uncertainties on the comparison values.
     """
 
     _check_binning_consistency([hist_1, hist_2])
