@@ -2,9 +2,7 @@
 Collection of functions to plot histograms in the context of High Energy Physics
 """
 import numpy as np
-import scipy.stats as stats
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 from plothist.plotters import (
     plot_hist,
     plot_error_hist,
@@ -13,7 +11,11 @@ from plothist.plotters import (
     create_comparison_figure,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
-from plothist.comparison import _hist_ratio_variances, _check_binning_consistency
+from plothist.comparison import (
+    _hist_ratio_variances,
+    _check_binning_consistency,
+    _get_poisson_uncertainties,
+)
 
 
 def compare_data_mc(
@@ -142,19 +144,15 @@ def compare_data_mc(
     if np.allclose(data_hist.variances(), data_hist.values()):
         # If the variances are equal to the bin contents (i.e. un-weighted data), use the Poisson confidence intervals as uncertainties
         uncertainties_low, uncertainties_high = _get_poisson_uncertainties(data_hist)
+        poisson_for_hist_1 = True
     else:
         # Otherwise, use the Gaussian uncertainties
         uncertainties_low = np.sqrt(data_hist.variances())
         uncertainties_high = uncertainties_low
+        poisson_for_hist_1 = False
 
     if comparison_kwargs["comparison"] == "pull":
-        data_variances = np.where(
-            data_hist.values() >= mc_hist_total.values(),
-            uncertainties_low**2,
-            uncertainties_high**2,
-        )
-        data_hist = data_hist.copy()
-        data_hist[:] = np.c_[data_hist.values(), data_variances]
+        pass
     elif comparison_kwargs["comparison"] in ["ratio", "relative_difference"]:
         if comparison_kwargs["ratio_uncertainty"] == "split":
             np.seterr(divide="ignore", invalid="ignore")
@@ -235,6 +233,7 @@ def compare_data_mc(
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
+        poisson_for_hist_1=poisson_for_hist_1,
         **comparison_kwargs,
     )
 
@@ -247,31 +246,6 @@ def compare_data_mc(
         fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax_main, ax_comparison
-
-
-def _get_poisson_uncertainties(data_hist):
-    """
-    Get Poisson asymmetrical uncertainties for a histogram.
-
-    Parameters
-    ----------
-    data_hist : boost_histogram.Histogram
-        The histogram.
-
-    Returns
-    -------
-    uncertainties_low : numpy.ndarray
-        The lower uncertainties.
-    uncertainties_high : numpy.ndarray
-        The upper uncertainties.
-    """
-    conf_level = 0.682689492
-    alpha = 1.0 - conf_level
-    n = data_hist.values()
-    uncertainties_low = n - stats.gamma.ppf(alpha / 2, n, scale=1)
-    uncertainties_high = stats.gamma.ppf(1 - alpha / 2, n + 1, scale=1) - n
-
-    return uncertainties_low, uncertainties_high
 
 
 def plot_mc(
