@@ -608,7 +608,9 @@ def plot_comparison(
         hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
         hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
     else:
-        raise NotImplementedError("Asymmetric uncertainties not implemented yet.")
+        plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
+        hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+        hist_comparison[:] = np.c_[comparison_values, np.zeros_like(comparison_values)]
 
     if comparison == "pull":
         plot_hist_kwargs.setdefault("histtype", "stepfilled")

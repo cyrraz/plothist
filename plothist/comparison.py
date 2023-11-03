@@ -136,12 +136,23 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
     )
 
 
-def compute_difference(hist_1, hist_2):
+def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
     comparison_values = hist_1.values() - hist_2.values()
-    comparison_variances = hist_1.variances() + hist_2.variances()
 
-    comparison_lower_uncertainties = np.sqrt(comparison_variances)
-    comparison_upper_uncertainties = comparison_lower_uncertainties
+    if poisson_for_hist_1:
+        uncertainties_low, uncertainties_high = _get_poisson_uncertainties(hist_1)
+
+        comparison_lower_uncertainties = np.sqrt(
+            uncertainties_low**2 + hist_2.variances()
+        )
+        comparison_upper_uncertainties = np.sqrt(
+            uncertainties_high**2 + hist_2.variances()
+        )
+    else:
+        comparison_lower_uncertainties = np.sqrt(
+            hist_1.variances() + hist_2.variances()
+        )
+        comparison_upper_uncertainties = comparison_lower_uncertainties
 
     return (
         comparison_values,
@@ -224,7 +235,7 @@ def compute_comparison(
         )
     elif comparison == "difference":
         values, lower_uncertainties, upper_uncertainties = compute_difference(
-            hist_1, hist_2
+            hist_1, hist_2, poisson_for_hist_1
         )
     else:
         raise ValueError(

@@ -180,17 +180,7 @@ def compare_data_mc(
                 ],
             )
     elif comparison_kwargs["comparison"] == "difference":
-        data_hist_high = data_hist.copy()
-        data_hist_high[:] = np.c_[data_hist_high.values(), uncertainties_high**2]
-        data_hist_low = data_hist.copy()
-        data_hist_low[:] = np.c_[data_hist_low.values(), uncertainties_low**2]
-        comparison_kwargs.setdefault(
-            "yerr",
-            [
-                np.sqrt(data_hist_low.variances() + mc_hist_total.variances()),
-                np.sqrt(data_hist_high.variances() + mc_hist_total.variances()),
-            ],
-        )
+        pass
     else:
         raise ValueError(
             f"Unknown comparison {comparison_kwargs['comparison']}. Please choose from 'pull', 'ratio', 'relative_difference', or 'difference'."
