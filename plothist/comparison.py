@@ -161,24 +161,47 @@ def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
     )
 
 
-def compute_ratio(hist_1, hist_2, ratio_uncertainty="uncorrelated"):
+def compute_ratio(
+    hist_1, hist_2, ratio_uncertainty="uncorrelated", poisson_for_hist_1=False
+):
     comparison_values = np.where(
         hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
     )
+
+    if poisson_for_hist_1:
+        uncertainties_low, uncertainties_high = _get_poisson_uncertainties(hist_1)
+
     if ratio_uncertainty == "uncorrelated":
-        comparison_variances = _hist_ratio_variances(hist_1, hist_2)
+        if poisson_for_hist_1:
+            hist_1_high = hist_1.copy()
+            hist_1_high[:] = np.c_[hist_1_high.values(), uncertainties_high**2]
+            hist_1_low = hist_1.copy()
+            hist_1_low[:] = np.c_[hist_1_low.values(), uncertainties_low**2]
+            comparison_lower_uncertainties = np.sqrt(
+                _hist_ratio_variances(hist_1_low, hist_2)
+            )
+            comparison_upper_uncertainties = np.sqrt(
+                _hist_ratio_variances(hist_1_high, hist_2)
+            )
+        else:
+            comparison_lower_uncertainties = np.sqrt(
+                _hist_ratio_variances(hist_1, hist_2)
+            )
+            comparison_upper_uncertainties = comparison_lower_uncertainties
     elif ratio_uncertainty == "split":
-        h1_scaled_uncertainties = np.where(
-            hist_2.values() != 0,
-            np.sqrt(hist_1.variances()) / hist_2.values(),
-            np.nan,
-        )
-        comparison_variances = h1_scaled_uncertainties**2
+        if poisson_for_hist_1:
+            comparison_lower_uncertainties = uncertainties_low / hist_2.values()
+            comparison_upper_uncertainties = uncertainties_high / hist_2.values()
+        else:
+            h1_scaled_uncertainties = np.where(
+                hist_2.values() != 0,
+                np.sqrt(hist_1.variances()) / hist_2.values(),
+                np.nan,
+            )
+            comparison_lower_uncertainties = h1_scaled_uncertainties
+            comparison_upper_uncertainties = comparison_lower_uncertainties
     else:
         raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
-
-    comparison_lower_uncertainties = np.sqrt(comparison_variances)
-    comparison_upper_uncertainties = comparison_lower_uncertainties
 
     return (
         comparison_values,
@@ -222,11 +245,11 @@ def compute_comparison(
 
     if comparison == "ratio":
         values, lower_uncertainties, upper_uncertainties = compute_ratio(
-            hist_1, hist_2, ratio_uncertainty
+            hist_1, hist_2, ratio_uncertainty, poisson_for_hist_1
         )
     elif comparison == "relative_difference":
         values, lower_uncertainties, upper_uncertainties = compute_ratio(
-            hist_1, hist_2, ratio_uncertainty
+            hist_1, hist_2, ratio_uncertainty, poisson_for_hist_1
         )
         values -= 1  # relative difference is ratio-1
     elif comparison == "pull":
