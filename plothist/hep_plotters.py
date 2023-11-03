@@ -11,10 +11,9 @@ from plothist.plotters import (
     _flatten_2d_hist,
     plot_comparison,
     create_comparison_figure,
-    _hist_ratio_variances,
-    _check_binning_consistency,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
+from plothist.comparison import _hist_ratio_variances, _check_binning_consistency
 
 
 def compare_data_mc(
