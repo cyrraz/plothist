@@ -223,12 +223,11 @@ def compare_data_mc(
             lw=0,
             label=mc_uncertainty_label,
         )
-    else:
-        if comparison_kwargs["comparison"] == "pull":
-            comparison_kwargs.setdefault(
-                "comparison_ylabel",
-                rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
-            )
+    elif comparison_kwargs["comparison"] == "pull":
+        comparison_kwargs.setdefault(
+            "comparison_ylabel",
+            rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
+        )
 
     ax_main.legend()
 
@@ -405,7 +404,6 @@ def plot_mc(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     set_fitting_ylabel_fontsize(ax)
-    ax.tick_params(axis="x", labelbottom="off")
     ax.legend(ncol=leg_ncol)
 
     if save_as is not None:
