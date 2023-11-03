@@ -144,12 +144,12 @@ def compare_data_mc(
     if np.allclose(data_hist.variances(), data_hist.values()):
         # If the variances are equal to the bin contents (i.e. un-weighted data), use the Poisson confidence intervals as uncertainties
         uncertainties_low, uncertainties_high = _get_poisson_uncertainties(data_hist)
-        poisson_for_hist_1 = True
+        poisson_for_data = True
     else:
         # Otherwise, use the Gaussian uncertainties
         uncertainties_low = np.sqrt(data_hist.variances())
         uncertainties_high = uncertainties_low
-        poisson_for_hist_1 = False
+        poisson_for_data = False
 
     plot_error_hist(
         data_hist,
@@ -188,7 +188,7 @@ def compare_data_mc(
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
-        poisson_for_hist_1=poisson_for_hist_1,
+        poisson_for_hist_1=poisson_for_data,
         **comparison_kwargs,
     )
 
