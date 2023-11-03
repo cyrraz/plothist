@@ -241,7 +241,6 @@ def compare_data_mc(
     )
 
     ylabel_fontsize = set_fitting_ylabel_fontsize(ax_main)
-    ax_main.get_yaxis().get_label().set_size(ylabel_fontsize)
     ax_comparison.get_yaxis().get_label().set_size(ylabel_fontsize)
 
     fig.align_ylabels()
@@ -343,7 +342,7 @@ def plot_mc(
     if fig is None and ax is None:
         fig, ax = plt.subplots()
     elif fig is None or ax is None:
-        raise ValueError("Need to provid both fig and ax (or None).")
+        raise ValueError("Need to provid both fig and ax (or none).")
 
     if flatten_2d_hist:
         mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
@@ -404,7 +403,8 @@ def plot_mc(
     xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel, fontsize=set_fitting_ylabel_fontsize(ax))
+    ax.set_ylabel(ylabel)
+    set_fitting_ylabel_fontsize(ax)
     ax.tick_params(axis="x", labelbottom="off")
     ax.legend(ncol=leg_ncol)
 
