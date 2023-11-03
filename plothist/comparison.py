@@ -130,9 +130,9 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
     -------
     comparison_values : numpy.ndarray
         The pull values.
-    comparison_lower_uncertainties : numpy.ndarray
+    comparison_uncertainties_low : numpy.ndarray
         The lower uncertainties on the pull. Always ones.
-    comparison_upper_uncertainties : numpy.ndarray
+    comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the pull. Always ones.
     """
     if poisson_for_hist_1:
@@ -151,13 +151,13 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
         / np.sqrt(hist_1.variances() + hist_2.variances()),
         np.nan,
     )
-    comparison_lower_uncertainties = np.ones_like(comparison_values)
-    comparison_upper_uncertainties = comparison_lower_uncertainties
+    comparison_uncertainties_low = np.ones_like(comparison_values)
+    comparison_uncertainties_high = comparison_uncertainties_low
 
     return (
         comparison_values,
-        comparison_lower_uncertainties,
-        comparison_upper_uncertainties,
+        comparison_uncertainties_low,
+        comparison_uncertainties_high,
     )
 
 
@@ -178,9 +178,9 @@ def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
     -------
     comparison_values : numpy.ndarray
         The difference values.
-    comparison_lower_uncertainties : numpy.ndarray
+    comparison_uncertainties_low : numpy.ndarray
         The lower uncertainties on the difference.
-    comparison_upper_uncertainties : numpy.ndarray
+    comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the difference.
     """
     comparison_values = hist_1.values() - hist_2.values()
@@ -188,22 +188,20 @@ def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
     if poisson_for_hist_1:
         uncertainties_low, uncertainties_high = _get_poisson_uncertainties(hist_1)
 
-        comparison_lower_uncertainties = np.sqrt(
+        comparison_uncertainties_low = np.sqrt(
             uncertainties_low**2 + hist_2.variances()
         )
-        comparison_upper_uncertainties = np.sqrt(
+        comparison_uncertainties_high = np.sqrt(
             uncertainties_high**2 + hist_2.variances()
         )
     else:
-        comparison_lower_uncertainties = np.sqrt(
-            hist_1.variances() + hist_2.variances()
-        )
-        comparison_upper_uncertainties = comparison_lower_uncertainties
+        comparison_uncertainties_low = np.sqrt(hist_1.variances() + hist_2.variances())
+        comparison_uncertainties_high = comparison_uncertainties_low
 
     return (
         comparison_values,
-        comparison_lower_uncertainties,
-        comparison_upper_uncertainties,
+        comparison_uncertainties_low,
+        comparison_uncertainties_high,
     )
 
 
@@ -228,9 +226,9 @@ def compute_ratio(
     -------
     comparison_values : numpy.ndarray
         The ratio values.
-    comparison_lower_uncertainties : numpy.ndarray
+    comparison_uncertainties_low : numpy.ndarray
         The lower uncertainties on the ratio.
-    comparison_upper_uncertainties : numpy.ndarray
+    comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the ratio.
     """
 
@@ -247,36 +245,36 @@ def compute_ratio(
             hist_1_high[:] = np.c_[hist_1_high.values(), uncertainties_high**2]
             hist_1_low = hist_1.copy()
             hist_1_low[:] = np.c_[hist_1_low.values(), uncertainties_low**2]
-            comparison_lower_uncertainties = np.sqrt(
+            comparison_uncertainties_low = np.sqrt(
                 _hist_ratio_variances(hist_1_low, hist_2)
             )
-            comparison_upper_uncertainties = np.sqrt(
+            comparison_uncertainties_high = np.sqrt(
                 _hist_ratio_variances(hist_1_high, hist_2)
             )
         else:
-            comparison_lower_uncertainties = np.sqrt(
+            comparison_uncertainties_low = np.sqrt(
                 _hist_ratio_variances(hist_1, hist_2)
             )
-            comparison_upper_uncertainties = comparison_lower_uncertainties
+            comparison_uncertainties_high = comparison_uncertainties_low
     elif ratio_uncertainty == "split":
         if poisson_for_hist_1:
-            comparison_lower_uncertainties = uncertainties_low / hist_2.values()
-            comparison_upper_uncertainties = uncertainties_high / hist_2.values()
+            comparison_uncertainties_low = uncertainties_low / hist_2.values()
+            comparison_uncertainties_high = uncertainties_high / hist_2.values()
         else:
             h1_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
                 np.sqrt(hist_1.variances()) / hist_2.values(),
                 np.nan,
             )
-            comparison_lower_uncertainties = h1_scaled_uncertainties
-            comparison_upper_uncertainties = comparison_lower_uncertainties
+            comparison_uncertainties_low = h1_scaled_uncertainties
+            comparison_uncertainties_high = comparison_uncertainties_low
     else:
         raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
 
     return (
         comparison_values,
-        comparison_lower_uncertainties,
-        comparison_upper_uncertainties,
+        comparison_uncertainties_low,
+        comparison_uncertainties_high,
     )
 
 
