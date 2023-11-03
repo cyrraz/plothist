@@ -14,7 +14,6 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 def create_comparison_figure(
     figsize=(6, 5),
     nrows=2,
-    ncols=1,
     gridspec_kw={"height_ratios": [4, 1]},
     hspace=0.15,
 ):
@@ -27,12 +26,10 @@ def create_comparison_figure(
         Figure size in inches. Default is (6, 5).
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
-    ncols : int, optional
-        Number of columns in the subplot grid. Default is 1.
     gridspec_kw : dict, optional
         Additional keyword arguments for the GridSpec. Default is {"height_ratios": [4, 1]}.
     hspace : float, optional
-        Height spacing between subplots. Default is 0.125.
+        Height spacing between subplots. Default is 0.15.
 
     Returns
     -------
@@ -45,9 +42,7 @@ def create_comparison_figure(
     if figsize is None:
         figsize = plt.rcParams["figure.figsize"]
 
-    fig, axes = plt.subplots(
-        nrows=nrows, ncols=ncols, figsize=figsize, gridspec_kw=gridspec_kw
-    )
+    fig, axes = plt.subplots(nrows=nrows, figsize=figsize, gridspec_kw=gridspec_kw)
     if nrows > 1:
         fig.subplots_adjust(hspace=hspace)
 
