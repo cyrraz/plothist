@@ -532,7 +532,7 @@ def compare_two_hist(
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
-            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+            "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
@@ -780,7 +780,7 @@ def _get_math_text(text):
     Returns
     -------
     str
-        The text between $.
+        The text between $ or the input string if no $ are found.
     """
     match = re.search(r"\$(.*?)\$", text)
     if match:
