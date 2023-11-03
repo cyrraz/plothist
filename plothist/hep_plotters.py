@@ -12,6 +12,7 @@ from plothist.plotters import (
     plot_comparison,
     create_comparison_figure,
     _hist_ratio_variances,
+    _check_binning_consistency,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
 
@@ -99,6 +100,10 @@ def compare_data_mc(
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
+
+    _check_binning_consistency(
+        mc_hist_list + [data_hist] + ([signal_hist] if signal_hist is not None else [])
+    )
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -330,6 +335,10 @@ def plot_mc(
         The Axes object containing the plot.
 
     """
+
+    _check_binning_consistency(
+        mc_hist_list + ([signal_hist] if signal_hist is not None else [])
+    )
 
     if fig is None and ax is None:
         fig, ax = plt.subplots()

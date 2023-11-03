@@ -218,15 +218,10 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
     if len(data[0]) != len(data[1]):
         raise ValueError("x and y must have the same length.")
 
-    if weights is None:
-        storage = bh.storage.Double()
-    else:
-        storage = bh.storage.Weight()
-
     h = bh.Histogram(
         create_axis(data[0], bins[0], range[0]),
         create_axis(data[1], bins[1], range[1]),
-        storage=storage,
+        storage=bh.storage.Weight(),
     )
     h.fill(*data, weight=weights, threads=0)
 
@@ -239,6 +234,18 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
         )
 
     return h
+
+
+def _check_binning_consistency(hist_list):
+    """
+    Check that all the histograms in the provided list share the same definition of their bins.
+    """
+    for h in hist_list:
+        if not len(h.axes) == len(hist_list[0].axes):
+            raise ValueError("Histograms must have same dimensionality.")
+        for i in range(len(h.axes)):
+            if not h.axes[i] == hist_list[0].axes[i]:
+                raise ValueError("The bins of the histograms must be equal.")
 
 
 def plot_hist(hist, ax, **kwargs):
@@ -256,8 +263,8 @@ def plot_hist(hist, ax, **kwargs):
     """
     if not isinstance(hist, list):
         # Single histogram
-        # A data sample x made of the bin centers of the input histogram
-        # Each "data point" is weighed according to the bin content
+        # Create a dummy data sample x made of the bin centers of the input histogram
+        # Each dummy data point is weighed according to the bin content
         ax.hist(
             x=hist.axes[0].centers,
             bins=hist.axes[0].edges,
@@ -266,6 +273,7 @@ def plot_hist(hist, ax, **kwargs):
         )
     else:
         # Multiple histograms
+        _check_binning_consistency(hist)
         ax.hist(
             x=[h.axes[0].centers for h in hist],
             bins=hist[0].axes[0].edges,
@@ -506,6 +514,9 @@ def compare_two_hist(
     plot_comparison : Plot the comparison between two histograms.
 
     """
+
+    _check_binning_consistency([hist_1, hist_2])
+
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
@@ -565,8 +576,8 @@ def _hist_ratio_variances(hist_1, hist_2):
     ValueError
         If the bins of the histograms are not equal.
     """
-    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
-        raise ValueError("The bins of the histograms must be equal.")
+
+    _check_binning_consistency([hist_1, hist_2])
 
     np.seterr(divide="ignore", invalid="ignore")
     ratio_variances = np.where(
@@ -635,8 +646,7 @@ def plot_comparison(
     h1_label = _get_math_text(h1_label)
     h2_label = _get_math_text(h2_label)
 
-    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
-        raise ValueError("The bins of the compared histograms must be equal.")
+    _check_binning_consistency([hist_1, hist_2])
 
     np.seterr(divide="ignore", invalid="ignore")
 
