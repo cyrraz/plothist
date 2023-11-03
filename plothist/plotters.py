@@ -598,6 +598,74 @@ def _hist_ratio_variances(hist_1, hist_2):
     return ratio_variances
 
 
+def compute_comparison(hist_1, hist_2, comparison, ratio_uncertainty="uncorrelated"):
+    """
+    Compute the comparison between two histograms.
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram for comparison.
+    hist_2 : boost_histogram.Histogram
+        The second histogram for comparison.
+    comparison : str
+        The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference").
+    ratio_uncertainty : str, optional
+        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
+
+    Returns
+    -------
+    hist_comparison : boost_histogram.Histogram
+        The histogram with the comparison values and variances.
+    """
+
+    _check_binning_consistency([hist_1, hist_2])
+
+    np.seterr(divide="ignore", invalid="ignore")
+
+    if comparison in ["ratio", "relative_difference"]:
+        if comparison == "ratio":
+            comparison_values = np.where(
+                hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
+            )
+        else:
+            comparison_values = np.where(
+                hist_2.values() != 0, (hist_1.values() / hist_2.values()) - 1, np.nan
+            )
+        if ratio_uncertainty == "uncorrelated":
+            comparison_variances = _hist_ratio_variances(hist_1, hist_2)
+        elif ratio_uncertainty == "split":
+            h1_scaled_uncertainties = np.where(
+                hist_2.values() != 0,
+                np.sqrt(hist_1.variances()) / hist_2.values(),
+                np.nan,
+            )
+            comparison_variances = h1_scaled_uncertainties**2
+        else:
+            raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
+    elif comparison == "pull":
+        comparison_values = np.where(
+            hist_1.variances() + hist_2.variances() != 0,
+            (hist_1.values() - hist_2.values())
+            / np.sqrt(hist_1.variances() + hist_2.variances()),
+            np.nan,
+        )
+        comparison_variances = np.ones_like(comparison_values)
+    elif comparison == "difference":
+        comparison_values = hist_1.values() - hist_2.values()
+        comparison_variances = hist_1.variances() + hist_2.variances()
+    else:
+        raise ValueError(
+            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference' or 'relative_difference')."
+        )
+    np.seterr(divide="warn", invalid="warn")
+
+    hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+    hist_comparison[:] = np.c_[comparison_values, comparison_variances]
+
+    return hist_comparison
+
+
 def plot_comparison(
     hist_1,
     hist_2,
@@ -655,52 +723,7 @@ def plot_comparison(
 
     _check_binning_consistency([hist_1, hist_2])
 
-    np.seterr(divide="ignore", invalid="ignore")
-
-    if comparison in ["ratio", "relative_difference"]:
-        if comparison == "ratio":
-            comparison_values = np.where(
-                hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
-            )
-        else:
-            comparison_values = np.where(
-                hist_2.values() != 0, (hist_1.values() / hist_2.values()) - 1, np.nan
-            )
-        if ratio_uncertainty == "split":
-            h1_scaled_uncertainties = np.where(
-                hist_2.values() != 0,
-                np.sqrt(hist_1.variances()) / hist_2.values(),
-                np.nan,
-            )
-            h2_scaled_uncertainties = np.where(
-                hist_2.values() != 0,
-                np.sqrt(hist_2.variances()) / hist_2.values(),
-                np.nan,
-            )
-            comparison_variances = h1_scaled_uncertainties**2
-        elif ratio_uncertainty == "uncorrelated":
-            comparison_variances = _hist_ratio_variances(hist_1, hist_2)
-        else:
-            raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
-    elif comparison == "pull":
-        comparison_values = np.where(
-            hist_1.variances() + hist_2.variances() != 0,
-            (hist_1.values() - hist_2.values())
-            / np.sqrt(hist_1.variances() + hist_2.variances()),
-            np.nan,
-        )
-        comparison_variances = np.ones_like(comparison_values)
-    elif comparison == "difference":
-        comparison_values = hist_1.values() - hist_2.values()
-        comparison_variances = hist_1.variances() + hist_2.variances()
-    else:
-        raise ValueError(
-            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference' or 'relative_difference')."
-        )
-    np.seterr(divide="warn", invalid="warn")
-
-    hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
-    hist_comparison[:] = np.c_[comparison_values, comparison_variances]
+    hist_comparison = compute_comparison(hist_1, hist_2, comparison, ratio_uncertainty)
 
     if comparison == "pull":
         plot_hist_kwargs.setdefault("histtype", "stepfilled")
@@ -729,6 +752,13 @@ def plot_comparison(
             ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
         if ratio_uncertainty == "split":
+            np.seterr(divide="ignore", invalid="ignore")
+            h2_scaled_uncertainties = np.where(
+                hist_2.values() != 0,
+                np.sqrt(hist_2.variances()) / hist_2.values(),
+                np.nan,
+            )
+            np.seterr(divide="warn", invalid="warn")
             ax.bar(
                 x=hist_2.axes[0].centers,
                 bottom=np.nan_to_num(
@@ -759,9 +789,9 @@ def plot_comparison(
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
+    ax.set_xlabel(xlabel)
     if comparison_ylim is not None:
         ax.set_ylim(comparison_ylim)
-    ax.set_xlabel(xlabel)
     if comparison_ylabel is not None:
         ax.set_ylabel(comparison_ylabel)
 
