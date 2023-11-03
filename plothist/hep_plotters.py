@@ -109,7 +109,7 @@ def compare_data_mc(
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
-            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+            "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
 
     if flatten_2d_hist:

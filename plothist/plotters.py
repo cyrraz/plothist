@@ -239,6 +239,17 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
 def _check_binning_consistency(hist_list):
     """
     Check that all the histograms in the provided list share the same definition of their bins.
+
+    Parameters
+    ----------
+    hist_list : list of boost_histogram.Histogram
+        The list of histograms to check.
+
+    Raise
+    -----
+    ValueError
+        If the histograms do not share the same dimensionality or if their bins are not equal.
+
     """
     for h in hist_list:
         if not len(h.axes) == len(hist_list[0].axes):
@@ -524,16 +535,12 @@ def compare_two_hist(
             "Need to provid fig, ax_main and ax_comparison (or None of them)."
         )
 
-    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
-        raise ValueError("The bins of the compared histograms must be equal.")
-
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
 
     plot_hist(hist_1, ax=ax_main, label=h1_label, histtype="step")
     plot_hist(hist_2, ax=ax_main, label=h2_label, histtype="step")
     ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
-    ax_main.tick_params(axis="x", labelbottom="off")
     ax_main.legend()
     _ = ax_main.xaxis.set_ticklabels([])
 
@@ -762,6 +769,19 @@ def plot_comparison(
 
 
 def _get_math_text(text):
+    """
+    Search for text between $ and return it.
+
+    Parameters
+    ----------
+    text : str
+        The input string.
+
+    Returns
+    -------
+    str
+        The text between $.
+    """
     match = re.search(r"\$(.*?)\$", text)
     if match:
         return match.group(1)
