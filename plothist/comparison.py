@@ -2,6 +2,27 @@ import numpy as np
 import scipy.stats as stats
 
 
+def _check_uncertainty_type(uncertainty_type):
+    """
+    Check that the uncertainty type is valid.
+
+    Parameters
+    ----------
+    uncertainty_type : str
+        The uncertainty type to check.
+
+    Raise
+    -----
+    ValueError
+        If the uncertainty type is not valid.
+
+    """
+    if uncertainty_type not in ["gauss", "poisson"]:
+        raise ValueError(
+            f"Uncertainty type {uncertainty_type} not valid. Must be 'gauss' or 'poisson'."
+        )
+
+
 def _is_unweighted(hist):
     """
     Check whether a histogram is unweighted.
@@ -19,13 +40,13 @@ def _is_unweighted(hist):
     return np.allclose(hist.variances(), hist.values())
 
 
-def _get_poisson_uncertainties(data_hist):
+def get_poisson_uncertainties(hist):
     """
     Get Poisson asymmetrical uncertainties for a histogram.
 
     Parameters
     ----------
-    data_hist : boost_histogram.Histogram
+    hist : boost_histogram.Histogram
         The histogram.
 
     Returns
@@ -41,13 +62,13 @@ def _get_poisson_uncertainties(data_hist):
         If the histogram is weighted.
 
     """
-    if not _is_unweighted(data_hist):
+    if not _is_unweighted(hist):
         raise ValueError(
-            "Poisson uncertainties make sense only for unweighted histograms."
+            "Poisson uncertainties can only be computed for an unweighted histogram."
         )
     conf_level = 0.682689492
     alpha = 1.0 - conf_level
-    n = data_hist.values()
+    n = hist.values()
     uncertainties_low = n - stats.gamma.ppf(alpha / 2, n, scale=1)
     uncertainties_high = stats.gamma.ppf(1 - alpha / 2, n + 1, scale=1) - n
 
@@ -77,7 +98,7 @@ def _check_binning_consistency(hist_list):
                 raise ValueError("The bins of the histograms must be equal.")
 
 
-def _hist_ratio_variances(hist_1, hist_2):
+def get_ratio_variances(hist_1, hist_2):
     """
     Calculate the variances of the ratio of two histograms (hist_1/hist_2).
 
@@ -100,6 +121,7 @@ def _hist_ratio_variances(hist_1, hist_2):
     """
 
     _check_binning_consistency([hist_1, hist_2])
+    _check_binning_consistency([hist_1, hist_2])
 
     np.seterr(divide="ignore", invalid="ignore")
     ratio_variances = np.where(
@@ -113,7 +135,7 @@ def _hist_ratio_variances(hist_1, hist_2):
     return ratio_variances
 
 
-def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
+def get_pull(hist_1, hist_2, hist_1_uncertainty="gauss"):
     """
     Compute the pull between two histograms.
 
@@ -123,8 +145,8 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
         The first histogram.
     hist_2 : boost_histogram.Histogram
         The second histogram.
-    poisson_for_hist_1 : bool, optional
-        Whether to use Poisson uncertainties for hist_1. Default is False.
+    hist_1_uncertainty : str, optional
+        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
 
     Returns
     -------
@@ -135,8 +157,11 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
     comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the pull. Always ones.
     """
-    if poisson_for_hist_1:
-        uncertainties_low, uncertainties_high = _get_poisson_uncertainties(hist_1)
+    _check_uncertainty_type(hist_1_uncertainty)
+    _check_binning_consistency([hist_1, hist_2])
+
+    if hist_1_uncertainty == "poisson":
+        uncertainties_low, uncertainties_high = get_poisson_uncertainties(hist_1)
         hist_1_variances = np.where(
             hist_1.values() >= hist_2.values(),
             uncertainties_low**2,
@@ -161,7 +186,7 @@ def compute_pull(hist_1, hist_2, poisson_for_hist_1=False):
     )
 
 
-def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
+def get_difference(hist_1, hist_2, hist_1_uncertainty="gauss"):
     """
     Compute the difference between two histograms.
 
@@ -171,8 +196,8 @@ def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
         The first histogram.
     hist_2 : boost_histogram.Histogram
         The second histogram.
-    poisson_for_hist_1 : bool, optional
-        Whether to use Poisson uncertainties for hist_1. Default is False.
+    hist_1_uncertainty : str, optional
+        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
 
     Returns
     -------
@@ -183,10 +208,13 @@ def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
     comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the difference.
     """
+    _check_uncertainty_type(hist_1_uncertainty)
+    _check_binning_consistency([hist_1, hist_2])
+
     comparison_values = hist_1.values() - hist_2.values()
 
-    if poisson_for_hist_1:
-        uncertainties_low, uncertainties_high = _get_poisson_uncertainties(hist_1)
+    if hist_1_uncertainty == "poisson":
+        uncertainties_low, uncertainties_high = get_poisson_uncertainties(hist_1)
 
         comparison_uncertainties_low = np.sqrt(
             uncertainties_low**2 + hist_2.variances()
@@ -205,8 +233,8 @@ def compute_difference(hist_1, hist_2, poisson_for_hist_1=False):
     )
 
 
-def compute_ratio(
-    hist_1, hist_2, ratio_uncertainty="uncorrelated", poisson_for_hist_1=False
+def get_ratio(
+    hist_1, hist_2, ratio_uncertainty="uncorrelated", hist_1_uncertainty="gauss"
 ):
     """
     Compute the ratio between two histograms.
@@ -219,8 +247,8 @@ def compute_ratio(
         The denominator histogram.
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties. Default is "uncorrelated".
-    poisson_for_hist_1 : bool, optional
-        Whether to use Poisson uncertainties for hist_1. Default is False.
+    hist_1_uncertainty : str, optional
+        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
 
     Returns
     -------
@@ -231,33 +259,33 @@ def compute_ratio(
     comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the ratio.
     """
+    _check_uncertainty_type(hist_1_uncertainty)
+    _check_binning_consistency([hist_1, hist_2])
 
     comparison_values = np.where(
         hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
     )
 
-    if poisson_for_hist_1:
-        uncertainties_low, uncertainties_high = _get_poisson_uncertainties(hist_1)
+    if hist_1_uncertainty == "poisson":
+        uncertainties_low, uncertainties_high = get_poisson_uncertainties(hist_1)
 
     if ratio_uncertainty == "uncorrelated":
-        if poisson_for_hist_1:
+        if hist_1_uncertainty == "poisson":
             hist_1_high = hist_1.copy()
             hist_1_high[:] = np.c_[hist_1_high.values(), uncertainties_high**2]
             hist_1_low = hist_1.copy()
             hist_1_low[:] = np.c_[hist_1_low.values(), uncertainties_low**2]
             comparison_uncertainties_low = np.sqrt(
-                _hist_ratio_variances(hist_1_low, hist_2)
+                get_ratio_variances(hist_1_low, hist_2)
             )
             comparison_uncertainties_high = np.sqrt(
-                _hist_ratio_variances(hist_1_high, hist_2)
+                get_ratio_variances(hist_1_high, hist_2)
             )
         else:
-            comparison_uncertainties_low = np.sqrt(
-                _hist_ratio_variances(hist_1, hist_2)
-            )
+            comparison_uncertainties_low = np.sqrt(get_ratio_variances(hist_1, hist_2))
             comparison_uncertainties_high = comparison_uncertainties_low
     elif ratio_uncertainty == "split":
-        if poisson_for_hist_1:
+        if hist_1_uncertainty == "poisson":
             comparison_uncertainties_low = uncertainties_low / hist_2.values()
             comparison_uncertainties_high = uncertainties_high / hist_2.values()
         else:
@@ -278,12 +306,12 @@ def compute_ratio(
     )
 
 
-def compute_comparison(
+def get_comparison(
     hist_1,
     hist_2,
     comparison,
     ratio_uncertainty="uncorrelated",
-    poisson_for_hist_1=False,
+    hist_1_uncertainty="gauss",
 ):
     """
     Compute the comparison between two histograms.
@@ -298,8 +326,8 @@ def compute_comparison(
         The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference").
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
-    poisson_for_hist_1 : bool, optional
-        Whether to use Poisson uncertainties for hist_1. Default is False.
+    hist_1_uncertainty : str, optional
+        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
 
     Returns
     -------
@@ -310,27 +338,27 @@ def compute_comparison(
     upper_uncertainties : numpy.ndarray
         The upper uncertainties on the comparison values.
     """
-
+    _check_uncertainty_type(hist_1_uncertainty)
     _check_binning_consistency([hist_1, hist_2])
 
     np.seterr(divide="ignore", invalid="ignore")
 
     if comparison == "ratio":
-        values, lower_uncertainties, upper_uncertainties = compute_ratio(
-            hist_1, hist_2, ratio_uncertainty, poisson_for_hist_1
+        values, lower_uncertainties, upper_uncertainties = get_ratio(
+            hist_1, hist_2, ratio_uncertainty, hist_1_uncertainty
         )
     elif comparison == "relative_difference":
-        values, lower_uncertainties, upper_uncertainties = compute_ratio(
-            hist_1, hist_2, ratio_uncertainty, poisson_for_hist_1
+        values, lower_uncertainties, upper_uncertainties = get_ratio(
+            hist_1, hist_2, ratio_uncertainty, hist_1_uncertainty
         )
         values -= 1  # relative difference is ratio-1
     elif comparison == "pull":
-        values, lower_uncertainties, upper_uncertainties = compute_pull(
-            hist_1, hist_2, poisson_for_hist_1
+        values, lower_uncertainties, upper_uncertainties = get_pull(
+            hist_1, hist_2, hist_1_uncertainty
         )
     elif comparison == "difference":
-        values, lower_uncertainties, upper_uncertainties = compute_difference(
-            hist_1, hist_2, poisson_for_hist_1
+        values, lower_uncertainties, upper_uncertainties = get_difference(
+            hist_1, hist_2, hist_1_uncertainty
         )
     else:
         raise ValueError(
