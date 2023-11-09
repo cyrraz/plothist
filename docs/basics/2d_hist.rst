@@ -25,11 +25,9 @@ To plot a simple 2d histogram:
     name_x = "variable_0"
     name_y = "variable_1"
 
-    fig, ax = plt.subplots(figsize=(4,4))
-
     h = make_2d_hist([df[name_x], df[name_y]])
 
-    plot_2d_hist(h, ax=ax, colorbar_kwargs={"label": "Entries"})
+    fig, ax, ax_colorbar = plot_2d_hist(h, colorbar_kwargs={"label": "Entries"})
 
     ax.set_xlabel(name_x)
     ax.set_ylabel(name_y)
@@ -63,12 +61,10 @@ Variable manager is a really useful tool to manage and plot the correlation betw
     create_variable_registry(variable_keys)
     update_variable_registry_ranges(df, variable_keys)
 
-    fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(15, 3))
-    plt.subplots_adjust(wspace=1)
-
     # Get all the correlation plot between the variables
     variable_keys_combinations = list(combinations(variable_keys, 2))
-    for variable_keys_combination, ax in zip(variable_keys_combinations, axs):
+
+    for k_combination, variable_keys_combination in enumerate(variable_keys_combinations):
         variable0 = get_variable_from_registry(variable_keys_combination[0])
         variable1 = get_variable_from_registry(variable_keys_combination[1])
 
@@ -78,7 +74,7 @@ Variable manager is a really useful tool to manage and plot the correlation betw
             range=(variable0["range"], variable1["range"]),
         )
 
-        plot_2d_hist(h, ax=ax, colorbar_kwargs={"label": "Entries"})
+        fig, ax, ax_colorbar = plot_2d_hist(h, colorbar_kwargs={"label": "Entries"})
 
         ax.set_xlabel(variable0["name"])
         ax.set_ylabel(variable1["name"])
@@ -86,11 +82,22 @@ Variable manager is a really useful tool to manage and plot the correlation betw
         ax.set_xlim(variable0["range"])
         ax.set_ylim(variable1["range"])
 
-    fig.savefig("2d_hist_correlations.svg", bbox_inches='tight')
+        fig.savefig(f"2d_hist_correlations_{k_combination}.svg", bbox_inches="tight")
 
-.. image:: ../img/2d_hist_correlations.svg
-   :alt: Simple 2d hist
-   :width: 1500
+
+|img1| |img2| |img3|
+
+.. |img1| image:: ../img/2d_hist_correlations_0.svg
+   :alt: 2d correlation plot
+   :width: 210
+
+.. |img2| image:: ../img/2d_hist_correlations_1.svg
+   :alt: 2d correlation plot
+   :width: 210
+
+.. |img3| image:: ../img/2d_hist_correlations_2.svg
+   :alt: 2d correlation plot
+   :width: 210
 
 
 Advanced
@@ -113,11 +120,9 @@ Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins
     # and bins [-10,-5], [-5,0], [0,5], [5,10] for variable 2
     bins = [[-10, 0, 10], [-10, -5, 0, 5, 10]]
 
-    fig, ax = plt.subplots(figsize=(4,4))
-
     h = make_2d_hist([df[name_x], df[name_y]], bins=bins)
 
-    plot_2d_hist(h, ax=ax, colorbar_kwargs={"label": "Entries"})
+    fig, ax, ax_colorbar = plot_2d_hist(h, colorbar_kwargs={"label": "Entries"})
 
     ax.set_xlabel(name_x)
     ax.set_ylabel(name_y)

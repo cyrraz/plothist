@@ -188,7 +188,10 @@ def set_fitting_ylabel_fontsize(ax):
         ax.figure.canvas.draw()
 
     while (
-        ax.yaxis.get_label().get_window_extent(renderer=ax.figure.canvas.get_renderer()).transformed(ax.transData.inverted()).y1
+        ax.yaxis.get_label()
+        .get_window_extent(renderer=ax.figure.canvas.get_renderer())
+        .transformed(ax.transData.inverted())
+        .y1
         > ax.get_ylim()[1]
     ):
         ylabel_fontsize -= 0.1
@@ -237,23 +240,23 @@ def add_text(
     -------
     None
     """
-    kwargs.setdefault("ha", "right" if x=="right" else "left")
+    kwargs.setdefault("ha", "right" if x == "right" else "left")
     kwargs.setdefault("va", "bottom")
 
     if ax is None:
         ax = plt.gca()
     transform = ax.transAxes
 
-    if x=="left":
+    if x == "left":
         x = 0.0
-    elif x=="right":
+    elif x == "right":
         x = 1.0
     elif type(x) not in [float, int]:
         raise ValueError(f"x should be a float or 'left'/'right' ({x} given))")
 
-    if y=="top":
+    if y == "top":
         y = 1.01
-    elif y=="bottom":
+    elif y == "bottom":
         y = 0.0
     elif type(y) not in [float, int]:
         raise ValueError(f"y should be a float or 'top'/'bottom' ({y} given)")

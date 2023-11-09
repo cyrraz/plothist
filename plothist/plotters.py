@@ -6,6 +6,7 @@ Collection of functions to plot histograms
 import numpy as np
 import boost_histogram as bh
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Bbox
 import warnings
 import re
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -271,7 +272,15 @@ def plot_hist(hist, ax, **kwargs):
         )
 
 
-def plot_2d_hist(hist, ax, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwargs={}):
+def plot_2d_hist(
+    hist,
+    fig=None,
+    ax=None,
+    ax_colorbar=None,
+    pcolormesh_kwargs={},
+    colorbar_kwargs={},
+    square_ax=True,
+):
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
 
@@ -279,21 +288,36 @@ def plot_2d_hist(hist, ax, ax_colorbar=None, pcolormesh_kwargs={}, colorbar_kwar
     ----------
     hist : boost_histogram.Histogram
         The 2D histogram to plot.
-    ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    ax_colorbar : matplotlib.axes.Axes or None, optional
-        The Axes instance for the colorbar. If None, the colorbar is appended to ax. Default is None.
+    fig : matplotlib.figure.Figure, optional
+        The Figure instance for plotting. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
+    ax : matplotlib.axes.Axes, optional
+        The Axes instance for plotting. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
+    ax_colorbar : matplotlib.axes.Axes
+        The Axes instance for the colorbar. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
     pcolormesh_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
     colorbar_kwargs : dict, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
+    square_ax : bool, optional
+        Whether to make the main ax square (default is True).
     """
-    if ax_colorbar is None:
-        divider = make_axes_locatable(ax)
-        ax_colorbar = divider.append_axes("right", size="5%", pad=0.05)
     pcolormesh_kwargs.setdefault("edgecolors", "face")
+
+    if fig is None and ax is None and ax_colorbar is None:
+        fig, (ax, ax_colorbar) = plt.subplots(
+            figsize=(6, 4.5), ncols=2, gridspec_kw={"width_ratios": [4, 0.23]}
+        )
+    elif fig is None or ax is None or ax_colorbar is None:
+        raise ValueError("Need to provid fig, ax and ax_colorbar (or None of them).")
+
+    if square_ax:
+        ax.set_box_aspect(1)
+        fig.subplots_adjust(wspace=0, hspace=0)
+
     im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
     ax.get_figure().colorbar(im, cax=ax_colorbar, **colorbar_kwargs)
+
+    return fig, ax, ax_colorbar
 
 
 def plot_2d_hist_with_projections(
@@ -355,31 +379,30 @@ def plot_2d_hist_with_projections(
 
     fig_width = 6
     fig_height = 6
+    gridspec = [6, 0.75, 1.5]
 
-    fig, axes = plt.subplots(
+    fig, axs = plt.subplots(
         figsize=(fig_width, fig_height),
-        nrows=2,
-        ncols=2,
-        gridspec_kw={"width_ratios": [4, 2], "height_ratios": [2, 4]},
+        ncols=3,
+        nrows=3,
+        gridspec_kw={"width_ratios": gridspec, "height_ratios": gridspec[::-1]},
     )
 
-    ax_2d = axes[1][0]
-    ax_x_projection = axes[0][0]
-    ax_y_projection = axes[1][1]
-    ax_colorbar = axes[0][1]
-    axes[0, 1].axis("off")
+    for x in range(3):
+        for y in range(3):
+            if not (x == 2 and y == 0):
+                axs[x, y].remove()
 
-    ax_colorbar = fig.add_axes(
-        [
-            ax_colorbar.get_position().x0,
-            ax_colorbar.get_position().y0,
-            0.07,
-            ax_colorbar.get_position().y1 - ax_colorbar.get_position().y0,
-        ]
-    )
+    gs = axs[0, 0].get_gridspec()
+
+    ax_2d = axs[2, 0]
+    ax_x_projection = fig.add_subplot(gs[0:2, 0:1])
+    ax_y_projection = fig.add_subplot(gs[-1, 1:])
+    ax_colorbar = fig.add_subplot(gs[0:2, 1])
 
     plot_2d_hist(
         hist,
+        fig=fig,
         ax=ax_2d,
         ax_colorbar=ax_colorbar,
         pcolormesh_kwargs=pcolormesh_kwargs,
@@ -413,8 +436,8 @@ def plot_2d_hist_with_projections(
     ax_x_projection.set_ylabel(ylabel_x_projection)
     ax_y_projection.set_xlabel(xlabel_y_projection, labelpad=labelpad)
 
-    hspace = 0.18
-    wspace = 0.18
+    hspace = 0.25
+    wspace = 0.25
     fig.subplots_adjust(hspace=hspace, wspace=wspace)
 
     fig.align_ylabels()
@@ -544,7 +567,7 @@ def plot_comparison(
     hist_1,
     hist_2,
     ax,
-    xlabel="x1",
+    xlabel="",
     h1_label="h1",
     h2_label="h2",
     comparison="ratio",
@@ -566,7 +589,7 @@ def plot_comparison(
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
     xlabel : str, optional
-        The label for the x-axis. Default is "x1".
+        The label for the x-axis. Default is "".
     h1_label : str, optional
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
@@ -683,6 +706,57 @@ def plot_comparison(
         ax.set_ylabel(comparison_ylabel)
 
     return ax
+
+
+def savefig(fig, path, new_figsize=None):
+    """
+    Save a Matplotlib figure with consistent figsize, axes size and subplot spacing (experimental feature).
+
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        The Matplotlib figure to be saved.
+    path : str
+        The output file path where the figure will be saved.
+    new_figsize : tuple, optional
+        The new figsize as a (width, height) tuple. If None, the original figsize is preserved.
+
+    Returns
+    -------
+    None
+    """
+    old_width, old_height = fig.get_size_inches()
+
+    if new_figsize is not None:
+        width_scale = new_figsize[0] / old_width
+        height_scale = new_figsize[1] / old_height
+    else:
+        width_scale = 1.0
+        height_scale = 1.0
+
+    axes = fig.get_axes()
+    axes_dimensions = [
+        (pos.width / width_scale, pos.height / height_scale)
+        for pos in [ax.get_position() for ax in axes]
+    ]
+    wspace, hspace = fig.subplotpars.wspace, fig.subplotpars.hspace
+
+    fig.tight_layout()
+    fig.subplots_adjust(wspace=wspace, hspace=hspace)
+
+    for k_ax, ax in enumerate(axes):
+        ax.set_position(
+            Bbox.from_bounds(
+                ax.get_position().x0,
+                ax.get_position().y0,
+                axes_dimensions[k_ax][0],
+                axes_dimensions[k_ax][1],
+            )
+        )
+
+    fig.set_size_inches(old_width * width_scale, old_height * height_scale)
+
+    fig.savefig(path)
 
 
 def _get_math_text(text):

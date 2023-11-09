@@ -2377,53 +2377,6 @@ L 398.98625 238.32
       </g>
      </g>
     </g>
-    <g id="text_12">
-     <!-- x1 -->
-     <g style="fill: #1a1a1a" transform="translate(222.334531 308.013125) scale(0.18 -0.18)">
-      <defs>
-       <path id="LatinModernMath-Regular-78" d="M 3302 0 
-L 3302 198 
-C 2957 198 2842 211 2694 397 
-L 1837 1504 
-C 2029 1747 2272 2061 2426 2227 
-C 2624 2458 2886 2554 3187 2560 
-L 3187 2758 
-C 3021 2746 2829 2739 2662 2739 
-C 2470 2739 2131 2752 2048 2758 
-L 2048 2560 
-C 2182 2547 2234 2464 2234 2362 
-C 2234 2259 2170 2176 2138 2138 
-L 1741 1638 
-L 1242 2285 
-C 1184 2349 1184 2362 1184 2400 
-C 1184 2496 1280 2554 1408 2560 
-L 1408 2758 
-L 717 2739 
-C 582 2739 282 2746 109 2758 
-L 109 2560 
-C 557 2560 563 2554 864 2170 
-L 1498 1344 
-C 1197 960 1197 947 896 582 
-C 589 211 211 198 77 198 
-L 77 0 
-C 243 13 442 19 608 19 
-L 1216 0 
-L 1216 198 
-C 1075 218 1030 301 1030 397 
-C 1030 538 1216 749 1606 1210 
-L 2093 570 
-C 2144 499 2227 397 2227 358 
-C 2227 301 2170 205 1997 198 
-L 1997 0 
-L 2688 19 
-C 2861 19 3110 13 3302 0 
-z
-" transform="scale(0.015625)"/>
-      </defs>
-      <use xlink:href="#LatinModernMath-Regular-78"/>
-      <use xlink:href="#LatinModernMath-Regular-31" x="52.799988"/>
-     </g>
-    </g>
    </g>
    <g id="matplotlib.axis_4">
     <g id="ytick_24">
@@ -2432,7 +2385,7 @@ z
        <use xlink:href="#mc947610920" x="64.18625" y="281.52" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_13">
+     <g id="text_12">
       <!-- $\mathdefault{−5}$ -->
       <g style="fill: #1a1a1a" transform="translate(39.98625 286.725469) scale(0.15 -0.15)">
        <defs>
@@ -2486,7 +2439,7 @@ z
        <use xlink:href="#mc947610920" x="64.18625" y="259.92" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_14">
+     <g id="text_13">
       <!-- $\mathdefault{0}$ -->
       <g style="fill: #1a1a1a" transform="translate(51.68625 265.125469) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-30" transform="translate(0 0.40625)"/>
@@ -2499,7 +2452,7 @@ z
        <use xlink:href="#mc947610920" x="64.18625" y="238.32" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_15">
+     <g id="text_14">
       <!-- $\mathdefault{5}$ -->
       <g style="fill: #1a1a1a" transform="translate(51.68625 243.525469) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-35" transform="translate(0 0.40625)"/>
@@ -2562,7 +2515,7 @@ z
       </g>
      </g>
     </g>
-    <g id="text_16">
+    <g id="text_15">
      <!-- $Pull_{A}$ -->
      <g style="fill: #1a1a1a" transform="translate(19.693125 281.07) rotate(-90) scale(0.18 -0.18)">
       <defs>
@@ -2890,7 +2843,7 @@ L 398.98625 296.64
        <use xlink:href="#m8dec1b3d1d" x="138.58625" y="339.84" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_17">
+     <g id="text_16">
       <!-- $\mathdefault{−5}$ -->
       <g style="fill: #1a1a1a" transform="translate(128.98625 358.250938) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-2212" transform="translate(0 0.40625)"/>
@@ -2904,7 +2857,7 @@ L 398.98625 296.64
        <use xlink:href="#m8dec1b3d1d" x="231.58625" y="339.84" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_18">
+     <g id="text_17">
       <!-- $\mathdefault{0}$ -->
       <g style="fill: #1a1a1a" transform="translate(227.83625 358.250938) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-30" transform="translate(0 0.40625)"/>
@@ -2917,7 +2870,7 @@ L 398.98625 296.64
        <use xlink:href="#m8dec1b3d1d" x="324.58625" y="339.84" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_19">
+     <g id="text_18">
       <!-- $\mathdefault{5}$ -->
       <g style="fill: #1a1a1a" transform="translate(320.83625 358.250938) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-35" transform="translate(0 0.40625)"/>
@@ -3029,7 +2982,7 @@ L 398.98625 296.64
       </g>
      </g>
     </g>
-    <g id="text_20">
+    <g id="text_19">
      <!-- Variable [unit] -->
      <g style="fill: #1a1a1a" transform="translate(174.302656 380.661875) scale(0.18 -0.18)">
       <defs>
@@ -3133,7 +3086,7 @@ z
        <use xlink:href="#mc947610920" x="64.18625" y="339.84" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_21">
+     <g id="text_20">
       <!-- $\mathdefault{0}$ -->
       <g style="fill: #1a1a1a" transform="translate(51.68625 345.045469) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-30" transform="translate(0 0.40625)"/>
@@ -3146,7 +3099,7 @@ z
        <use xlink:href="#mc947610920" x="64.18625" y="296.64" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_22">
+     <g id="text_21">
       <!-- $\mathdefault{2}$ -->
       <g style="fill: #1a1a1a" transform="translate(51.68625 301.845469) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-32" transform="translate(0 0.40625)"/>
@@ -3174,7 +3127,7 @@ z
       </g>
      </g>
     </g>
-    <g id="text_23">
+    <g id="text_22">
      <!-- $Ratio_{B}$ -->
      <g style="fill: #1a1a1a" transform="translate(19.693125 344.61) rotate(-90) scale(0.18 -0.18)">
       <defs>

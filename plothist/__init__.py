@@ -12,6 +12,7 @@ from .plotters import (
     plot_error_hist,
     compare_two_hist,
     plot_comparison,
+    savefig,
 )
 
 from .variable_registry import (
@@ -20,7 +21,12 @@ from .variable_registry import (
     update_variable_registry_ranges,
 )
 
-from .hep_plotters import compare_data_mc, plot_mc, add_luminosity
+from .hep_plotters import (
+    compare_data_mc,
+    plot_mc,
+    add_luminosity,
+    get_poisson_uncertainties,
+)
 
 from .comparison import (
     get_poisson_uncertainties,
@@ -54,9 +60,11 @@ __all__ = [
     "plot_error_hist",
     "compare_two_hist",
     "plot_comparison",
+    "savefig",
     "compare_data_mc",
     "plot_mc",
     "add_luminosity",
+    "get_poisson_uncertainties",
     "set_style",
     "cubehelix_palette",
     "get_color_palette",
