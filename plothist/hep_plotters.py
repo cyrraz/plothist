@@ -13,7 +13,7 @@ from plothist.plotters import (
     create_comparison_figure,
     _hist_ratio_variances,
 )
-from plothist.plothist_style import get_fitting_ylabel_fontsize, add_text
+from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
 
 
 def compare_data_mc(
@@ -129,6 +129,11 @@ def compare_data_mc(
         flatten_2d_hist=False,  # Already done
     )
 
+    if not mc_uncertainty:
+        mc_hist_total[:] = np.stack(
+            [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
+        )
+
     # Compute data uncertainties
     if np.allclose(data_hist.variances(), data_hist.values()):
         # If the variances are equal to the bin contents (i.e. un-weighted data), use the Poisson confidence intervals as uncertainties
@@ -144,8 +149,9 @@ def compare_data_mc(
             uncertainties_low ** 2,
             uncertainties_high ** 2,
         )
+        data_hist = data_hist.copy()
         data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
-    elif comparison_kwargs["comparison"] == "ratio":
+    elif comparison_kwargs["comparison"] in ["ratio", "relative_difference"]:
         if comparison_kwargs["ratio_uncertainty"] == "split":
             np.seterr(divide="ignore", invalid="ignore")
             # Compute asymmetrical uncertainties to plot_comparison()
@@ -190,6 +196,10 @@ def compare_data_mc(
                 np.sqrt(data_hist_high.variances() + mc_hist_total.variances()),
             ],
         )
+    else:
+        raise ValueError(
+            f"Unknown comparison {comparison_kwargs['comparison']}. Please choose from 'pull', 'ratio', 'relative_difference', or 'difference'."
+        )
 
     plot_error_hist(
         data_hist,
@@ -216,9 +226,6 @@ def compare_data_mc(
             label=mc_uncertainty_label,
         )
     else:
-        mc_hist_total[:] = np.stack(
-            [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
-        )
         if comparison_kwargs["comparison"] == "pull":
             comparison_kwargs.setdefault(
                 "comparison_ylabel",
@@ -235,7 +242,7 @@ def compare_data_mc(
         **comparison_kwargs,
     )
 
-    ylabel_fontsize = get_fitting_ylabel_fontsize(ax_main)
+    ylabel_fontsize = set_fitting_ylabel_fontsize(ax_main)
     ax_main.get_yaxis().get_label().set_size(ylabel_fontsize)
     ax_comparison.get_yaxis().get_label().set_size(ylabel_fontsize)
 
@@ -395,7 +402,7 @@ def plot_mc(
     xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel, fontsize=get_fitting_ylabel_fontsize(ax))
+    ax.set_ylabel(ylabel, fontsize=set_fitting_ylabel_fontsize(ax))
     ax.tick_params(axis="x", labelbottom="off")
     ax.legend(ncol=leg_ncol)
 
