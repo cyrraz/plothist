@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 import warnings
 import re
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from plothist.comparison import get_comparison, _check_binning_consistency
 
 
 def create_comparison_figure(
     figsize=(6, 5),
     nrows=2,
-    ncols=1,
     gridspec_kw={"height_ratios": [4, 1]},
     hspace=0.15,
 ):
@@ -27,12 +27,10 @@ def create_comparison_figure(
         Figure size in inches. Default is (6, 5).
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
-    ncols : int, optional
-        Number of columns in the subplot grid. Default is 1.
     gridspec_kw : dict, optional
         Additional keyword arguments for the GridSpec. Default is {"height_ratios": [4, 1]}.
     hspace : float, optional
-        Height spacing between subplots. Default is 0.125.
+        Height spacing between subplots. Default is 0.15.
 
     Returns
     -------
@@ -45,9 +43,7 @@ def create_comparison_figure(
     if figsize is None:
         figsize = plt.rcParams["figure.figsize"]
 
-    fig, axes = plt.subplots(
-        nrows=nrows, ncols=ncols, figsize=figsize, gridspec_kw=gridspec_kw
-    )
+    fig, axes = plt.subplots(nrows=nrows, figsize=figsize, gridspec_kw=gridspec_kw)
     if nrows > 1:
         fig.subplots_adjust(hspace=hspace)
 
@@ -57,7 +53,7 @@ def create_comparison_figure(
     return fig, axes
 
 
-def create_axis(data, bins, range):
+def create_axis(data, bins, range=None):
     """
     Create an axis object for histogram binning based on the input data and parameters.
 
@@ -96,20 +92,18 @@ def create_axis(data, bins, range):
         x_min = min(data) if range[0] == "min" else range[0]
         x_max = max(data) if range[1] == "max" else range[1]
         if x_min > x_max:
-            raise ValueError("max must be larger than min in range parameter.")
-        if not (np.isfinite(x_min) and np.isfinite(x_max)):
             raise ValueError(
-                "supplied range of [{}, {}] is not finite".format(x_min, x_max)
+                f"Range of [{x_min}, {x_max}] is not valid. Max must be larger than min."
             )
+        if not (np.isfinite(x_min) and np.isfinite(x_max)):
+            raise ValueError(f"Range of [{x_min}, {x_max}] is not finite.")
     elif data.size == 0:
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0, 1
     else:
         x_min, x_max = min(data), max(data)
         if not (np.isfinite(x_min) and np.isfinite(x_max)):
-            raise ValueError(
-                "autodetected range of [{}, {}] is not finite".format(x_min, x_max)
-            )
+            raise ValueError(f"Autodetected range of [{x_min}, {x_max}] is not finite.")
 
     # expand empty range to avoid divide by zero
     if x_min == x_max:
@@ -225,15 +219,10 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
     if len(data[0]) != len(data[1]):
         raise ValueError("x and y must have the same length.")
 
-    if weights is None:
-        storage = bh.storage.Double()
-    else:
-        storage = bh.storage.Weight()
-
     h = bh.Histogram(
         create_axis(data[0], bins[0], range[0]),
         create_axis(data[1], bins[1], range[1]),
-        storage=storage,
+        storage=bh.storage.Weight(),
     )
     h.fill(*data, weight=weights, threads=0)
 
@@ -263,8 +252,8 @@ def plot_hist(hist, ax, **kwargs):
     """
     if not isinstance(hist, list):
         # Single histogram
-        # A data sample x made of the bin centers of the input histogram
-        # Each "data point" is weighed according to the bin content
+        # Create a dummy data sample x made of the bin centers of the input histogram
+        # Each dummy data point is weighed according to the bin content
         ax.hist(
             x=hist.axes[0].centers,
             bins=hist.axes[0].edges,
@@ -273,6 +262,7 @@ def plot_hist(hist, ax, **kwargs):
         )
     else:
         # Multiple histograms
+        _check_binning_consistency(hist)
         ax.hist(
             x=[h.axes[0].centers for h in hist],
             bins=hist[0].axes[0].edges,
@@ -513,15 +503,15 @@ def compare_two_hist(
     plot_comparison : Plot the comparison between two histograms.
 
     """
+
+    _check_binning_consistency([hist_1, hist_2])
+
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
-            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+            "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
-
-    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
-        raise ValueError("The bins of the compared histograms must be equal.")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
 
@@ -529,7 +519,6 @@ def compare_two_hist(
     plot_hist(hist_2, ax=ax_main, label=h2_label, histtype="step")
     ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
-    ax_main.tick_params(axis="x", labelbottom="off")
     ax_main.legend()
     _ = ax_main.xaxis.set_ticklabels([])
 
@@ -551,42 +540,6 @@ def compare_two_hist(
     return fig, ax_main, ax_comparison
 
 
-def _hist_ratio_variances(hist_1, hist_2):
-    """
-    Calculate the variances of the ratio of two histograms (hist_1/hist_2).
-
-    Parameters
-    ----------
-    hist_1 : boost_histogram.Histogram
-        The first histogram.
-    hist_2 : boost_histogram.Histogram
-        The second histogram.
-
-    Returns
-    -------
-    variances : np.ndarray
-        The variances of the ratio of the two histograms.
-
-    Raises
-    ------
-    ValueError
-        If the bins of the histograms are not equal.
-    """
-    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
-        raise ValueError("The bins of the histograms must be equal.")
-
-    np.seterr(divide="ignore", invalid="ignore")
-    ratio_variances = np.where(
-        hist_2.values() != 0,
-        hist_1.variances() / hist_2.values() ** 2
-        + hist_2.variances() * hist_1.values() ** 2 / hist_2.values() ** 4,
-        np.nan,
-    )
-    np.seterr(divide="warn", invalid="warn")
-
-    return ratio_variances
-
-
 def plot_comparison(
     hist_1,
     hist_2,
@@ -598,6 +551,7 @@ def plot_comparison(
     comparison_ylabel=None,
     comparison_ylim=None,
     ratio_uncertainty="uncorrelated",
+    hist_1_uncertainty="gauss",
     **plot_hist_kwargs,
 ):
     """
@@ -625,6 +579,8 @@ def plot_comparison(
         The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
+    hist_1_uncertainty : str, optional
+        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 
@@ -642,55 +598,19 @@ def plot_comparison(
     h1_label = _get_math_text(h1_label)
     h2_label = _get_math_text(h2_label)
 
-    if not np.all(hist_1.axes[0].edges == hist_2.axes[0].edges):
-        raise ValueError("The bins of the compared histograms must be equal.")
+    _check_binning_consistency([hist_1, hist_2])
 
-    np.seterr(divide="ignore", invalid="ignore")
+    comparison_values, lower_uncertainties, upper_uncertainties = get_comparison(
+        hist_1, hist_2, comparison, ratio_uncertainty, hist_1_uncertainty
+    )
 
-    if comparison in ["ratio", "relative_difference"]:
-        if comparison == "ratio":
-            comparison_values = np.where(
-                hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
-            )
-        else:
-            comparison_values = np.where(
-                hist_2.values() != 0, (hist_1.values() / hist_2.values()) - 1, np.nan
-            )
-        if ratio_uncertainty == "split":
-            h1_scaled_uncertainties = np.where(
-                hist_2.values() != 0,
-                np.sqrt(hist_1.variances()) / hist_2.values(),
-                np.nan,
-            )
-            h2_scaled_uncertainties = np.where(
-                hist_2.values() != 0,
-                np.sqrt(hist_2.variances()) / hist_2.values(),
-                np.nan,
-            )
-            comparison_variances = h1_scaled_uncertainties**2
-        elif ratio_uncertainty == "uncorrelated":
-            comparison_variances = _hist_ratio_variances(hist_1, hist_2)
-        else:
-            raise ValueError("ratio_uncertainty not in ['uncorrelated', 'split'].")
-    elif comparison == "pull":
-        comparison_values = np.where(
-            hist_1.variances() + hist_2.variances() != 0,
-            (hist_1.values() - hist_2.values())
-            / np.sqrt(hist_1.variances() + hist_2.variances()),
-            np.nan,
-        )
-        comparison_variances = np.ones_like(comparison_values)
-    elif comparison == "difference":
-        comparison_values = hist_1.values() - hist_2.values()
-        comparison_variances = hist_1.variances() + hist_2.variances()
+    if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
+        hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
     else:
-        raise ValueError(
-            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference' or 'relative_difference')."
-        )
-    np.seterr(divide="warn", invalid="warn")
-
-    hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
-    hist_comparison[:] = np.stack([comparison_values, comparison_variances], axis=-1)
+        plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
+        hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+        hist_comparison[:] = np.c_[comparison_values, np.zeros_like(comparison_values)]
 
     if comparison == "pull":
         plot_hist_kwargs.setdefault("histtype", "stepfilled")
@@ -719,6 +639,13 @@ def plot_comparison(
             ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
         if ratio_uncertainty == "split":
+            np.seterr(divide="ignore", invalid="ignore")
+            h2_scaled_uncertainties = np.where(
+                hist_2.values() != 0,
+                np.sqrt(hist_2.variances()) / hist_2.values(),
+                np.nan,
+            )
+            np.seterr(divide="warn", invalid="warn")
             ax.bar(
                 x=hist_2.axes[0].centers,
                 bottom=np.nan_to_num(
@@ -749,9 +676,9 @@ def plot_comparison(
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
+    ax.set_xlabel(xlabel)
     if comparison_ylim is not None:
         ax.set_ylim(comparison_ylim)
-    ax.set_xlabel(xlabel)
     if comparison_ylabel is not None:
         ax.set_ylabel(comparison_ylabel)
 
@@ -759,6 +686,19 @@ def plot_comparison(
 
 
 def _get_math_text(text):
+    """
+    Search for text between $ and return it.
+
+    Parameters
+    ----------
+    text : str
+        The input string.
+
+    Returns
+    -------
+    str
+        The text between $ or the input string if no $ are found.
+    """
     match = re.search(r"\$(.*?)\$", text)
     if match:
         return match.group(1)
