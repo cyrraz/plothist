@@ -16657,10 +16657,13 @@ L 296.807029 9.688388
 z
 " style="fill: #ffffff"/>
    </g>
+   <g id="patch_20">
+    <path clip-path="url(#p650cf2d1e8)" style="fill: #ffffff; stroke: #ffffff; stroke-width: 0.01; stroke-linejoin: miter"/>
+   </g>
    <image xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAACQAAACNCAYAAADfE9i+AAABbUlEQVR4nO3cwXXDMAwEUZCEXFlKSP+VJFHOvBBH/gO2gnmzS8uyZY+v8f0GlBxr3WbY4gEFBzTGbYYtXVkV0dC8zbDFGzW3oZhaZdyGurJzxFOGGXqXZkjb0KsBhcUjVqaNGtyQZoirzOLpysrkyxnigCyeyPA2dBthD7ghzpAlSKzMuk8UN8RVphkKSxBoCASyOvMM9aiLNFAVEEgbdZ+yIh4Q9xmjZ6hHfU4DVekNVWlDVUQg6okv8VqmjdozxG1Iq6wNFfFGHVpl3IZGV3YOeMoGZmholTVQkRzahiZnSAOaXdk5uebfbYYt3ilbXGUDq8wz1KM+J9PbEAaUHJBWGWeIu9qDlf3eZtjShqrk8kaNGXp6Q+fko1XGvVJzhjyg+XObYQtoSANagb0wcoZAIOyUfTRDU7vac4a4DT2BGerKiuSKfoN2jHfX8fGu9tiGsK/tIz/a/348HBD2eEw+2MMfmWH9ajIXZugf8ZtqNumyyosAAAAASUVORK5CYII=" id="imagec76d06e374" transform="scale(1 -1) translate(0 -101.52)" x="296.64" y="-9.36" width="25.92" height="101.52"/>
    <g id="LineCollection_1"/>
-   <g id="patch_20">
+   <g id="patch_21">
     <path d="M 296.807029 111.208388 
 L 309.851185 111.208388 
 L 322.895341 111.208388 
@@ -16821,6 +16824,9 @@ L -3 0
   </clipPath>
   <clipPath id="p59b6c199b0">
    <rect x="296.807029" y="134.968388" width="102.179221" height="207.36"/>
+  </clipPath>
+  <clipPath id="p650cf2d1e8">
+   <rect x="296.807029" y="9.688388" width="26.088312" height="101.52"/>
   </clipPath>
  </defs>
 </svg>
