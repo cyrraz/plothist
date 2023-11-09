@@ -794,7 +794,7 @@ def savefig(fig, path, new_figsize=None, adjust_after_tight_layout=False):
     new_figsize : tuple, optional
         The new figsize as a (width, height) tuple. If None, the original figsize is preserved.
     adjust_after_tight_layout : bool, optional
-        Adjust the space between the subplots just before saving. Useful for 2D plots.
+        Adjust the space between the subplots just before saving, useful if some subplots are not aligned. Default is False.
 
     Returns
     -------
