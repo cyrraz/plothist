@@ -53,7 +53,7 @@ def create_comparison_figure(
         fig.subplots_adjust(hspace=hspace)
 
     for ax in axes[:-1]:
-        ax.xaxis.set_visible(False)
+        _ = ax.xaxis.set_ticklabels([])
 
     return fig, axes
 
@@ -389,7 +389,7 @@ def plot_2d_hist_with_projections(
 
     fig_width = 6
     fig_height = 6
-    gridspec = [6, 0.72, 1.0]
+    gridspec = [6, 0.75, 1.5]
 
     fig, axs = plt.subplots(
         figsize=(fig_width, fig_height),
@@ -614,7 +614,7 @@ def plot_comparison(
     hist_1,
     hist_2,
     ax,
-    xlabel="x1",
+    xlabel="",
     h1_label="h1",
     h2_label="h2",
     comparison="ratio",
@@ -635,7 +635,7 @@ def plot_comparison(
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
     xlabel : str, optional
-        The label for the x-axis. Default is "x1".
+        The label for the x-axis. Default is "".
     h1_label : str, optional
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
@@ -781,9 +781,9 @@ def plot_comparison(
     return ax
 
 
-def savefig(fig, path, new_figsize=None, adjust_after_tight_layout=False):
+def savefig(fig, path, new_figsize=None):
     """
-    Save a Matplotlib figure with consistent figsize, axes size and subplot spacing.
+    Save a Matplotlib figure with consistent figsize, axes size and subplot spacing (experimental feature).
 
     Parameters
     ----------
@@ -793,8 +793,6 @@ def savefig(fig, path, new_figsize=None, adjust_after_tight_layout=False):
         The output file path where the figure will be saved.
     new_figsize : tuple, optional
         The new figsize as a (width, height) tuple. If None, the original figsize is preserved.
-    adjust_after_tight_layout : bool, optional
-        Adjust the space between the subplots just before saving, useful if some subplots are not aligned. Default is False.
 
     Returns
     -------
@@ -828,8 +826,6 @@ def savefig(fig, path, new_figsize=None, adjust_after_tight_layout=False):
                 axes_dimensions[k_ax][1],
             )
         )
-    if adjust_after_tight_layout:
-        fig.subplots_adjust(wspace=wspace, hspace=hspace)
 
     fig.set_size_inches(old_width * width_scale, old_height * height_scale)
 
