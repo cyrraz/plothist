@@ -93,7 +93,6 @@ Then, we plot the histograms and the comparison plots on different axes:
     ax_main.set_ylabel("Entries")
     ax1_comparison.set_ylabel("$Pull_{A}$")
     ax2_comparison.set_ylabel("$Ratio_{B}$")
-    ax1_comparison.set_xlabel("")
     ax2_comparison.set_xlabel("Variable [unit]")
 
     # Add the legend

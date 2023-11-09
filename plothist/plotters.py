@@ -53,7 +53,7 @@ def create_comparison_figure(
         fig.subplots_adjust(hspace=hspace)
 
     for ax in axes[:-1]:
-        _ = ax.xaxis.set_ticklabels([])
+        ax.xaxis.set_visible(False)
 
     return fig, axes
 
