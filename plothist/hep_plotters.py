@@ -2,18 +2,20 @@
 Collection of functions to plot histograms in the context of High Energy Physics
 """
 import numpy as np
-import scipy.stats as stats
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 from plothist.plotters import (
     plot_hist,
     plot_error_hist,
     _flatten_2d_hist,
     plot_comparison,
     create_comparison_figure,
-    _hist_ratio_variances,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
+from plothist.comparison import (
+    _check_binning_consistency,
+    get_poisson_uncertainties,
+    _is_unweighted,
+)
 
 
 def compare_data_mc(
@@ -100,11 +102,15 @@ def compare_data_mc(
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
+    _check_binning_consistency(
+        mc_hist_list + [data_hist] + ([signal_hist] if signal_hist is not None else [])
+    )
+
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
-            "Need to provid fig, ax_main and ax_comparison (or None of them)."
+            "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
 
     if flatten_2d_hist:
@@ -130,76 +136,20 @@ def compare_data_mc(
     )
 
     if not mc_uncertainty:
-        mc_hist_total[:] = np.stack(
-            [mc_hist_total.values(), np.zeros_like(mc_hist_total.values())], axis=-1
-        )
+        mc_hist_total[:] = np.c_[
+            mc_hist_total.values(), np.zeros_like(mc_hist_total.values())
+        ]
 
     # Compute data uncertainties
-    if np.allclose(data_hist.variances(), data_hist.values()):
-        # If the variances are equal to the bin contents (i.e. un-weighted data), use the Poisson confidence intervals as uncertainties
+    if _is_unweighted(data_hist):
+        # For unweighted data, use the Poisson confidence intervals as uncertainties
         uncertainties_low, uncertainties_high = get_poisson_uncertainties(data_hist)
+        data_uncertainty = "poisson"
     else:
         # Otherwise, use the Gaussian uncertainties
         uncertainties_low = np.sqrt(data_hist.variances())
         uncertainties_high = uncertainties_low
-
-    if comparison_kwargs["comparison"] == "pull":
-        data_variances = np.where(
-            data_hist.values() >= mc_hist_total.values(),
-            uncertainties_low ** 2,
-            uncertainties_high ** 2,
-        )
-        data_hist = data_hist.copy()
-        data_hist[:] = np.stack([data_hist.values(), data_variances], axis=-1)
-    elif comparison_kwargs["comparison"] in ["ratio", "relative_difference"]:
-        if comparison_kwargs["ratio_uncertainty"] == "split":
-            np.seterr(divide="ignore", invalid="ignore")
-            # Compute asymmetrical uncertainties to plot_comparison()
-            comparison_kwargs.setdefault(
-                "yerr",
-                [
-                    uncertainties_low / mc_hist_total.values(),
-                    uncertainties_high / mc_hist_total.values(),
-                ],
-            )
-            np.seterr(divide="warn", invalid="warn")
-        elif comparison_kwargs["ratio_uncertainty"] == "uncorrelated":
-            data_hist_high = data_hist.copy()
-            data_hist_high[:] = np.stack(
-                [data_hist_high.values(), uncertainties_high ** 2], axis=-1
-            )
-            data_hist_low = data_hist.copy()
-            data_hist_low[:] = np.stack(
-                [data_hist_low.values(), uncertainties_low ** 2], axis=-1
-            )
-            # Compute asymmetrical uncertainties to plot_comparison()
-            comparison_kwargs.setdefault(
-                "yerr",
-                [
-                    np.sqrt(_hist_ratio_variances(data_hist_low, mc_hist_total)),
-                    np.sqrt(_hist_ratio_variances(data_hist_high, mc_hist_total)),
-                ],
-            )
-    elif comparison_kwargs["comparison"] == "difference":
-        data_hist_high = data_hist.copy()
-        data_hist_high[:] = np.stack(
-            [data_hist_high.values(), uncertainties_high ** 2], axis=-1
-        )
-        data_hist_low = data_hist.copy()
-        data_hist_low[:] = np.stack(
-            [data_hist_low.values(), uncertainties_low ** 2], axis=-1
-        )
-        comparison_kwargs.setdefault(
-            "yerr",
-            [
-                np.sqrt(data_hist_low.variances() + mc_hist_total.variances()),
-                np.sqrt(data_hist_high.variances() + mc_hist_total.variances()),
-            ],
-        )
-    else:
-        raise ValueError(
-            f"Unknown comparison {comparison_kwargs['comparison']}. Please choose from 'pull', 'ratio', 'relative_difference', or 'difference'."
-        )
+        data_uncertainty = "gauss"
 
     plot_error_hist(
         data_hist,
@@ -225,12 +175,11 @@ def compare_data_mc(
             lw=0,
             label=mc_uncertainty_label,
         )
-    else:
-        if comparison_kwargs["comparison"] == "pull":
-            comparison_kwargs.setdefault(
-                "comparison_ylabel",
-                rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
-            )
+    elif comparison_kwargs["comparison"] == "pull":
+        comparison_kwargs.setdefault(
+            "comparison_ylabel",
+            rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
+        )
 
     ax_main.legend()
 
@@ -239,11 +188,11 @@ def compare_data_mc(
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
+        hist_1_uncertainty=data_uncertainty,
         **comparison_kwargs,
     )
 
     ylabel_fontsize = set_fitting_ylabel_fontsize(ax_main)
-    ax_main.get_yaxis().get_label().set_size(ylabel_fontsize)
     ax_comparison.get_yaxis().get_label().set_size(ylabel_fontsize)
 
     fig.align_ylabels()
@@ -252,31 +201,6 @@ def compare_data_mc(
         fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax_main, ax_comparison
-
-
-def get_poisson_uncertainties(data_hist):
-    """
-    Get Poisson asymmetrical uncertainties for a histogram.
-
-    Parameters
-    ----------
-    data_hist : boost_histogram.Histogram
-        The histogram.
-
-    Returns
-    -------
-    uncertainties_low : numpy.ndarray
-        The lower uncertainties.
-    uncertainties_high : numpy.ndarray
-        The upper uncertainties.
-    """
-    conf_level = 0.682689492
-    alpha = 1.0 - conf_level
-    n = data_hist.values()
-    uncertainties_low = n - stats.gamma.ppf(alpha / 2, n, scale=1)
-    uncertainties_high = stats.gamma.ppf(1 - alpha / 2, n + 1, scale=1) - n
-
-    return uncertainties_low, uncertainties_high
 
 
 def plot_mc(
@@ -338,10 +262,14 @@ def plot_mc(
 
     """
 
+    _check_binning_consistency(
+        mc_hist_list + ([signal_hist] if signal_hist is not None else [])
+    )
+
     if fig is None and ax is None:
         fig, ax = plt.subplots()
     elif fig is None or ax is None:
-        raise ValueError("Need to provid both fig and ax (or None).")
+        raise ValueError("Need to provid both fig and ax (or none).")
 
     if flatten_2d_hist:
         mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
@@ -402,8 +330,8 @@ def plot_mc(
     xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel, fontsize=set_fitting_ylabel_fontsize(ax))
-    ax.tick_params(axis="x", labelbottom="off")
+    ax.set_ylabel(ylabel)
+    set_fitting_ylabel_fontsize(ax)
     ax.legend(ncol=leg_ncol)
 
     if save_as is not None:

@@ -28,6 +28,15 @@ from .hep_plotters import (
     get_poisson_uncertainties,
 )
 
+from .comparison import (
+    get_poisson_uncertainties,
+    get_comparison,
+    get_pull,
+    get_difference,
+    get_ratio,
+    get_ratio_variances,
+)
+
 from .plothist_style import (
     set_style,
     cubehelix_palette,
@@ -61,6 +70,12 @@ __all__ = [
     "get_color_palette",
     "set_fitting_ylabel_fontsize",
     "add_text",
+    "get_poisson_uncertainties",
+    "get_comparison",
+    "get_pull",
+    "get_difference",
+    "get_ratio",
+    "get_ratio_variances",
 ]
 
 
