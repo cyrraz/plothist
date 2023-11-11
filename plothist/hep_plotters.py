@@ -13,7 +13,7 @@ from plothist.plotters import (
 from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
 from plothist.comparison import (
     _check_binning_consistency,
-    get_poisson_uncertainties,
+    get_asymmetrical_uncertainties,
     _is_unweighted,
 )
 
@@ -142,14 +142,16 @@ def compare_data_mc(
 
     # Compute data uncertainties
     if _is_unweighted(data_hist):
-        # For unweighted data, use the Poisson confidence intervals as uncertainties
-        uncertainties_low, uncertainties_high = get_poisson_uncertainties(data_hist)
-        data_uncertainty = "poisson"
+        # For unweighted data, use a Poisson confidence interval as uncertainty
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
+            data_hist
+        )
+        data_uncertainty = "asymmetrical"
     else:
-        # Otherwise, use the Gaussian uncertainties
+        # Otherwise, use the Poisson standard deviation a uncertainty
         uncertainties_low = np.sqrt(data_hist.variances())
         uncertainties_high = uncertainties_low
-        data_uncertainty = "gauss"
+        data_uncertainty = "symmetrical"
 
     plot_error_hist(
         data_hist,

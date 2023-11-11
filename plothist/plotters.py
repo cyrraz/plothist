@@ -574,7 +574,7 @@ def plot_comparison(
     comparison_ylabel=None,
     comparison_ylim=None,
     ratio_uncertainty="uncorrelated",
-    hist_1_uncertainty="gauss",
+    hist_1_uncertainty="symmetrical",
     **plot_hist_kwargs,
 ):
     """
@@ -603,7 +603,7 @@ def plot_comparison(
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 
