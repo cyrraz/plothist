@@ -10,6 +10,7 @@ from .plotters import (
     plot_2d_hist,
     plot_2d_hist_with_projections,
     plot_error_hist,
+    plot_hist_uncertainties,
     compare_two_hist,
     plot_comparison,
     savefig,

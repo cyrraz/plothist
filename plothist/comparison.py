@@ -325,7 +325,7 @@ def get_comparison(
     hist_2 : boost_histogram.Histogram
         The second histogram for comparison.
     comparison : str
-        The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference").
+        The type of comparison ("ratio", "pull", "difference" or "relative_difference").
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     hist_1_uncertainty : str, optional

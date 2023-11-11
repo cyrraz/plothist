@@ -9,6 +9,7 @@ from plothist.plotters import (
     _flatten_2d_hist,
     plot_comparison,
     create_comparison_figure,
+    plot_hist_uncertainties,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
 from plothist.comparison import (
@@ -165,18 +166,7 @@ def compare_data_mc(
 
     # Plot MC statistical uncertainty
     if mc_uncertainty:
-        mc_uncertainty = np.sqrt(mc_hist_total.variances())
-        ax_main.bar(
-            x=mc_hist_total.axes[0].centers,
-            bottom=mc_hist_total.values() - mc_uncertainty,
-            height=2 * mc_uncertainty,
-            width=mc_hist_total.axes[0].widths,
-            edgecolor="dimgrey",
-            hatch="////",
-            fill=False,
-            lw=0,
-            label=mc_uncertainty_label,
-        )
+        plot_hist_uncertainties(mc_hist_total, ax=ax_main, label=mc_uncertainty_label)
     elif comparison_kwargs["comparison"] == "pull":
         comparison_kwargs.setdefault(
             "comparison_ylabel",
