@@ -44,7 +44,7 @@ def get_asymmetrical_uncertainties(hist):
     """
     Get Poisson asymmetrical uncertainties for a histogram via a frequentist approach based on a confidence-interval computation.
     Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
-    See https://www.pp.rhul.ac.uk/~cowan/stat/notes/errors_with_weights.pdf for more details.
+    More information in :ref:`documentation-statistics-label`.
 
     Parameters
     ----------
