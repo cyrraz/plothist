@@ -144,20 +144,15 @@ def compare_data_mc(
     # Compute data uncertainties
     if _is_unweighted(data_hist):
         # For unweighted data, use a Poisson confidence interval as uncertainty
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
-            data_hist
-        )
-        data_uncertainty = "asymmetrical"
+        data_uncertainty_type = "asymmetrical"
     else:
         # Otherwise, use the Poisson standard deviation a uncertainty
-        uncertainties_low = np.sqrt(data_hist.variances())
-        uncertainties_high = uncertainties_low
-        data_uncertainty = "symmetrical"
+        data_uncertainty_type = "symmetrical"
 
     plot_error_hist(
         data_hist,
         ax=ax_main,
-        yerr=[uncertainties_low, uncertainties_high],
+        uncertainty_type=data_uncertainty_type,
         color="black",
         label=data_label,
     )
@@ -180,7 +175,7 @@ def compare_data_mc(
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
-        hist_1_uncertainty=data_uncertainty,
+        hist_1_uncertainty=data_uncertainty_type,
         **comparison_kwargs,
     )
 

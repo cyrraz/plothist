@@ -148,8 +148,7 @@ def get_pull(hist_1, hist_2, hist_1_uncertainty="symmetrical"):
     hist_2 : boost_histogram.Histogram
         The second histogram.
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -199,8 +198,7 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty="symmetrical"):
     hist_2 : boost_histogram.Histogram
         The second histogram.
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -250,8 +248,7 @@ def get_ratio(
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties. Default is "uncorrelated".
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -329,8 +326,7 @@ def get_comparison(
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     values : numpy.ndarray
