@@ -14,4 +14,5 @@ Content
     basics/variable_manager
     usage/style
     usage/utilities
+    documentation/statistics
     documentation/documentation

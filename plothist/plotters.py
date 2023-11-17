@@ -9,8 +9,12 @@ import matplotlib.pyplot as plt
 from matplotlib.transforms import Bbox
 import warnings
 import re
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from plothist.comparison import get_comparison, _check_binning_consistency
+from plothist.comparison import (
+    get_comparison,
+    _check_binning_consistency,
+    _check_uncertainty_type,
+    get_asymmetrical_uncertainties,
+)
 
 
 def create_comparison_figure(
@@ -448,7 +452,7 @@ def plot_2d_hist_with_projections(
     return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
-def plot_error_hist(hist, ax, **kwargs):
+def plot_error_hist(hist, ax, uncertainty_type="symmetrical", **kwargs):
     """
     Create an errorbar plot from a boost histogram.
 
@@ -458,15 +462,56 @@ def plot_error_hist(hist, ax, **kwargs):
         The histogram to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
+    uncertainty_type : str, optional
+        What kind of bin uncertainty to use for hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+        Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
+        More information in :ref:`documentation-statistics-label`.
+        The uncertainties are overwritten if the keyword argument yerr is provided.
     **kwargs
         Additional keyword arguments forwarded to ax.errorbar().
     """
-    kwargs.setdefault("yerr", np.sqrt(hist.variances()))
+    _check_uncertainty_type(uncertainty_type)
+
+    if uncertainty_type == "symmetrical":
+        kwargs.setdefault("yerr", np.sqrt(hist.variances()))
+    else:
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist)
+        kwargs.setdefault("yerr", [uncertainties_low, uncertainties_high])
+
     kwargs.setdefault("fmt", ".")
 
     ax.errorbar(
         x=hist.axes[0].centers,
         y=hist.values(),
+        **kwargs,
+    )
+
+
+def plot_hist_uncertainties(hist, ax, **kwargs):
+    """
+    Plot the uncertainties of a histogram as a hatched area.
+
+    Parameters
+    ----------
+    hist : boost_histogram.Histogram
+        The histogram from which we want to plot the uncertainties.
+    ax : matplotlib.axes.Axes
+        The Axes instance for plotting.
+    **kwargs
+        Additional keyword arguments forwarded to ax.bar().
+    """
+    uncertainty = np.sqrt(hist.variances())
+
+    kwargs.setdefault("edgecolor", "dimgrey")
+    kwargs.setdefault("hatch", "////")
+    kwargs.setdefault("fill", False)
+    kwargs.setdefault("lw", 0)
+
+    ax.bar(
+        x=hist.axes[0].centers,
+        bottom=hist.values() - uncertainty,
+        height=2 * uncertainty,
+        width=hist.axes[0].widths,
         **kwargs,
     )
 
@@ -574,7 +619,7 @@ def plot_comparison(
     comparison_ylabel=None,
     comparison_ylim=None,
     ratio_uncertainty="uncorrelated",
-    hist_1_uncertainty="gauss",
+    hist_1_uncertainty="symmetrical",
     **plot_hist_kwargs,
 ):
     """
@@ -603,7 +648,7 @@ def plot_comparison(
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 

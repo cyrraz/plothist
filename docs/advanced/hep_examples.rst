@@ -179,11 +179,13 @@ Every type of comparisons available with ``plot_comparison()`` are available for
 Example plot with all comparisons, using the same histograms as above:
 
 .. code-block:: python
+
     from plothist import (
         create_comparison_figure,
         compare_data_mc,
         add_text,
-        set_fitting_ylabel_fontsize
+        set_fitting_ylabel_fontsize,
+        plot_comparison
     )
     import matplotlib.pyplot as plt
 
@@ -193,29 +195,43 @@ Example plot with all comparisons, using the same histograms as above:
         gridspec_kw={"height_ratios": [3.3, 1, 1, 1, 1]},
         hspace=0.3,
     )
-
-    fig_temp, ax_temp = plt.subplots()
-
-    for k_comp, comparison in enumerate(["ratio", "pull", "relative_difference", "difference"], 1):
-
-        fig_comp, ax_main, ax_comparison = compare_data_mc(
+    background_sum = sum(background_hists)
+    
+    fig, ax_main, ax_comparison = compare_data_mc(
             data_hist=data_hist,
             mc_hist_list=background_hists,
             signal_hist=signal_hist,
-            xlabel=key,
+            xlabel="",
             ylabel="Entries",
             mc_labels=background_categories_labels,
             mc_colors=background_categories_colors,
-            comparison=comparison,
+            comparison="ratio",
             fig=fig,
-            ax_main=axes[0] if k_comp == 1 else ax_temp,
-            ax_comparison=axes[k_comp],
+            ax_main=axes[0],
+            ax_comparison=axes[1],
         )
+    add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
-        axes[k_comp].set_xlabel("")
+    for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"], start=2):
+    
+        ax_comparison = axes[k_comp]
+
+        plot_comparison(
+            data_hist,
+            background_sum,
+            ax=ax_comparison,
+            comparison=comparison,
+            xlabel="",
+            h1_label="Data",
+            h2_label="Pred.",
+            ratio_uncertainty="split",
+            hist_1_uncertainty="asymmetrical",
+        )
         add_text(f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13)
         set_fitting_ylabel_fontsize(ax_comparison)
-
+    
+    axes[-1].set_xlabel(key)
+    
     fig.savefig("hep_all_comparisons.svg", bbox_inches="tight")
 
 
@@ -225,7 +241,74 @@ Example plot with all comparisons, using the same histograms as above:
 
 
 
-Same example plot but we remove the MC statistical uncertainties by adding ``mc_uncertainty=False`` in ``compare_data_mc()``:
+Same example plot but we remove the statistical uncertainties of the model by adding ``mc_uncertainty=False`` in ``compare_data_mc()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
+
+.. code-block:: python
+
+    from plothist import (
+        create_comparison_figure,
+        compare_data_mc,
+        add_text,
+        set_fitting_ylabel_fontsize,
+        plot_comparison
+    )
+    import matplotlib.pyplot as plt
+
+    fig, axes = create_comparison_figure(
+        figsize=(6, 11),
+        nrows=5,
+        gridspec_kw={"height_ratios": [3.3, 1, 1, 1, 1]},
+        hspace=0.3,
+    )
+    background_sum = sum(background_hists)
+    
+    fig, ax_main, ax_comparison = compare_data_mc(
+            data_hist=data_hist,
+            mc_hist_list=background_hists,
+            signal_hist=signal_hist,
+            xlabel="",
+            ylabel="Entries",
+            mc_labels=background_categories_labels,
+            mc_colors=background_categories_colors,
+            comparison="ratio",
+            fig=fig,
+            mc_uncertainty=False,
+            ax_main=axes[0],
+            ax_comparison=axes[1],
+        )
+    add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
+
+    for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"], start=2):
+    
+        ax_comparison = axes[k_comp]
+
+        # Copy the original histogram and set the uncertainties of the copy to 0.
+        background_sum_copy = background_sum.copy()
+        background_sum_copy[:] = np.c_[
+        background_sum_copy.values(), np.zeros_like(background_sum_copy.values())
+        ]
+
+        plot_comparison(
+            data_hist,
+            background_sum_copy,
+            ax=ax_comparison,
+            comparison=comparison,
+            xlabel="",
+            h1_label="Data",
+            h2_label="Pred.",
+            ratio_uncertainty="split",
+            hist_1_uncertainty="asymmetrical",
+        )
+        if comparison == "pull":
+            # Since the uncertainties of the model are neglected, the pull label is "(Data - Pred.)/sigma_Data"
+            ax_comparison.set_ylabel(r"$\frac{Data-Pred.}{\sigma_{Data}}$")
+        add_text(f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13)
+        set_fitting_ylabel_fontsize(ax_comparison)
+    
+    axes[-1].set_xlabel(key)
+    
+    fig.savefig("hep_all_comparisons_no_stat_MC_unc.svg", bbox_inches="tight")
+
 
 
 .. image:: ../img/hep_all_comparisons_no_stat_MC_unc.svg
@@ -239,13 +322,13 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 .. code-block:: python
 
     from plothist import (
-        compare_data_mc,
-        add_luminosity,
         create_comparison_figure,
-        set_fitting_ylabel_fontsize,
+        compare_data_mc,
         add_text,
-        compare_two_hist,
+        set_fitting_ylabel_fontsize,
+        plot_comparison
     )
+    import numpy as np
     import matplotlib.pyplot as plt
 
     fig, axes = create_comparison_figure(
@@ -255,33 +338,62 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
         hspace=0.3,
     )
 
-    fig_temp, ax_temp = plt.subplots()
-
-    for k_comp in [1, 2, 3, 4]:
-        ratio_uncertainty = "uncorrelated" if k_comp % 2 == 0 else "split"
-        mc_uncertainty = False if k_comp > 2 else True
-
-        fig_comp, ax_main, ax_comparison = compare_data_mc(
+    background_sum = sum(background_hists)
+    
+    fig, ax_main, ax_comparison = compare_data_mc(
             data_hist=data_hist,
             mc_hist_list=background_hists,
             signal_hist=signal_hist,
-            xlabel=key,
+            xlabel="",
             ylabel="Entries",
             mc_labels=background_categories_labels,
             mc_colors=background_categories_colors,
             comparison="ratio",
+            ratio_uncertainty="split",
             fig=fig,
-            ax_main=axes[0] if k_comp == 1 else ax_temp,
-            ax_comparison=axes[k_comp],
-            ratio_uncertainty=ratio_uncertainty,
-            mc_uncertainty=mc_uncertainty,
+            ax_main=axes[0],
+            ax_comparison=axes[1],
         )
-        axes[k_comp].set_xlabel("")
+    add_text(
+        f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="split", mc_uncertainty = True',
+        ax=ax_comparison,
+        fontsize=10,
+    )
+
+    for k_comp, (ratio_uncertainty, mc_uncertainty) in enumerate([
+        ("uncorrelated", True),
+        ("split", False),
+        ("uncorrelated", False),
+        ], start=2):
+
+        ax_comparison = axes[k_comp]
+
+        # When the uncertainties on the model are neglected, copy the original histogram and set the uncertainties of the copy to 0.
+        background_sum_copy = background_sum.copy()
+        if not mc_uncertainty:
+            background_sum_copy[:] = np.c_[
+            background_sum_copy.values(), np.zeros_like(background_sum_copy.values())
+        ]
+
+        plot_comparison(
+            data_hist,
+            background_sum_copy,
+            ax=ax_comparison,
+            comparison="ratio",
+            xlabel="",
+            h1_label="Data",
+            h2_label="Pred.",
+            ratio_uncertainty=ratio_uncertainty,
+            hist_1_uncertainty="asymmetrical",
+        )
         add_text(
             f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="{ratio_uncertainty}", mc_uncertainty = {mc_uncertainty}',
             ax=ax_comparison,
             fontsize=10,
         )
+        set_fitting_ylabel_fontsize(ax_comparison)
+    
+    axes[-1].set_xlabel(key)
 
     fig.savefig("hep_comparisons_ratio_options.svg", bbox_inches="tight")
 

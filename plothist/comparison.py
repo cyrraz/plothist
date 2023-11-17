@@ -17,9 +17,9 @@ def _check_uncertainty_type(uncertainty_type):
         If the uncertainty type is not valid.
 
     """
-    if uncertainty_type not in ["gauss", "poisson"]:
+    if uncertainty_type not in ["symmetrical", "asymmetrical"]:
         raise ValueError(
-            f"Uncertainty type {uncertainty_type} not valid. Must be 'gauss' or 'poisson'."
+            f"Uncertainty type {uncertainty_type} not valid. Must be 'symmetrical' or 'asymmetrical'."
         )
 
 
@@ -40,9 +40,11 @@ def _is_unweighted(hist):
     return np.allclose(hist.variances(), hist.values())
 
 
-def get_poisson_uncertainties(hist):
+def get_asymmetrical_uncertainties(hist):
     """
-    Get Poisson asymmetrical uncertainties for a histogram.
+    Get Poisson asymmetrical uncertainties for a histogram via a frequentist approach based on a confidence-interval computation.
+    Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
+    More information in :ref:`documentation-statistics-label`.
 
     Parameters
     ----------
@@ -64,7 +66,7 @@ def get_poisson_uncertainties(hist):
     """
     if not _is_unweighted(hist):
         raise ValueError(
-            "Poisson uncertainties can only be computed for an unweighted histogram."
+            "Asymmetrical uncertainties can only be computed for an unweighted histogram."
         )
     conf_level = 0.682689492
     alpha = 1.0 - conf_level
@@ -135,7 +137,7 @@ def get_ratio_variances(hist_1, hist_2):
     return ratio_variances
 
 
-def get_pull(hist_1, hist_2, hist_1_uncertainty="gauss"):
+def get_pull(hist_1, hist_2, hist_1_uncertainty="symmetrical"):
     """
     Compute the pull between two histograms.
 
@@ -146,8 +148,7 @@ def get_pull(hist_1, hist_2, hist_1_uncertainty="gauss"):
     hist_2 : boost_histogram.Histogram
         The second histogram.
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -160,8 +161,8 @@ def get_pull(hist_1, hist_2, hist_1_uncertainty="gauss"):
     _check_uncertainty_type(hist_1_uncertainty)
     _check_binning_consistency([hist_1, hist_2])
 
-    if hist_1_uncertainty == "poisson":
-        uncertainties_low, uncertainties_high = get_poisson_uncertainties(hist_1)
+    if hist_1_uncertainty == "asymmetrical":
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
         hist_1_variances = np.where(
             hist_1.values() >= hist_2.values(),
             uncertainties_low**2,
@@ -186,7 +187,7 @@ def get_pull(hist_1, hist_2, hist_1_uncertainty="gauss"):
     )
 
 
-def get_difference(hist_1, hist_2, hist_1_uncertainty="gauss"):
+def get_difference(hist_1, hist_2, hist_1_uncertainty="symmetrical"):
     """
     Compute the difference between two histograms.
 
@@ -197,8 +198,7 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty="gauss"):
     hist_2 : boost_histogram.Histogram
         The second histogram.
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -213,8 +213,8 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty="gauss"):
 
     comparison_values = hist_1.values() - hist_2.values()
 
-    if hist_1_uncertainty == "poisson":
-        uncertainties_low, uncertainties_high = get_poisson_uncertainties(hist_1)
+    if hist_1_uncertainty == "asymmetrical":
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
 
         comparison_uncertainties_low = np.sqrt(
             uncertainties_low**2 + hist_2.variances()
@@ -234,7 +234,7 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty="gauss"):
 
 
 def get_ratio(
-    hist_1, hist_2, ratio_uncertainty="uncorrelated", hist_1_uncertainty="gauss"
+    hist_1, hist_2, ratio_uncertainty="uncorrelated", hist_1_uncertainty="symmetrical"
 ):
     """
     Compute the ratio between two histograms.
@@ -248,8 +248,7 @@ def get_ratio(
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties. Default is "uncorrelated".
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -266,11 +265,11 @@ def get_ratio(
         hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
     )
 
-    if hist_1_uncertainty == "poisson":
-        uncertainties_low, uncertainties_high = get_poisson_uncertainties(hist_1)
+    if hist_1_uncertainty == "asymmetrical":
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
 
     if ratio_uncertainty == "uncorrelated":
-        if hist_1_uncertainty == "poisson":
+        if hist_1_uncertainty == "asymmetrical":
             hist_1_high = hist_1.copy()
             hist_1_high[:] = np.c_[hist_1_high.values(), uncertainties_high**2]
             hist_1_low = hist_1.copy()
@@ -285,7 +284,7 @@ def get_ratio(
             comparison_uncertainties_low = np.sqrt(get_ratio_variances(hist_1, hist_2))
             comparison_uncertainties_high = comparison_uncertainties_low
     elif ratio_uncertainty == "split":
-        if hist_1_uncertainty == "poisson":
+        if hist_1_uncertainty == "asymmetrical":
             comparison_uncertainties_low = uncertainties_low / hist_2.values()
             comparison_uncertainties_high = uncertainties_high / hist_2.values()
         else:
@@ -311,7 +310,7 @@ def get_comparison(
     hist_2,
     comparison,
     ratio_uncertainty="uncorrelated",
-    hist_1_uncertainty="gauss",
+    hist_1_uncertainty="symmetrical",
 ):
     """
     Compute the comparison between two histograms.
@@ -323,12 +322,11 @@ def get_comparison(
     hist_2 : boost_histogram.Histogram
         The second histogram for comparison.
     comparison : str
-        The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference").
+        The type of comparison ("ratio", "pull", "difference" or "relative_difference").
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     hist_1_uncertainty : str, optional
-        What kind of bin uncertainty to use for hist_1: "gauss" for Gaussian uncertainty, "poisson" for Poisson uncertainty. Default is "gauss".
-
+        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     Returns
     -------
     values : numpy.ndarray

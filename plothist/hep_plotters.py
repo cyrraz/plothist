@@ -9,11 +9,12 @@ from plothist.plotters import (
     _flatten_2d_hist,
     plot_comparison,
     create_comparison_figure,
+    plot_hist_uncertainties,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize, add_text
 from plothist.comparison import (
     _check_binning_consistency,
-    get_poisson_uncertainties,
+    get_asymmetrical_uncertainties,
     _is_unweighted,
 )
 
@@ -142,19 +143,16 @@ def compare_data_mc(
 
     # Compute data uncertainties
     if _is_unweighted(data_hist):
-        # For unweighted data, use the Poisson confidence intervals as uncertainties
-        uncertainties_low, uncertainties_high = get_poisson_uncertainties(data_hist)
-        data_uncertainty = "poisson"
+        # For unweighted data, use a Poisson confidence interval as uncertainty
+        data_uncertainty_type = "asymmetrical"
     else:
-        # Otherwise, use the Gaussian uncertainties
-        uncertainties_low = np.sqrt(data_hist.variances())
-        uncertainties_high = uncertainties_low
-        data_uncertainty = "gauss"
+        # Otherwise, use the Poisson standard deviation as uncertainty
+        data_uncertainty_type = "symmetrical"
 
     plot_error_hist(
         data_hist,
         ax=ax_main,
-        yerr=[uncertainties_low, uncertainties_high],
+        uncertainty_type=data_uncertainty_type,
         color="black",
         label=data_label,
     )
@@ -163,18 +161,7 @@ def compare_data_mc(
 
     # Plot MC statistical uncertainty
     if mc_uncertainty:
-        mc_uncertainty = np.sqrt(mc_hist_total.variances())
-        ax_main.bar(
-            x=mc_hist_total.axes[0].centers,
-            bottom=mc_hist_total.values() - mc_uncertainty,
-            height=2 * mc_uncertainty,
-            width=mc_hist_total.axes[0].widths,
-            edgecolor="dimgrey",
-            hatch="////",
-            fill=False,
-            lw=0,
-            label=mc_uncertainty_label,
-        )
+        plot_hist_uncertainties(mc_hist_total, ax=ax_main, label=mc_uncertainty_label)
     elif comparison_kwargs["comparison"] == "pull":
         comparison_kwargs.setdefault(
             "comparison_ylabel",
@@ -188,7 +175,7 @@ def compare_data_mc(
         mc_hist_total,
         ax=ax_comparison,
         xlabel=xlabel,
-        hist_1_uncertainty=data_uncertainty,
+        hist_1_uncertainty=data_uncertainty_type,
         **comparison_kwargs,
     )
 
