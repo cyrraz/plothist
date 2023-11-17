@@ -179,6 +179,7 @@ Every type of comparisons available with ``plot_comparison()`` are available for
 Example plot with all comparisons, using the same histograms as above:
 
 .. code-block:: python
+
     from plothist import (
         create_comparison_figure,
         compare_data_mc,
