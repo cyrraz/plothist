@@ -146,7 +146,7 @@ def compare_data_mc(
         # For unweighted data, use a Poisson confidence interval as uncertainty
         data_uncertainty_type = "asymmetrical"
     else:
-        # Otherwise, use the Poisson standard deviation a uncertainty
+        # Otherwise, use the Poisson standard deviation as uncertainty
         data_uncertainty_type = "symmetrical"
 
     plot_error_hist(
