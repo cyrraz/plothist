@@ -14,19 +14,14 @@ from .plotters import (
     compare_two_hist,
     plot_comparison,
     savefig,
+    plot_mc,
+    compare_data_mc,
 )
 
 from .variable_registry import (
     create_variable_registry,
     get_variable_from_registry,
     update_variable_registry_ranges,
-)
-
-from .hep_plotters import (
-    compare_data_mc,
-    plot_mc,
-    add_luminosity,
-    get_asymmetrical_uncertainties,
 )
 
 from .comparison import (
@@ -44,6 +39,7 @@ from .plothist_style import (
     get_color_palette,
     set_fitting_ylabel_fontsize,
     add_text,
+    add_luminosity,
 )
 
 __all__ = [
@@ -59,6 +55,7 @@ __all__ = [
     "plot_2d_hist",
     "plot_2d_hist_with_projections",
     "plot_error_hist",
+    "plot_hist_uncertainties",
     "compare_two_hist",
     "plot_comparison",
     "savefig",
