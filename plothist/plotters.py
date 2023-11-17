@@ -465,6 +465,7 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", **kwargs):
     uncertainty_type : str, optional
         What kind of bin uncertainty to use for hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
         Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
+        More information in :ref:`documentation-statistics-label`.
         The uncertainties are overwritten if the keyword argument yerr is provided.
     **kwargs
         Additional keyword arguments forwarded to ax.errorbar().

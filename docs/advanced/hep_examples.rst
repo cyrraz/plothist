@@ -300,6 +300,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 
         ax_comparison = axes[k_comp]
 
+        # When the uncertainties on the model are neglected, copy the original histogram and set the uncertainties of the copy to 0.
         background_sum_copy = background_sum.copy()
         if not mc_uncertainty:
             background_sum_copy[:] = np.c_[
