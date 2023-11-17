@@ -54,7 +54,7 @@ def create_comparison_figure(
     return fig, axes
 
 
-def create_axis(data, bins, range=None):
+def create_axis(data, bins, range=None, overflow=True):
     """
     Create an axis object for histogram binning based on the input data and parameters.
 
@@ -111,7 +111,7 @@ def create_axis(data, bins, range=None):
         x_min = x_min - 0.5
         x_max = x_max + 0.5
 
-    return bh.axis.Regular(bins, x_min, x_max)
+    return bh.axis.Regular(bins, x_min, x_max, overflow=overflow)
 
 
 def _flatten_2d_hist(hist):
@@ -137,7 +137,7 @@ def _flatten_2d_hist(hist):
     return flatten_hist
 
 
-def make_hist(data, bins=50, range=None, weights=1):
+def make_hist(data, bins=50, range=None, weights=1, overflow=True):
     """
     Create a histogram object and fill it with the provided data.
 
@@ -163,7 +163,7 @@ def make_hist(data, bins=50, range=None, weights=1):
         The filled histogram object.
     """
 
-    axis = create_axis(data, bins, range)
+    axis = create_axis(data, bins, range, overflow=overflow)
 
     if weights is None:
         storage = bh.storage.Double()
