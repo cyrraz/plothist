@@ -26,9 +26,9 @@ copyright = "2023, Cyrille Praz, Tristan Fillinger"
 author = "Cyrille Praz, Tristan Fillinger"
 
 # The short X.Y version
-version = "0.8.1"
+version = "0.9"
 # The full version, including alpha/beta/rc tags
-release = "0.8.1"
+release = "0.9"
 
 
 # -- General configuration ---------------------------------------------------

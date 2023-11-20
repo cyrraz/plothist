@@ -93,7 +93,7 @@ def cubehelix_palette(
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (γ > 1)
-            lambda_gamma = lambda_ ** gamma
+            lambda_gamma = lambda_**gamma
 
             # Angle and amplitude for the deviation
             # from the black to white diagonal
@@ -273,3 +273,84 @@ def add_text(
     # Add background
     if white_background:
         t.set_bbox(dict(facecolor="white", edgecolor="white"))
+
+
+def add_luminosity(
+    collaboration="Belle II",
+    x="right",
+    y="top",
+    fontsize=12,
+    is_data=True,
+    lumi=362,
+    lumi_unit="fb",
+    preliminary=False,
+    two_lines=False,
+    white_background=False,
+    ax=None,
+    **kwargs,
+):
+    """
+    Add the collaboration name and the integrated luminosity (or "Simulation").
+
+    Parameters
+    ----------
+    collaboration : str, optional
+        Collaboration name, by default "Belle II"
+    x : float, optional
+        Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0.
+    y : float, optional
+        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01.
+    fontsize : int, optional
+        Font size, by default 12.
+    is_data : bool, optional
+        If True, plot integrated luminosity. If False, plot "Simulation", by default True.
+    lumi : int/string, optional
+        Integrated luminosity. Default value is 362. If empty, do not plot luminosity.
+    lumi_unit : string, optional
+        Integrated luminosity unit. Default value is fb. The exponent is automatically -1.
+    preliminary : bool, optional
+        If True, print "preliminary", by default False.
+    two_lines : bool, optional
+        If True, write the information on two lines, by default False.
+    white_background : bool, optional
+        Draw a white rectangle under the text, by default False.
+    ax : matplotlib.axes.Axes, optional
+        Figure axis, by default None.
+    kwargs : dict
+        Keyword arguments to be passed to the ax.text() function.
+        In particular, the keyword arguments ha and va, which are set to "left" (or "right" if x="right") and "bottom" by default, can be used to change the text alignment.
+
+    Returns
+    -------
+    None
+
+    See Also
+    --------
+    add_text : Add information on the plot.
+    """
+
+    text = (
+        r"$\mathrm{\mathbf{"
+        + collaboration.replace(" ", "\,\,")
+        + "}"
+        + (r"\,\,preliminary}$" if preliminary else "}$")
+    )
+    if two_lines:
+        text += "\n"
+    else:
+        text += " "
+    if is_data:
+        if lumi:
+            text += rf"$\int\,\mathcal{{L}}\,\mathrm{{dt}}={lumi}\,{lumi_unit}^{{-1}}$"
+    else:
+        text += r"$\mathrm{\mathbf{Simulation}}$"
+
+    add_text(
+        text,
+        x,
+        y,
+        fontsize=fontsize,
+        white_background=white_background,
+        ax=ax,
+        **kwargs,
+    )
