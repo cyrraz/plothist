@@ -199,7 +199,7 @@ def update_variable_registry(
     _save_variable_registry(variable_registry, path=path)
 
 
-def remove_keys_from_variable_registry(
+def remove_variable_registry_parameters(
     variable_keys, parameters, path="./variable_registry.yaml"
 ):
     """

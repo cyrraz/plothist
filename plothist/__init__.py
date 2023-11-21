@@ -22,7 +22,7 @@ from .variable_registry import (
     create_variable_registry,
     get_variable_from_registry,
     update_variable_registry,
-    remove_keys_from_variable_registry,
+    remove_variable_registry_parameters,
     update_variable_registry_ranges,
 )
 
@@ -49,7 +49,7 @@ __all__ = [
     "create_variable_registry",
     "get_variable_from_registry",
     "update_variable_registry",
-    "remove_keys_from_variable_registry",
+    "remove_variable_registry_parameters",
     "update_variable_registry_ranges",
     "create_comparison_figure",
     "create_axis",
