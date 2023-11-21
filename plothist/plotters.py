@@ -895,8 +895,6 @@ def plot_mc(
         labels=mc_labels,
         colors=mc_colors,
         stacked=[stacked for _ in range(len(mc_hist_list))],
-        components_kwargs=None,
-        show_sum=~stacked,
         sum_kwargs={"label": "Sum(MC)", "color": "navy"},
         xlabel=xlabel,
         ylabel=ylabel,
@@ -1101,10 +1099,9 @@ def plot_model(
     labels=None,
     colors=None,
     stacked=None,
-    show_sum=False,
-    sum_kwargs={"label": "Sum", "color": "navy"},
     xlabel=None,
     ylabel=None,
+    sum_kwargs={"label": "Sum", "color": "navy"},
     flatten_2d_hist=False,
     leg_ncol=1,
     fig=None,
@@ -1124,14 +1121,12 @@ def plot_model(
         The colors of the model components. Default is None.
     stacked : list of bool, optional
         Whether to stack each of the model components. Default is None.
-    show_sum : bool, optional
-        Whether to show the sum of the model components. Has no effect if all the model components are stacked. Default is True.
-    sum_kwargs : dict, optional
-        The keyword arguments for the plot_hist() function for the sum of the model components. Default is {"label": "Sum", "color": "navy"}.
     xlabel : str, optional
         The label for the x-axis. Default is None.
     ylabel : str, optional
         The label for the y-axis. Default is None.
+    sum_kwargs : dict, optional
+        The keyword arguments for the plot_hist() function for the sum of the model components. Has no effect if all the model components are stacked. Default is {"label": "Sum", "color": "navy"}.
     flatten_2d_hist : bool, optional
         If True, flatten 2D histograms to 1D before plotting. Default is False.
     leg_ncol : int, optional
@@ -1195,9 +1190,8 @@ def plot_model(
             stacked=False,
             histtype="step",
         )
-        if show_sum:
-            # Plot the sum of the unstacked histograms
-            plot_hist(sum(components), ax=ax, histtype="step", **sum_kwargs)
+        # Plot the sum of all the components
+        plot_hist(sum(components), ax=ax, histtype="step", **sum_kwargs)
 
     xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
@@ -1210,3 +1204,162 @@ def plot_model(
         fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax
+
+
+def compare_data_model(
+    data_hist,
+    model_components,
+    model_labels=None,
+    model_colors=None,
+    model_stacked=None,
+    xlabel=None,
+    ylabel=None,
+    data_label="Data",
+    model_sum_kwargs={"label": "Sum", "color": "navy"},
+    flatten_2d_hist=False,
+    model_uncertainty=True,
+    model_uncertainty_label="Model stat. unc.",
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
+    save_as=None,
+    **comparison_kwargs,
+):
+    """
+    Compare data to model. The data uncertainties are computed using the Poisson confidence interval.
+
+    Parameters
+    ----------
+    data_hist : boost_histogram.Histogram
+        The histogram for the data.
+    model_components : list of boost_histogram.Histogram
+        The list of histograms composing the model.
+    model_labels : list of str, optional
+        The labels of the model components. Default is None.
+    model_colors : list of str, optional
+        The colors of the model components. Default is None.
+    model_stacked : list of bool, optional
+        Whether to stack each of the model components. Default is None.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    data_label : str, optional
+        The label for the data. Default is "Data".
+    model_sum_kwargs : dict, optional
+        The keyword arguments for the plot_hist() function for the sum of the model components. Has no effect if all the model components are stacked. Default is {"label": "Sum", "color": "navy"}.
+    flatten_2d_hist : bool, optional
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    model_uncertainty : bool, optional
+        If False, set the model uncertainties to zeros. Default is True.
+    model_uncertainty_label : str, optional
+        The label for the model uncertainties. Default is "Model stat. unc.".
+    fig : matplotlib.figure.Figure or None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes or None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes or None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
+    **comparison_kwargs : optional
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object containing the plots.
+    ax_main : matplotlib.axes.Axes
+        The Axes object for the main plot.
+    ax_comparison : matplotlib.axes.Axes
+        The Axes object for the comparison plot.
+
+    See Also
+    --------
+    plot_comparison : Plot the comparison between data and MC simulations.
+
+    """
+    comparison_kwargs.setdefault("h1_label", data_label)
+    comparison_kwargs.setdefault("h2_label", "Pred.")
+    comparison_kwargs.setdefault("comparison", "ratio")
+    comparison_kwargs.setdefault("ratio_uncertainty", "split")
+
+    _check_binning_consistency(model_components + [data_hist])
+
+    if fig is None and ax_main is None and ax_comparison is None:
+        fig, (ax_main, ax_comparison) = create_comparison_figure()
+    elif fig is None or ax_main is None or ax_comparison is None:
+        raise ValueError(
+            "Need to provid fig, ax_main and ax_comparison (or none of them)."
+        )
+
+    if flatten_2d_hist:
+        model_components = [_flatten_2d_hist(h) for h in model_components]
+        data_hist = _flatten_2d_hist(data_hist)
+
+    model_hist = sum(model_components)
+
+    plot_model(
+        model_components,
+        labels=model_labels,
+        colors=model_colors,
+        stacked=model_stacked,
+        ylabel=ylabel,
+        sum_kwargs=model_sum_kwargs,
+        flatten_2d_hist=False,  # Already done
+        leg_ncol=1,
+        fig=None,
+        ax=None,
+        save_as=None,
+    )
+
+    if not model_uncertainty:
+        model_hist[:] = np.c_[model_hist.values(), np.zeros_like(model_hist.values())]
+
+    # Compute data uncertainties
+    if _is_unweighted(data_hist):
+        # For unweighted data, use a Poisson confidence interval as uncertainty
+        data_uncertainty_type = "asymmetrical"
+    else:
+        # Otherwise, use the Poisson standard deviation as uncertainty
+        data_uncertainty_type = "symmetrical"
+
+    plot_error_hist(
+        data_hist,
+        ax=ax_main,
+        uncertainty_type=data_uncertainty_type,
+        color="black",
+        label=data_label,
+    )
+
+    _ = ax_main.xaxis.set_ticklabels([])
+
+    # Plot MC statistical uncertainty
+    if model_uncertainty:
+        plot_hist_uncertainties(model_hist, ax=ax_main, label=model_uncertainty_label)
+    elif comparison_kwargs["comparison"] == "pull":
+        comparison_kwargs.setdefault(
+            "comparison_ylabel",
+            rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
+        )
+
+    ax_main.legend()
+
+    plot_comparison(
+        data_hist,
+        model_hist,
+        ax=ax_comparison,
+        xlabel=xlabel,
+        hist_1_uncertainty=data_uncertainty_type,
+        **comparison_kwargs,
+    )
+
+    ylabel_fontsize = set_fitting_ylabel_fontsize(ax_main)
+    ax_comparison.get_yaxis().get_label().set_size(ylabel_fontsize)
+
+    fig.align_ylabels()
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax_main, ax_comparison
