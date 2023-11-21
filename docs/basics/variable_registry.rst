@@ -5,15 +5,12 @@ Variable registry
 =================
 
 
-Basic usage
-===========
-
-The ``variable_manager`` is a really convenient tool to store the plotting information of each variable.
+The variable registry is a really convenient tool to store the plotting information of each variable.
 
 Create the registry
--------------------
+===================
 
-To create it, you just need to input the list of variable keys you want to store information for. It will create automatically a ``variable_registry.yaml`` that is easy to modify and to use:
+To create it, you just need to input the list of variable keys you want to store information for. It will automatically create a ``variable_registry.yaml`` that is easy to use and modify:
 
 .. code-block:: python
 
@@ -23,7 +20,7 @@ To create it, you just need to input the list of variable keys you want to store
 
     create_variable_registry(variable_keys)
 
-For each variable, the following information is stored by default:
+For each variable, the following information is stored by default in the ``variable_registry.yaml`` file:
 
 .. code-block:: yaml
 
@@ -45,6 +42,11 @@ For each variable, the following information is stored by default:
 
 It is then really easy to modify the plotting information by hand inside the ``yaml`` file.
 
+To add new variables to an already existing ``variable_registry.yaml`` file, you only need to add the new variable keys to the ``variable_keys`` list and call ``create_variable_registry`` again. By default, the information of the variable is not overwrite. The hand-written modifications are kept, unless the ``reset`` parameter is set to ``True``.
+
+Getting the plotting information
+================================
+
 To get the plotting information of a variable, you can use the ``get_variable_from_registry`` function:
 
 .. code-block:: python
@@ -59,10 +61,10 @@ To get the plotting information of a variable, you can use the ``get_variable_fr
 
 
 Update the registry
--------------------
+===================
 
 Ranges
-~~~~~~
+------
 
 The ``update_variable_registry_ranges`` function automatically update the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
 
@@ -72,7 +74,7 @@ The ``update_variable_registry_ranges`` function automatically update the range 
 
     update_variable_registry_ranges(df, variable_keys)
 
-All the ranges of the variable in ``variable_keys`` have been update. The ``yaml`` file is now:
+The range has been updated for all the variables in ``variables_keys``. The ``yaml`` file is now:
 
 .. code-block:: yaml
 
@@ -80,8 +82,8 @@ All the ranges of the variable in ``variable_keys`` have been update. The ``yaml
         name: variable_0
         bins: 50
         range:
-        - -10.55227774892869
-        - 10.04658448558009
+        - -10.55227774892869    # min(df["variable_0"])
+        - 10.04658448558009     # max(df["variable_0"])
         label: variable_0
         log: false
         legend_location: best
@@ -94,9 +96,21 @@ All the ranges of the variable in ``variable_keys`` have been update. The ``yaml
 
 Then, you can modify the ``yaml`` to get a more suitable range to display in the plot.
 
+Attention: calling this function again on the same variable keys will overwrite their ``range`` parameter. An easy way to avoid this is to check if the ``range`` parameter is ``min`` and ``max`` before calling the function:
+
+.. code-block:: python
+
+    from plothist import get_variable_from_registry, update_variable_registry_ranges
+
+    for variable_key in variable_keys:
+        variable = get_variable_from_registry(variable_key)
+
+        if variable["range"] == ["min", "max"]:
+            update_variable_registry_ranges(df, [variable_key])
+
 
 Add variable properties
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 You can also add new plotting properties to the variable by using the ``update_variable_registry`` and a custom dictionnary:
 
@@ -130,19 +144,19 @@ This will add the new properties to the ``yaml`` file to all the variables in ``
         legend_ncols: 1
         docstring: ''
         text: default_text
-        more_info: null     # None is converted to null in yaml
-        new_property: false # False is converted to false in yaml
-        custom_list:        # The list is displayed on multiple lines
+        more_info: null         # None is converted to null in yaml
+        new_property: false     # False is converted to false in yaml
+        custom_list:            # The list is displayed on multiple lines
         - 1
         - a
-        - true              # True is converted to true in yaml
+        - true                  # True is converted to true in yaml
         custom_value: 0
 
 The same ``get_variable_from_registry`` function can be used to get the new properties.
 
 
 Remove parameters
-~~~~~~~~~~~~~~~~~
+-----------------
 
 To remove a parameter from the plotting informations, you can use the ``remove_variable_registry_parameters`` function:
 
@@ -172,7 +186,7 @@ The ``yaml`` file is updated:
 
 
 Simple example
---------------
+==============
 
 To plot multiple variables using the ``variable_manager``, you can use the following code:
 
