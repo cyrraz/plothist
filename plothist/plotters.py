@@ -1002,91 +1002,44 @@ def compare_data_mc(
     plot_comparison : Plot the comparison between data and MC simulations.
 
     """
-    comparison_kwargs.setdefault("h1_label", data_label)
-    comparison_kwargs.setdefault("h2_label", "Pred.")
-    comparison_kwargs.setdefault("comparison", "ratio")
-    comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
     _check_binning_consistency(
         mc_hist_list + [data_hist] + ([signal_hist] if signal_hist is not None else [])
     )
 
-    if fig is None and ax_main is None and ax_comparison is None:
-        fig, (ax_main, ax_comparison) = create_comparison_figure()
-    elif fig is None or ax_main is None or ax_comparison is None:
-        raise ValueError(
-            "Need to provid fig, ax_main and ax_comparison (or none of them)."
-        )
-
-    if flatten_2d_hist:
-        mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
-        data_hist = _flatten_2d_hist(data_hist)
-        if signal_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
-
-    mc_hist_total = sum(mc_hist_list)
-
-    plot_mc(
+    fig, ax_main, ax_comparison = compare_data_model(
+        data_hist,
         mc_hist_list,
-        signal_hist=signal_hist,
-        ylabel=ylabel,
-        mc_labels=mc_labels,
-        mc_colors=mc_colors,
-        signal_label=signal_label,
-        signal_color=signal_color,
-        fig=fig,
-        ax=ax_main,
-        stacked=stacked,
-        flatten_2d_hist=False,  # Already done
-    )
-
-    if not mc_uncertainty:
-        mc_hist_total[:] = np.c_[
-            mc_hist_total.values(), np.zeros_like(mc_hist_total.values())
-        ]
-
-    # Compute data uncertainties
-    if _is_unweighted(data_hist):
-        # For unweighted data, use a Poisson confidence interval as uncertainty
-        data_uncertainty_type = "asymmetrical"
-    else:
-        # Otherwise, use the Poisson standard deviation as uncertainty
-        data_uncertainty_type = "symmetrical"
-
-    plot_error_hist(
-        data_hist,
-        ax=ax_main,
-        uncertainty_type=data_uncertainty_type,
-        color="black",
-        label=data_label,
-    )
-
-    _ = ax_main.xaxis.set_ticklabels([])
-
-    # Plot MC statistical uncertainty
-    if mc_uncertainty:
-        plot_hist_uncertainties(mc_hist_total, ax=ax_main, label=mc_uncertainty_label)
-    elif comparison_kwargs["comparison"] == "pull":
-        comparison_kwargs.setdefault(
-            "comparison_ylabel",
-            rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
-        )
-
-    ax_main.legend()
-
-    plot_comparison(
-        data_hist,
-        mc_hist_total,
-        ax=ax_comparison,
+        model_labels=mc_labels,
+        model_colors=mc_colors,
+        model_stacked=[stacked for _ in range(len(mc_hist_list))],
         xlabel=xlabel,
-        hist_1_uncertainty=data_uncertainty_type,
+        ylabel=ylabel,
+        data_label=data_label,
+        model_sum_kwargs={"label": "Sum(MC)", "color": "navy"},
+        flatten_2d_hist=flatten_2d_hist,
+        model_uncertainty=mc_uncertainty,
+        model_uncertainty_label=mc_uncertainty_label,
+        fig=fig,
+        ax_main=ax_main,
+        ax_comparison=ax_comparison,
+        save_as=save_as,
         **comparison_kwargs,
     )
 
-    ylabel_fontsize = set_fitting_ylabel_fontsize(ax_main)
-    ax_comparison.get_yaxis().get_label().set_size(ylabel_fontsize)
+    if signal_hist is not None:
+        if flatten_2d_hist:
+            signal_hist = _flatten_2d_hist(signal_hist)
+        plot_hist(
+            signal_hist,
+            ax=ax_main,
+            stacked=False,
+            color=signal_color,
+            label=signal_label,
+            histtype="step",
+        )
 
-    fig.align_ylabels()
+    ax_main.legend()
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -1308,8 +1261,8 @@ def compare_data_model(
         sum_kwargs=model_sum_kwargs,
         flatten_2d_hist=False,  # Already done
         leg_ncol=1,
-        fig=None,
-        ax=None,
+        fig=fig,
+        ax=ax_main,
         save_as=None,
     )
 
