@@ -152,6 +152,10 @@ This will add the new properties to the ``yaml`` file to all the variables in ``
         - true                  # True is converted to true in yaml
         custom_value: 0
 
+
+    variable_1:
+        ...
+
 The same ``get_variable_from_registry`` function can be used to get the new properties.
 
 
@@ -183,6 +187,10 @@ The ``yaml`` file is updated:
         - a
         - true
         custom_value: 0
+
+
+    variable_1:
+        ...
 
 
 Simple example
