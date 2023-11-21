@@ -890,58 +890,26 @@ def plot_mc(
         mc_hist_list + ([signal_hist] if signal_hist is not None else [])
     )
 
-    if fig is None and ax is None:
-        fig, ax = plt.subplots()
-    elif fig is None or ax is None:
-        raise ValueError("Need to provid both fig and ax (or none).")
+    fig, ax = plot_model(
+        components=mc_hist_list,
+        labels=mc_labels,
+        colors=mc_colors,
+        stacked=[stacked for _ in range(len(mc_hist_list))],
+        components_kwargs=None,
+        show_sum=~stacked,
+        sum_kwargs={"label": "Sum(MC)", "color": "navy"},
+        xlabel=xlabel,
+        ylabel=ylabel,
+        flatten_2d_hist=flatten_2d_hist,
+        leg_ncol=leg_ncol,
+        fig=fig,
+        ax=ax,
+        save_as=save_as,
+    )
 
-    if flatten_2d_hist:
-        mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
-        if signal_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
-
-    mc_hist_total = sum(mc_hist_list)
-
-    if stacked:
-        plot_hist(
-            mc_hist_list,
-            ax=ax,
-            stacked=True,
-            edgecolor="black",
-            histtype="stepfilled",
-            linewidth=0.5,
-            color=mc_colors,
-            label=mc_labels,
-        )
-    else:
-        # Plot the unstacked histograms
-        plot_hist(
-            mc_hist_list,
-            ax=ax,
-            color=mc_colors,
-            label=mc_labels,
-            stacked=False,
-            alpha=0.8,
-            histtype="stepfilled",
-        )
-        # Replot the unstacked histograms, but only the edges
-        plot_hist(
-            mc_hist_list,
-            ax=ax,
-            color=mc_colors,
-            label=None,
-            stacked=False,
-            histtype="step",
-        )
-        # Plot the sum of the unstacked histograms
-        plot_hist(
-            mc_hist_total,
-            ax=ax,
-            color="navy",
-            label="Sum(MC)",
-            histtype="step",
-        )
     if signal_hist is not None:
+        if flatten_2d_hist:
+            signal_hist = _flatten_2d_hist(signal_hist)
         plot_hist(
             signal_hist,
             ax=ax,
@@ -950,13 +918,6 @@ def plot_mc(
             label=signal_label,
             histtype="step",
         )
-
-    xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
-    ax.set_xlim(xlim)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    set_fitting_ylabel_fontsize(ax)
-    ax.legend(ncol=leg_ncol)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -1133,3 +1094,119 @@ def compare_data_mc(
         fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax_main, ax_comparison
+
+
+def plot_model(
+    components,
+    labels=None,
+    colors=None,
+    stacked=None,
+    show_sum=False,
+    sum_kwargs={"label": "Sum", "color": "navy"},
+    xlabel=None,
+    ylabel=None,
+    flatten_2d_hist=False,
+    leg_ncol=1,
+    fig=None,
+    ax=None,
+    save_as=None,
+):
+    """
+    Plot model made of a collection of histograms.
+
+    Parameters
+    ----------
+    components : list of boost_histogram.Histogram
+        The list of histograms composing the model.
+    labels : list of str, optional
+        The labels of the model components. Default is None.
+    colors : list of str, optional
+        The colors of the model components. Default is None.
+    stacked : list of bool, optional
+        Whether to stack each of the model components. Default is None.
+    show_sum : bool, optional
+        Whether to show the sum of the model components. Has no effect if all the model components are stacked. Default is True.
+    sum_kwargs : dict, optional
+        The keyword arguments for the plot_hist() function for the sum of the model components. Default is {"label": "Sum", "color": "navy"}.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    flatten_2d_hist : bool, optional
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    leg_ncol : int, optional
+        The number of columns for the legend. Default is 1.
+    fig : matplotlib.figure.Figure or None, optional
+        The Figure object to use for the plot. Create a new one if none is provided.
+    ax : matplotlib.axes.Axes or None, optional
+        The Axes object to use for the plot. Create a new one if none is provided.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
+
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object containing the plot.
+    ax : matplotlib.axes.Axes
+        The Axes object containing the plot.
+
+    """
+
+    _check_binning_consistency(components)
+
+    if fig is None and ax is None:
+        fig, ax = plt.subplots()
+    elif fig is None or ax is None:
+        raise ValueError("Need to provid both fig and ax (or none).")
+
+    if flatten_2d_hist:
+        components = [_flatten_2d_hist(h) for h in components]
+
+    if True in stacked:
+        # Plot the stacked components
+        plot_hist(
+            [components[i] for i in range(len(components)) if stacked[i]],
+            ax=ax,
+            stacked=True,
+            edgecolor="black",
+            histtype="stepfilled",
+            linewidth=0.5,
+            color=[colors[i] for i in range(len(components)) if stacked[i]],
+            label=[labels[i] for i in range(len(components)) if stacked[i]],
+        )
+    if False in stacked:
+        # Plot the unstacked components
+        plot_hist(
+            [components[i] for i in range(len(components)) if not stacked[i]],
+            ax=ax,
+            color=[colors[i] for i in range(len(components)) if not stacked[i]],
+            label=[labels[i] for i in range(len(components)) if not stacked[i]],
+            stacked=False,
+            alpha=0.8,
+            histtype="stepfilled",
+        )
+        # Replot the unstacked histograms, but only the edges
+        plot_hist(
+            [components[i] for i in range(len(components)) if not stacked[i]],
+            ax=ax,
+            color=[colors[i] for i in range(len(components)) if not stacked[i]],
+            label=None,
+            stacked=False,
+            histtype="step",
+        )
+        if show_sum:
+            # Plot the sum of the unstacked histograms
+            plot_hist(sum(components), ax=ax, histtype="step", **sum_kwargs)
+
+    xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
+    ax.set_xlim(xlim)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    set_fitting_ylabel_fontsize(ax)
+    ax.legend(ncol=leg_ncol)
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax
