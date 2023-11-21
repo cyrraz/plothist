@@ -17,6 +17,10 @@ def _check_if_variable_registry_exists(path):
     path : str
         The path to the variable registry file.
 
+    Returns
+    -------
+    None
+
     Raises
     ------
     RuntimeError
@@ -41,10 +45,6 @@ def _save_variable_registry(variable_registry, path="./variable_registry.yaml"):
     Returns
     -------
     None
-
-    See Also
-    --------
-    create_variable_registry
     """
 
     with open(path, "w") as f:
