@@ -53,7 +53,9 @@ def _save_variable_registry(variable_registry, path="./variable_registry.yaml"):
             f.write("\n" * 2)
 
 
-def create_variable_registry(variables, path="./variable_registry.yaml", custom_dict=None, reset=False):
+def create_variable_registry(
+    variables, path="./variable_registry.yaml", custom_dict=None, reset=False
+):
     """Create the variable registry yaml file given a list of variables.
     It stores all the plotting information for each variable.
 
@@ -82,12 +84,16 @@ def create_variable_registry(variables, path="./variable_registry.yaml", custom_
     docstring : str
         Default is empty
 
+    Can also not use the default dictionnary and provide a custom one using the custom_dict parameter.
+
     Parameters
     ----------
     variables : list
         A list of variable names to be registered.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
+    custom_dict : dict, optional
+        A dictionary containing the plotting information for the variables. Default dictionary is the one described above.
     reset : bool, optional
         If True, the registry will be reset to default values for all variables (default is False).
 
@@ -106,7 +112,7 @@ def create_variable_registry(variables, path="./variable_registry.yaml", custom_
         for variable in variables:
             if variable not in variable_registry.keys() or reset:
                 if custom_dict is not None:
-                    variable_registry.update({variable : custom_dict})
+                    variable_registry.update({variable: custom_dict})
                 else:
                     variable_registry.update(
                         {
