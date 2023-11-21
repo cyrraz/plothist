@@ -1,14 +1,14 @@
 .. _basics-variable_manager-label:
 
 ================
-Variable manager
+Variable registry
 ================
 
 
-How to use the variable manager
+How to use the variable registry
 ===============================
 
-If you have multiple variable to plot, you can use the variable manager, defined with the variable keys from your dataset:
+If you have multiple variable to plot, you can use the variable registry, defined with the variable keys from your dataset:
 
 .. code-block:: python
 
