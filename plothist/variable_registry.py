@@ -164,7 +164,7 @@ def get_variable_from_registry(variable, path="./variable_registry.yaml"):
 
 
 def update_variable_registry(
-    dictionary, variable_keys, path="./variable_registry.yaml", overwrite=False
+    dictionary, variable_keys=None, path="./variable_registry.yaml", overwrite=False
 ):
     """
     Update the variable registry file with a dictionary. Each key in the provided dictionnary will be added as parameters for each variable. If they are already in the variable information, they will be updated with the new values only if the overwrite flag is True.
@@ -174,7 +174,7 @@ def update_variable_registry(
     dictionary : dict
         A dictionary containing the information to update the registry with.
     variable_keys : list
-        A list of variable keys for which to update the registry. If None, all variables in the registry will be updated.
+        A list of variable keys for which to update the registry. Default is None: all variables in the registry are updated.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
@@ -201,7 +201,7 @@ def update_variable_registry(
 
 
 def remove_variable_registry_parameters(
-    parameters, variable_keys, path="./variable_registry.yaml"
+    parameters, variable_keys=None, path="./variable_registry.yaml"
 ):
     """
     Remove the specified parameters from the variable registry file.
@@ -211,7 +211,7 @@ def remove_variable_registry_parameters(
     parameters : list
         A list of parameters to remove from the variable keys.
     variable_keys : list
-        A list of variable keys for which to remove the specified parameters from the registry. If None, all variables keys in the registry will be updated.
+        A list of variable keys for which to remove the specified parameters from the registry. Default is None: all variables in the registry are updated.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
 
@@ -241,7 +241,7 @@ def remove_variable_registry_parameters(
 
 def update_variable_registry_ranges(
     data,
-    variable_keys,
+    variable_keys=None,
     path="./variable_registry.yaml",
     overwrite=False,
 ):
@@ -253,7 +253,7 @@ def update_variable_registry_ranges(
     data : dict
         A dictionary containing the data for the variables.
     variable_keys : list
-        A list of variable keys for which to update the range parameters in the registry. The variable needs to have a bin and range properties in the registry. If None, all variables keys in the registry will be updated.
+        A list of variable keys for which to update the range parameters in the registry. The variable needs to have a bin and range properties in the registry. Default is None: all variables in the registry are updated.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
@@ -277,17 +277,14 @@ def update_variable_registry_ranges(
 
     for variable_key in variable_keys:
         variable = get_variable_from_registry(variable_key, path=path)
-        try:
-            bins = variable["bins"]
-            range = variable["range"]
-        except:
+        if "bins" not in variable.keys() or "range" not in variable.keys():
             raise RuntimeError(
                 f"Variable {variable_key} does not have a bins or range property in the registry {path}."
             )
         if variable["range"] == ["min", "max"] or overwrite:
             if overwrite:
                 range = ["min", "max"]
-            axis = create_axis(data[variable_key], bins, range)
+            axis = create_axis(data[variable_key], variable["bins"], variable["range"])
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
                     {"range": [float(axis.edges[0]), float(axis.edges[-1])]},
