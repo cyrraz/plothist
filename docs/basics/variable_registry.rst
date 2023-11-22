@@ -42,7 +42,7 @@ For each variable, the following information is stored by default in the ``varia
 
 It is then really easy to modify the plotting information by hand inside the ``yaml`` file.
 
-To add new variables to an already existing ``variable_registry.yaml`` file, you only need to add the new variable keys to the ``variable_keys`` list and call ``create_variable_registry`` again. By default, the information of the variable is not overwrite. The hand-written modifications are kept, unless the ``reset`` parameter is set to ``True``.
+To add new variables to an already existing ``variable_registry.yaml`` file, you only need to add the new variable keys to the ``variable_keys`` list and call ``create_variable_registry`` again. By default, the information on the variables already present in the registry is not overwritten. The hand-written modifications are kept, unless the ``reset`` parameter is set to ``True``.
 
 Getting the plotting information
 ================================
@@ -66,7 +66,7 @@ Update the registry
 Ranges
 ------
 
-The ``update_variable_registry_ranges`` function automatically update the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
+The ``update_variable_registry_ranges`` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
 
 .. code-block:: python
 
@@ -94,19 +94,9 @@ The range has been updated for all the variables in ``variables_keys``. The ``ya
     variable_1:
         ...
 
-Then, you can modify the ``yaml`` to get a more suitable range to display in the plot.
+Then, you may manually modify the ``yaml`` to get a more suitable range to display in the plot.
 
-Attention: calling this function again on the same variable keys will overwrite their ``range`` parameter. An easy way to avoid this is to check if the ``range`` parameter is ``min`` and ``max`` before calling the function:
-
-.. code-block:: python
-
-    from plothist import get_variable_from_registry, update_variable_registry_ranges
-
-    for variable_key in variable_keys:
-        variable = get_variable_from_registry(variable_key)
-
-        if variable["range"] == ["min", "max"]:
-            update_variable_registry_ranges(df, [variable_key])
+Calling this function again on the same variable keys will not overwrite their ``range`` parameter, unless the ``overwrite`` parameter is set to ``True``.
 
 
 Add variable properties
