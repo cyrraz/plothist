@@ -890,12 +890,22 @@ def plot_mc(
         mc_hist_list + ([signal_hist] if signal_hist is not None else [])
     )
 
+    if stacked:
+        model = {
+            "stacked_components": mc_hist_list,
+            "stacked_labels": mc_labels,
+            "stacked_colors": mc_colors,
+        }
+    else:
+        model = {
+            "unstacked_components": mc_hist_list,
+            "unstacked_labels": mc_labels,
+            "unstacked_colors": mc_colors,
+        }
+
     fig, ax = plot_model(
-        components=mc_hist_list,
-        labels=mc_labels,
-        colors=mc_colors,
-        stacked=[stacked for _ in range(len(mc_hist_list))],
-        sum_kwargs={"label": "Sum(MC)", "color": "navy"},
+        **model,
+        sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
         xlabel=xlabel,
         ylabel=ylabel,
         flatten_2d_hist=flatten_2d_hist,
@@ -1007,16 +1017,26 @@ def compare_data_mc(
         mc_hist_list + [data_hist] + ([signal_hist] if signal_hist is not None else [])
     )
 
+    if stacked:
+        model = {
+            "stacked_components": mc_hist_list,
+            "stacked_labels": mc_labels,
+            "stacked_colors": mc_colors,
+        }
+    else:
+        model = {
+            "unstacked_components": mc_hist_list,
+            "unstacked_labels": mc_labels,
+            "unstacked_colors": mc_colors,
+        }
+
     fig, ax_main, ax_comparison = compare_data_model(
         data_hist,
-        mc_hist_list,
-        model_labels=mc_labels,
-        model_colors=mc_colors,
-        model_stacked=[stacked for _ in range(len(mc_hist_list))],
+        **model,
         xlabel=xlabel,
         ylabel=ylabel,
         data_label=data_label,
-        model_sum_kwargs={"label": "Sum(MC)", "color": "navy"},
+        model_sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
         flatten_2d_hist=flatten_2d_hist,
         model_uncertainty=mc_uncertainty,
         model_uncertainty_label=mc_uncertainty_label,
@@ -1048,13 +1068,15 @@ def compare_data_mc(
 
 
 def plot_model(
-    components,
-    labels=None,
-    colors=None,
-    stacked=None,
+    stacked_components=[],
+    stacked_labels=None,
+    stacked_colors=None,
+    unstacked_components=[],
+    unstacked_labels=None,
+    unstacked_colors=None,
     xlabel=None,
     ylabel=None,
-    sum_kwargs={"label": "Sum", "color": "navy"},
+    sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
     flatten_2d_hist=False,
     leg_ncol=1,
     fig=None,
@@ -1066,20 +1088,27 @@ def plot_model(
 
     Parameters
     ----------
-    components : list of boost_histogram.Histogram
-        The list of histograms composing the model.
-    labels : list of str, optional
-        The labels of the model components. Default is None.
-    colors : list of str, optional
-        The colors of the model components. Default is None.
-    stacked : list of bool, optional
-        Whether to stack each of the model components. Default is None.
+    stacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms to be stacked composing the model. Default is [].
+    stacked_labels : list of str, optional
+        The labels of the model stacked components. Default is None.
+    stacked_colors : list of str, optional
+        The colors of the model stacked components. Default is None.
+    unstacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms not to be stacked composing the model. Default is [].
+    unstacked_labels : list of str, optional
+        The labels of the model unstacked components. Default is None.
+    unstacked_colors : list of str, optional
+        The colors of the model unstacked components. Default is None.
     xlabel : str, optional
         The label for the x-axis. Default is None.
     ylabel : str, optional
         The label for the y-axis. Default is None.
     sum_kwargs : dict, optional
-        The keyword arguments for the plot_hist() function for the sum of the model components. Has no effect if all the model components are stacked. Default is {"label": "Sum", "color": "navy"}.
+        The keyword arguments for the plot_hist() function for the sum of the model components.
+        Has no effect if all the model components are stacked.
+        The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
+        Default is {"show": True, "label": "Sum", "color": "navy"}.
     flatten_2d_hist : bool, optional
         If True, flatten 2D histograms to 1D before plotting. Default is False.
     leg_ncol : int, optional
@@ -1101,6 +1130,15 @@ def plot_model(
 
     """
 
+    if flatten_2d_hist:
+        stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
+        unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
+
+    components = stacked_components + unstacked_components
+
+    if len(components) == 0:
+        raise ValueError("Need to provide at least one model component.")
+
     _check_binning_consistency(components)
 
     if fig is None and ax is None:
@@ -1108,43 +1146,47 @@ def plot_model(
     elif fig is None or ax is None:
         raise ValueError("Need to provid both fig and ax (or none).")
 
-    if flatten_2d_hist:
-        components = [_flatten_2d_hist(h) for h in components]
-
-    if True in stacked:
+    if len(stacked_components) > 0:
         # Plot the stacked components
         plot_hist(
-            [components[i] for i in range(len(components)) if stacked[i]],
+            stacked_components,
             ax=ax,
             stacked=True,
             edgecolor="black",
             histtype="stepfilled",
             linewidth=0.5,
-            color=[colors[i] for i in range(len(components)) if stacked[i]],
-            label=[labels[i] for i in range(len(components)) if stacked[i]],
+            color=stacked_colors,
+            label=stacked_labels,
         )
-    if False in stacked:
+
+    if len(unstacked_components) > 0:
         # Plot the unstacked components
         plot_hist(
-            [components[i] for i in range(len(components)) if not stacked[i]],
+            unstacked_components,
             ax=ax,
-            color=[colors[i] for i in range(len(components)) if not stacked[i]],
-            label=[labels[i] for i in range(len(components)) if not stacked[i]],
+            color=unstacked_colors,
+            label=unstacked_labels,
             stacked=False,
             alpha=0.8,
             histtype="stepfilled",
         )
         # Replot the unstacked histograms, but only the edges
         plot_hist(
-            [components[i] for i in range(len(components)) if not stacked[i]],
+            unstacked_components,
             ax=ax,
-            color=[colors[i] for i in range(len(components)) if not stacked[i]],
+            color=unstacked_colors,
             label=None,
             stacked=False,
             histtype="step",
         )
         # Plot the sum of all the components
-        plot_hist(sum(components), ax=ax, histtype="step", **sum_kwargs)
+        if sum_kwargs.pop("show", True):
+            plot_hist(
+                sum(components),
+                ax=ax,
+                histtype="step",
+                **sum_kwargs,
+            )
 
     xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
     ax.set_xlim(xlim)
@@ -1161,14 +1203,16 @@ def plot_model(
 
 def compare_data_model(
     data_hist,
-    model_components,
-    model_labels=None,
-    model_colors=None,
-    model_stacked=None,
+    stacked_components=[],
+    stacked_labels=None,
+    stacked_colors=None,
+    unstacked_components=[],
+    unstacked_labels=None,
+    unstacked_colors=None,
     xlabel=None,
     ylabel=None,
     data_label="Data",
-    model_sum_kwargs={"label": "Sum", "color": "navy"},
+    model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
     flatten_2d_hist=False,
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
@@ -1185,14 +1229,18 @@ def compare_data_model(
     ----------
     data_hist : boost_histogram.Histogram
         The histogram for the data.
-    model_components : list of boost_histogram.Histogram
-        The list of histograms composing the model.
-    model_labels : list of str, optional
-        The labels of the model components. Default is None.
-    model_colors : list of str, optional
-        The colors of the model components. Default is None.
-    model_stacked : list of bool, optional
-        Whether to stack each of the model components. Default is None.
+    stacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms to be stacked composing the model. Default is [].
+    stacked_labels : list of str, optional
+        The labels of the model stacked components. Default is None.
+    stacked_colors : list of str, optional
+        The colors of the model stacked components. Default is None.
+    unstacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms not to be stacked composing the model. Default is [].
+    unstacked_labels : list of str, optional
+        The labels of the model unstacked components. Default is None.
+    unstacked_colors : list of str, optional
+        The colors of the model unstacked components. Default is None.
     xlabel : str, optional
         The label for the x-axis. Default is None.
     ylabel : str, optional
@@ -1200,7 +1248,10 @@ def compare_data_model(
     data_label : str, optional
         The label for the data. Default is "Data".
     model_sum_kwargs : dict, optional
-        The keyword arguments for the plot_hist() function for the sum of the model components. Has no effect if all the model components are stacked. Default is {"label": "Sum", "color": "navy"}.
+        The keyword arguments for the plot_hist() function for the sum of the model components.
+        Has no effect if all the model components are stacked.
+        The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
+        Default is {"show": True, "label": "Sum", "color": "navy"}.
     flatten_2d_hist : bool, optional
         If True, flatten 2D histograms to 1D before plotting. Default is False.
     model_uncertainty : bool, optional
@@ -1237,6 +1288,16 @@ def compare_data_model(
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
+    if flatten_2d_hist:
+        data_hist = _flatten_2d_hist(data_hist)
+        stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
+        unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
+
+    model_components = stacked_components + unstacked_components
+
+    if len(model_components) == 0:
+        raise ValueError("Need to provide at least one model component.")
+
     _check_binning_consistency(model_components + [data_hist])
 
     if fig is None and ax_main is None and ax_comparison is None:
@@ -1246,17 +1307,15 @@ def compare_data_model(
             "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
 
-    if flatten_2d_hist:
-        model_components = [_flatten_2d_hist(h) for h in model_components]
-        data_hist = _flatten_2d_hist(data_hist)
-
     model_hist = sum(model_components)
 
     plot_model(
-        model_components,
-        labels=model_labels,
-        colors=model_colors,
-        stacked=model_stacked,
+        stacked_components=stacked_components,
+        stacked_labels=stacked_labels,
+        stacked_colors=stacked_colors,
+        unstacked_components=unstacked_components,
+        unstacked_labels=unstacked_labels,
+        unstacked_colors=unstacked_colors,
         ylabel=ylabel,
         sum_kwargs=model_sum_kwargs,
         flatten_2d_hist=False,  # Already done
