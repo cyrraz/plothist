@@ -890,58 +890,34 @@ def plot_mc(
         mc_hist_list + ([signal_hist] if signal_hist is not None else [])
     )
 
-    if fig is None and ax is None:
-        fig, ax = plt.subplots()
-    elif fig is None or ax is None:
-        raise ValueError("Need to provid both fig and ax (or none).")
-
-    if flatten_2d_hist:
-        mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
-        if signal_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
-
-    mc_hist_total = sum(mc_hist_list)
-
     if stacked:
-        plot_hist(
-            mc_hist_list,
-            ax=ax,
-            stacked=True,
-            edgecolor="black",
-            histtype="stepfilled",
-            linewidth=0.5,
-            color=mc_colors,
-            label=mc_labels,
-        )
+        model = {
+            "stacked_components": mc_hist_list,
+            "stacked_labels": mc_labels,
+            "stacked_colors": mc_colors,
+        }
     else:
-        # Plot the unstacked histograms
-        plot_hist(
-            mc_hist_list,
-            ax=ax,
-            color=mc_colors,
-            label=mc_labels,
-            stacked=False,
-            alpha=0.8,
-            histtype="stepfilled",
-        )
-        # Replot the unstacked histograms, but only the edges
-        plot_hist(
-            mc_hist_list,
-            ax=ax,
-            color=mc_colors,
-            label=None,
-            stacked=False,
-            histtype="step",
-        )
-        # Plot the sum of the unstacked histograms
-        plot_hist(
-            mc_hist_total,
-            ax=ax,
-            color="navy",
-            label="Sum(MC)",
-            histtype="step",
-        )
+        model = {
+            "unstacked_components": mc_hist_list,
+            "unstacked_labels": mc_labels,
+            "unstacked_colors": mc_colors,
+        }
+
+    fig, ax = plot_model(
+        **model,
+        sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
+        xlabel=xlabel,
+        ylabel=ylabel,
+        flatten_2d_hist=flatten_2d_hist,
+        leg_ncol=leg_ncol,
+        fig=fig,
+        ax=ax,
+        save_as=save_as,
+    )
+
     if signal_hist is not None:
+        if flatten_2d_hist:
+            signal_hist = _flatten_2d_hist(signal_hist)
         plot_hist(
             signal_hist,
             ax=ax,
@@ -950,13 +926,6 @@ def plot_mc(
             label=signal_label,
             histtype="step",
         )
-
-    xlim = (mc_hist_list[0].axes[0].edges[0], mc_hist_list[0].axes[0].edges[-1])
-    ax.set_xlim(xlim)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    set_fitting_ylabel_fontsize(ax)
-    ax.legend(ncol=leg_ncol)
 
     if save_as is not None:
         fig.savefig(save_as, bbox_inches="tight")
@@ -1043,14 +1012,283 @@ def compare_data_mc(
     plot_comparison : Plot the comparison between data and MC simulations.
 
     """
+
+    _check_binning_consistency(
+        mc_hist_list + [data_hist] + ([signal_hist] if signal_hist is not None else [])
+    )
+
+    if stacked:
+        model = {
+            "stacked_components": mc_hist_list,
+            "stacked_labels": mc_labels,
+            "stacked_colors": mc_colors,
+        }
+    else:
+        model = {
+            "unstacked_components": mc_hist_list,
+            "unstacked_labels": mc_labels,
+            "unstacked_colors": mc_colors,
+        }
+
+    fig, ax_main, ax_comparison = compare_data_model(
+        data_hist,
+        **model,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        data_label=data_label,
+        model_sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
+        flatten_2d_hist=flatten_2d_hist,
+        model_uncertainty=mc_uncertainty,
+        model_uncertainty_label=mc_uncertainty_label,
+        fig=fig,
+        ax_main=ax_main,
+        ax_comparison=ax_comparison,
+        save_as=save_as,
+        **comparison_kwargs,
+    )
+
+    if signal_hist is not None:
+        if flatten_2d_hist:
+            signal_hist = _flatten_2d_hist(signal_hist)
+        plot_hist(
+            signal_hist,
+            ax=ax_main,
+            stacked=False,
+            color=signal_color,
+            label=signal_label,
+            histtype="step",
+        )
+
+    ax_main.legend()
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax_main, ax_comparison
+
+
+def plot_model(
+    stacked_components=[],
+    stacked_labels=None,
+    stacked_colors=None,
+    unstacked_components=[],
+    unstacked_labels=None,
+    unstacked_colors=None,
+    xlabel=None,
+    ylabel=None,
+    sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
+    flatten_2d_hist=False,
+    leg_ncol=1,
+    fig=None,
+    ax=None,
+    save_as=None,
+):
+    """
+    Plot model made of a collection of histograms.
+
+    Parameters
+    ----------
+    stacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms to be stacked composing the model. Default is [].
+    stacked_labels : list of str, optional
+        The labels of the model stacked components. Default is None.
+    stacked_colors : list of str, optional
+        The colors of the model stacked components. Default is None.
+    unstacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms not to be stacked composing the model. Default is [].
+    unstacked_labels : list of str, optional
+        The labels of the model unstacked components. Default is None.
+    unstacked_colors : list of str, optional
+        The colors of the model unstacked components. Default is None.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    sum_kwargs : dict, optional
+        The keyword arguments for the plot_hist() function for the sum of the model components.
+        Has no effect if all the model components are stacked.
+        The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
+        Default is {"show": True, "label": "Sum", "color": "navy"}.
+    flatten_2d_hist : bool, optional
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    leg_ncol : int, optional
+        The number of columns for the legend. Default is 1.
+    fig : matplotlib.figure.Figure or None, optional
+        The Figure object to use for the plot. Create a new one if none is provided.
+    ax : matplotlib.axes.Axes or None, optional
+        The Axes object to use for the plot. Create a new one if none is provided.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
+
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object containing the plot.
+    ax : matplotlib.axes.Axes
+        The Axes object containing the plot.
+
+    """
+
+    if flatten_2d_hist:
+        stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
+        unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
+
+    components = stacked_components + unstacked_components
+
+    if len(components) == 0:
+        raise ValueError("Need to provide at least one model component.")
+
+    _check_binning_consistency(components)
+
+    if fig is None and ax is None:
+        fig, ax = plt.subplots()
+    elif fig is None or ax is None:
+        raise ValueError("Need to provid both fig and ax (or none).")
+
+    if len(stacked_components) > 0:
+        # Plot the stacked components
+        plot_hist(
+            stacked_components,
+            ax=ax,
+            stacked=True,
+            edgecolor="black",
+            histtype="stepfilled",
+            linewidth=0.5,
+            color=stacked_colors,
+            label=stacked_labels,
+        )
+
+    if len(unstacked_components) > 0:
+        # Plot the unstacked components
+        plot_hist(
+            unstacked_components,
+            ax=ax,
+            color=unstacked_colors,
+            label=unstacked_labels,
+            stacked=False,
+            histtype="step",
+        )
+        # Plot the sum of all the components
+        if sum_kwargs.pop("show", True):
+            plot_hist(
+                sum(components),
+                ax=ax,
+                histtype="step",
+                **sum_kwargs,
+            )
+
+    xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
+    ax.set_xlim(xlim)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    set_fitting_ylabel_fontsize(ax)
+    ax.legend(ncol=leg_ncol)
+
+    if save_as is not None:
+        fig.savefig(save_as, bbox_inches="tight")
+
+    return fig, ax
+
+
+def compare_data_model(
+    data_hist,
+    stacked_components=[],
+    stacked_labels=None,
+    stacked_colors=None,
+    unstacked_components=[],
+    unstacked_labels=None,
+    unstacked_colors=None,
+    xlabel=None,
+    ylabel=None,
+    data_label="Data",
+    model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
+    flatten_2d_hist=False,
+    model_uncertainty=True,
+    model_uncertainty_label="Model stat. unc.",
+    fig=None,
+    ax_main=None,
+    ax_comparison=None,
+    save_as=None,
+    **comparison_kwargs,
+):
+    """
+    Compare data to model. The data uncertainties are computed using the Poisson confidence interval.
+
+    Parameters
+    ----------
+    data_hist : boost_histogram.Histogram
+        The histogram for the data.
+    stacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms to be stacked composing the model. Default is [].
+    stacked_labels : list of str, optional
+        The labels of the model stacked components. Default is None.
+    stacked_colors : list of str, optional
+        The colors of the model stacked components. Default is None.
+    unstacked_components : list of boost_histogram.Histogram, optional
+        The list of histograms not to be stacked composing the model. Default is [].
+    unstacked_labels : list of str, optional
+        The labels of the model unstacked components. Default is None.
+    unstacked_colors : list of str, optional
+        The colors of the model unstacked components. Default is None.
+    xlabel : str, optional
+        The label for the x-axis. Default is None.
+    ylabel : str, optional
+        The label for the y-axis. Default is None.
+    data_label : str, optional
+        The label for the data. Default is "Data".
+    model_sum_kwargs : dict, optional
+        The keyword arguments for the plot_hist() function for the sum of the model components.
+        Has no effect if all the model components are stacked.
+        The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
+        Default is {"show": True, "label": "Sum", "color": "navy"}.
+    flatten_2d_hist : bool, optional
+        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    model_uncertainty : bool, optional
+        If False, set the model uncertainties to zeros. Default is True.
+    model_uncertainty_label : str, optional
+        The label for the model uncertainties. Default is "Model stat. unc.".
+    fig : matplotlib.figure.Figure or None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes or None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes or None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    save_as : str or None, optional
+        The file path to save the figure. Default is None.
+    **comparison_kwargs : optional
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object containing the plots.
+    ax_main : matplotlib.axes.Axes
+        The Axes object for the main plot.
+    ax_comparison : matplotlib.axes.Axes
+        The Axes object for the comparison plot.
+
+    See Also
+    --------
+    plot_comparison : Plot the comparison between data and MC simulations.
+
+    """
     comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
-    _check_binning_consistency(
-        mc_hist_list + [data_hist] + ([signal_hist] if signal_hist is not None else [])
-    )
+    if flatten_2d_hist:
+        data_hist = _flatten_2d_hist(data_hist)
+        stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
+        unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
+
+    model_components = stacked_components + unstacked_components
+
+    if len(model_components) == 0:
+        raise ValueError("Need to provide at least one model component.")
+
+    _check_binning_consistency(model_components + [data_hist])
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -1059,32 +1297,26 @@ def compare_data_mc(
             "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
 
-    if flatten_2d_hist:
-        mc_hist_list = [_flatten_2d_hist(h) for h in mc_hist_list]
-        data_hist = _flatten_2d_hist(data_hist)
-        if signal_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
+    model_hist = sum(model_components)
 
-    mc_hist_total = sum(mc_hist_list)
-
-    plot_mc(
-        mc_hist_list,
-        signal_hist=signal_hist,
+    plot_model(
+        stacked_components=stacked_components,
+        stacked_labels=stacked_labels,
+        stacked_colors=stacked_colors,
+        unstacked_components=unstacked_components,
+        unstacked_labels=unstacked_labels,
+        unstacked_colors=unstacked_colors,
         ylabel=ylabel,
-        mc_labels=mc_labels,
-        mc_colors=mc_colors,
-        signal_label=signal_label,
-        signal_color=signal_color,
+        sum_kwargs=model_sum_kwargs,
+        flatten_2d_hist=False,  # Already done
+        leg_ncol=1,
         fig=fig,
         ax=ax_main,
-        stacked=stacked,
-        flatten_2d_hist=False,  # Already done
+        save_as=None,
     )
 
-    if not mc_uncertainty:
-        mc_hist_total[:] = np.c_[
-            mc_hist_total.values(), np.zeros_like(mc_hist_total.values())
-        ]
+    if not model_uncertainty:
+        model_hist[:] = np.c_[model_hist.values(), np.zeros_like(model_hist.values())]
 
     # Compute data uncertainties
     if _is_unweighted(data_hist):
@@ -1105,8 +1337,8 @@ def compare_data_mc(
     _ = ax_main.xaxis.set_ticklabels([])
 
     # Plot MC statistical uncertainty
-    if mc_uncertainty:
-        plot_hist_uncertainties(mc_hist_total, ax=ax_main, label=mc_uncertainty_label)
+    if model_uncertainty:
+        plot_hist_uncertainties(model_hist, ax=ax_main, label=model_uncertainty_label)
     elif comparison_kwargs["comparison"] == "pull":
         comparison_kwargs.setdefault(
             "comparison_ylabel",
@@ -1117,7 +1349,7 @@ def compare_data_mc(
 
     plot_comparison(
         data_hist,
-        mc_hist_total,
+        model_hist,
         ax=ax_comparison,
         xlabel=xlabel,
         hist_1_uncertainty=data_uncertainty_type,
