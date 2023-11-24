@@ -1167,16 +1167,6 @@ def plot_model(
             color=unstacked_colors,
             label=unstacked_labels,
             stacked=False,
-            alpha=0.8,
-            histtype="stepfilled",
-        )
-        # Replot the unstacked histograms, but only the edges
-        plot_hist(
-            unstacked_components,
-            ax=ax,
-            color=unstacked_colors,
-            label=None,
-            stacked=False,
             histtype="step",
         )
         # Plot the sum of all the components

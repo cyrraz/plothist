@@ -111,6 +111,35 @@ or unstacked histogram:
    :alt: Data/MC comparison, stacked plot
    :width: 500
 
+Stacked and unnstacked histograms
+---------------------------------
+
+or a combination of stacked and unstacked histograms using the more general function ``compare_data_model()``:
+
+.. code-block:: python
+
+    from plothist import compare_data_model, add_luminosity
+
+    fig, ax_main, ax_comparison = compare_data_model(
+        data_hist=data_hist,
+        stacked_components=background_hists[:2],
+        stacked_labels=background_categories_labels[:2],
+        stacked_colors=background_categories_colors[:2],
+        unstacked_components=background_hists[2:],
+        unstacked_labels=background_categories_labels[2:],
+        unstacked_colors=background_categories_colors[2:],
+        xlabel=key,
+        ylabel="Entries",
+        model_sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
+        comparison_ylim=(0.5, 1.5),
+    )
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
+
+    fig.savefig("hep_examples_dataMC_stacked_unstacked.svg", bbox_inches='tight')
+
+.. image:: ../img/hep_examples_dataMC_stacked_unstacked.svg
+   :alt: Data/MC comparison, stacked plot
+   :width: 500
 
 Pull comparison
 ---------------

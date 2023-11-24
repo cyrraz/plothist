@@ -16,6 +16,8 @@ from .plotters import (
     savefig,
     plot_mc,
     compare_data_mc,
+    compare_data_model,
+    plot_model,
 )
 
 from .variable_registry import (
@@ -61,6 +63,8 @@ __all__ = [
     "savefig",
     "compare_data_mc",
     "plot_mc",
+    "compare_data_model",
+    "plot_model",
     "add_luminosity",
     "get_asymmetrical_uncertainties",
     "set_style",
