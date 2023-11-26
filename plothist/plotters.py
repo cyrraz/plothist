@@ -326,6 +326,102 @@ def plot_2d_hist(
     return fig, ax, ax_colorbar
 
 
+def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
+    """
+    Plot a 1D function on a given range.
+
+    Parameters
+    ----------
+    func : function or list of functions
+        The 1D function or list of functions to plot.
+        The function(s) should support vectorization (i.e. accept a numpy array as input).
+    range : tuple
+        The range of the function(s). The function(s) will be plotted on the interval [range[0], range[1]].
+    ax : matplotlib.axes.Axes
+        The Axes instance for plotting.
+    stacked : bool, optional
+        Whether to use ax.stackplot() to plot the function(s) as a stacked plot. Default is False.
+    npoints : int, optional
+        The number of points to use for plotting. Default is 1000.
+    **kwargs
+        Additional keyword arguments forwarded to ax.plot() (in case stacked=False) or ax.stackplot() (in case stacked=True).
+    """
+    x = np.linspace(range[0], range[1], npoints)
+
+    if not stacked:
+        if not isinstance(func, list):
+            ax.plot(x, func(x), **kwargs)
+        else:
+            ax.plot(
+                x,
+                np.array([func(x) for func in func]).T,
+                **kwargs,
+            )
+    else:
+        if not isinstance(func, list):
+            func = [func]
+        kwargs.setdefault("edgecolor", "black")
+        kwargs.setdefault("linewidth", 0.5)
+        ax.stackplot(
+            x,
+            [f(x) for f in func],
+            **kwargs,
+        )
+
+
+def _make_hist_from_function(func, ref_hist):
+    """
+    Create a histogram from a function and a reference histogram.
+    The returned histogram has the same binning as the reference histogram and
+    is filled with the function evaluated at the bin centers of the reference histogram.
+
+    Parameters
+    ----------
+    func : function
+        1D function. The function should support vectorization (i.e. accept a numpy array as input).
+    ref_hist : boost_histogram.Histogram
+        The reference 1D histogram to use for the binning.
+
+    Returns
+    -------
+    hist : boost_histogram.Histogram
+        The histogram filled with the function.
+
+    Raises
+    ------
+    ValueError
+        If the reference histogram is not 1D.
+    """
+    if len(ref_hist.axes) != 1:
+        raise ValueError("The reference histogram must be 1D.")
+
+    hist = bh.Histogram(ref_hist.axes[0], storage=bh.storage.Weight())
+    hist[:] = np.c_[
+        func(ref_hist.axes[0].centers), np.zeros_like(ref_hist.axes[0].centers)
+    ]
+    return hist
+
+
+def _check_hist_or_func_model(components):
+    """
+    Check whether all components of a model are either all histograms or all functions.
+
+    Parameters
+    ----------
+    components : list
+        The list of model components.
+
+    Raises
+    ------
+    ValueError
+        If the model components are not all histograms or all functions.
+    """
+    if not all(isinstance(x, bh.Histogram) for x in components) and not all(
+        callable(x) for x in components
+    ):
+        raise ValueError("All model components must be either histograms or functions.")
+
+
 def plot_2d_hist_with_projections(
     hist,
     xlabel=None,
