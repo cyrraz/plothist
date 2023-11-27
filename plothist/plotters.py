@@ -177,8 +177,6 @@ def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
     else:
         if not isinstance(func, list):
             func = [func]
-        kwargs.setdefault("edgecolor", "black")
-        kwargs.setdefault("linewidth", 0.5)
         ax.stackplot(
             x,
             [f(x) for f in func],
@@ -687,23 +685,31 @@ def _get_math_text(text):
         return text
 
 
-def _check_hist_or_func_model(components):
+def _get_model_type(components):
     """
-    Check whether all components of a model are either all histograms or all functions.
+    Check that all components of a model are either all histograms or all functions
+    and return the type of the model components.
 
     Parameters
     ----------
     components : list
         The list of model components.
 
+    Returns
+    -------
+    str
+        The type of the model components ("histograms" or "functions").
+
     Raises
     ------
     ValueError
         If the model components are not all histograms or all functions.
     """
-    if not all(isinstance(x, bh.Histogram) for x in components) and not all(
-        callable(x) for x in components
-    ):
+    if all(isinstance(x, bh.Histogram) for x in components):
+        return "histograms"
+    elif all(callable(x) for x in components):
+        return "functions"
+    else:
         raise ValueError("All model components must be either histograms or functions.")
 
 
@@ -957,6 +963,7 @@ def plot_model(
     xlabel=None,
     ylabel=None,
     sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
+    function_range=None,
     flatten_2d_hist=False,
     leg_ncol=1,
     fig=None,
@@ -989,6 +996,8 @@ def plot_model(
         Has no effect if all the model components are stacked.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is {"show": True, "label": "Sum", "color": "navy"}.
+    function_range : tuple, optional (mandatory if the model is made of functions)
+        The range for the x-axis if the model is made of functions.
     flatten_2d_hist : bool, optional
         If True, flatten 2D histograms to 1D before plotting. Default is False.
     leg_ncol : int, optional
@@ -1010,55 +1019,105 @@ def plot_model(
 
     """
 
-    if flatten_2d_hist:
-        stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
-        unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
-
     components = stacked_components + unstacked_components
 
     if len(components) == 0:
         raise ValueError("Need to provide at least one model component.")
 
-    _check_binning_consistency(components)
+    model_type = _get_model_type(components)
+
+    if model_type == "histograms":
+        _check_binning_consistency(components)
+        if flatten_2d_hist:
+            stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
+            unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
+        components = stacked_components + unstacked_components
+    elif flatten_2d_hist:
+        raise ValueError("Flattening is not supported for functions.")
 
     if fig is None and ax is None:
         fig, ax = plt.subplots()
     elif fig is None or ax is None:
         raise ValueError("Need to provid both fig and ax (or none).")
 
+    if model_type == "histograms":
+        xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
+    else:
+        if function_range is None:
+            raise ValueError(
+                "Need to provide function_range for model made of functions."
+            )
+        xlim = function_range
+
     if len(stacked_components) > 0:
         # Plot the stacked components
-        plot_hist(
-            stacked_components,
-            ax=ax,
-            stacked=True,
-            edgecolor="black",
-            histtype="stepfilled",
-            linewidth=0.5,
-            color=stacked_colors,
-            label=stacked_labels,
-        )
+        if model_type == "histograms":
+            plot_hist(
+                stacked_components,
+                ax=ax,
+                stacked=True,
+                color=stacked_colors,
+                label=stacked_labels,
+                edgecolor="black",
+                linewidth=0.5,
+                histtype="stepfilled",
+            )
+        else:
+            plot_function(
+                stacked_components,
+                ax=ax,
+                stacked=True,
+                colors=stacked_colors,
+                labels=stacked_labels,
+                edgecolor="black",
+                linewidth=0.5,
+                range=xlim,
+            )
 
     if len(unstacked_components) > 0:
         # Plot the unstacked components
-        plot_hist(
-            unstacked_components,
-            ax=ax,
-            color=unstacked_colors,
-            label=unstacked_labels,
-            stacked=False,
-            histtype="step",
-        )
+        for component, color, label in zip(
+            unstacked_components, unstacked_colors, unstacked_labels
+        ):
+            if model_type == "histograms":
+                plot_hist(
+                    component,
+                    ax=ax,
+                    stacked=False,
+                    color=color,
+                    label=label,
+                    histtype="step",
+                )
+            else:
+                plot_function(
+                    component,
+                    ax=ax,
+                    stacked=False,
+                    color=color,
+                    label=label,
+                    range=xlim,
+                )
         # Plot the sum of all the components
         if sum_kwargs.pop("show", True):
-            plot_hist(
-                sum(components),
-                ax=ax,
-                histtype="step",
-                **sum_kwargs,
-            )
+            if model_type == "histograms":
+                plot_hist(
+                    sum(components),
+                    ax=ax,
+                    histtype="step",
+                    **sum_kwargs,
+                )
+            else:
 
-    xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
+                def sum_function(x):
+                    return sum(f(x) for f in components)
+
+                plot_function(
+                    sum_function,
+                    ax=ax,
+                    range=xlim,
+                    **sum_kwargs,
+                )
+
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
