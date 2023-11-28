@@ -225,7 +225,7 @@ Example plot with all comparisons, using the same histograms as above:
         hspace=0.3,
     )
     background_sum = sum(background_hists)
-    
+
     fig, ax_main, ax_comparison = compare_data_mc(
             data_hist=data_hist,
             mc_hist_list=background_hists,
@@ -242,7 +242,7 @@ Example plot with all comparisons, using the same histograms as above:
     add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
     for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"], start=2):
-    
+
         ax_comparison = axes[k_comp]
 
         plot_comparison(
@@ -258,9 +258,9 @@ Example plot with all comparisons, using the same histograms as above:
         )
         add_text(f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13)
         set_fitting_ylabel_fontsize(ax_comparison)
-    
+
     axes[-1].set_xlabel(key)
-    
+
     fig.savefig("hep_all_comparisons.svg", bbox_inches="tight")
 
 
@@ -290,7 +290,7 @@ Same example plot but we remove the statistical uncertainties of the model by ad
         hspace=0.3,
     )
     background_sum = sum(background_hists)
-    
+
     fig, ax_main, ax_comparison = compare_data_mc(
             data_hist=data_hist,
             mc_hist_list=background_hists,
@@ -308,7 +308,7 @@ Same example plot but we remove the statistical uncertainties of the model by ad
     add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
     for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"], start=2):
-    
+
         ax_comparison = axes[k_comp]
 
         # Copy the original histogram and set the uncertainties of the copy to 0.
@@ -333,9 +333,9 @@ Same example plot but we remove the statistical uncertainties of the model by ad
             ax_comparison.set_ylabel(r"$\frac{Data-Pred.}{\sigma_{Data}}$")
         add_text(f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13)
         set_fitting_ylabel_fontsize(ax_comparison)
-    
+
     axes[-1].set_xlabel(key)
-    
+
     fig.savefig("hep_all_comparisons_no_stat_MC_unc.svg", bbox_inches="tight")
 
 
@@ -368,7 +368,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
     )
 
     background_sum = sum(background_hists)
-    
+
     fig, ax_main, ax_comparison = compare_data_mc(
             data_hist=data_hist,
             mc_hist_list=background_hists,
@@ -421,7 +421,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
             fontsize=10,
         )
         set_fitting_ylabel_fontsize(ax_comparison)
-    
+
     axes[-1].set_xlabel(key)
 
     fig.savefig("hep_comparisons_ratio_options.svg", bbox_inches="tight")
@@ -490,7 +490,6 @@ Compare data and stacked histogram for a flatten 2D variable:
         ylabel="Entries",
         mc_labels=background_categories_labels,
         mc_colors=background_categories_colors,
-        save_as=None,
         flatten_2d_hist=True, # <--
     )
 
