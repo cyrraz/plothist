@@ -184,7 +184,7 @@ sphinx_gallery_conf = {
     # specify that examples should be ordered according to filename
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
-    'reset_modules': (reset_mpl, 'plothist'),
+    'reset_modules': (reset_mpl, 'matplotlib'),
 }
 
 # configuration for intersphinx: refer to the Python standard library.

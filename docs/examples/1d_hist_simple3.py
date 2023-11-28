@@ -1,5 +1,5 @@
 """
-1d hist simple example 2
+1d hist simple example 3
 =======================
 
 This example shows how to plot a 1d histogram with plothist.
