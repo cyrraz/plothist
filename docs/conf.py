@@ -172,7 +172,7 @@ texinfo_documents = [
 # sphinx-gallery configuration
 sphinx_gallery_conf = {
     # path to your example scripts
-    'examples_dirs': ['../examples'],
+    'examples_dirs': ['examples'],
     # path to where to save gallery generated output
     'gallery_dirs': ['auto_gallery-1'],
     # specify that examples should be ordered according to filename
