@@ -183,7 +183,7 @@ class matplotlib_svg_scraper(object):
         return self.__class__.__name__
 
     def __call__(self, *args, **kwargs):
-        return matplotlib_scraper(*args, format='svg', **kwargs)
+        return matplotlib_scraper(*args, format='svg', bbox_inches="tight", **kwargs)
 
 from glob import glob
 import shutil
@@ -200,12 +200,13 @@ class SVGScraper(object):
     def __call__(self, block, block_vars, gallery_conf):
         # Find all SVG files in the directory of this example.
         path_current_example = os.path.dirname(block_vars['src_file'])
-        pngs = sorted(glob(os.path.join(path_current_example, '*.svg')))
-
+        svgs = sorted(glob(os.path.join(path_current_example, '*.svg')))
+        print(svgs)
         # Iterate through SVGs, copy them to the sphinx-gallery output directory
         image_names = list()
         image_path_iterator = block_vars['image_path_iterator']
-        for svg in pngs:
+        for svg in svgs:
+            print(svg)
             if svg not in self.seen:
                 self.seen |= set(svg)
                 this_image_path = image_path_iterator.next()
@@ -223,7 +224,7 @@ sphinx_gallery_conf = {
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
     'reset_modules': (reset_mpl),
-    'image_scrapers': (SVGScraper(),),
+    'image_scrapers': (matplotlib_svg_scraper(),),
 }
 
 # configuration for intersphinx: refer to the Python standard library.
