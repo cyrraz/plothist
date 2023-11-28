@@ -175,7 +175,6 @@ def reset_mpl(gallery_conf, fname):
     from plothist import set_style
     set_style("default")
 
-
 from sphinx_gallery.scrapers import matplotlib_scraper
 
 class matplotlib_svg_scraper(object):
@@ -185,36 +184,6 @@ class matplotlib_svg_scraper(object):
     def __call__(self, *args, **kwargs):
         return matplotlib_scraper(*args, format='svg', bbox_inches="tight", **kwargs)
 
-from glob import glob
-import shutil
-import os
-from sphinx_gallery.scrapers import figure_rst
-
-class SVGScraper(object):
-    def __init__(self):
-        self.seen = set()
-
-    def __repr__(self):
-        return 'SVGScraper'
-
-    def __call__(self, block, block_vars, gallery_conf):
-        # Find all SVG files in the directory of this example.
-        path_current_example = os.path.dirname(block_vars['src_file'])
-        svgs = sorted(glob(os.path.join(path_current_example, '*.svg')))
-        print(svgs)
-        # Iterate through SVGs, copy them to the sphinx-gallery output directory
-        image_names = list()
-        image_path_iterator = block_vars['image_path_iterator']
-        for svg in svgs:
-            print(svg)
-            if svg not in self.seen:
-                self.seen |= set(svg)
-                this_image_path = image_path_iterator.next()
-                image_names.append(this_image_path)
-                shutil.move(svg, this_image_path)
-        # Use the `figure_rst` helper function to generate reST for image files
-        return figure_rst(image_names, gallery_conf['src_dir'])
-
 sphinx_gallery_conf = {
     # path to your example scripts
     'examples_dirs': ['examples'],
@@ -223,6 +192,7 @@ sphinx_gallery_conf = {
     # specify that examples should be ordered according to filename
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
+    'thumbnail_size': (600, 400),
     'reset_modules': (reset_mpl),
     'image_scrapers': (matplotlib_svg_scraper(),),
 }
