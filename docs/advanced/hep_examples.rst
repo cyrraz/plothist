@@ -191,7 +191,7 @@ Here is an example with the model above made of functions:
         unstacked_labels=["f2"],
         unstacked_colors=background_categories_colors[2:],
         xlabel=key,
-        ylabel="f(key)",
+        ylabel=f"f({key})",
         model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
         function_range=[-9,12],
     )
