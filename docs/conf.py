@@ -195,14 +195,14 @@ class SVGScraper(object):
         self.seen = set()
 
     def __repr__(self):
-        return 'PNGScraper'
+        return 'SVGScraper'
 
     def __call__(self, block, block_vars, gallery_conf):
-        # Find all PNG files in the directory of this example.
+        # Find all SVG files in the directory of this example.
         path_current_example = os.path.dirname(block_vars['src_file'])
         pngs = sorted(glob(os.path.join(path_current_example, '*.svg')))
 
-        # Iterate through PNGs, copy them to the sphinx-gallery output directory
+        # Iterate through SVGs, copy them to the sphinx-gallery output directory
         image_names = list()
         image_path_iterator = block_vars['image_path_iterator']
         for svg in pngs:
@@ -232,6 +232,3 @@ intersphinx_mapping = {
     'matplotlib': ('https://matplotlib.org/', None),
     'pandas': ('https://pandas.pydata.org/', None),
 }
-
-# Cheating around read the docs: we need to install our project which is not possible because we
-# have no setup.py. But this should work...
