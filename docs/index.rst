@@ -21,4 +21,4 @@ Content
    :maxdepth: 2
    :caption: Image gallery:
 
-   gallery-1/index
+   basic_examples_gallery/index
