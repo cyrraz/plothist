@@ -1,5 +1,5 @@
 """
-1d hist simple example 4
+1d hist simple example 5
 =======================
 
 This example shows how to plot a 1d histogram with plothist.
@@ -25,5 +25,3 @@ ax.set_xlabel(name)
 ax.set_ylabel("Entries")
 
 fig.savefig("1d_hist_simple.svg", bbox_inches='tight')
-
-plt.show()
