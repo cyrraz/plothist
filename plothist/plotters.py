@@ -15,7 +15,7 @@ from plothist.comparison import (
     _check_uncertainty_type,
     _is_unweighted,
 )
-from plothist.histogramming import _flatten_2d_hist
+from plothist.histogramming import _flatten_2d_hist, _make_hist_from_function
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
@@ -969,7 +969,7 @@ def plot_model(
     stacked_kwargs : dict, optional
         The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is {}.
     unstacked_kwargs_list : list of dict, optional
-        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called for each unstacked component. Default is [].
+        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
     sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked.
@@ -1128,6 +1128,8 @@ def compare_data_model(
     xlabel=None,
     ylabel=None,
     data_label="Data",
+    stacked_kwargs={},
+    unstacked_kwargs_list=[],
     model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
     flatten_2d_hist=False,
     model_uncertainty=True,
@@ -1162,6 +1164,10 @@ def compare_data_model(
         The label for the y-axis. Default is None.
     data_label : str, optional
         The label for the data. Default is "Data".
+    stacked_kwargs : dict, optional
+        The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is {}.
+    unstacked_kwargs_list : list of dict, optional
+        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
     model_sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked.
@@ -1201,17 +1207,22 @@ def compare_data_model(
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
 
-    if flatten_2d_hist:
-        data_hist = _flatten_2d_hist(data_hist)
-        stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
-        unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
-
     model_components = stacked_components + unstacked_components
 
     if len(model_components) == 0:
         raise ValueError("Need to provide at least one model component.")
 
-    _check_binning_consistency(model_components + [data_hist])
+    model_type = _get_model_type(model_components)
+
+    if model_type == "histograms":
+        _check_binning_consistency(model_components + [data_hist])
+        if flatten_2d_hist:
+            data_hist = _flatten_2d_hist(data_hist)
+            stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
+            unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
+            model_components = stacked_components + unstacked_components
+    elif flatten_2d_hist:
+        raise ValueError("Flattening is not supported for functions.")
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -1219,8 +1230,6 @@ def compare_data_model(
         raise ValueError(
             "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
-
-    model_hist = sum(model_components)
 
     plot_model(
         stacked_components=stacked_components,
@@ -1230,15 +1239,14 @@ def compare_data_model(
         unstacked_labels=unstacked_labels,
         unstacked_colors=unstacked_colors,
         ylabel=ylabel,
+        stacked_kwargs=stacked_kwargs,
+        unstacked_kwargs_list=unstacked_kwargs_list,
         sum_kwargs=model_sum_kwargs,
         flatten_2d_hist=False,  # Already done
         leg_ncol=1,
         fig=fig,
         ax=ax_main,
     )
-
-    if not model_uncertainty:
-        model_hist[:] = np.c_[model_hist.values(), np.zeros_like(model_hist.values())]
 
     # Compute data uncertainties
     if _is_unweighted(data_hist):
@@ -1258,10 +1266,24 @@ def compare_data_model(
 
     _ = ax_main.xaxis.set_ticklabels([])
 
-    # Plot MC statistical uncertainty
-    if model_uncertainty:
-        plot_hist_uncertainties(model_hist, ax=ax_main, label=model_uncertainty_label)
-    elif comparison_kwargs["comparison"] == "pull":
+    if model_type == "histograms":
+        model_hist = sum(model_components)
+        if model_uncertainty:
+            plot_hist_uncertainties(
+                model_hist, ax=ax_main, label=model_uncertainty_label
+            )
+        else:
+            model_hist[:] = np.c_[
+                model_hist.values(), np.zeros_like(model_hist.values())
+            ]
+    else:
+        model_hist = _make_hist_from_function(
+            lambda x: sum(f(x) for f in model_components), data_hist
+        )
+
+    if comparison_kwargs["comparison"] == "pull" and (
+        model_type == "functions" or not model_uncertainty
+    ):
         comparison_kwargs.setdefault(
             "comparison_ylabel",
             rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
