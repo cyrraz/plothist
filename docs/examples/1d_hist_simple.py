@@ -11,7 +11,7 @@ df = generate_dummy_data()
 from plothist import make_hist, plot_hist
 import matplotlib.pyplot as plt
 
-# sphinx_gallery_thumbnail_path = '../img/1d_hist_simple.svg'
+# sphinx_gallery_thumbnail_path = '../img/1d_hist_simple.png'
 
 name = "variable_0"
 
@@ -29,3 +29,5 @@ ax.set_xlabel(name)
 ax.set_ylabel("Entries")
 
 fig.savefig("1d_hist_simple.svg", bbox_inches='tight')
+
+plt.show()

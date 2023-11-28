@@ -177,6 +177,7 @@ sphinx_gallery_conf = {
     'gallery_dirs': ['auto_gallery-1'],
     # specify that examples should be ordered according to filename
     'within_subsection_order': FileNameSortKey,
+    'inspect_global_variables'  : False,
 }
 
 # configuration for intersphinx: refer to the Python standard library.
