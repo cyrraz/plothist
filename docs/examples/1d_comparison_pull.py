@@ -12,6 +12,8 @@ x3 = df[name][df["category"] == 3]
 
 x_range = (min(min(x2), min(x3)), max(max(x2), max(x3)))
 
+from plothist import make_hist
+
 h2 = make_hist(x2, bins=50, range=x_range)
 h3 = make_hist(x3, bins=50, range=x_range)
 
