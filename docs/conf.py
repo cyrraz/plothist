@@ -188,11 +188,11 @@ sphinx_gallery_conf = {
     # path to your example scripts
     'examples_dirs': ['examples'],
     # path to where to save gallery generated output
-    'gallery_dirs': ['auto_gallery-1'],
+    'gallery_dirs': ['gallery-1'],
     # specify that examples should be ordered according to filename
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
-    'thumbnail_size': (600, 400),
+    # 'thumbnail_size': (600, 400),
     'reset_modules': (reset_mpl),
     'image_scrapers': (matplotlib_svg_scraper(),),
 }

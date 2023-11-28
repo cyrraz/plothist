@@ -1,6 +1,6 @@
 """
-1d hist simple example 8
-=======================
+1d hist simple
+==============
 
 This example shows how to plot a 1d histogram with plothist.
 """
@@ -8,8 +8,8 @@ This example shows how to plot a 1d histogram with plothist.
 from plothist.generate_dummy_data import generate_dummy_data
 df = generate_dummy_data()
 
-import matplotlib.pyplot as plt
 from plothist import make_hist, plot_hist, set_style
+import matplotlib.pyplot as plt
 
 name = "variable_0"
 

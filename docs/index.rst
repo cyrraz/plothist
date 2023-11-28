@@ -19,6 +19,6 @@ Content
 
 .. toctree::
    :maxdepth: 2
-   :caption: Galleries:
+   :caption: Image gallery:
 
-   auto_gallery-1/index
+   gallery-1/index
