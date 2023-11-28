@@ -138,7 +138,69 @@ or a combination of stacked and unstacked histograms using the more general func
     fig.savefig("hep_examples_dataMC_stacked_unstacked.svg", bbox_inches='tight')
 
 .. image:: ../img/hep_examples_dataMC_stacked_unstacked.svg
-   :alt: Data/MC comparison, stacked plot
+   :alt: Data/MC comparison, stacked and unstacked plot with histograms
+   :width: 500
+
+The function ``compare_data_model()`` can also be used to compare data and functions:
+
+.. code-block:: python
+
+    from plothist import compare_data_model, add_luminosity
+    from scipy.stats import norm
+
+    def f0(x):
+        return 1000*norm.pdf(x, loc=-2, scale=4)
+    def f1(x):
+        return 3000*norm.pdf(x, loc=-2, scale=2)
+    def f2(x):
+        return 1000*norm.pdf(x, loc=2, scale=3)
+
+    fig, ax_main, ax_comparison = compare_data_model(
+        data_hist=data_hist,
+        stacked_components=[f0, f1],
+        stacked_labels=["f0", "f1"],
+        stacked_colors=background_categories_colors[:2],
+        unstacked_components=[f2],
+        unstacked_labels=["f2"],
+        unstacked_colors=background_categories_colors[2:],
+        xlabel=key,
+        ylabel="Entries",
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+        comparison_ylim=(0.5, 1.5),
+    )
+    add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
+
+    fig.savefig("ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg", bbox_inches='tight')
+
+.. image:: ../img/ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg
+   :alt: Data/Model comparison, model with stacked and unstacked function components
+   :width: 500
+
+If you want to plot only the model, use ``plot_model()``. It supports models made of functions or histograms.
+Here is an example with the model above made of functions:
+
+.. code-block:: python
+
+    from plothist import plot_model
+
+    fig, ax = plot_model(
+        stacked_components=[f0, f1],
+        stacked_labels=["f0", "f1"],
+        stacked_colors=background_categories_colors[:2],
+        unstacked_components=[f2],
+        unstacked_labels=["f2"],
+        unstacked_colors=background_categories_colors[2:],
+        xlabel=key,
+        ylabel="f(key)",
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+        function_range=[-9,12],
+    )
+    add_luminosity(collaboration="Beast III", ax=ax_main, is_data=False)
+
+    fig.savefig("model_with_stacked_and_unstacked_function_component.svg", bbox_inches='tight')
+
+.. image:: ../img/model_with_stacked_and_unstacked_function_components.svg
+   :alt: Plot of a model with stacked and unstacked function components
    :width: 500
 
 Pull comparison

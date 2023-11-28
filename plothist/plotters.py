@@ -938,7 +938,7 @@ def plot_model(
     ylabel=None,
     stacked_kwargs={},
     unstacked_kwargs_list=[],
-    sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+    model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
     function_range=None,
     flatten_2d_hist=False,
     leg_ncol=1,
@@ -970,7 +970,7 @@ def plot_model(
         The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is {}.
     unstacked_kwargs_list : list of dict, optional
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
-    sum_kwargs : dict, optional
+    model_sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
@@ -1088,13 +1088,13 @@ def plot_model(
                     **unstacked_kwargs,
                 )
         # Plot the sum of all the components
-        if sum_kwargs.pop("show", True):
+        if model_sum_kwargs.pop("show", True):
             if model_type == "histograms":
                 plot_hist(
                     sum(components),
                     ax=ax,
                     histtype="step",
-                    **sum_kwargs,
+                    **model_sum_kwargs,
                 )
             else:
 
@@ -1105,7 +1105,7 @@ def plot_model(
                     sum_function,
                     ax=ax,
                     range=xlim,
-                    **sum_kwargs,
+                    **model_sum_kwargs,
                 )
 
     ax.set_xlim(xlim)
@@ -1241,7 +1241,8 @@ def compare_data_model(
         ylabel=ylabel,
         stacked_kwargs=stacked_kwargs,
         unstacked_kwargs_list=unstacked_kwargs_list,
-        sum_kwargs=model_sum_kwargs,
+        model_sum_kwargs=model_sum_kwargs,
+        function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
         flatten_2d_hist=False,  # Already done
         leg_ncol=1,
         fig=fig,
