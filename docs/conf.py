@@ -12,14 +12,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
-import os
 import subprocess
 subprocess.check_call(["pip", "install", "sphinx-gallery"])
 from sphinx_gallery.sorting import FileNameSortKey
