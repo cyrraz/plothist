@@ -185,6 +185,35 @@ class matplotlib_svg_scraper(object):
     def __call__(self, *args, **kwargs):
         return matplotlib_scraper(*args, format='svg', **kwargs)
 
+from glob import glob
+import shutil
+import os
+from sphinx_gallery.scrapers import figure_rst
+
+class PNGScraper(object):
+    def __init__(self):
+        self.seen = set()
+
+    def __repr__(self):
+        return 'PNGScraper'
+
+    def __call__(self, block, block_vars, gallery_conf):
+        # Find all PNG files in the directory of this example.
+        path_current_example = os.path.dirname(block_vars['src_file'])
+        pngs = sorted(glob(os.path.join(path_current_example, '*.png')))
+
+        # Iterate through PNGs, copy them to the sphinx-gallery output directory
+        image_names = list()
+        image_path_iterator = block_vars['image_path_iterator']
+        for png in pngs:
+            if png not in self.seen:
+                self.seen |= set(png)
+                this_image_path = image_path_iterator.next()
+                image_names.append(this_image_path)
+                shutil.move(png, this_image_path)
+        # Use the `figure_rst` helper function to generate reST for image files
+        return figure_rst(image_names, gallery_conf['src_dir'])
+
 sphinx_gallery_conf = {
     # path to your example scripts
     'examples_dirs': ['examples'],
@@ -194,7 +223,7 @@ sphinx_gallery_conf = {
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
     'reset_modules': (reset_mpl),
-    'image_scrapers': (matplotlib_svg_scraper(), 'matplotlib'),
+    'image_scrapers': (PNGScraper(), matplotlib_svg_scraper(), 'matplotlib',),
 }
 
 # configuration for intersphinx: refer to the Python standard library.
