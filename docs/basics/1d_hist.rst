@@ -76,7 +76,7 @@ Ratio is the default comparison method:
 
 .. literalinclude:: ../examples/1d_comparison_ratio.py
     :language: python
-    :start-after: df = generate_dummy_data()
+    :start-after: # Histograms setup is done
 
 .. image:: ../img/1d_comparison_ratio.svg
    :alt: Simple ratio comparison
@@ -90,7 +90,7 @@ To perform a pull comparison:
 
 .. literalinclude:: ../examples/1d_comparison_pull.py
     :language: python
-    :start-after: df = generate_dummy_data()
+    :start-after: # Histograms setup is done
 
 .. image:: ../img/1d_comparison_pull.svg
    :alt: Simple pull comparison
@@ -104,7 +104,7 @@ To plot the difference between the two histograms:
 
 .. literalinclude:: ../examples/1d_comparison_difference.py
     :language: python
-    :start-after: df = generate_dummy_data()
+    :start-after: # Histograms setup is done
 
 .. image:: ../img/1d_comparison_difference.svg
    :alt: Simple difference comparison
@@ -118,7 +118,7 @@ To plot the relative difference between the two histograms:
 
 .. literalinclude:: ../examples/1d_comparison_relative_difference.py
     :language: python
-    :start-after: df = generate_dummy_data()
+    :start-after: # Histograms setup is done
 
 .. image:: ../img/1d_comparison_relative_difference.svg
    :alt: Simple difference comparison
