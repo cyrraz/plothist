@@ -23,6 +23,6 @@ plot_hist(h, ax=ax)
 ax.set_xlabel(name)
 ax.set_ylabel("Entries")
 
-fig.savefig("1d_hist_simple.svg", bbox_inches='tight')
+fig.savefig("1d_hist_simple.png", bbox_inches='tight')
 
 plt.show()
