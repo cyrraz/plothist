@@ -19,7 +19,7 @@ To plot a simple 1d histogram:
 
 .. literalinclude:: ../examples/1d_hist_simple.py
     :language: python
-    :lines: 11-
+    :lines: 12-
 
 .. image:: ../img/1d_hist_simple.svg
    :alt: Simple hist

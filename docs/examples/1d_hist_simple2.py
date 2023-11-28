@@ -1,10 +1,10 @@
 """
-1d hist simple example
-======================
+1d hist simple example 2
+=======================
 
 This example shows how to plot a 1d histogram with plothist.
 """
-# sphinx_gallery_thumbnail_path = '../img/1d_hist_simple.png'
+# sphinx_gallery_thumbnail_path = '../img/1d_hist_simple.svg'
 
 from plothist.generate_dummy_data import generate_dummy_data
 df = generate_dummy_data()
