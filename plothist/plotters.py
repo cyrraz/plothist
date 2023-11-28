@@ -936,7 +936,9 @@ def plot_model(
     unstacked_colors=None,
     xlabel=None,
     ylabel=None,
-    sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
+    stacked_kwargs={},
+    unstacked_kwargs_list=[],
+    sum_kwargs={"show": True, "label": "Model", "color": "navy"},
     function_range=None,
     flatten_2d_hist=False,
     leg_ncol=1,
@@ -964,11 +966,15 @@ def plot_model(
         The label for the x-axis. Default is None.
     ylabel : str, optional
         The label for the y-axis. Default is None.
+    stacked_kwargs : dict, optional
+        The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is {}.
+    unstacked_kwargs_list : list of dict, optional
+        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called for each unstacked component. Default is [].
     sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
-        Default is {"show": True, "label": "Sum", "color": "navy"}.
+        Default is {"show": True, "label": "Model", "color": "navy"}.
     function_range : tuple, optional (mandatory if the model is made of functions)
         The range for the x-axis if the model is made of functions.
     flatten_2d_hist : bool, optional
@@ -1032,6 +1038,7 @@ def plot_model(
                 edgecolor="black",
                 linewidth=0.5,
                 histtype="stepfilled",
+                **stacked_kwargs,
             )
         else:
             plot_function(
@@ -1043,12 +1050,22 @@ def plot_model(
                 edgecolor="black",
                 linewidth=0.5,
                 range=xlim,
+                **stacked_kwargs,
             )
 
     if len(unstacked_components) > 0:
         # Plot the unstacked components
-        for component, color, label in zip(
-            unstacked_components, unstacked_colors, unstacked_labels
+        if unstacked_colors is None:
+            unstacked_colors = [None] * len(unstacked_components)
+        if unstacked_labels is None:
+            unstacked_labels = [None] * len(unstacked_components)
+        if len(unstacked_kwargs_list) == 0:
+            unstacked_kwargs_list = [{}] * len(unstacked_components)
+        for component, color, label, unstacked_kwargs in zip(
+            unstacked_components,
+            unstacked_colors,
+            unstacked_labels,
+            unstacked_kwargs_list,
         ):
             if model_type == "histograms":
                 plot_hist(
@@ -1058,6 +1075,7 @@ def plot_model(
                     color=color,
                     label=label,
                     histtype="step",
+                    **unstacked_kwargs,
                 )
             else:
                 plot_function(
@@ -1067,6 +1085,7 @@ def plot_model(
                     color=color,
                     label=label,
                     range=xlim,
+                    **unstacked_kwargs,
                 )
         # Plot the sum of all the components
         if sum_kwargs.pop("show", True):
