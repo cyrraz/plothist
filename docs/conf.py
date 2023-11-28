@@ -170,12 +170,21 @@ texinfo_documents = [
 ]
 
 
+# sphinx-gallery configuration
 def reset_mpl(gallery_conf, fname):
     from plothist import set_style
     set_style("default")
 
 
-# sphinx-gallery configuration
+from sphinx_gallery.scrapers import matplotlib_scraper
+
+class matplotlib_svg_scraper(object):
+    def __repr__(self):
+        return self.__class__.__name__
+
+    def __call__(self, *args, **kwargs):
+        return matplotlib_scraper(*args, format='svg', **kwargs)
+
 sphinx_gallery_conf = {
     # path to your example scripts
     'examples_dirs': ['examples'],
@@ -185,6 +194,7 @@ sphinx_gallery_conf = {
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
     'reset_modules': (reset_mpl),
+    'image_scrapers': (matplotlib_svg_scraper(),),
 }
 
 # configuration for intersphinx: refer to the Python standard library.
