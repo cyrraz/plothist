@@ -21,6 +21,12 @@ import sys
 
 import subprocess
 subprocess.check_call(["pip", "install", "sphinx-gallery"])
+subprocess.check_call(["pip", "install", "flit"])
+subprocess.check_call(["pip", "install", "matplotlib"])
+subprocess.check_call(["pip", "install", "boost_histogram"])
+subprocess.check_call(["pip", "install", "PyYAML"])
+subprocess.check_call(["pip", "install", "sphinx_rtd_theme"])
+subprocess.check_call(["flit", "install", "-s"], cwd="../")
 from sphinx_gallery.sorting import FileNameSortKey
 
 project = "plothist"
@@ -182,11 +188,3 @@ intersphinx_mapping = {
 
 # Cheating around read the docs: we need to install our project which is not possible because we
 # have no setup.py. But this should work...
-
-if os.getenv("READTHEDOCS"):
-    subprocess.check_call(["pip", "install", "flit"])
-    subprocess.check_call(["pip", "install", "matplotlib"])
-    subprocess.check_call(["pip", "install", "boost_histogram"])
-    subprocess.check_call(["pip", "install", "PyYAML"])
-    subprocess.check_call(["pip", "install", "sphinx_rtd_theme"])
-    subprocess.check_call(["flit", "install", "-s"], cwd="../")
