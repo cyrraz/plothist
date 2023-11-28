@@ -57,7 +57,7 @@ To get the plotting information of a variable, you can use the ``get_variable_fr
 
     print(variable)
 
-    >>> {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
+    # >>> {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
 
 
 Update the registry
@@ -116,7 +116,7 @@ You can also add new plotting properties to the variable by using the ``update_v
         "custom_value": 0,
     }
 
-    update_variable_registry(variable_keys, new_properties)
+    update_variable_registry(new_properties, variable_keys)
 
 This will add the new properties to the ``yaml`` file to all the variables in ``variable_keys``:
 
@@ -158,7 +158,7 @@ To remove a parameter from the plotting informations, you can use the ``remove_v
 
     from plothist import remove_variable_registry_parameters
 
-    remove_variable_registry_parameters(variable_keys, ["range", "log", "legend_ncols", "new_property"])
+    remove_variable_registry_parameters(["range", "log", "legend_ncols", "new_property"], variable_keys)
 
 The ``yaml`` file is updated:
 
@@ -210,7 +210,7 @@ To plot multiple variables using the ``variable_manager``, you can use the follo
     update_variable_registry_ranges(df, variable_keys)
 
     # Add custom info
-    update_variable_registry(variable_keys, {"text": "simulation"})
+    update_variable_registry({"text": "simulation"}, variable_keys)
 
     for variable_key in variable_keys:
         variable = get_variable_from_registry(variable_key)
