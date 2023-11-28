@@ -194,7 +194,7 @@ sphinx_gallery_conf = {
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
     'reset_modules': (reset_mpl),
-    'image_scrapers': (matplotlib_svg_scraper(),),
+    'image_scrapers': (matplotlib_svg_scraper(), 'matplotlib'),
 }
 
 # configuration for intersphinx: refer to the Python standard library.
