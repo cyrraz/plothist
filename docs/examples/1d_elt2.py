@@ -34,6 +34,7 @@ ax.legend()
 
 # fig.savefig("1d_elt1.svg", bbox_inches='tight')
 
+###
 from plothist import plot_error_hist
 
 x3 = df[name][df[category] == 3]

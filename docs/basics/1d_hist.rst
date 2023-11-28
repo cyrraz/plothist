@@ -19,7 +19,7 @@ To plot a simple 1d histogram:
 
 .. literalinclude:: ../examples/1d_hist_simple.py
     :language: python
-    :start-after: df = generate_dummy_data()
+    :start-after: ###
 
 .. image:: ../img/1d_hist_simple.svg
    :alt: Simple hist
@@ -34,7 +34,7 @@ It is really easy to add multiple histogram to the same figure:
 
 .. literalinclude:: ../examples/1d_elt1.py
     :language: python
-    :start-after: df = generate_dummy_data()
+    :start-after: ###
 
 .. image:: ../img/1d_elt1.svg
    :alt: Simple hist
@@ -45,7 +45,7 @@ To this, we can add an error-point histogram:
 
 .. literalinclude:: ../examples/1d_elt2.py
     :language: python
-    :start-after: # fig.savefig("1d_elt1.svg", bbox_inches='tight')
+    :start-after: ###
 
 .. image:: ../img/1d_elt2.svg
    :alt: Simple hist
@@ -56,7 +56,7 @@ We can also add functions using ``scipy``:
 
 .. literalinclude:: ../examples/1d_elt3.py
     :language: python
-    :start-after: # fig.savefig("1d_elt2.svg", bbox_inches='tight')
+    :start-after: ###
 
 .. image:: ../img/1d_elt3.svg
    :alt: Simple hist
@@ -76,7 +76,7 @@ Ratio is the default comparison method:
 
 .. literalinclude:: ../examples/1d_comparison_ratio.py
     :language: python
-    :start-after: # Histograms setup done
+    :start-after: ###
 
 .. image:: ../img/1d_comparison_ratio.svg
    :alt: Simple ratio comparison
@@ -90,7 +90,7 @@ To perform a pull comparison:
 
 .. literalinclude:: ../examples/1d_comparison_pull.py
     :language: python
-    :start-after: # Histograms setup done
+    :start-after: ###
 
 .. image:: ../img/1d_comparison_pull.svg
    :alt: Simple pull comparison
@@ -104,7 +104,7 @@ To plot the difference between the two histograms:
 
 .. literalinclude:: ../examples/1d_comparison_difference.py
     :language: python
-    :start-after: # Histograms setup done
+    :start-after: ###
 
 .. image:: ../img/1d_comparison_difference.svg
    :alt: Simple difference comparison
@@ -118,7 +118,7 @@ To plot the relative difference between the two histograms:
 
 .. literalinclude:: ../examples/1d_comparison_relative_difference.py
     :language: python
-    :start-after: # Histograms setup done
+    :start-after: ###
 
 .. image:: ../img/1d_comparison_relative_difference.svg
    :alt: Simple difference comparison

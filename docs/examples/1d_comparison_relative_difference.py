@@ -20,8 +20,7 @@ from plothist import make_hist
 h2 = make_hist(x2, bins=50, range=x_range)
 h3 = make_hist(x3, bins=50, range=x_range)
 
-# Histograms setup done
-
+###
 from plothist import compare_two_hist
 
 fig, ax_main, ax_comparison = compare_two_hist(
