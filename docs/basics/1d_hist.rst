@@ -150,9 +150,10 @@ Ratio is the default comparison method:
         xlabel=name,
         ylabel="Entries",
         h1_label="c2",
-        h2_label="c3",
-        save_as="1d_comparison_ratio.svg",
+        h2_label="c3"
     )
+
+    fig.savefig("1d_comparison_ratio.svg", bbox_inches='tight')
 
 .. image:: ../img/1d_comparison_ratio.svg
    :alt: Simple ratio comparison
@@ -175,8 +176,9 @@ To perform a pull comparison:
         h1_label="$c_{2}$",
         h2_label="$c_{3}$",
         comparison = "pull", # <--
-        save_as="1d_comparison_pull.svg",
     )
+
+    fig.savefig("1d_comparison_pull.svg", bbox_inches='tight')
 
 .. image:: ../img/1d_comparison_pull.svg
    :alt: Simple pull comparison
@@ -230,8 +232,9 @@ To plot the relative difference between the two histograms:
         h1_label="$\mathbf{H\,\,1}$",
         h2_label="$\mathbf{H\,\,2}$",
         comparison = "relative_difference", # <--
-        save_as="1d_comparison_relative_difference.svg",
     )
+
+    fig.savefig("1d_comparison_relative_difference.svg", bbox_inches='tight')
 
 .. image:: ../img/1d_comparison_relative_difference.svg
    :alt: Simple difference comparison

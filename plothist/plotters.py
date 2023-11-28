@@ -192,7 +192,6 @@ def plot_2d_hist_with_projections(
     xlabel_y_projection=None,
     colorbar_label=None,
     offset_x_labels=False,
-    save_as=None,
     pcolormesh_kwargs={},
     colorbar_kwargs={},
     plot_hist_kwargs={},
@@ -215,8 +214,6 @@ def plot_2d_hist_with_projections(
         Label for the colorbar. Default is None.
     offset_x_labels : bool, optional
         Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
-    save_as : str, optional
-        Path to save the figure to. Default is None.
     pcolormesh_kwargs : dict, optional
         Keyword arguments for the pcolormesh call. Default is {}.
     colorbar_kwargs : dict, optional
@@ -306,9 +303,6 @@ def plot_2d_hist_with_projections(
 
     fig.align_ylabels()
 
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
-
     return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
@@ -383,7 +377,6 @@ def compare_two_hist(
     ylabel=None,
     h1_label="h1",
     h2_label="h2",
-    save_as=None,
     fig=None,
     ax_main=None,
     ax_comparison=None,
@@ -406,8 +399,6 @@ def compare_two_hist(
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
-    save_as : str or None, optional
-        The path to save the figure. Default is None.
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
@@ -461,9 +452,6 @@ def compare_two_hist(
     )
 
     fig.align_ylabels()
-
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax_main, ax_comparison
 
@@ -724,7 +712,6 @@ def plot_mc(
     signal_color="red",
     fig=None,
     ax=None,
-    save_as=None,
     flatten_2d_hist=False,
     stacked=True,
     leg_ncol=1,
@@ -754,8 +741,6 @@ def plot_mc(
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
         The Axes object to use for the plot. Create a new one if none is provided.
-    save_as : str or None, optional
-        The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
         If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
@@ -798,7 +783,6 @@ def plot_mc(
         leg_ncol=leg_ncol,
         fig=fig,
         ax=ax,
-        save_as=save_as,
     )
 
     if signal_hist is not None:
@@ -812,9 +796,6 @@ def plot_mc(
             label=signal_label,
             histtype="step",
         )
-
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax
 
@@ -830,7 +811,6 @@ def compare_data_mc(
     signal_label="Signal",
     signal_color="red",
     data_label="Data",
-    save_as=None,
     flatten_2d_hist=False,
     stacked=True,
     mc_uncertainty=True,
@@ -865,8 +845,6 @@ def compare_data_mc(
         The color for the signal. Default is "red".
     data_label : str, optional
         The label for the data. Default is "Data".
-    save_as : str or None, optional
-        The file path to save the figure. Default is None.
     flatten_2d_hist : bool, optional
         If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
@@ -929,7 +907,6 @@ def compare_data_mc(
         fig=fig,
         ax_main=ax_main,
         ax_comparison=ax_comparison,
-        save_as=save_as,
         **comparison_kwargs,
     )
 
@@ -946,9 +923,6 @@ def compare_data_mc(
         )
 
     ax_main.legend()
-
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax_main, ax_comparison
 
@@ -968,7 +942,6 @@ def plot_model(
     leg_ncol=1,
     fig=None,
     ax=None,
-    save_as=None,
 ):
     """
     Plot model made of a collection of histograms.
@@ -1006,8 +979,6 @@ def plot_model(
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
         The Axes object to use for the plot. Create a new one if none is provided.
-    save_as : str or None, optional
-        The file path to save the figure. Default is None.
 
 
     Returns
@@ -1124,9 +1095,6 @@ def plot_model(
     set_fitting_ylabel_fontsize(ax)
     ax.legend(ncol=leg_ncol)
 
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
-
     return fig, ax
 
 
@@ -1148,7 +1116,6 @@ def compare_data_model(
     fig=None,
     ax_main=None,
     ax_comparison=None,
-    save_as=None,
     **comparison_kwargs,
 ):
     """
@@ -1193,8 +1160,6 @@ def compare_data_model(
         The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    save_as : str or None, optional
-        The file path to save the figure. Default is None.
     **comparison_kwargs : optional
         Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
 
@@ -1251,7 +1216,6 @@ def compare_data_model(
         leg_ncol=1,
         fig=fig,
         ax=ax_main,
-        save_as=None,
     )
 
     if not model_uncertainty:
@@ -1299,8 +1263,5 @@ def compare_data_model(
     ax_comparison.get_yaxis().get_label().set_size(ylabel_fontsize)
 
     fig.align_ylabels()
-
-    if save_as is not None:
-        fig.savefig(save_as, bbox_inches="tight")
 
     return fig, ax_main, ax_comparison

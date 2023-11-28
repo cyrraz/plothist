@@ -158,8 +158,9 @@ To plot a 2d histogram with x and y projections:
         xlabel_y_projection="Entries",
         offset_x_labels=False,
         colorbar_kwargs={"label": "Entries"},
-        save_as="2d_hist_with_projections.svg",
     )
+
+    fig.savefig("2d_hist_with_projections.svg", bbox_inches='tight')
 
 .. image:: ../img/2d_hist_with_projections.svg
    :alt: 2d hist with x and y projections
