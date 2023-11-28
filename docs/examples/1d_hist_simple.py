@@ -11,6 +11,8 @@ This example shows how to plot a 1d histogram with plothist.
 from plothist import make_hist, plot_hist
 import matplotlib.pyplot as plt
 
+# sphinx_gallery_thumbnail_path = '../img/1d_hist_simple.svg'
+
 name = "variable_0"
 
 fig, ax = plt.subplots()
