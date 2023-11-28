@@ -11,6 +11,9 @@ df = generate_dummy_data()
 import matplotlib.pyplot as plt
 from plothist import make_hist, plot_hist, set_style
 
+
+set_style("default")
+
 name = "variable_0"
 
 fig, ax = plt.subplots()

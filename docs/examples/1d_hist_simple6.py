@@ -8,8 +8,8 @@ This example shows how to plot a 1d histogram with plothist.
 from plothist.generate_dummy_data import generate_dummy_data
 df = generate_dummy_data()
 
-from plothist import make_hist, plot_hist, set_style
 import matplotlib.pyplot as plt
+from plothist import make_hist, plot_hist, set_style
 
 name = "variable_0"
 
