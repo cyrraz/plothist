@@ -16,3 +16,9 @@ Content
     usage/utilities
     documentation/statistics
     documentation/documentation
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Galleries:
+
+   auto_gallery-1/index

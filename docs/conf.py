@@ -20,6 +20,9 @@
 # -- Project information -----------------------------------------------------
 
 import os
+import subprocess
+subprocess.check_call(["pip", "install", "sphinx-gallery"])
+from sphinx_gallery.sorting import FileNameSortKey
 
 project = "plothist"
 copyright = "2023, Cyrille Praz, Tristan Fillinger"
@@ -40,7 +43,7 @@ release = "0.9"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.doctest", "sphinx.ext.autodoc", "sphinx.ext.napoleon"]
+extensions = ["sphinx.ext.doctest", "sphinx.ext.autodoc", "sphinx.ext.napoleon"'sphinx_gallery.gen_gallery','sphinx.ext.intersphinx']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -161,12 +164,27 @@ texinfo_documents = [
     ),
 ]
 
+# sphinx-gallery configuration
+sphinx_gallery_conf = {
+    # path to your example scripts
+    'examples_dirs': ['../examples'],
+    # path to where to save gallery generated output
+    'gallery_dirs': ['auto_gallery-1'],
+    # specify that examples should be ordered according to filename
+    'within_subsection_order': FileNameSortKey,
+}
+
+# configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/{.major}'.format(sys.version_info), None),
+    'matplotlib': ('https://matplotlib.org/', None),
+    'pandas': ('https://pandas.pydata.org/', None),
+}
+
 # Cheating around read the docs: we need to install our project which is not possible because we
 # have no setup.py. But this should work...
 
 if os.getenv("READTHEDOCS"):
-    import subprocess
-
     subprocess.check_call(["pip", "install", "flit"])
     subprocess.check_call(["pip", "install", "matplotlib"])
     subprocess.check_call(["pip", "install", "boost_histogram"])
