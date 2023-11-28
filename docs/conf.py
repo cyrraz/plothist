@@ -169,6 +169,12 @@ texinfo_documents = [
     ),
 ]
 
+
+def reset_mpl(gallery_conf, fname):
+    from plothist import set_style
+    set_style("default")
+
+
 # sphinx-gallery configuration
 sphinx_gallery_conf = {
     # path to your example scripts
@@ -178,6 +184,7 @@ sphinx_gallery_conf = {
     # specify that examples should be ordered according to filename
     'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
+    'reset_modules': (reset_mpl, 'plothist'),
 }
 
 # configuration for intersphinx: refer to the Python standard library.
