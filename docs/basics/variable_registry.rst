@@ -57,7 +57,7 @@ To get the plotting information of a variable, you can use the ``get_variable_fr
 
     print(variable)
 
-    # >>> {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
+    >>> {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
 
 
 Update the registry
