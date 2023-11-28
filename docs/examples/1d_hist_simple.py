@@ -15,8 +15,12 @@ name = "variable_0"
 
 fig, ax = plt.subplots()
 
+#%%
+# Make the hist
 h = make_hist(df[name])
 
+#%%
+# Plot the hist
 plot_hist(h, ax=ax)
 
 ax.set_xlabel(name)
