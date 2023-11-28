@@ -1,6 +1,13 @@
 from plothist.generate_dummy_data import generate_dummy_data
 df = generate_dummy_data()
 
+"""
+1d hist simple example
+======================
+
+This example shows how to plot a 1d histogram with plothist.
+"""
+
 from plothist import make_hist, plot_hist
 import matplotlib.pyplot as plt
 
