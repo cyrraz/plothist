@@ -1,4 +1,4 @@
-Sample gallery 1
-================
+Basic Usage
+===========
 
-Below are examples using my module:
+Gallery of images that are used in the documentation.

@@ -1,4 +1,7 @@
 """
+Difference comparison
+=====================
+
 This example shows how to compare two 1D histograms using the difference method.
 """
 

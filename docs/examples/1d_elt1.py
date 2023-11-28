@@ -1,6 +1,6 @@
 """
-1d two hist
-===========
+1d, two hist
+============
 
 This example shows how to add multiple histograms to the same plot.
 """
