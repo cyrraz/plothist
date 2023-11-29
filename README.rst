@@ -10,11 +10,11 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
 |img1| |img2|
 
 .. |img1| image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/1d_comparison_advanced.svg
-   :alt: Hep example
+   :alt: Example
    :width: 320
 
 .. |img2| image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/hep_examples_dataMC_stacked.svg
-   :alt: Hep example
+   :alt: Example
    :width: 320
 
 

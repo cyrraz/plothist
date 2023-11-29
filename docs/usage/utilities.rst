@@ -32,7 +32,7 @@ Automatic ylabel fontsize
 
     from plothist import set_fitting_ylabel_fontsize
 
-    # Example from pull comparion in HEP section
+    # Example from pull comparion in model section
     set_fitting_ylabel_fontsize(ax_main)
     ...
 

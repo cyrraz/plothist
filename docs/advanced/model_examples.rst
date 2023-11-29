@@ -1,8 +1,8 @@
-.. _advanced-hep_examples-label:
+.. _advanced-model_examples-label:
 
-============
-HEP examples
-============
+=========================
+Model comparison examples
+=========================
 
 The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
 
