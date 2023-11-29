@@ -370,7 +370,7 @@ def plot_hist_uncertainties(hist, ax, **kwargs):
     )
 
 
-def compare_two_hist(
+def plot_two_hist_comparison(
     hist_1,
     hist_2,
     xlabel=None,
@@ -507,7 +507,7 @@ def plot_comparison(
 
     See Also
     --------
-    compare_two_hist : Compare two histograms and plot the comparison.
+    plot_two_hist_comparison : Compare two histograms and plot the comparison.
 
     """
 
@@ -894,7 +894,7 @@ def compare_data_mc(
             "unstacked_colors": mc_colors,
         }
 
-    fig, ax_main, ax_comparison = compare_data_model(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist,
         **model,
         xlabel=xlabel,
@@ -1117,7 +1117,7 @@ def plot_model(
     return fig, ax
 
 
-def compare_data_model(
+def plot_data_model_comparison(
     data_hist,
     stacked_components=[],
     stacked_labels=None,

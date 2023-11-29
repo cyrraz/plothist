@@ -114,13 +114,13 @@ or unstacked histogram:
 Stacked and unnstacked histograms
 ---------------------------------
 
-or a combination of stacked and unstacked histograms using the more general function ``compare_data_model()``:
+or a combination of stacked and unstacked histograms using the more general function ``plot_data_model_comparison()``:
 
 .. code-block:: python
 
-    from plothist import compare_data_model, add_luminosity
+    from plothist import plot_data_model_comparison, add_luminosity
 
-    fig, ax_main, ax_comparison = compare_data_model(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
         stacked_components=background_hists[:2],
         stacked_labels=background_categories_labels[:2],
@@ -179,13 +179,13 @@ Here is an example with a model above made of functions:
    :alt: Plot of a model with stacked and unstacked function components
    :width: 500
 
-The function ``compare_data_model()`` can also be used to compare data and functions:
+The function ``plot_data_model_comparison()`` can also be used to compare data and functions:
 
 .. code-block:: python
 
-    from plothist import compare_data_model
+    from plothist import plot_data_model_comparison
 
-    fig, ax_main, ax_comparison = compare_data_model(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
         stacked_components=[f0, f1],
         stacked_labels=["f0", "f1"],

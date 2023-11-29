@@ -141,10 +141,10 @@ Ratio is the default comparison method:
 
 .. code-block:: python
 
-    from plothist import compare_two_hist
+    from plothist import plot_two_hist_comparison
 
     # Default comparison is ratio
-    fig, ax_main, ax_comparison = compare_two_hist(
+    fig, ax_main, ax_comparison = plot_two_hist_comparison(
         h2,
         h3,
         xlabel=name,
@@ -166,9 +166,9 @@ To perform a pull comparison:
 
 .. code-block:: python
 
-    from plothist import compare_two_hist
+    from plothist import plot_two_hist_comparison
 
-    fig, ax_main, ax_comparison = compare_two_hist(
+    fig, ax_main, ax_comparison = plot_two_hist_comparison(
         h2,
         h3,
         xlabel=name,
@@ -192,9 +192,9 @@ To plot the difference between the two histograms:
 
 .. code-block:: python
 
-    from plothist import compare_two_hist, add_text
+    from plothist import plot_two_hist_comparison, add_text
 
-    fig, ax_main, ax_comparison = compare_two_hist(
+    fig, ax_main, ax_comparison = plot_two_hist_comparison(
         h2,
         h3,
         xlabel=name,
@@ -222,9 +222,9 @@ To plot the relative difference between the two histograms:
 
 .. code-block:: python
 
-    from plothist import compare_two_hist
+    from plothist import plot_two_hist_comparison
 
-    fig, ax_main, ax_comparison = compare_two_hist(
+    fig, ax_main, ax_comparison = plot_two_hist_comparison(
         h2,
         h3,
         xlabel=name,
