@@ -239,3 +239,31 @@ To plot the relative difference between the two histograms:
 .. image:: ../img/1d_comparison_relative_difference.svg
    :alt: Simple difference comparison
    :width: 500
+
+
+
+Asymmetry
+---------
+
+To plot the asymmetry between the two histograms:
+
+.. code-block:: python
+
+    from plothist import compare_two_hist
+
+    fig, ax_main, ax_comparison = compare_two_hist(
+        h2,
+        h3,
+        xlabel=name,
+        ylabel="Entries",
+        h1_label="$h_1$",
+        h2_label="$h_2$",
+        comparison = "asymmetry", # <--
+    )
+
+    fig.savefig("1d_comparison_asymmetry.svg", bbox_inches='tight')
+
+.. image:: ../img/1d_comparison_asymmetry.svg
+   :alt: Simple asymmetry comparison
+   :width: 500
+

@@ -488,7 +488,7 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference"). Default is "ratio".
+        The type of comparison to plot ("ratio", "pull", "difference", "relative_difference" or "asymmetry"). Default is "ratio".
     comparison_ylabel : str, optional
         The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
@@ -589,6 +589,12 @@ def plot_comparison(
     elif comparison == "difference":
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(f"${h1_label} - {h2_label}$")
+
+    elif comparison == "asymmetry":
+        if comparison_ylim is None:
+            comparison_ylim = (-1.0, 1.0)
+        ax.axhline(0, ls="--", lw=1.0, color="black")
+        ax.set_ylabel(rf"$\frac{{{h1_label} - {h2_label}}}{{{h1_label} + {h2_label}}}$")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
