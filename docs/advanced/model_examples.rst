@@ -62,17 +62,28 @@ Then, to create stacked histogram:
 
 .. code-block:: python
 
-    from plothist import compare_data_mc, add_luminosity
+    from plothist import plot_data_model_comparison, plot_hist, add_luminosity
 
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        mc_hist_list=background_hists,
-        signal_hist=signal_hist,
+        stacked_components= background_hists,
+        stacked_labels= background_categories_labels,
+        stacked_colors= background_categories_colors,
         xlabel=key,
         ylabel="Entries",
-        mc_labels=background_categories_labels,
-        mc_colors=background_categories_colors
+        model_uncertainty_label="MC stat. unc.",
     )
+
+    plot_hist(
+        signal_hist,
+        ax=ax_main,
+        color="red",
+        label="Signal",
+        histtype="step",
+    )
+
+    ax_main.legend()
+
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=200, preliminary=True)
 
     fig.savefig("hep_examples_dataMC_stacked.svg", bbox_inches='tight')
