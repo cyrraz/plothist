@@ -12,14 +12,14 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
     df = generate_dummy_data()
 
 
-Compare data and MC
-===================
+Compare data and model
+======================
 
 
 Stacked histograms
 ------------------
 
-To make simple data/MC comparison with different MC categories:
+To make simple data/model comparison with different model categories:
 
 .. code-block:: python
 
@@ -79,7 +79,7 @@ Then, to create stacked histogram:
 
 
 .. image:: ../img/hep_examples_dataMC_stacked.svg
-   :alt: Data/MC comparison, stacked plot
+   :alt: Data/model comparison, stacked plot
    :width: 500
 
 
@@ -108,7 +108,7 @@ or unstacked histogram:
 
 
 .. image:: ../img/hep_examples_dataMC_unstacked.svg
-   :alt: Data/MC comparison, stacked plot
+   :alt: Data/model comparison, stacked plot
    :width: 500
 
 Stacked and unnstacked histograms
@@ -138,7 +138,7 @@ or a combination of stacked and unstacked histograms using the more general func
     fig.savefig("hep_examples_dataMC_stacked_unstacked.svg", bbox_inches='tight')
 
 .. image:: ../img/hep_examples_dataMC_stacked_unstacked.svg
-   :alt: Data/MC comparison, stacked and unstacked plot with histograms
+   :alt: Data/model comparison, stacked and unstacked plot with histograms
    :width: 500
 
 Models made of functions
@@ -232,12 +232,12 @@ To use pulls instead of the ratio to compare the histograms:
 
 
 .. image:: ../img/hep_examples_dataMC_pull.svg
-   :alt: Data/MC comparison with pull, stacked plot
+   :alt: Data/model comparison with pull, stacked plot
    :width: 500
 
 
 
-If you do not want to show and take into account the MC uncertainties, setting ``mc_uncertainty`` to ``False`` updates the definition of the pulls:
+If you do not want to show and take into account the model uncertainties, setting ``mc_uncertainty`` to ``False`` updates the definition of the pulls:
 
 .. code-block:: python
 
@@ -260,7 +260,7 @@ If you do not want to show and take into account the MC uncertainties, setting `
 
 
 .. image:: ../img/hep_examples_dataMC_pull_no_MC_stat_unc.svg
-   :alt: Data/MC comparison with pull, no MC stat. unc., stacked plot
+   :alt: Data/model comparison with pull, no model stat. unc., stacked plot
    :width: 500
 
 
@@ -330,7 +330,7 @@ Example plot with all comparisons, using the same histograms as above:
 
 
 .. image:: ../img/hep_all_comparisons.svg
-   :alt: Data/MC comparison with all comparisons, stacked plot
+   :alt: Data/model comparison with all comparisons, stacked plot
    :width: 500
 
 
@@ -406,12 +406,12 @@ Same example plot but we remove the statistical uncertainties of the model by ad
 
 
 .. image:: ../img/hep_all_comparisons_no_stat_MC_unc.svg
-   :alt: Data/MC comparison with all comparisons, no mc uncertainties, stacked plot
+   :alt: Data/model comparison with all comparisons, no mc uncertainties, stacked plot
    :width: 500
 
 
 
-For ``ratio`` or ``relative_difference``, the uncertainties can be split between MC and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty="uncorrelated"``). Here are all the possible options:
+For ``ratio`` or ``relative_difference``, the uncertainties can be split between model and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty="uncorrelated"``). Here are all the possible options:
 
 .. code-block:: python
 
@@ -494,7 +494,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 
 
 .. image:: ../img/hep_comparisons_ratio_options.svg
-   :alt: Data/MC comparison with all comparisons option for ratio
+   :alt: Data/model comparison with all comparisons option for ratio
    :width: 500
 
 
@@ -565,6 +565,6 @@ Compare data and stacked histogram for a flatten 2D variable:
 
 
 .. image:: ../img/hep_examples_dataMC_flatten2D.svg
-   :alt: Data/MC comparison, flatten variable
+   :alt: Data/model comparison, flatten variable
    :width: 500
 
