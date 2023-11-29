@@ -101,18 +101,22 @@ or unstacked histogram:
 
 .. code-block:: python
 
-    from plothist import compare_data_mc, add_luminosity
+    from plothist import plot_data_model_comparison, plot_hist, add_luminosity
 
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        mc_hist_list=background_hists,
+        unstacked_components= background_hists,
+        unstacked_labels= background_categories_labels,
+        unstacked_colors= background_categories_colors,
         xlabel=key,
         ylabel="Entries",
-        mc_labels=background_categories_labels,
-        mc_colors=background_categories_colors,
-        comparison_ylim=(0.5, 1.5),
-        stacked=False # <--
+        model_uncertainty_label="MC stat. unc.",
+        model_sum_kwargs={"label":"Sum(MC)", "color": "navy"},
+        comparison_ylim=[0.5, 1.5],
     )
+
+    ax_main.legend()
+
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
     fig.savefig("hep_examples_dataMC_unstacked.svg", bbox_inches='tight')
@@ -122,10 +126,11 @@ or unstacked histogram:
    :alt: Data/model comparison, stacked plot
    :width: 500
 
+
 Stacked and unnstacked histograms
 ---------------------------------
 
-or a combination of stacked and unstacked histograms using the more general function ``plot_data_model_comparison()``:
+Stacked and unstacked histograms can be combined:
 
 .. code-block:: python
 
@@ -225,18 +230,19 @@ To use pulls instead of the ratio to compare the histograms:
 
 .. code-block:: python
 
-    from plothist import compare_data_mc, add_luminosity
+    from plothist import plot_data_model_comparison, add_luminosity
 
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        mc_hist_list=background_hists,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
         xlabel=f"${key}\,\,[TeV/c^2]$",
         ylabel="Candidates per 0.42 $TeV/c^2$",
-        mc_labels=background_categories_labels,
-        mc_colors=background_categories_colors,
-        stacked=True,
-        comparison="pull"
+        comparison="pull",
+        model_uncertainty_label="MC stat. unc.",
     )
+
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi="(1 + 0.74)", lumi_unit="ab")
 
     fig.savefig("hep_examples_dataMC_pull.svg", bbox_inches='tight')
@@ -252,18 +258,17 @@ If you do not want to show and take into account the model uncertainties, settin
 
 .. code-block:: python
 
-    from plothist import compare_data_mc, add_luminosity
+    from plothist import plot_data_model_comparison, add_luminosity
 
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        mc_hist_list=background_hists,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
         xlabel=f"${key}\,\,[eV/c^2]$",
         ylabel="Hits in the LMN per $4.2\\times 10^{-1}\,\,eV/c^2$",
-        mc_labels=background_categories_labels,
-        mc_colors=background_categories_colors,
-        stacked=True,
         comparison="pull",
-        mc_uncertainty=False # <--
+        model_uncertainty=False # <--
     )
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=8.2, lumi_unit="zb", preliminary=True)
 
@@ -279,15 +284,13 @@ If you do not want to show and take into account the model uncertainties, settin
 Other comparisons
 -----------------
 
-Every type of comparisons available with ``plot_comparison()`` are available for ``compare_data_mc()`` (see :ref:`basics-1d_hist_comparison-label`).
-
-Example plot with all comparisons, using the same histograms as above:
+Example plot with all available comparisons between model and data, using the same histograms as above:
 
 .. code-block:: python
 
     from plothist import (
         create_comparison_figure,
-        compare_data_mc,
+        plot_data_model_comparison,
         add_text,
         set_fitting_ylabel_fontsize,
         plot_comparison
@@ -302,19 +305,30 @@ Example plot with all comparisons, using the same histograms as above:
     )
     background_sum = sum(background_hists)
 
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
             data_hist=data_hist,
-            mc_hist_list=background_hists,
-            signal_hist=signal_hist,
+            stacked_components=background_hists,
+            stacked_labels=background_categories_labels,
+            stacked_colors=background_categories_colors,
             xlabel="",
             ylabel="Entries",
-            mc_labels=background_categories_labels,
-            mc_colors=background_categories_colors,
+            model_uncertainty_label="MC stat. unc.",
             comparison="ratio",
             fig=fig,
             ax_main=axes[0],
             ax_comparison=axes[1],
         )
+
+    plot_hist(
+        signal_hist,
+        ax=axes[0],
+        color="red",
+        label="Signal",
+        histtype="step",
+    )
+
+    axes[0].legend()
+
     add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
     for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"], start=2):
@@ -346,18 +360,19 @@ Example plot with all comparisons, using the same histograms as above:
 
 
 
-Same example plot but we remove the statistical uncertainties of the model by adding ``mc_uncertainty=False`` in ``compare_data_mc()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
+Same example plot but we remove the statistical uncertainties of the model by adding ``mc_uncertainty=False`` in ``plot_data_model_comparison()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
 
 .. code-block:: python
 
     from plothist import (
         create_comparison_figure,
-        compare_data_mc,
+        plot_data_model_comparison,
         add_text,
         set_fitting_ylabel_fontsize,
         plot_comparison
     )
     import matplotlib.pyplot as plt
+    import numpy as np
 
     fig, axes = create_comparison_figure(
         figsize=(6, 11),
@@ -367,20 +382,30 @@ Same example plot but we remove the statistical uncertainties of the model by ad
     )
     background_sum = sum(background_hists)
 
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
             data_hist=data_hist,
-            mc_hist_list=background_hists,
-            signal_hist=signal_hist,
+            stacked_components=background_hists,
+            stacked_labels=background_categories_labels,
+            stacked_colors=background_categories_colors,
             xlabel="",
             ylabel="Entries",
-            mc_labels=background_categories_labels,
-            mc_colors=background_categories_colors,
+            model_uncertainty=False, # <--
             comparison="ratio",
             fig=fig,
-            mc_uncertainty=False,
             ax_main=axes[0],
             ax_comparison=axes[1],
         )
+
+    plot_hist(
+        signal_hist,
+        ax=axes[0],
+        color="red",
+        label="Signal",
+        histtype="step",
+    )
+
+    axes[0].legend()
+
     add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
     for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"], start=2):
@@ -428,7 +453,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 
     from plothist import (
         create_comparison_figure,
-        compare_data_mc,
+        plot_data_model_comparison,
         add_text,
         set_fitting_ylabel_fontsize,
         plot_comparison
@@ -445,20 +470,31 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 
     background_sum = sum(background_hists)
 
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
             data_hist=data_hist,
-            mc_hist_list=background_hists,
-            signal_hist=signal_hist,
+            stacked_components=background_hists,
+            stacked_labels=background_categories_labels,
+            stacked_colors=background_categories_colors,
             xlabel="",
             ylabel="Entries",
-            mc_labels=background_categories_labels,
-            mc_colors=background_categories_colors,
             comparison="ratio",
             ratio_uncertainty="split",
+            model_uncertainty_label="MC stat. unc.",
             fig=fig,
             ax_main=axes[0],
             ax_comparison=axes[1],
         )
+
+    plot_hist(
+        signal_hist,
+        ax=axes[0],
+        color="red",
+        label="Signal",
+        histtype="step",
+    )
+
+    axes[0].legend()
+
     add_text(
         f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="split", mc_uncertainty = True',
         ax=ax_comparison,
@@ -521,8 +557,12 @@ Compare data and stacked histogram for a flatten 2D variable:
 
 .. code-block:: python
 
-    from plothist import make_2d_hist, get_color_palette
-    from plothist import compare_data_mc, add_luminosity
+    from plothist import (
+        make_2d_hist,
+        get_color_palette,
+        plot_data_model_comparison,
+        add_luminosity
+    )
 
     # Define the histograms
 
@@ -558,14 +598,14 @@ Compare data and stacked histogram for a flatten 2D variable:
     )
 
     # Compare data and stacked histogram
-    fig, ax_main, ax_comparison = compare_data_mc(
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        mc_hist_list=background_hists,
-        signal_hist=signal_hist,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
         xlabel=rf"({key1} $\times$ {key2}) bin",
         ylabel="Entries",
-        mc_labels=background_categories_labels,
-        mc_colors=background_categories_colors,
+        model_uncertainty_label="MC stat. unc.",
         flatten_2d_hist=True, # <--
     )
 
