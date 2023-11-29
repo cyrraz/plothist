@@ -254,7 +254,7 @@ To use pulls instead of the ratio to compare the histograms:
 
 
 
-If you do not want to show and take into account the model uncertainties, setting ``mc_uncertainty`` to ``False`` updates the definition of the pulls:
+If you do not want to show and take into account the model uncertainties, setting ``model_uncertainty`` to ``False`` updates the definition of the pulls:
 
 .. code-block:: python
 
@@ -360,7 +360,7 @@ Example plot with all available comparisons between model and data, using the sa
 
 
 
-Same example plot but we remove the statistical uncertainties of the model by adding ``mc_uncertainty=False`` in ``plot_data_model_comparison()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
+Same example plot but we remove the statistical uncertainties of the model by adding ``model_uncertainty=False`` in ``plot_data_model_comparison()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
 
 .. code-block:: python
 
@@ -442,7 +442,7 @@ Same example plot but we remove the statistical uncertainties of the model by ad
 
 
 .. image:: ../img/hep_all_comparisons_no_stat_MC_unc.svg
-   :alt: Data/model comparison with all comparisons, no mc uncertainties, stacked plot
+   :alt: Data/model comparison with all comparisons, no model uncertainties, stacked plot
    :width: 500
 
 
@@ -496,12 +496,12 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
     axes[0].legend()
 
     add_text(
-        f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="split", mc_uncertainty = True',
+        f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="split", model_uncertainty = True',
         ax=ax_comparison,
         fontsize=10,
     )
 
-    for k_comp, (ratio_uncertainty, mc_uncertainty) in enumerate([
+    for k_comp, (ratio_uncertainty, model_uncertainty) in enumerate([
         ("uncorrelated", True),
         ("split", False),
         ("uncorrelated", False),
@@ -511,7 +511,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 
         # When the uncertainties on the model are neglected, copy the original histogram and set the uncertainties of the copy to 0.
         background_sum_copy = background_sum.copy()
-        if not mc_uncertainty:
+        if not model_uncertainty:
             background_sum_copy[:] = np.c_[
             background_sum_copy.values(), np.zeros_like(background_sum_copy.values())
         ]
@@ -528,7 +528,7 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
             hist_1_uncertainty="asymmetrical",
         )
         add_text(
-            f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="{ratio_uncertainty}", mc_uncertainty = {mc_uncertainty}',
+            f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="{ratio_uncertainty}", model_uncertainty = {model_uncertainty}',
             ax=ax_comparison,
             fontsize=10,
         )

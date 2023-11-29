@@ -973,7 +973,7 @@ def plot_data_model_comparison(
 
     See Also
     --------
-    plot_comparison : Plot the comparison between data and MC simulations.
+    plot_comparison : Plot the comparison between data and a model.
 
     """
     comparison_kwargs.setdefault("h1_label", data_label)
