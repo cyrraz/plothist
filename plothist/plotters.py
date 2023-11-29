@@ -15,7 +15,7 @@ from plothist.comparison import (
     _check_uncertainty_type,
     _is_unweighted,
 )
-from plothist.histogramming import _flatten_2d_hist, _make_hist_from_function
+from plothist.histogramming import _make_hist_from_function
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
@@ -718,7 +718,6 @@ def plot_mc(
     signal_color="red",
     fig=None,
     ax=None,
-    flatten_2d_hist=False,
     stacked=True,
     leg_ncol=1,
 ):
@@ -747,8 +746,6 @@ def plot_mc(
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
         The Axes object to use for the plot. Create a new one if none is provided.
-    flatten_2d_hist : bool, optional
-        If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
         If True, stack the MC histograms. If False, plot them side by side. Default is True.
     leg_ncol : int, optional
@@ -785,15 +782,12 @@ def plot_mc(
         sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
         xlabel=xlabel,
         ylabel=ylabel,
-        flatten_2d_hist=flatten_2d_hist,
         leg_ncol=leg_ncol,
         fig=fig,
         ax=ax,
     )
 
     if signal_hist is not None:
-        if flatten_2d_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
         plot_hist(
             signal_hist,
             ax=ax,
@@ -817,7 +811,6 @@ def compare_data_mc(
     signal_label="Signal",
     signal_color="red",
     data_label="Data",
-    flatten_2d_hist=False,
     stacked=True,
     mc_uncertainty=True,
     mc_uncertainty_label="MC stat. unc.",
@@ -851,8 +844,6 @@ def compare_data_mc(
         The color for the signal. Default is "red".
     data_label : str, optional
         The label for the data. Default is "Data".
-    flatten_2d_hist : bool, optional
-        If True, flatten 2D histograms to 1D before plotting. Default is False.
     stacked : bool, optional
         If True, stack the MC histograms. If False, plot them side by side. Default is True.
     mc_uncertainty : bool, optional
@@ -907,7 +898,6 @@ def compare_data_mc(
         ylabel=ylabel,
         data_label=data_label,
         model_sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
-        flatten_2d_hist=flatten_2d_hist,
         model_uncertainty=mc_uncertainty,
         model_uncertainty_label=mc_uncertainty_label,
         fig=fig,
@@ -917,8 +907,6 @@ def compare_data_mc(
     )
 
     if signal_hist is not None:
-        if flatten_2d_hist:
-            signal_hist = _flatten_2d_hist(signal_hist)
         plot_hist(
             signal_hist,
             ax=ax_main,
@@ -946,7 +934,6 @@ def plot_model(
     unstacked_kwargs_list=[],
     model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
     function_range=None,
-    flatten_2d_hist=False,
     leg_ncol=1,
     fig=None,
     ax=None,
@@ -983,8 +970,6 @@ def plot_model(
         Default is {"show": True, "label": "Model", "color": "navy"}.
     function_range : tuple, optional (mandatory if the model is made of functions)
         The range for the x-axis if the model is made of functions.
-    flatten_2d_hist : bool, optional
-        If True, flatten 2D histograms to 1D before plotting. Default is False.
     leg_ncol : int, optional
         The number of columns for the legend. Default is 1.
     fig : matplotlib.figure.Figure or None, optional
@@ -1011,12 +996,6 @@ def plot_model(
 
     if model_type == "histograms":
         _check_binning_consistency(components)
-        if flatten_2d_hist:
-            stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
-            unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
-            components = stacked_components + unstacked_components
-    elif flatten_2d_hist:
-        raise ValueError("Flattening is not supported for functions.")
 
     if fig is None and ax is None:
         fig, ax = plt.subplots()
@@ -1137,7 +1116,6 @@ def compare_data_model(
     stacked_kwargs={},
     unstacked_kwargs_list=[],
     model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
-    flatten_2d_hist=False,
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
     fig=None,
@@ -1179,8 +1157,6 @@ def compare_data_model(
         Has no effect if all the model components are stacked.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is {"show": True, "label": "Sum", "color": "navy"}.
-    flatten_2d_hist : bool, optional
-        If True, flatten 2D histograms to 1D before plotting. Default is False.
     model_uncertainty : bool, optional
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
@@ -1222,13 +1198,6 @@ def compare_data_model(
 
     if model_type == "histograms":
         _check_binning_consistency(model_components + [data_hist])
-        if flatten_2d_hist:
-            data_hist = _flatten_2d_hist(data_hist)
-            stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
-            unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
-            model_components = stacked_components + unstacked_components
-    elif flatten_2d_hist:
-        raise ValueError("Flattening is not supported for functions.")
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -1249,7 +1218,6 @@ def compare_data_model(
         unstacked_kwargs_list=unstacked_kwargs_list,
         model_sum_kwargs=model_sum_kwargs,
         function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
-        flatten_2d_hist=False,  # Already done
         leg_ncol=1,
         fig=fig,
         ax=ax_main,

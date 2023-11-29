@@ -512,6 +512,7 @@ Compare data and stacked histogram for a flatten 2D variable:
 
     from plothist import make_2d_hist, get_color_palette
     from plothist import compare_data_mc, add_luminosity
+    from plothist import flatten_2d_hist
 
     # Define the histograms
 
@@ -546,6 +547,11 @@ Compare data and stacked histogram for a flatten 2D variable:
         [df[key][signal_mask] for key in [key1, key2]], bins=bins, weights=1
     )
 
+    # Flatten the 2D histograms
+    data_hist = flatten_2d_hist(data_hist)
+    background_hists = [flatten_2d_hist(h) for h in background_hists]
+    signal_hist = flatten_2d_hist(signal_hist)
+
     # Compare data and stacked histogram
     fig, ax_main, ax_comparison = compare_data_mc(
         data_hist=data_hist,
@@ -555,7 +561,6 @@ Compare data and stacked histogram for a flatten 2D variable:
         ylabel="Entries",
         mc_labels=background_categories_labels,
         mc_colors=background_categories_colors,
-        flatten_2d_hist=True, # <--
     )
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
