@@ -1008,7 +1008,7 @@ def plot_model(
         if flatten_2d_hist:
             stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
             unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
-        components = stacked_components + unstacked_components
+            components = stacked_components + unstacked_components
     elif flatten_2d_hist:
         raise ValueError("Flattening is not supported for functions.")
 
