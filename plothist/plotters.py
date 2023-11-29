@@ -1206,6 +1206,7 @@ def compare_data_model(
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "ratio")
     comparison_kwargs.setdefault("ratio_uncertainty", "split")
+    plot_sum = model_sum_kwargs["show"]
 
     model_components = stacked_components + unstacked_components
 
@@ -1269,7 +1270,7 @@ def compare_data_model(
 
     if model_type == "histograms":
         model_hist = sum(model_components)
-        if model_uncertainty:
+        if model_uncertainty and (plot_sum and len(unstacked_components)):
             plot_hist_uncertainties(
                 model_hist, ax=ax_main, label=model_uncertainty_label
             )
