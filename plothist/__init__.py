@@ -3,9 +3,6 @@ __version__ = "0.9"
 
 from .plotters import (
     create_comparison_figure,
-    create_axis,
-    make_hist,
-    make_2d_hist,
     plot_hist,
     plot_2d_hist,
     plot_2d_hist_with_projections,
@@ -18,6 +15,12 @@ from .plotters import (
     compare_data_mc,
     compare_data_model,
     plot_model,
+)
+
+from .histogramming import (
+    create_axis,
+    make_hist,
+    make_2d_hist,
 )
 
 from .variable_registry import (

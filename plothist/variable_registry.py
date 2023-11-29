@@ -6,7 +6,7 @@ import yaml
 import os
 import warnings
 import boost_histogram as bh
-from plothist.plotters import create_axis
+from plothist.histogramming import create_axis
 
 
 def _check_if_variable_registry_exists(path):
