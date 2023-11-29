@@ -1270,14 +1270,14 @@ def compare_data_model(
 
     if model_type == "histograms":
         model_hist = sum(model_components)
-        if model_uncertainty and (plot_sum and len(unstacked_components)):
-            plot_hist_uncertainties(
-                model_hist, ax=ax_main, label=model_uncertainty_label
-            )
-        else:
+        if not model_uncertainty or (model_uncertainty and not plot_sum and len(unstacked_components)):
             model_hist[:] = np.c_[
                 model_hist.values(), np.zeros_like(model_hist.values())
             ]
+        else:
+            plot_hist_uncertainties(
+                model_hist, ax=ax_main, label=model_uncertainty_label
+            )
     else:
         model_hist = _make_hist_from_function(
             lambda x: sum(f(x) for f in model_components), data_hist
