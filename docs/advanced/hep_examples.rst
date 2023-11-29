@@ -196,7 +196,6 @@ The function ``compare_data_model()`` can also be used to compare data and funct
         xlabel=key,
         ylabel="Entries",
         model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
-        comparison_ylim=(0.5, 1.5),
         comparison="pull"
     )
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
