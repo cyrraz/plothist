@@ -947,6 +947,8 @@ def plot_model(
     model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
     function_range=None,
     flatten_2d_hist=False,
+    model_uncertainty=True,
+    model_uncertainty_label="Model stat. unc.",
     leg_ncol=1,
     fig=None,
     ax=None,
@@ -985,6 +987,10 @@ def plot_model(
         The range for the x-axis if the model is made of functions.
     flatten_2d_hist : bool, optional
         If True, flatten 2D histograms to 1D before plotting. Default is False.
+    model_uncertainty : bool, optional
+        If False, set the model uncertainties to zeros. Default is True.
+    model_uncertainty_label : str, optional
+        The label for the model uncertainties. Default is "Model stat. unc.".
     leg_ncol : int, optional
         The number of columns for the legend. Default is 1.
     fig : matplotlib.figure.Figure or None, optional
@@ -1046,6 +1052,10 @@ def plot_model(
                 histtype="stepfilled",
                 **stacked_kwargs,
             )
+            if model_uncertainty and len(unstacked_components) == 0:
+                plot_hist_uncertainties(
+                    sum(stacked_components), ax=ax, label=model_uncertainty_label
+                )
         else:
             plot_function(
                 stacked_components,
@@ -1101,6 +1111,9 @@ def plot_model(
                     ax=ax,
                     histtype="step",
                     **model_sum_kwargs,
+                )
+                plot_hist_uncertainties(
+                    sum(components), ax=ax, label=model_uncertainty_label
                 )
             else:
 
@@ -1250,6 +1263,8 @@ def compare_data_model(
         model_sum_kwargs=model_sum_kwargs,
         function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
         flatten_2d_hist=False,  # Already done
+        model_uncertainty=model_uncertainty,
+        model_uncertainty_label=model_uncertainty_label,
         leg_ncol=1,
         fig=fig,
         ax=ax_main,
@@ -1275,11 +1290,7 @@ def compare_data_model(
 
     if model_type == "histograms":
         model_hist = sum(model_components)
-        if model_uncertainty:
-            plot_hist_uncertainties(
-                model_hist, ax=ax_main, label=model_uncertainty_label
-            )
-        else:
+        if not model_uncertainty:
             model_hist[:] = np.c_[
                 model_hist.values(), np.zeros_like(model_hist.values())
             ]
