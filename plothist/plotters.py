@@ -1104,7 +1104,9 @@ def plot_model(
                     **unstacked_kwargs,
                 )
         # Plot the sum of all the components
-        if model_sum_kwargs.pop("show", True):
+        if model_sum_kwargs.pop("show", True) and (
+            len(unstacked_components) > 1 or len(stacked_components) > 0
+        ):
             if model_type == "histograms":
                 plot_hist(
                     sum(components),
@@ -1112,9 +1114,10 @@ def plot_model(
                     histtype="step",
                     **model_sum_kwargs,
                 )
-                plot_hist_uncertainties(
-                    sum(components), ax=ax, label=model_uncertainty_label
-                )
+                if model_uncertainty:
+                    plot_hist_uncertainties(
+                        sum(components), ax=ax, label=model_uncertainty_label
+                    )
             else:
 
                 def sum_function(x):
@@ -1126,6 +1129,14 @@ def plot_model(
                     range=xlim,
                     **model_sum_kwargs,
                 )
+        elif (
+            model_uncertainty
+            and len(stacked_components) == 0
+            and len(unstacked_components) == 1
+        ):
+            plot_hist_uncertainties(
+                sum(components), ax=ax, label=model_uncertainty_label
+            )
 
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
