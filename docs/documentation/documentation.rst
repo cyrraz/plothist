@@ -5,6 +5,12 @@ Package documentation
 =====================
 
 
+histogramming.py
+-----------
+
+.. automodule:: plothist.histogramming
+   :members:
+
 plotters.py
 -----------
 
