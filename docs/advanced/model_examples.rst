@@ -562,7 +562,8 @@ Compare data and stacked histogram for a flatten 2D variable:
         get_color_palette,
         plot_data_model_comparison,
         add_luminosity,
-        flatten_2d_hist
+        flatten_2d_hist,
+        plot_hist
     )
 
     # Define the histograms
@@ -612,6 +613,14 @@ Compare data and stacked histogram for a flatten 2D variable:
         xlabel=rf"({key1} $\times$ {key2}) bin",
         ylabel="Entries",
         model_uncertainty_label="MC stat. unc."
+    )
+
+    plot_hist(
+        signal_hist,
+        ax=ax_main,
+        color="red",
+        label="Signal",
+        histtype="step",
     )
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
