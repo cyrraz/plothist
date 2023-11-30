@@ -15,6 +15,9 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
 Simple plot
 ===========
 
+Simplest example
+----------------
+
 To plot a simple 1d histogram:
 
 .. code-block:: python
@@ -40,9 +43,8 @@ To plot a simple 1d histogram:
    :width: 500
 
 
-
-Adding simple elements
-======================
+Multiple simple histograms
+--------------------------
 
 It is really easy to add multiple histogram to the same figure:
 
@@ -79,7 +81,37 @@ It is really easy to add multiple histogram to the same figure:
    :width: 500
 
 
-To this, we can add an error-point histogram:
+or stack them:
+
+.. code-block:: python
+
+    fig2, ax2 = plt.subplots()
+
+    plot_hist(
+        [h1, h2],
+        label=["c1", "c2"],
+        ax=ax2,
+        edgecolor="black",
+        linewidth=0.5,
+        histtype="stepfilled",
+        stacked=True,
+    )
+
+    ax2.set_xlabel(name)
+    ax2.set_ylabel("Entries")
+    ax2.set_xlim(x_range)
+    ax2.legend()
+
+    fig2.savefig("1d_elt1_stacked.svg", bbox_inches="tight")
+
+.. image:: ../img/1d_elt1_stacked.svg
+   :alt: Simple stacked hist
+   :width: 500
+
+Histogram with error bars
+-------------------------
+
+To perform a simple histogram with error bars, use the ``plot_error_hist`` function:
 
 .. code-block:: python
 
@@ -97,11 +129,17 @@ To this, we can add an error-point histogram:
     fig.savefig("1d_elt2.svg", bbox_inches='tight')
 
 .. image:: ../img/1d_elt2.svg
-   :alt: Simple hist
+   :alt: Simple error hist
    :width: 500
 
 
-We can also add functions using ``scipy``:
+The function can also take what kind of bin uncertainty to use for hist with the argument ``uncertainty_type``: ``"symmetrical"`` for the Poisson standard deviation derived from the variance stored in the histogram object, ``"asymmetrical"`` for asymmetrical uncertainties based on a Poisson confidence interval. Default is ``"symmetrical"``.
+
+
+Adding other elements
+---------------------
+
+We can also add any functions using ``scipy`` or matplotlib elements:
 
 .. code-block:: python
 
@@ -249,9 +287,9 @@ To plot the asymmetry between the two histograms:
 
 .. code-block:: python
 
-    from plothist import compare_two_hist
+    from plothist import plot_two_hist_comparison
 
-    fig, ax_main, ax_comparison = compare_two_hist(
+    fig, ax_main, ax_comparison = plot_two_hist_comparison(
         h2,
         h3,
         xlabel=name,
