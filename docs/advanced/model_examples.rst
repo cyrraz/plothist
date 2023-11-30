@@ -158,7 +158,6 @@ An example with stacked histograms:
         stacked_components=background_hists,
         stacked_labels=background_categories_labels,
         stacked_colors=background_categories_colors,
-
         xlabel=key,
         ylabel="Entries",
     )

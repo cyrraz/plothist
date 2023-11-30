@@ -13,6 +13,7 @@ from .plotters import (
     savefig,
     plot_data_model_comparison,
     plot_model,
+    plot_function,
 )
 
 from .histogramming import (
@@ -69,6 +70,7 @@ __all__ = [
     "savefig",
     "plot_data_model_comparison",
     "plot_model",
+    "plot_function",
     "add_luminosity",
     "get_asymmetrical_uncertainties",
     "set_style",
