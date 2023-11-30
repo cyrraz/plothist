@@ -188,6 +188,11 @@ and stack them:
     fig.savefig("1d_fct_stacked.svg", bbox_inches='tight')
 
 
+.. image:: ../img/1d_fct_stacked.svg
+    :alt: Simple stacked function
+    :width: 500
+
+
 Any function from ``scipy.stats`` can also be used to plot a function using ``ax.plot()``.
 
 
