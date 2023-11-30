@@ -36,7 +36,7 @@ Automatic ylabel fontsize
     set_fitting_ylabel_fontsize(ax_main)
     ...
 
-.. image:: ../img/hep_examples_dataMC_pull_no_MC_stat_unc.svg
+.. image:: ../img/model_examples_pull_no_model_unc.svg
    :alt: Pull comparison
    :width: 500
 

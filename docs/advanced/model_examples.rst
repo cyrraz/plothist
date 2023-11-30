@@ -175,10 +175,10 @@ An example with stacked histograms:
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=200, preliminary=True)
 
-    fig.savefig("hep_examples_dataMC_stacked.svg", bbox_inches='tight')
+    fig.savefig("model_examples_stacked.svg", bbox_inches='tight')
 
 
-.. image:: ../img/hep_examples_dataMC_stacked.svg
+.. image:: ../img/model_examples_stacked.svg
    :alt: Data/model comparison, stacked plot
    :width: 500
 
@@ -199,7 +199,7 @@ Unstacked histogram:
         unstacked_colors=background_categories_colors,
         xlabel=key,
         ylabel="Entries",
-        model_sum_kwargs={"label":"Sum(MC)", "color": "navy"},
+        model_sum_kwargs={"label":"Sum(hists)", "color": "navy"},
         comparison_ylim=[0.5, 1.5],
     )
 
@@ -207,10 +207,10 @@ Unstacked histogram:
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
-    fig.savefig("hep_examples_dataMC_unstacked.svg", bbox_inches='tight')
+    fig.savefig("model_examples_unstacked.svg", bbox_inches='tight')
 
 
-.. image:: ../img/hep_examples_dataMC_unstacked.svg
+.. image:: ../img/model_examples_unstacked.svg
    :alt: Data/model comparison, stacked plot
    :width: 500
 
@@ -234,15 +234,15 @@ Stacked and unstacked histograms can be combined:
         unstacked_colors=background_categories_colors[2:],
         xlabel=key,
         ylabel="Entries",
-        model_sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
         comparison_ylim=(0.5, 1.5),
     )
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
-    fig.savefig("hep_examples_dataMC_stacked_unstacked.svg", bbox_inches='tight')
+    fig.savefig("model_examples_stacked_unstacked.svg", bbox_inches='tight')
 
-.. image:: ../img/hep_examples_dataMC_stacked_unstacked.svg
+.. image:: ../img/model_examples_stacked_unstacked.svg
    :alt: Data/model comparison, stacked and unstacked plot with histograms
    :width: 500
 
@@ -298,10 +298,10 @@ As said ealier, the comparison function can take any comparison method available
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi="(1 + 0.74)", lumi_unit="ab")
 
-    fig.savefig("hep_examples_dataMC_pull.svg", bbox_inches='tight')
+    fig.savefig("model_examples_pull.svg", bbox_inches='tight')
 
 
-.. image:: ../img/hep_examples_dataMC_pull.svg
+.. image:: ../img/model_examples_pull.svg
    :alt: Data/model comparison with pull, stacked plot
    :width: 500
 
@@ -324,10 +324,10 @@ Now, if you do not want to show and take into account the model uncertainties, s
     )
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=8.2, lumi_unit="zb", preliminary=True)
 
-    fig.savefig("hep_examples_dataMC_pull_no_MC_stat_unc.svg", bbox_inches='tight')
+    fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches='tight')
 
 
-.. image:: ../img/hep_examples_dataMC_pull_no_MC_stat_unc.svg
+.. image:: ../img/model_examples_pull_no_model_unc.svg
    :alt: Data/model comparison with pull, no model stat. unc., stacked plot
    :width: 500
 
@@ -398,10 +398,10 @@ Below is shown how to make a plot with all the possible comparisons between data
 
     axes[-1].set_xlabel(key)
 
-    fig.savefig("hep_all_comparisons.svg", bbox_inches="tight")
+    fig.savefig("model_all_comparisons.svg", bbox_inches="tight")
 
 
-.. image:: ../img/hep_all_comparisons.svg
+.. image:: ../img/model_all_comparisons.svg
    :alt: Data/model comparison with all comparisons, stacked plot
    :width: 500
 
@@ -477,11 +477,11 @@ Same example plot but we remove the statistical uncertainties of the model by ad
 
     axes[-1].set_xlabel(key)
 
-    fig.savefig("hep_all_comparisons_no_stat_MC_unc.svg", bbox_inches="tight")
+    fig.savefig("model_all_comparisons_no_model_unc.svg", bbox_inches="tight")
 
 
 
-.. image:: ../img/hep_all_comparisons_no_stat_MC_unc.svg
+.. image:: ../img/model_all_comparisons_no_model_unc.svg
    :alt: Data/model comparison with all comparisons, no model uncertainties, stacked plot
    :width: 500
 
@@ -567,11 +567,11 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 
     axes[-1].set_xlabel(key)
 
-    fig.savefig("hep_comparisons_ratio_options.svg", bbox_inches="tight")
+    fig.savefig("model_comparisons_ratio_options.svg", bbox_inches="tight")
 
 
 
-.. image:: ../img/hep_comparisons_ratio_options.svg
+.. image:: ../img/model_comparisons_ratio_options.svg
    :alt: Data/model comparison with all comparisons option for ratio
    :width: 500
 
@@ -654,10 +654,10 @@ Compare data and stacked histogram for a flatten 2D variable:
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
     ax_main.legend(ncol=3, fontsize=10, loc="upper left")
 
-    fig.savefig("hep_examples_dataMC_flatten2D.svg", bbox_inches='tight')
+    fig.savefig("model_examples_flatten2D.svg", bbox_inches='tight')
 
 
-.. image:: ../img/hep_examples_dataMC_flatten2D.svg
+.. image:: ../img/model_examples_flatten2D.svg
    :alt: Data/model comparison, flatten variable
    :width: 500
 

@@ -141,13 +141,13 @@ For the first example in :ref:`advanced-model_examples-label`:
 
 Default style:
 
-.. image:: ../img/hep_examples_dataMC_stacked.svg
+.. image:: ../img/model_examples_stacked.svg
    :alt: Default style
    :width: 500
 
 
 Small style:
 
-.. image:: ../img/hep_examples_dataMC_stacked_small.svg
+.. image:: ../img/model_examples_stacked_small.svg
    :alt: Small style
    :width: 500

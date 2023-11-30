@@ -13,7 +13,7 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
    :alt: Example
    :width: 320
 
-.. |img2| image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/hep_examples_dataMC_stacked.svg
+.. |img2| image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/model_examples_stacked.svg
    :alt: Example
    :width: 320
 
