@@ -15,7 +15,7 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
 Creating the data and model
 ===========================
 
-Below is the code that generates the data and model histograms used in all the examples below. The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of events over a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model to everything that is not our signal. We also show an example of how to scale the model to the data. We also define three functions that will be used as model components.
+Below is the code that generates the data and model histograms used in all the examples of this section. The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of events over a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model to everything that is not our signal. We also show an example of how to scale the model to the data. We also define three functions that will be used as model components.
 
 .. code-block:: python
 
@@ -131,7 +131,7 @@ Here is an example with a model above made of functions:
 
     add_luminosity(collaboration="Beast III", ax=ax, is_data=False)
 
-    fig.savefig("model_with_stacked_and_unstacked_function_component.svg", bbox_inches='tight')
+    fig.savefig("model_with_stacked_and_unstacked_function_components.svg", bbox_inches='tight')
 
 .. image:: ../img/model_with_stacked_and_unstacked_function_components.svg
    :alt: Plot of a model with stacked and unstacked function components
