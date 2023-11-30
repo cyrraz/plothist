@@ -15,7 +15,7 @@ from plothist.comparison import (
     _check_uncertainty_type,
     _is_unweighted,
 )
-from plothist.histogramming import _flatten_2d_hist, _make_hist_from_function
+from plothist.histogramming import _make_hist_from_function
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
@@ -488,7 +488,7 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ("ratio", "pull", "difference" or "relative_difference"). Default is "ratio".
+        The type of comparison to plot ("ratio", "pull", "difference", "relative_difference" or "asymmetry"). Default is "ratio".
     comparison_ylabel : str, optional
         The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
@@ -589,6 +589,12 @@ def plot_comparison(
     elif comparison == "difference":
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(f"${h1_label} - {h2_label}$")
+
+    elif comparison == "asymmetry":
+        if comparison_ylim is None:
+            comparison_ylim = (-1.0, 1.0)
+        ax.axhline(0, ls="--", lw=1.0, color="black")
+        ax.set_ylabel(rf"$\frac{{{h1_label} - {h2_label}}}{{{h1_label} + {h2_label}}}$")
 
     xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
     ax.set_xlim(xlim)
@@ -714,7 +720,8 @@ def plot_model(
     unstacked_kwargs_list=[],
     model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
     function_range=None,
-    flatten_2d_hist=False,
+    model_uncertainty=True,
+    model_uncertainty_label="Model stat. unc.",
     leg_ncol=1,
     fig=None,
     ax=None,
@@ -751,8 +758,10 @@ def plot_model(
         Default is {"show": True, "label": "Model", "color": "navy"}.
     function_range : tuple, optional (mandatory if the model is made of functions)
         The range for the x-axis if the model is made of functions.
-    flatten_2d_hist : bool, optional
-        If True, flatten 2D histograms to 1D before plotting. Default is False.
+    model_uncertainty : bool, optional
+        If False, set the model uncertainties to zeros. Default is True.
+    model_uncertainty_label : str, optional
+        The label for the model uncertainties. Default is "Model stat. unc.".
     leg_ncol : int, optional
         The number of columns for the legend. Default is 1.
     fig : matplotlib.figure.Figure or None, optional
@@ -779,12 +788,6 @@ def plot_model(
 
     if model_type == "histograms":
         _check_binning_consistency(components)
-        if flatten_2d_hist:
-            stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
-            unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
-            components = stacked_components + unstacked_components
-    elif flatten_2d_hist:
-        raise ValueError("Flattening is not supported for functions.")
 
     if fig is None and ax is None:
         fig, ax = plt.subplots()
@@ -814,6 +817,10 @@ def plot_model(
                 histtype="stepfilled",
                 **stacked_kwargs,
             )
+            if model_uncertainty and len(unstacked_components) == 0:
+                plot_hist_uncertainties(
+                    sum(stacked_components), ax=ax, label=model_uncertainty_label
+                )
         else:
             plot_function(
                 stacked_components,
@@ -862,7 +869,9 @@ def plot_model(
                     **unstacked_kwargs,
                 )
         # Plot the sum of all the components
-        if model_sum_kwargs.pop("show", True):
+        if model_sum_kwargs.pop("show", True) and (
+            len(unstacked_components) > 1 or len(stacked_components) > 0
+        ):
             if model_type == "histograms":
                 plot_hist(
                     sum(components),
@@ -870,6 +879,10 @@ def plot_model(
                     histtype="step",
                     **model_sum_kwargs,
                 )
+                if model_uncertainty:
+                    plot_hist_uncertainties(
+                        sum(components), ax=ax, label=model_uncertainty_label
+                    )
             else:
 
                 def sum_function(x):
@@ -881,6 +894,14 @@ def plot_model(
                     range=xlim,
                     **model_sum_kwargs,
                 )
+        elif (
+            model_uncertainty
+            and len(stacked_components) == 0
+            and len(unstacked_components) == 1
+        ):
+            plot_hist_uncertainties(
+                sum(components), ax=ax, label=model_uncertainty_label
+            )
 
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
@@ -905,7 +926,6 @@ def plot_data_model_comparison(
     stacked_kwargs={},
     unstacked_kwargs_list=[],
     model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
-    flatten_2d_hist=False,
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
     fig=None,
@@ -947,8 +967,6 @@ def plot_data_model_comparison(
         Has no effect if all the model components are stacked.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is {"show": True, "label": "Sum", "color": "navy"}.
-    flatten_2d_hist : bool, optional
-        If True, flatten 2D histograms to 1D before plotting. Default is False.
     model_uncertainty : bool, optional
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
@@ -990,13 +1008,6 @@ def plot_data_model_comparison(
 
     if model_type == "histograms":
         _check_binning_consistency(model_components + [data_hist])
-        if flatten_2d_hist:
-            data_hist = _flatten_2d_hist(data_hist)
-            stacked_components = [_flatten_2d_hist(h) for h in stacked_components]
-            unstacked_components = [_flatten_2d_hist(h) for h in unstacked_components]
-            model_components = stacked_components + unstacked_components
-    elif flatten_2d_hist:
-        raise ValueError("Flattening is not supported for functions.")
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -1017,7 +1028,8 @@ def plot_data_model_comparison(
         unstacked_kwargs_list=unstacked_kwargs_list,
         model_sum_kwargs=model_sum_kwargs,
         function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
-        flatten_2d_hist=False,  # Already done
+        model_uncertainty=model_uncertainty,
+        model_uncertainty_label=model_uncertainty_label,
         leg_ncol=1,
         fig=fig,
         ax=ax_main,
@@ -1043,11 +1055,7 @@ def plot_data_model_comparison(
 
     if model_type == "histograms":
         model_hist = sum(model_components)
-        if model_uncertainty:
-            plot_hist_uncertainties(
-                model_hist, ax=ax_main, label=model_uncertainty_label
-            )
-        else:
+        if not model_uncertainty:
             model_hist[:] = np.c_[
                 model_hist.values(), np.zeros_like(model_hist.values())
             ]

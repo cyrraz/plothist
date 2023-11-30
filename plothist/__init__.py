@@ -19,6 +19,7 @@ from .histogramming import (
     create_axis,
     make_hist,
     make_2d_hist,
+    flatten_2d_hist,
 )
 
 from .variable_registry import (
@@ -81,6 +82,7 @@ __all__ = [
     "get_difference",
     "get_ratio",
     "get_ratio_variances",
+    "flatten_2d_hist",
 ]
 
 
