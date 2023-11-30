@@ -198,8 +198,7 @@ def _make_hist_from_function(func, ref_hist):
     return hist
 
 
-def _flatten_2d_hist(hist):
-    # TODO: support other storages, generalise to N dimensions
+def flatten_2d_hist(hist):
     """
     Flatten a 2D histogram into a 1D histogram.
 
@@ -212,7 +211,14 @@ def _flatten_2d_hist(hist):
     -------
     Histogram object
         The flattened 1D histogram.
+
+    Raises
+    ------
+    ValueError
+        If the input histogram is not 2D.
     """
+    if len(hist.axes) != 2:
+        raise ValueError("The input histogram must be 2D.")
     n_bins = hist.axes[0].size * hist.axes[1].size
     flatten_hist = bh.Histogram(
         bh.axis.Regular(n_bins, 0, n_bins), storage=bh.storage.Weight()
