@@ -921,6 +921,37 @@ def compare_data_mc(
     return fig, ax_main, ax_comparison
 
 
+def _plot_legend(ax, model_type, stacked_labels=[]):
+    """
+    Plot the legend in a plot showing a model made of histograms or functions.
+    If the model is made of functions, revert the entries in the legend corresponding to the stacked components to match the top-bottom order of the components.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The axes containing the plot.
+    model_type : str
+        The type of the model ("histograms" or "functions").
+    stacked_labels : list
+        The list of labels for the stacked components.
+    """
+    if model_type == "functions":
+        if len(stacked_labels) > 0:
+            handles, labels = ax.get_legend_handles_labels()
+            if labels[0] == stacked_labels[0]:
+                # The legend starts with the stacked components. Revert those, keep the rest as is.
+                handles = (
+                    handles[: len(stacked_labels)][::-1]
+                    + handles[len(stacked_labels) :]
+                )
+                labels = (
+                    labels[: len(stacked_labels)][::-1] + labels[len(stacked_labels) :]
+                )
+                ax.legend(handles, labels)
+    else:
+        ax.legend()
+
+
 def plot_model(
     stacked_components=[],
     stacked_labels=None,
@@ -936,7 +967,6 @@ def plot_model(
     function_range=None,
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
-    leg_ncol=1,
     fig=None,
     ax=None,
 ):
@@ -976,8 +1006,6 @@ def plot_model(
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
         The label for the model uncertainties. Default is "Model stat. unc.".
-    leg_ncol : int, optional
-        The number of columns for the legend. Default is 1.
     fig : matplotlib.figure.Figure or None, optional
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
@@ -992,6 +1020,11 @@ def plot_model(
         The Axes object containing the plot.
 
     """
+
+    # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    stacked_kwargs = stacked_kwargs.copy()
+    unstacked_kwargs_list = unstacked_kwargs_list.copy()
+    model_sum_kwargs = model_sum_kwargs.copy()
 
     components = stacked_components + unstacked_components
 
@@ -1020,15 +1053,15 @@ def plot_model(
     if len(stacked_components) > 0:
         # Plot the stacked components
         if model_type == "histograms":
+            stacked_kwargs.setdefault("histtype", "stepfilled")
+            stacked_kwargs.setdefault("edgecolor", "black")
+            stacked_kwargs.setdefault("linewidth", 0.5)
             plot_hist(
                 stacked_components,
                 ax=ax,
                 stacked=True,
                 color=stacked_colors,
                 label=stacked_labels,
-                edgecolor="black",
-                linewidth=0.5,
-                histtype="stepfilled",
                 **stacked_kwargs,
             )
             if model_uncertainty and len(unstacked_components) == 0:
@@ -1036,14 +1069,14 @@ def plot_model(
                     sum(stacked_components), ax=ax, label=model_uncertainty_label
                 )
         else:
+            stacked_kwargs.setdefault("edgecolor", "black")
+            stacked_kwargs.setdefault("linewidth", 0.5)
             plot_function(
                 stacked_components,
                 ax=ax,
                 stacked=True,
                 colors=stacked_colors,
                 labels=stacked_labels,
-                edgecolor="black",
-                linewidth=0.5,
                 range=xlim,
                 **stacked_kwargs,
             )
@@ -1121,7 +1154,8 @@ def plot_model(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     set_fitting_ylabel_fontsize(ax)
-    ax.legend(ncol=leg_ncol)
+
+    _plot_legend(ax, model_type, stacked_labels)
 
     return fig, ax
 
@@ -1244,7 +1278,6 @@ def compare_data_model(
         function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
         model_uncertainty=model_uncertainty,
         model_uncertainty_label=model_uncertainty_label,
-        leg_ncol=1,
         fig=fig,
         ax=ax_main,
     )
@@ -1286,7 +1319,7 @@ def compare_data_model(
             rf"$\frac{{ {comparison_kwargs['h1_label']} - {comparison_kwargs['h2_label']} }}{{ \sigma_{{{comparison_kwargs['h1_label']}}} }} $",
         )
 
-    ax_main.legend()
+    _plot_legend(ax_main, model_type, stacked_labels)
 
     plot_comparison(
         data_hist,
