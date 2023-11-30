@@ -11,7 +11,6 @@ from .plotters import (
     plot_two_hist_comparison,
     plot_comparison,
     savefig,
-    plot_mc,
     plot_data_model_comparison,
     plot_model,
 )
@@ -67,7 +66,6 @@ __all__ = [
     "plot_two_hist_comparison",
     "plot_comparison",
     "savefig",
-    "plot_mc",
     "plot_data_model_comparison",
     "plot_model",
     "add_luminosity",
