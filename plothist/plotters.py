@@ -370,7 +370,7 @@ def plot_hist_uncertainties(hist, ax, **kwargs):
     )
 
 
-def compare_two_hist(
+def plot_two_hist_comparison(
     hist_1,
     hist_2,
     xlabel=None,
@@ -507,7 +507,7 @@ def plot_comparison(
 
     See Also
     --------
-    compare_two_hist : Compare two histograms and plot the comparison.
+    plot_two_hist_comparison : Compare two histograms and plot the comparison.
 
     """
 
@@ -705,220 +705,6 @@ def _get_model_type(components):
         return "functions"
     else:
         raise ValueError("All model components must be either histograms or functions.")
-
-
-def plot_mc(
-    mc_hist_list,
-    signal_hist=None,
-    xlabel=None,
-    ylabel=None,
-    mc_labels=None,
-    mc_colors=None,
-    signal_label="Signal",
-    signal_color="red",
-    fig=None,
-    ax=None,
-    stacked=True,
-    leg_ncol=1,
-):
-    """
-    Plot MC simulation histograms.
-
-    Parameters
-    ----------
-    mc_hist_list : list of boost_histogram.Histogram
-        The list of histograms for MC simulations.
-    signal_hist : boost_histogram.Histogram, optional
-        The histogram for the signal. Default is None.
-    xlabel : str, optional
-        The label for the x-axis. Default is None.
-    ylabel : str, optional
-        The label for the y-axis. Default is None.
-    mc_labels : list of str, optional
-        The labels for the MC simulations. Default is None.
-    mc_colors : list of str, optional
-        The colors for the MC simulations. Default is None.
-    signal_label : str, optional
-        The label for the signal. Default is "Signal".
-    signal_color : str, optional
-        The color for the signal. Default is "red".
-    fig : matplotlib.figure.Figure or None, optional
-        The Figure object to use for the plot. Create a new one if none is provided.
-    ax : matplotlib.axes.Axes or None, optional
-        The Axes object to use for the plot. Create a new one if none is provided.
-    stacked : bool, optional
-        If True, stack the MC histograms. If False, plot them side by side. Default is True.
-    leg_ncol : int, optional
-        The number of columns for the legend. Default is 1.
-
-    Returns
-    -------
-    fig : matplotlib.figure.Figure
-        The Figure object containing the plot.
-    ax : matplotlib.axes.Axes
-        The Axes object containing the plot.
-
-    """
-
-    _check_binning_consistency(
-        mc_hist_list + ([signal_hist] if signal_hist is not None else [])
-    )
-
-    if stacked:
-        model = {
-            "stacked_components": mc_hist_list,
-            "stacked_labels": mc_labels,
-            "stacked_colors": mc_colors,
-        }
-    else:
-        model = {
-            "unstacked_components": mc_hist_list,
-            "unstacked_labels": mc_labels,
-            "unstacked_colors": mc_colors,
-        }
-
-    fig, ax = plot_model(
-        **model,
-        sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
-        xlabel=xlabel,
-        ylabel=ylabel,
-        leg_ncol=leg_ncol,
-        fig=fig,
-        ax=ax,
-    )
-
-    if signal_hist is not None:
-        plot_hist(
-            signal_hist,
-            ax=ax,
-            stacked=False,
-            color=signal_color,
-            label=signal_label,
-            histtype="step",
-        )
-
-    return fig, ax
-
-
-def compare_data_mc(
-    data_hist,
-    mc_hist_list,
-    signal_hist=None,
-    xlabel=None,
-    ylabel=None,
-    mc_labels=None,
-    mc_colors=None,
-    signal_label="Signal",
-    signal_color="red",
-    data_label="Data",
-    stacked=True,
-    mc_uncertainty=True,
-    mc_uncertainty_label="MC stat. unc.",
-    fig=None,
-    ax_main=None,
-    ax_comparison=None,
-    **comparison_kwargs,
-):
-    """
-    Compare data to MC simulations. The data uncertainties are computed using the Poisson confidence interval.
-
-    Parameters
-    ----------
-    data_hist : boost_histogram.Histogram
-        The histogram for the data.
-    mc_hist_list : list of boost_histogram.Histogram
-        The list of histograms for MC simulations.
-    signal_hist : boost_histogram.Histogram, optional
-        The histogram for the signal. Default is None.
-    xlabel : str, optional
-        The label for the x-axis. Default is None.
-    ylabel : str, optional
-        The label for the y-axis. Default is None.
-    mc_labels : list of str, optional
-        The labels for the MC simulations. Default is None.
-    mc_colors : list of str, optional
-        The colors for the MC simulations. Default is None.
-    signal_label : str, optional
-        The label for the signal. Default is "Signal".
-    signal_color : str, optional
-        The color for the signal. Default is "red".
-    data_label : str, optional
-        The label for the data. Default is "Data".
-    stacked : bool, optional
-        If True, stack the MC histograms. If False, plot them side by side. Default is True.
-    mc_uncertainty : bool, optional
-        If False, set the MC uncertainties to zeros. Useful for post-fit histograms. Default is True.
-    mc_uncertainty_label : str, optional
-        The label for the MC uncertainties. Default is "MC stat. unc.".
-    fig : matplotlib.figure.Figure or None, optional
-        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
-    ax_main : matplotlib.axes.Axes or None, optional
-        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    ax_comparison : matplotlib.axes.Axes or None, optional
-        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
-
-    Returns
-    -------
-    fig : matplotlib.figure.Figure
-        The Figure object containing the plots.
-    ax_main : matplotlib.axes.Axes
-        The Axes object for the main plot.
-    ax_comparison : matplotlib.axes.Axes
-        The Axes object for the comparison plot.
-
-    See Also
-    --------
-    plot_comparison : Plot the comparison between data and MC simulations.
-
-    """
-
-    _check_binning_consistency(
-        mc_hist_list + [data_hist] + ([signal_hist] if signal_hist is not None else [])
-    )
-
-    if stacked:
-        model = {
-            "stacked_components": mc_hist_list,
-            "stacked_labels": mc_labels,
-            "stacked_colors": mc_colors,
-        }
-    else:
-        model = {
-            "unstacked_components": mc_hist_list,
-            "unstacked_labels": mc_labels,
-            "unstacked_colors": mc_colors,
-        }
-
-    fig, ax_main, ax_comparison = compare_data_model(
-        data_hist,
-        **model,
-        xlabel=xlabel,
-        ylabel=ylabel,
-        data_label=data_label,
-        model_sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
-        model_uncertainty=mc_uncertainty,
-        model_uncertainty_label=mc_uncertainty_label,
-        fig=fig,
-        ax_main=ax_main,
-        ax_comparison=ax_comparison,
-        **comparison_kwargs,
-    )
-
-    if signal_hist is not None:
-        plot_hist(
-            signal_hist,
-            ax=ax_main,
-            stacked=False,
-            color=signal_color,
-            label=signal_label,
-            histtype="step",
-        )
-
-    ax_main.legend()
-
-    return fig, ax_main, ax_comparison
 
 
 def _plot_legend(ax, model_type, stacked_labels=[]):
@@ -1160,7 +946,7 @@ def plot_model(
     return fig, ax
 
 
-def compare_data_model(
+def plot_data_model_comparison(
     data_hist,
     stacked_components=[],
     stacked_labels=None,
@@ -1239,7 +1025,7 @@ def compare_data_model(
 
     See Also
     --------
-    plot_comparison : Plot the comparison between data and MC simulations.
+    plot_comparison : Plot the comparison between data and a model.
 
     """
     comparison_kwargs.setdefault("h1_label", data_label)
