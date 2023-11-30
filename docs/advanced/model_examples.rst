@@ -1,8 +1,8 @@
 .. _advanced-model_examples-label:
 
-=========================
-Model comparison examples
-=========================
+========================
+Plotting models and data
+========================
 
 The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
 
@@ -12,19 +12,14 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
     df = generate_dummy_data()
 
 
-Compare data and model
-======================
+Creating the data and model
+===========================
 
-
-Stacked histograms
-------------------
-
-To make simple data/model comparison with different model categories:
+Below is the code that generates the data and model histograms used in all the examples below. The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of events over a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model to everything that is not our signal. We also show an example of how to scale the model to the data. We also define three functions that will be used as model components.
 
 .. code-block:: python
 
-    from plothist import make_hist
-    from plothist import get_color_palette
+    from plothist import make_hist, get_color_palette
 
     # Define the histograms
 
@@ -43,7 +38,6 @@ To make simple data/model comparison with different model categories:
     background_masks = [df[category] == p for p in background_categories]
 
     # Make histograms
-
     data_hist = make_hist(df[key][data_mask], bins=50, range=range, weights=1)
     background_hists = [
         make_hist(df[key][mask], bins=50, range=range, weights=1)
@@ -58,7 +52,102 @@ To make simple data/model comparison with different model categories:
     signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
     signal_hist *= signal_scaling_factor
 
-Then, to create stacked histogram:
+
+    from scipy.stats import norm
+
+    # Define some random functions that will be used as model components with functions
+    def f_signal(x):
+        return 1000*norm.pdf(x, loc=0.5, scale=3)
+    def f_background1(x):
+        return 1000*norm.pdf(x, loc=-1.5, scale=4)
+    def f_background2(x):
+        return 3000*norm.pdf(x, loc=-1.8, scale=1.8)
+
+
+
+Simple model plots
+==================
+
+If you want to plot only the model, use ``plot_model()``. It supports models made of functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
+
+It can take a lot more arguments to customize the plot than shown in the examples below, see the documentation for more details.
+
+Histograms
+----------
+
+Here is an example with a model above made of histograms:
+
+.. code-block:: python
+
+    from plothist import plot_model, add_luminosity, add_text
+
+    fig, ax = plot_model(
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        unstacked_components=[signal_hist],
+        unstacked_labels=["Signal"],
+        unstacked_colors=["black"],
+        unstacked_kwargs_list=[{"linestyle": "dotted"}],
+        xlabel=key,
+        ylabel="Entries",
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+        model_uncertainty_label="Stat. unc.",
+    )
+
+    add_text("Model made of histograms", ax=ax)
+
+    add_luminosity(collaboration="Beast III", ax=ax, preliminary=True, is_data=False)
+
+    fig.savefig("model_with_stacked_and_unstacked_histograms_components.svg", bbox_inches='tight')
+
+.. image:: ../img/model_with_stacked_and_unstacked_histograms_components.svg
+   :alt: Plot of a model with stacked and unstacked histograms components
+   :width: 500
+
+
+Functions
+---------
+
+Here is an example with a model above made of functions:
+
+.. code-block:: python
+
+    from plothist import plot_model, add_luminosity, add_text
+
+    fig, ax = plot_model(
+        stacked_components=[f_background1, f_background2],
+        stacked_labels=background_categories_labels[:2],
+        unstacked_components=[f_signal],
+        unstacked_labels=["Signal"],
+        unstacked_colors=["black"],
+        xlabel=key,
+        ylabel=f"f({key})",
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+        function_range=[-9,12],
+    )
+
+    add_text("Model made of functions", ax=ax)
+
+    add_luminosity(collaboration="Beast III", ax=ax, is_data=False)
+
+    fig.savefig("model_with_stacked_and_unstacked_function_component.svg", bbox_inches='tight')
+
+.. image:: ../img/model_with_stacked_and_unstacked_function_components.svg
+   :alt: Plot of a model with stacked and unstacked function components
+   :width: 500
+
+
+
+Compare data and model
+======================
+
+A data histogram can be added to the plot with ``plot_data_model_comparison()``. It will then compare the sum of the components to the data, witht the comparison of your choice. The default comparison is the ratio between the model and the data. It can take any comparison method available in ``plot_comparison()``. If the events are unweighted, data uncertainties will always be asymmetrical.
+
+Stacked histograms
+------------------
+
+An example with stacked histograms:
 
 .. code-block:: python
 
@@ -66,14 +155,15 @@ Then, to create stacked histogram:
 
     fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        stacked_components= background_hists,
-        stacked_labels= background_categories_labels,
-        stacked_colors= background_categories_colors,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+
         xlabel=key,
         ylabel="Entries",
-        model_uncertainty_label="MC stat. unc.",
     )
 
+    # Signal histogram not part of the model and therefore not included in the comparison
     plot_hist(
         signal_hist,
         ax=ax_main,
@@ -97,7 +187,7 @@ Then, to create stacked histogram:
 Unstacked histograms
 --------------------
 
-or unstacked histogram:
+Unstacked histogram:
 
 .. code-block:: python
 
@@ -105,12 +195,11 @@ or unstacked histogram:
 
     fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        unstacked_components= background_hists,
-        unstacked_labels= background_categories_labels,
-        unstacked_colors= background_categories_colors,
+        unstacked_components=background_hists,
+        unstacked_labels=background_categories_labels,
+        unstacked_colors=background_categories_colors,
         xlabel=key,
         ylabel="Entries",
-        model_uncertainty_label="MC stat. unc.",
         model_sum_kwargs={"label":"Sum(MC)", "color": "navy"},
         comparison_ylim=[0.5, 1.5],
     )
@@ -149,6 +238,7 @@ Stacked and unstacked histograms can be combined:
         model_sum_kwargs={"show": True, "label": "Sum(MC)", "color": "navy"},
         comparison_ylim=(0.5, 1.5),
     )
+
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
     fig.savefig("hep_examples_dataMC_stacked_unstacked.svg", bbox_inches='tight')
@@ -160,41 +250,6 @@ Stacked and unstacked histograms can be combined:
 Models made of functions
 ------------------------
 
-If you want to plot only the model, use ``plot_model()``. It supports models made of functions or histograms.
-Here is an example with a model above made of functions:
-
-.. code-block:: python
-
-    from plothist import plot_model, add_luminosity
-    from scipy.stats import norm
-
-    def f0(x):
-        return 1000*norm.pdf(x, loc=-2, scale=4)
-    def f1(x):
-        return 3000*norm.pdf(x, loc=-2, scale=2)
-    def f2(x):
-        return 1000*norm.pdf(x, loc=2, scale=3)
-
-    fig, ax = plot_model(
-        stacked_components=[f0, f1],
-        stacked_labels=["f0", "f1"],
-        stacked_colors=background_categories_colors[:2],
-        unstacked_components=[f2],
-        unstacked_labels=["f2"],
-        unstacked_colors=background_categories_colors[2:],
-        xlabel=key,
-        ylabel=f"f({key})",
-        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
-        function_range=[-9,12],
-    )
-    add_luminosity(collaboration="Beast III", ax=ax, is_data=False)
-
-    fig.savefig("model_with_stacked_and_unstacked_function_component.svg", bbox_inches='tight')
-
-.. image:: ../img/model_with_stacked_and_unstacked_function_components.svg
-   :alt: Plot of a model with stacked and unstacked function components
-   :width: 500
-
 The function ``plot_data_model_comparison()`` can also be used to compare data and functions:
 
 .. code-block:: python
@@ -203,17 +258,17 @@ The function ``plot_data_model_comparison()`` can also be used to compare data a
 
     fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
-        stacked_components=[f0, f1],
-        stacked_labels=["f0", "f1"],
-        stacked_colors=background_categories_colors[:2],
-        unstacked_components=[f2],
-        unstacked_labels=["f2"],
-        unstacked_colors=background_categories_colors[2:],
+        stacked_components=[f_background1, f_background2],
+        stacked_labels=["c0", "c1"],
+        unstacked_components=[f_signal],
+        unstacked_labels=["Signal"],
+        unstacked_colors=["#8EBA42"],
         xlabel=key,
         ylabel="Entries",
         model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
         comparison="pull"
     )
+
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
     fig.savefig("ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg", bbox_inches='tight')
@@ -222,11 +277,11 @@ The function ``plot_data_model_comparison()`` can also be used to compare data a
    :alt: Data/Model comparison, model with stacked and unstacked function components
    :width: 500
 
-Pull comparison
----------------
 
-To use pulls instead of the ratio to compare the histograms:
+Model uncertainty
+-----------------
 
+As said ealier, the comparison function can take any comparison method available in ``plot_comparison()``. To use pulls instead of the ratio to compare the histograms:
 
 .. code-block:: python
 
@@ -240,7 +295,6 @@ To use pulls instead of the ratio to compare the histograms:
         xlabel=f"${key}\,\,[TeV/c^2]$",
         ylabel="Candidates per 0.42 $TeV/c^2$",
         comparison="pull",
-        model_uncertainty_label="MC stat. unc.",
     )
 
     add_luminosity(collaboration="Beast III", ax=ax_main, lumi="(1 + 0.74)", lumi_unit="ab")
@@ -253,8 +307,7 @@ To use pulls instead of the ratio to compare the histograms:
    :width: 500
 
 
-
-If you do not want to show and take into account the model uncertainties, setting ``model_uncertainty`` to ``False`` updates the definition of the pulls:
+Now, if you do not want to show and take into account the model uncertainties, setting ``model_uncertainty`` to ``False`` remove them and updates the definition of the pulls:
 
 .. code-block:: python
 
@@ -281,10 +334,16 @@ If you do not want to show and take into account the model uncertainties, settin
 
 
 
-Other comparisons
------------------
+Comparison overview
+===================
 
-Example plot with all available comparisons between model and data, using the same histograms as above:
+Here are a series of examples showing complex plots resuming all the possible comparisons between data and model. The idea is to show how to use ``plot_comparison()`` and ``plot_data_model_comparison()`` to make the plots shown in the examples below. The plots are a bit more complex than the ones shown above, but the code to produce them is still quite simple.
+
+
+All the different comparisons
+-----------------------------
+
+Below is shown how to make a plot with all the possible comparisons between data and model. The idea is to use ``plot_data_model_comparison()`` to make the plot with the ratio comparison, and then use ``plot_comparison()`` to add the other comparisons. The ``plot_comparison()`` function can take a ``fig`` and ``ax`` argument to add the comparison to an existing figure. The ``plot_data_model_comparison()`` function returns the figure and axes used to make the plot, so we can use them to add the other comparisons.
 
 .. code-block:: python
 
@@ -312,22 +371,11 @@ Example plot with all available comparisons between model and data, using the sa
             stacked_colors=background_categories_colors,
             xlabel="",
             ylabel="Entries",
-            model_uncertainty_label="MC stat. unc.",
             comparison="ratio",
             fig=fig,
             ax_main=axes[0],
             ax_comparison=axes[1],
         )
-
-    plot_hist(
-        signal_hist,
-        ax=axes[0],
-        color="red",
-        label="Signal",
-        histtype="step",
-    )
-
-    axes[0].legend()
 
     add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
@@ -358,6 +406,9 @@ Example plot with all available comparisons between model and data, using the sa
    :alt: Data/model comparison with all comparisons, stacked plot
    :width: 500
 
+
+No model uncertainties
+----------------------
 
 
 Same example plot but we remove the statistical uncertainties of the model by adding ``model_uncertainty=False`` in ``plot_data_model_comparison()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
@@ -395,16 +446,6 @@ Same example plot but we remove the statistical uncertainties of the model by ad
             ax_main=axes[0],
             ax_comparison=axes[1],
         )
-
-    plot_hist(
-        signal_hist,
-        ax=axes[0],
-        color="red",
-        label="Signal",
-        histtype="step",
-    )
-
-    axes[0].legend()
 
     add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
@@ -446,6 +487,8 @@ Same example plot but we remove the statistical uncertainties of the model by ad
    :width: 500
 
 
+Ratio options
+-------------
 
 For ``ratio`` or ``relative_difference``, the uncertainties can be split between model and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty="uncorrelated"``). Here are all the possible options:
 
@@ -479,21 +522,10 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
             ylabel="Entries",
             comparison="ratio",
             ratio_uncertainty="split",
-            model_uncertainty_label="MC stat. unc.",
             fig=fig,
             ax_main=axes[0],
             ax_comparison=axes[1],
         )
-
-    plot_hist(
-        signal_hist,
-        ax=axes[0],
-        color="red",
-        label="Signal",
-        histtype="step",
-    )
-
-    axes[0].legend()
 
     add_text(
         f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="split", model_uncertainty = True',
@@ -543,8 +575,6 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 .. image:: ../img/hep_comparisons_ratio_options.svg
    :alt: Data/model comparison with all comparisons option for ratio
    :width: 500
-
-
 
 
 Advanced
@@ -612,7 +642,6 @@ Compare data and stacked histogram for a flatten 2D variable:
         stacked_colors=background_categories_colors,
         xlabel=rf"({key1} $\times$ {key2}) bin",
         ylabel="Entries",
-        model_uncertainty_label="MC stat. unc."
     )
 
     plot_hist(

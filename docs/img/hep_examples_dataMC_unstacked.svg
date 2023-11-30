@@ -2253,17 +2253,17 @@ z
    </g>
    <g id="legend_1">
     <g id="patch_61">
-     <path d="M 281.63375 41.902884 
-L 305.63375 41.902884 
-L 305.63375 33.502884 
-L 281.63375 33.502884 
-L 281.63375 41.902884 
+     <path d="M 268.9625 41.902884 
+L 292.9625 41.902884 
+L 292.9625 33.502884 
+L 268.9625 33.502884 
+L 268.9625 41.902884 
 z
 " style="fill: none; stroke: #3d4c74; stroke-linejoin: miter"/>
     </g>
     <g id="text_8">
      <!-- c0 -->
-     <g style="fill: #1a1a1a" transform="translate(315.23375 41.902884) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(302.5625 41.902884) scale(0.12 -0.12)">
       <defs>
        <path id="LatinModernMath-Regular-63" d="M 2656 762 
 C 2656 826 2592 826 2573 826 
@@ -2287,49 +2287,49 @@ z
      </g>
     </g>
     <g id="patch_62">
-     <path d="M 281.63375 58.631634 
-L 305.63375 58.631634 
-L 305.63375 50.231634 
-L 281.63375 50.231634 
-L 281.63375 58.631634 
+     <path d="M 268.9625 58.631634 
+L 292.9625 58.631634 
+L 292.9625 50.231634 
+L 268.9625 50.231634 
+L 268.9625 58.631634 
 z
 " style="fill: none; stroke: #b67b76; stroke-linejoin: miter"/>
     </g>
     <g id="text_9">
      <!-- c1 -->
-     <g style="fill: #1a1a1a" transform="translate(315.23375 58.631634) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(302.5625 58.631634) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-63"/>
       <use xlink:href="#LatinModernMath-Regular-31" x="44.399994"/>
      </g>
     </g>
     <g id="patch_63">
-     <path d="M 281.63375 75.360384 
-L 305.63375 75.360384 
-L 305.63375 66.960384 
-L 281.63375 66.960384 
-L 281.63375 75.360384 
+     <path d="M 268.9625 75.360384 
+L 292.9625 75.360384 
+L 292.9625 66.960384 
+L 268.9625 66.960384 
+L 268.9625 75.360384 
 z
 " style="fill: none; stroke: #b1dcc2; stroke-linejoin: miter"/>
     </g>
     <g id="text_10">
      <!-- c2 -->
-     <g style="fill: #1a1a1a" transform="translate(315.23375 75.360384) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(302.5625 75.360384) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-63"/>
       <use xlink:href="#LatinModernMath-Regular-32" x="44.399994"/>
      </g>
     </g>
     <g id="patch_64">
-     <path d="M 281.63375 92.664759 
-L 305.63375 92.664759 
-L 305.63375 84.264759 
-L 281.63375 84.264759 
-L 281.63375 92.664759 
+     <path d="M 268.9625 92.664759 
+L 292.9625 92.664759 
+L 292.9625 84.264759 
+L 268.9625 84.264759 
+L 268.9625 92.664759 
 z
 " style="fill: none; stroke: #000080; stroke-linejoin: miter"/>
     </g>
     <g id="text_11">
      <!-- Sum(MC) -->
-     <g style="fill: #1a1a1a" transform="translate(315.23375 92.664759) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(302.5625 92.664759) scale(0.12 -0.12)">
       <defs>
        <path id="LatinModernMath-Regular-53" d="M 3194 1190 
 C 3194 1830 2771 2355 2234 2483 
@@ -2522,17 +2522,75 @@ z
      </g>
     </g>
     <g id="patch_65">
-     <path d="M 281.63375 110.040384 
-L 305.63375 110.040384 
-L 305.63375 101.640384 
-L 281.63375 101.640384 
+     <path d="M 268.9625 110.040384 
+L 292.9625 110.040384 
+L 292.9625 101.640384 
+L 268.9625 101.640384 
 z
 " style="fill: url(#hcddca885b2)"/>
     </g>
     <g id="text_12">
-     <!-- MC stat. unc. -->
-     <g style="fill: #1a1a1a" transform="translate(315.23375 110.040384) scale(0.12 -0.12)">
+     <!-- Model stat. unc. -->
+     <g style="fill: #1a1a1a" transform="translate(302.5625 110.040384) scale(0.12 -0.12)">
       <defs>
+       <path id="LatinModernMath-Regular-6f" d="M 3014 1370 
+C 3014 2189 2374 2867 1600 2867 
+C 800 2867 179 2170 179 1370 
+C 179 544 845 -70 1594 -70 
+C 2368 -70 3014 557 3014 1370 
+z
+M 2483 1421 
+C 2483 1190 2483 845 2342 563 
+C 2202 275 1920 90 1600 90 
+C 1325 90 1043 224 870 518 
+C 710 800 710 1190 710 1421 
+C 710 1670 710 2016 864 2298 
+C 1037 2592 1338 2726 1594 2726 
+C 1875 2726 2150 2586 2317 2310 
+C 2483 2035 2483 1664 2483 1421 
+z
+" transform="scale(0.015625)"/>
+       <path id="LatinModernMath-Regular-64" d="M 3373 0 
+L 3373 198 
+C 2925 198 2874 243 2874 557 
+L 2874 4442 
+L 1952 4371 
+L 1952 4173 
+C 2400 4173 2451 4128 2451 3814 
+L 2451 2432 
+C 2266 2662 1990 2829 1645 2829 
+C 890 2829 218 2202 218 1376 
+C 218 563 845 -70 1574 -70 
+C 1984 -70 2272 147 2432 352 
+L 2432 -70 
+L 3373 0 
+z
+M 2432 755 
+C 2432 640 2432 627 2362 518 
+C 2170 211 1882 70 1606 70 
+C 1318 70 1088 237 934 480 
+C 768 742 749 1107 749 1370 
+C 749 1606 762 1990 947 2278 
+C 1082 2477 1325 2688 1670 2688 
+C 1894 2688 2163 2592 2362 2304 
+C 2432 2195 2432 2182 2432 2067 
+L 2432 755 
+z
+" transform="scale(0.015625)"/>
+       <path id="LatinModernMath-Regular-6c" d="M 1632 0 
+L 1632 198 
+C 1203 198 1133 198 1133 486 
+L 1133 4442 
+L 211 4371 
+L 211 4173 
+C 659 4173 710 4128 710 3814 
+L 710 486 
+C 710 198 640 198 211 198 
+L 211 0 
+L 922 19 
+L 1632 0 
+z
+" transform="scale(0.015625)"/>
        <path id="LatinModernMath-Regular-61" d="M 3091 570 
 L 3091 928 
 L 2931 928 
@@ -2572,34 +2630,37 @@ z
 " transform="scale(0.015625)"/>
       </defs>
       <use xlink:href="#LatinModernMath-Regular-4d"/>
-      <use xlink:href="#LatinModernMath-Regular-43" x="91.699982"/>
-      <use xlink:href="#LatinModernMath-Regular-20" x="163.899963"/>
-      <use xlink:href="#LatinModernMath-Regular-73" x="197.09996"/>
-      <use xlink:href="#LatinModernMath-Regular-74" x="236.499954"/>
-      <use xlink:href="#LatinModernMath-Regular-61" x="275.399948"/>
-      <use xlink:href="#LatinModernMath-Regular-74" x="325.399933"/>
-      <use xlink:href="#LatinModernMath-Regular-2e" x="364.299927"/>
-      <use xlink:href="#LatinModernMath-Regular-20" x="392.099915"/>
-      <use xlink:href="#LatinModernMath-Regular-75" x="425.299911"/>
-      <use xlink:href="#LatinModernMath-Regular-6e" x="480.899902"/>
-      <use xlink:href="#LatinModernMath-Regular-63" x="536.499893"/>
-      <use xlink:href="#LatinModernMath-Regular-2e" x="580.899887"/>
+      <use xlink:href="#LatinModernMath-Regular-6f" x="91.699982"/>
+      <use xlink:href="#LatinModernMath-Regular-64" x="141.699966"/>
+      <use xlink:href="#LatinModernMath-Regular-65" x="197.299957"/>
+      <use xlink:href="#LatinModernMath-Regular-6c" x="241.699951"/>
+      <use xlink:href="#LatinModernMath-Regular-20" x="269.499939"/>
+      <use xlink:href="#LatinModernMath-Regular-73" x="302.699936"/>
+      <use xlink:href="#LatinModernMath-Regular-74" x="342.09993"/>
+      <use xlink:href="#LatinModernMath-Regular-61" x="380.999924"/>
+      <use xlink:href="#LatinModernMath-Regular-74" x="430.999908"/>
+      <use xlink:href="#LatinModernMath-Regular-2e" x="469.899902"/>
+      <use xlink:href="#LatinModernMath-Regular-20" x="497.69989"/>
+      <use xlink:href="#LatinModernMath-Regular-75" x="530.899887"/>
+      <use xlink:href="#LatinModernMath-Regular-6e" x="586.499878"/>
+      <use xlink:href="#LatinModernMath-Regular-63" x="642.099869"/>
+      <use xlink:href="#LatinModernMath-Regular-2e" x="686.499863"/>
      </g>
     </g>
     <g id="LineCollection_2">
-     <path d="M 293.63375 128.569134 
-L 293.63375 116.569134 
+     <path d="M 280.9625 128.569134 
+L 280.9625 116.569134 
 " style="fill: none; stroke: #000000; stroke-width: 1.5"/>
     </g>
     <g id="line2d_44"/>
     <g id="line2d_45">
      <g>
-      <use xlink:href="#meae5c0c399" x="293.63375" y="122.569134" style="stroke: #000000"/>
+      <use xlink:href="#meae5c0c399" x="280.9625" y="122.569134" style="stroke: #000000"/>
      </g>
     </g>
     <g id="text_13">
      <!-- Data -->
-     <g style="fill: #1a1a1a" transform="translate(315.23375 126.769134) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(302.5625 126.769134) scale(0.12 -0.12)">
       <defs>
        <path id="LatinModernMath-Regular-44" d="M 4525 2150 
 C 4525 3366 3661 4371 2566 4371 
@@ -3466,20 +3527,6 @@ L 2662 2131
 C 2720 2278 2829 2554 3251 2560 
 z
 " transform="scale(0.015625)"/>
-       <path id="LatinModernMath-Regular-6c" d="M 1632 0 
-L 1632 198 
-C 1203 198 1133 198 1133 486 
-L 1133 4442 
-L 211 4371 
-L 211 4173 
-C 659 4173 710 4128 710 3814 
-L 710 486 
-C 710 198 640 198 211 198 
-L 211 0 
-L 922 19 
-L 1632 0 
-z
-" transform="scale(0.015625)"/>
        <path id="LatinModernMath-Regular-5f" d="M 2131 -896 
 L 2131 -640 
 L 0 -640 
@@ -3633,33 +3680,6 @@ L 1434 3917
 C 1434 4128 1446 4173 1747 4173 
 L 2317 4173 
 C 3334 4173 3334 3494 3334 3181 
-z
-" transform="scale(0.015625)"/>
-       <path id="LatinModernMath-Regular-64" d="M 3373 0 
-L 3373 198 
-C 2925 198 2874 243 2874 557 
-L 2874 4442 
-L 1952 4371 
-L 1952 4173 
-C 2400 4173 2451 4128 2451 3814 
-L 2451 2432 
-C 2266 2662 1990 2829 1645 2829 
-C 890 2829 218 2202 218 1376 
-C 218 563 845 -70 1574 -70 
-C 1984 -70 2272 147 2432 352 
-L 2432 -70 
-L 3373 0 
-z
-M 2432 755 
-C 2432 640 2432 627 2362 518 
-C 2170 211 1882 70 1606 70 
-C 1318 70 1088 237 934 480 
-C 768 742 749 1107 749 1370 
-C 749 1606 762 1990 947 2278 
-C 1082 2477 1325 2688 1670 2688 
-C 1894 2688 2163 2592 2362 2304 
-C 2432 2195 2432 2182 2432 2067 
-L 2432 755 
 z
 " transform="scale(0.015625)"/>
       </defs>
