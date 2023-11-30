@@ -1,8 +1,8 @@
 .. _advanced-model_examples-label:
 
-========================
-Plotting models and data
-========================
+=======================
+Plotting model and data
+=======================
 
 The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
 
@@ -75,7 +75,7 @@ It can take a lot more arguments to customize the plot than shown in the example
 Histograms
 ----------
 
-Here is an example with a model above made of histograms:
+Here is an example with a model made of histograms:
 
 .. code-block:: python
 
@@ -109,7 +109,7 @@ Here is an example with a model above made of histograms:
 Functions
 ---------
 
-Here is an example with a model above made of functions:
+Here is an example with a model made of functions:
 
 .. code-block:: python
 
