@@ -233,6 +233,41 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty="symmetrical"):
     )
 
 
+def get_asymmetry(hist_1, hist_2):
+    """
+    Get the asymmetry between two histograms hist_1 and hist_2, defined as (hist_1 - hist_2) / (hist_1 + hist_2).
+    Only symmetrical uncertainties are supported.
+
+    Parameters
+    ----------
+    hist_1 : boost_histogram.Histogram
+        The first histogram.
+    hist_2 : boost_histogram.Histogram
+        The second histogram.
+    Returns
+    -------
+    comparison_values : numpy.ndarray
+        The asymmetry values.
+    comparison_uncertainties_low : numpy.ndarray
+        The lower uncertainties on the asymmetry.
+    comparison_uncertainties_high : numpy.ndarray
+        The upper uncertainties on the asymmetry.
+    """
+    _check_binning_consistency([hist_1, hist_2])
+
+    hist_sum = hist_1 + hist_2
+    hist_diff = hist_1 + (-1 * hist_2)
+    comparison_values = np.where(
+        hist_sum.values() != 0, hist_diff.values() / hist_sum.values(), np.nan
+    )
+    comparison_variances = get_ratio_variances(hist_diff, hist_sum)
+    return (
+        comparison_values,
+        np.sqrt(comparison_variances),
+        np.sqrt(comparison_variances),
+    )
+
+
 def get_ratio(
     hist_1, hist_2, ratio_uncertainty="uncorrelated", hist_1_uncertainty="symmetrical"
 ):
@@ -322,7 +357,7 @@ def get_comparison(
     hist_2 : boost_histogram.Histogram
         The second histogram for comparison.
     comparison : str
-        The type of comparison ("ratio", "pull", "difference" or "relative_difference").
+        The type of comparison ("ratio", "pull", "difference", "relative_difference" or "asymmetry").
     ratio_uncertainty : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     hist_1_uncertainty : str, optional
@@ -358,9 +393,15 @@ def get_comparison(
         values, lower_uncertainties, upper_uncertainties = get_difference(
             hist_1, hist_2, hist_1_uncertainty
         )
+    elif comparison == "asymmetry":
+        if hist_1_uncertainty == "asymmetrical":
+            raise ValueError(
+                "Asymmetrical uncertainties are not supported for the asymmetry comparison."
+            )
+        values, lower_uncertainties, upper_uncertainties = get_asymmetry(hist_1, hist_2)
     else:
         raise ValueError(
-            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference' or 'relative_difference')."
+            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference', 'relative_difference' or 'asymmetry')."
         )
     np.seterr(divide="warn", invalid="warn")
 

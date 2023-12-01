@@ -1888,64 +1888,17 @@ z
       <use xlink:href="#LatinModernMath-Regular-6c" x="238.999939"/>
      </g>
     </g>
-    <g id="LineCollection_2">
-     <path d="M 194.86125 54.312259 
-L 194.86125 44.312259 
-" style="fill: none; stroke: #000000; stroke-width: 1.5"/>
-    </g>
-    <g id="line2d_41"/>
-    <g id="line2d_42">
-     <g>
-      <use xlink:href="#meae5c0c399" x="194.86125" y="49.312259" style="stroke: #000000"/>
-     </g>
-    </g>
-    <g id="text_17">
-     <!-- Data -->
-     <g style="fill: #1a1a1a" transform="translate(212.86125 52.812259) scale(0.1 -0.1)">
-      <defs>
-       <path id="LatinModernMath-Regular-44" d="M 4525 2150 
-C 4525 3366 3661 4371 2566 4371 
-L 224 4371 
-L 224 4173 
-L 378 4173 
-C 870 4173 883 4102 883 3872 
-L 883 499 
-C 883 269 870 198 378 198 
-L 224 198 
-L 224 0 
-L 2566 0 
-C 3642 0 4525 947 4525 2150 
-z
-M 3885 2150 
-C 3885 1440 3763 1056 3533 742 
-C 3405 570 3040 198 2394 198 
-L 1747 198 
-C 1446 198 1434 243 1434 454 
-L 1434 3917 
-C 1434 4128 1446 4173 1747 4173 
-L 2387 4173 
-C 2784 4173 3226 4032 3552 3578 
-C 3827 3200 3885 2650 3885 2150 
-z
-" transform="scale(0.015625)"/>
-      </defs>
-      <use xlink:href="#LatinModernMath-Regular-44"/>
-      <use xlink:href="#LatinModernMath-Regular-61" x="76.399994"/>
-      <use xlink:href="#LatinModernMath-Regular-74" x="126.399979"/>
-      <use xlink:href="#LatinModernMath-Regular-61" x="165.299973"/>
-     </g>
-    </g>
     <g id="patch_31">
-     <path d="M 184.86125 66.752884 
-L 204.86125 66.752884 
-L 204.86125 59.752884 
-L 184.86125 59.752884 
+     <path d="M 184.86125 52.812259 
+L 204.86125 52.812259 
+L 204.86125 45.812259 
+L 184.86125 45.812259 
 z
 " style="fill: url(#hcddca885b2)"/>
     </g>
-    <g id="text_18">
-     <!-- MC stat. unc. -->
-     <g style="fill: #1a1a1a" transform="translate(212.86125 66.752884) scale(0.1 -0.1)">
+    <g id="text_17">
+     <!-- Model stat. unc. -->
+     <g style="fill: #1a1a1a" transform="translate(212.86125 52.812259) scale(0.1 -0.1)">
       <defs>
        <path id="LatinModernMath-Regular-4d" d="M 5626 0 
 L 5626 198 
@@ -1986,23 +1939,48 @@ C 4026 19 4461 19 4710 19
 C 4960 19 5389 19 5626 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="LatinModernMath-Regular-43" d="M 4256 1491 
-C 4256 1555 4256 1600 4173 1600 
-C 4102 1600 4102 1562 4096 1498 
-C 4045 582 3360 58 2662 58 
-C 2272 58 1018 275 1018 2182 
-C 1018 4096 2266 4314 2656 4314 
-C 3354 4314 3923 3731 4051 2797 
-C 4064 2707 4064 2688 4154 2688 
-C 4256 2688 4256 2707 4256 2842 
-L 4256 4358 
-C 4256 4467 4256 4512 4186 4512 
-C 4160 4512 4134 4512 4083 4435 
-L 3763 3962 
-C 3526 4192 3200 4512 2586 4512 
-C 1389 4512 358 3494 358 2189 
-C 358 864 1395 -141 2586 -141 
-C 3629 -141 4256 749 4256 1491 
+       <path id="LatinModernMath-Regular-6f" d="M 3014 1370 
+C 3014 2189 2374 2867 1600 2867 
+C 800 2867 179 2170 179 1370 
+C 179 544 845 -70 1594 -70 
+C 2368 -70 3014 557 3014 1370 
+z
+M 2483 1421 
+C 2483 1190 2483 845 2342 563 
+C 2202 275 1920 90 1600 90 
+C 1325 90 1043 224 870 518 
+C 710 800 710 1190 710 1421 
+C 710 1670 710 2016 864 2298 
+C 1037 2592 1338 2726 1594 2726 
+C 1875 2726 2150 2586 2317 2310 
+C 2483 2035 2483 1664 2483 1421 
+z
+" transform="scale(0.015625)"/>
+       <path id="LatinModernMath-Regular-64" d="M 3373 0 
+L 3373 198 
+C 2925 198 2874 243 2874 557 
+L 2874 4442 
+L 1952 4371 
+L 1952 4173 
+C 2400 4173 2451 4128 2451 3814 
+L 2451 2432 
+C 2266 2662 1990 2829 1645 2829 
+C 890 2829 218 2202 218 1376 
+C 218 563 845 -70 1574 -70 
+C 1984 -70 2272 147 2432 352 
+L 2432 -70 
+L 3373 0 
+z
+M 2432 755 
+C 2432 640 2432 627 2362 518 
+C 2170 211 1882 70 1606 70 
+C 1318 70 1088 237 934 480 
+C 768 742 749 1107 749 1370 
+C 749 1606 762 1990 947 2278 
+C 1082 2477 1325 2688 1670 2688 
+C 1894 2688 2163 2592 2362 2304 
+C 2432 2195 2432 2182 2432 2067 
+L 2432 755 
 z
 " transform="scale(0.015625)"/>
        <path id="LatinModernMath-Regular-75" d="M 3424 0 
@@ -2028,18 +2006,68 @@ z
 " transform="scale(0.015625)"/>
       </defs>
       <use xlink:href="#LatinModernMath-Regular-4d"/>
-      <use xlink:href="#LatinModernMath-Regular-43" x="91.699982"/>
-      <use xlink:href="#LatinModernMath-Regular-20" x="163.899963"/>
-      <use xlink:href="#LatinModernMath-Regular-73" x="197.09996"/>
-      <use xlink:href="#LatinModernMath-Regular-74" x="236.499954"/>
-      <use xlink:href="#LatinModernMath-Regular-61" x="275.399948"/>
-      <use xlink:href="#LatinModernMath-Regular-74" x="325.399933"/>
-      <use xlink:href="#LatinModernMath-Regular-2e" x="364.299927"/>
-      <use xlink:href="#LatinModernMath-Regular-20" x="392.099915"/>
-      <use xlink:href="#LatinModernMath-Regular-75" x="425.299911"/>
-      <use xlink:href="#LatinModernMath-Regular-6e" x="480.899902"/>
-      <use xlink:href="#LatinModernMath-Regular-63" x="536.499893"/>
-      <use xlink:href="#LatinModernMath-Regular-2e" x="580.899887"/>
+      <use xlink:href="#LatinModernMath-Regular-6f" x="91.699982"/>
+      <use xlink:href="#LatinModernMath-Regular-64" x="141.699966"/>
+      <use xlink:href="#LatinModernMath-Regular-65" x="197.299957"/>
+      <use xlink:href="#LatinModernMath-Regular-6c" x="241.699951"/>
+      <use xlink:href="#LatinModernMath-Regular-20" x="269.499939"/>
+      <use xlink:href="#LatinModernMath-Regular-73" x="302.699936"/>
+      <use xlink:href="#LatinModernMath-Regular-74" x="342.09993"/>
+      <use xlink:href="#LatinModernMath-Regular-61" x="380.999924"/>
+      <use xlink:href="#LatinModernMath-Regular-74" x="430.999908"/>
+      <use xlink:href="#LatinModernMath-Regular-2e" x="469.899902"/>
+      <use xlink:href="#LatinModernMath-Regular-20" x="497.69989"/>
+      <use xlink:href="#LatinModernMath-Regular-75" x="530.899887"/>
+      <use xlink:href="#LatinModernMath-Regular-6e" x="586.499878"/>
+      <use xlink:href="#LatinModernMath-Regular-63" x="642.099869"/>
+      <use xlink:href="#LatinModernMath-Regular-2e" x="686.499863"/>
+     </g>
+    </g>
+    <g id="LineCollection_2">
+     <path d="M 194.86125 68.252884 
+L 194.86125 58.252884 
+" style="fill: none; stroke: #000000; stroke-width: 1.5"/>
+    </g>
+    <g id="line2d_41"/>
+    <g id="line2d_42">
+     <g>
+      <use xlink:href="#meae5c0c399" x="194.86125" y="63.252884" style="stroke: #000000"/>
+     </g>
+    </g>
+    <g id="text_18">
+     <!-- Data -->
+     <g style="fill: #1a1a1a" transform="translate(212.86125 66.752884) scale(0.1 -0.1)">
+      <defs>
+       <path id="LatinModernMath-Regular-44" d="M 4525 2150 
+C 4525 3366 3661 4371 2566 4371 
+L 224 4371 
+L 224 4173 
+L 378 4173 
+C 870 4173 883 4102 883 3872 
+L 883 499 
+C 883 269 870 198 378 198 
+L 224 198 
+L 224 0 
+L 2566 0 
+C 3642 0 4525 947 4525 2150 
+z
+M 3885 2150 
+C 3885 1440 3763 1056 3533 742 
+C 3405 570 3040 198 2394 198 
+L 1747 198 
+C 1446 198 1434 243 1434 454 
+L 1434 3917 
+C 1434 4128 1446 4173 1747 4173 
+L 2387 4173 
+C 2784 4173 3226 4032 3552 3578 
+C 3827 3200 3885 2650 3885 2150 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#LatinModernMath-Regular-44"/>
+      <use xlink:href="#LatinModernMath-Regular-61" x="76.399994"/>
+      <use xlink:href="#LatinModernMath-Regular-74" x="126.399979"/>
+      <use xlink:href="#LatinModernMath-Regular-61" x="165.299973"/>
      </g>
     </g>
    </g>
@@ -2534,33 +2562,6 @@ L 1434 3917
 C 1434 4128 1446 4173 1747 4173 
 L 2317 4173 
 C 3334 4173 3334 3494 3334 3181 
-z
-" transform="scale(0.015625)"/>
-       <path id="LatinModernMath-Regular-64" d="M 3373 0 
-L 3373 198 
-C 2925 198 2874 243 2874 557 
-L 2874 4442 
-L 1952 4371 
-L 1952 4173 
-C 2400 4173 2451 4128 2451 3814 
-L 2451 2432 
-C 2266 2662 1990 2829 1645 2829 
-C 890 2829 218 2202 218 1376 
-C 218 563 845 -70 1574 -70 
-C 1984 -70 2272 147 2432 352 
-L 2432 -70 
-L 3373 0 
-z
-M 2432 755 
-C 2432 640 2432 627 2362 518 
-C 2170 211 1882 70 1606 70 
-C 1318 70 1088 237 934 480 
-C 768 742 749 1107 749 1370 
-C 749 1606 762 1990 947 2278 
-C 1082 2477 1325 2688 1670 2688 
-C 1894 2688 2163 2592 2362 2304 
-C 2432 2195 2432 2182 2432 2067 
-L 2432 755 
 z
 " transform="scale(0.015625)"/>
       </defs>

@@ -3,21 +3,24 @@ __version__ = "0.9"
 
 from .plotters import (
     create_comparison_figure,
-    create_axis,
-    make_hist,
-    make_2d_hist,
     plot_hist,
     plot_2d_hist,
     plot_2d_hist_with_projections,
     plot_error_hist,
     plot_hist_uncertainties,
-    compare_two_hist,
+    plot_two_hist_comparison,
     plot_comparison,
     savefig,
-    plot_mc,
-    compare_data_mc,
-    compare_data_model,
+    plot_data_model_comparison,
     plot_model,
+    plot_function,
+)
+
+from .histogramming import (
+    create_axis,
+    make_hist,
+    make_2d_hist,
+    flatten_2d_hist,
 )
 
 from .variable_registry import (
@@ -62,13 +65,12 @@ __all__ = [
     "plot_2d_hist_with_projections",
     "plot_error_hist",
     "plot_hist_uncertainties",
-    "compare_two_hist",
+    "plot_two_hist_comparison",
     "plot_comparison",
     "savefig",
-    "compare_data_mc",
-    "plot_mc",
-    "compare_data_model",
+    "plot_data_model_comparison",
     "plot_model",
+    "plot_function",
     "add_luminosity",
     "get_asymmetrical_uncertainties",
     "set_style",
@@ -82,6 +84,7 @@ __all__ = [
     "get_difference",
     "get_ratio",
     "get_ratio_variances",
+    "flatten_2d_hist",
 ]
 
 
