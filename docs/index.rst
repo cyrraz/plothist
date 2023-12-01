@@ -4,7 +4,7 @@ Content
 -------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     usage/installation
     basics/1d_hist
