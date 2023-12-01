@@ -15,8 +15,7 @@ def set_style(style="default"):
     Parameters
     ----------
     style : str, optional
-        Switch between different styles. Default is 'default'.
-        Available styles: ['default', 'small']
+        Switch between different styles. Default is 'default'. More style might come in the futur.
 
     Returns
     -------
@@ -31,7 +30,7 @@ def set_style(style="default"):
     -----
     - The default plothist style is tuned to be presentation and publication ready.
     """
-    available_styles = ["default", "small"]
+    available_styles = ["default"]
 
     if style in available_styles:
         with resources_path("plothist", f"{style}_style.mplstyle") as style_file:

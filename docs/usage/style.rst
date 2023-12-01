@@ -119,35 +119,12 @@ We recommand using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
 Setting style
 =============
 
-To have a small plotting style, you can use:
+If the style is not set automatically by ``import plothist``, you can set it manually with the function ``set_style()``:
 
 .. code-block:: python
 
     from plothist import set_style
-    set_style("small")
-
-You can also set both styles in the same script:
-
-.. code-block:: python
-
-    from plothist import set_style
-    set_style("small")
-    fig, ax = ...
-
-    set_style("default")
-    fig, ax = ...
-
-For the first example in :ref:`advanced-model_examples-label`:
-
-Default style:
-
-.. image:: ../img/model_examples_stacked.svg
-   :alt: Default style
-   :width: 500
+    set_style()
 
 
-Small style:
 
-.. image:: ../img/model_examples_stacked_small.svg
-   :alt: Small style
-   :width: 500
