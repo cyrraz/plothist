@@ -184,13 +184,16 @@ class matplotlib_svg_scraper(object):
     def __call__(self, *args, **kwargs):
         return matplotlib_scraper(*args, format='svg', bbox_inches="tight", **kwargs)
 
+from sphinx_gallery.sorting import ExplicitOrder
 sphinx_gallery_conf = {
     # path to your example scripts
     'examples_dirs': ['examples'],
     # path to where to save gallery generated output
     'gallery_dirs': ['example_gallery'],
+    'subsection_order': ExplicitOrder(['examples/1d_hist',
+                                       'examples/2d_hist'])
     # specify that examples should be ordered according to filename
-    'within_subsection_order': FileNameSortKey,
+    # 'within_subsection_order': FileNameSortKey,
     'inspect_global_variables'  : False,
     # 'thumbnail_size': (600, 400),
     'reset_modules': (reset_mpl),

@@ -4,7 +4,7 @@ Content
 -------
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
 
     usage/installation
     basics/1d_hist
@@ -18,7 +18,7 @@ Content
     documentation/documentation
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Image gallery:
+   :maxdepth: 1
+   :caption: Image gallery
 
    example_gallery/index
