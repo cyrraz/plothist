@@ -522,7 +522,7 @@ def plot_comparison(
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
         hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
-        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
+        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties ** 2]
     else:
         plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
         hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())

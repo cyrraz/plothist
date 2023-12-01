@@ -6,6 +6,7 @@ This example shows how to plot a model with stacked + unstacked components and d
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 from plothist import make_hist, get_color_palette
@@ -22,7 +23,9 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+background_categories_colors = get_color_palette(
+    "cubehelix", len(background_categories)
+)
 
 background_masks = [df[category] == p for p in background_categories]
 
@@ -60,4 +63,4 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
 
 add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
-fig.savefig("model_examples_stacked_unstacked.svg", bbox_inches='tight')
+fig.savefig("model_examples_stacked_unstacked.svg", bbox_inches="tight")

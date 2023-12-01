@@ -6,6 +6,7 @@ This example shows how to compare two 1D histograms using the asymmetry differen
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 name = "variable_1"
@@ -30,7 +31,7 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     ylabel="Entries",
     h1_label="$h_1$",
     h2_label="$h_2$",
-    comparison = "asymmetry", # <--
+    comparison="asymmetry",  # <--
 )
 
-fig.savefig("1d_comparison_asymmetry.svg", bbox_inches='tight')
+fig.savefig("1d_comparison_asymmetry.svg", bbox_inches="tight")

@@ -34,9 +34,7 @@ background_hists = [
 signal_hist = make_hist(df[key][signal_mask], bins=50, range=xrange, weights=1)
 
 # Optional: scale to data
-background_scaling_factor = (
-    data_hist.sum().value / sum(background_hists).sum().value
-)
+background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
 background_hists = [background_scaling_factor * h for h in background_hists]
 
 signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
@@ -58,7 +56,9 @@ ax_coords = [(x, y) for x in range(nrows) for y in range(ncols)]
 
 for k, cmap_name in enumerate(cmap_list):
 
-    background_categories_colors = get_color_palette(cmap_name, len(background_categories))
+    background_categories_colors = get_color_palette(
+        cmap_name, len(background_categories)
+    )
 
     ax = axes[ax_coords[k]]
 
@@ -84,6 +84,11 @@ for k, cmap_name in enumerate(cmap_list):
     ax.legend()
 
     cmap_name = cmap_name.replace("_", "\_")
-    add_text(f"$\mathrm{{\mathbf{{cmap = {cmap_name}}}}}$", x="right", fontsize=12, ax=ax)
+    add_text(
+        f"$\mathrm{{\mathbf{{cmap = {cmap_name}}}}}$", x="right", fontsize=12, ax=ax
+    )
 
-fig.savefig("usage_colorpalette_examples.svg", bbox_inches="tight",)
+fig.savefig(
+    "usage_colorpalette_examples.svg",
+    bbox_inches="tight",
+)

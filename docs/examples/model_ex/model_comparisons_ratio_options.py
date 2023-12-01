@@ -6,6 +6,7 @@ This example shows every possible parameter combination when comparing data and 
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 from plothist import make_hist, get_color_palette
@@ -22,7 +23,9 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+background_categories_colors = get_color_palette(
+    "cubehelix", len(background_categories)
+)
 
 background_masks = [df[category] == p for p in background_categories]
 
@@ -47,7 +50,7 @@ from plothist import (
     plot_data_model_comparison,
     add_text,
     set_fitting_ylabel_fontsize,
-    plot_comparison
+    plot_comparison,
 )
 import numpy as np
 import matplotlib.pyplot as plt
@@ -62,18 +65,18 @@ fig, axes = create_comparison_figure(
 background_sum = sum(background_hists)
 
 fig, ax_main, ax_comparison = plot_data_model_comparison(
-        data_hist=data_hist,
-        stacked_components=background_hists,
-        stacked_labels=background_categories_labels,
-        stacked_colors=background_categories_colors,
-        xlabel="",
-        ylabel="Entries",
-        comparison="ratio",
-        ratio_uncertainty="split",
-        fig=fig,
-        ax_main=axes[0],
-        ax_comparison=axes[1],
-    )
+    data_hist=data_hist,
+    stacked_components=background_hists,
+    stacked_labels=background_categories_labels,
+    stacked_colors=background_categories_colors,
+    xlabel="",
+    ylabel="Entries",
+    comparison="ratio",
+    ratio_uncertainty="split",
+    fig=fig,
+    ax_main=axes[0],
+    ax_comparison=axes[1],
+)
 
 add_text(
     f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="split", model_uncertainty = True',
@@ -81,11 +84,14 @@ add_text(
     fontsize=10,
 )
 
-for k_comp, (ratio_uncertainty, model_uncertainty) in enumerate([
-    ("uncorrelated", True),
-    ("split", False),
-    ("uncorrelated", False),
-    ], start=2):
+for k_comp, (ratio_uncertainty, model_uncertainty) in enumerate(
+    [
+        ("uncorrelated", True),
+        ("split", False),
+        ("uncorrelated", False),
+    ],
+    start=2,
+):
 
     ax_comparison = axes[k_comp]
 
@@ -93,8 +99,8 @@ for k_comp, (ratio_uncertainty, model_uncertainty) in enumerate([
     background_sum_copy = background_sum.copy()
     if not model_uncertainty:
         background_sum_copy[:] = np.c_[
-        background_sum_copy.values(), np.zeros_like(background_sum_copy.values())
-    ]
+            background_sum_copy.values(), np.zeros_like(background_sum_copy.values())
+        ]
 
     plot_comparison(
         data_hist,

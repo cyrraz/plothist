@@ -95,4 +95,3 @@ cmap_list = ["viridis", "coolwarm", "YlGnBu_r"]
 for cmap_name in cmap_list:
     colors = get_color_palette(cmap_name, ncolors)
     create_palette_plot(colors, fig_name=f"usage_{cmap_name}_palette.svg")
-

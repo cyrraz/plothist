@@ -6,6 +6,7 @@ This example shows how to compare two 1D histograms using the relative differenc
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 name = "variable_1"
@@ -30,7 +31,7 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     ylabel="Entries",
     h1_label="$\mathbf{H\,\,1}$",
     h2_label="$\mathbf{H\,\,2}$",
-    comparison = "relative_difference", # <--
+    comparison="relative_difference",  # <--
 )
 
-fig.savefig("1d_comparison_relative_difference.svg", bbox_inches='tight')
+fig.savefig("1d_comparison_relative_difference.svg", bbox_inches="tight")

@@ -6,12 +6,17 @@ This example shows how to plot a multiple 2d histograms with the variable regist
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 ###
 from itertools import combinations
 from plothist import make_2d_hist, plot_2d_hist
-from plothist import create_variable_registry, update_variable_registry_ranges, get_variable_from_registry
+from plothist import (
+    create_variable_registry,
+    update_variable_registry_ranges,
+    get_variable_from_registry,
+)
 import matplotlib.pyplot as plt
 
 # No need to redo this step if the registry was already created before

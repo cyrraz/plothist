@@ -165,8 +165,8 @@ def get_pull(hist_1, hist_2, hist_1_uncertainty="symmetrical"):
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
         hist_1_variances = np.where(
             hist_1.values() >= hist_2.values(),
-            uncertainties_low**2,
-            uncertainties_high**2,
+            uncertainties_low ** 2,
+            uncertainties_high ** 2,
         )
         hist_1 = hist_1.copy()
         hist_1[:] = np.c_[hist_1.values(), hist_1_variances]
@@ -217,10 +217,10 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty="symmetrical"):
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
 
         comparison_uncertainties_low = np.sqrt(
-            uncertainties_low**2 + hist_2.variances()
+            uncertainties_low ** 2 + hist_2.variances()
         )
         comparison_uncertainties_high = np.sqrt(
-            uncertainties_high**2 + hist_2.variances()
+            uncertainties_high ** 2 + hist_2.variances()
         )
     else:
         comparison_uncertainties_low = np.sqrt(hist_1.variances() + hist_2.variances())
@@ -306,9 +306,9 @@ def get_ratio(
     if ratio_uncertainty == "uncorrelated":
         if hist_1_uncertainty == "asymmetrical":
             hist_1_high = hist_1.copy()
-            hist_1_high[:] = np.c_[hist_1_high.values(), uncertainties_high**2]
+            hist_1_high[:] = np.c_[hist_1_high.values(), uncertainties_high ** 2]
             hist_1_low = hist_1.copy()
-            hist_1_low[:] = np.c_[hist_1_low.values(), uncertainties_low**2]
+            hist_1_low[:] = np.c_[hist_1_low.values(), uncertainties_low ** 2]
             comparison_uncertainties_low = np.sqrt(
                 get_ratio_variances(hist_1_low, hist_2)
             )

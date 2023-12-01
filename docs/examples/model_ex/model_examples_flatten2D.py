@@ -6,6 +6,7 @@ This example shows how to flatten 2D histograms.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 from plothist import make_hist, get_color_palette
@@ -22,7 +23,9 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+background_categories_colors = get_color_palette(
+    "cubehelix", len(background_categories)
+)
 
 background_masks = [df[category] == p for p in background_categories]
 
@@ -48,7 +51,7 @@ from plothist import (
     plot_data_model_comparison,
     add_luminosity,
     flatten_2d_hist,
-    plot_hist
+    plot_hist,
 )
 
 # Define the histograms
@@ -67,7 +70,9 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2, 3, 4, 5, 6]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+background_categories_colors = get_color_palette(
+    "cubehelix", len(background_categories)
+)
 
 background_masks = [df[category] == p for p in background_categories]
 
@@ -110,4 +115,4 @@ plot_hist(
 add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 ax_main.legend(ncol=3, fontsize=10, loc="upper left")
 
-fig.savefig("model_examples_flatten2D.svg", bbox_inches='tight')
+fig.savefig("model_examples_flatten2D.svg", bbox_inches="tight")

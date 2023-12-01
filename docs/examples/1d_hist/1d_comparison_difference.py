@@ -6,6 +6,7 @@ This example shows how to compare two 1D histograms using the difference method.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 name = "variable_1"
@@ -30,10 +31,10 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     ylabel="Entries",
     h1_label="$\mathcal{C}_{2}$",
     h2_label="$\mathcal{C}_{3}$",
-    comparison = "difference", # <--
+    comparison="difference",  # <--
 )
 
 add_text("Comparison of two hist with difference plot", ax=ax_main)
 add_text("Difference ax", x="right", ax=ax_comparison)
 
-fig.savefig("1d_comparison_difference.svg", bbox_inches='tight')
+fig.savefig("1d_comparison_difference.svg", bbox_inches="tight")

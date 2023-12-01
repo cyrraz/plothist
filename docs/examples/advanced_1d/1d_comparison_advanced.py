@@ -6,6 +6,7 @@ This example shows how to compare two 1D histograms using the pull and ratio met
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 ###
@@ -63,7 +64,9 @@ plot_error_hist(h2, label="Test A", ax=ax_main, color="blue")
 plot_error_hist(h4, label="Test B", ax=ax_main, color="red")
 
 # First comparison is using pulls. We also change the color of the bars to make the plot easier to read
-plot_comparison(h4, h3, ax=ax1_comparison, comparison="pull", color=colors[0], alpha=0.7)
+plot_comparison(
+    h4, h3, ax=ax1_comparison, comparison="pull", color=colors[0], alpha=0.7
+)
 # Second comparison is using the default "ratio". Same strategy as pulls
 plot_comparison(h2, h1, ax=ax2_comparison, color=colors[1], alpha=0.7)
 
@@ -84,4 +87,4 @@ ax_main.legend(loc="upper left")
 # Align the ylabels
 fig.align_ylabels()
 
-fig.savefig("1d_comparison_advanced.svg", bbox_inches='tight')
+fig.savefig("1d_comparison_advanced.svg", bbox_inches="tight")

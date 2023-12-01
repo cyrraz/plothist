@@ -6,6 +6,7 @@ This example shows how to plot a model made of stacked and unstacked histograms 
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 from plothist import make_hist, get_color_palette
@@ -22,7 +23,9 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+background_categories_colors = get_color_palette(
+    "cubehelix", len(background_categories)
+)
 
 background_masks = [df[category] == p for p in background_categories]
 
@@ -62,4 +65,6 @@ add_text("Model made of histograms", ax=ax)
 
 add_luminosity(collaboration="Beast III", ax=ax, preliminary=True, is_data=False)
 
-fig.savefig("model_with_stacked_and_unstacked_histograms_components.svg", bbox_inches='tight')
+fig.savefig(
+    "model_with_stacked_and_unstacked_histograms_components.svg", bbox_inches="tight"
+)

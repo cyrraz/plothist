@@ -6,6 +6,7 @@ This example shows how to add multiple histograms to the same plot.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 ###
@@ -33,4 +34,4 @@ ax.set_ylabel("Entries")
 ax.set_xlim(x_range)
 ax.legend()
 
-fig.savefig("1d_elt1.svg", bbox_inches='tight')
+fig.savefig("1d_elt1.svg", bbox_inches="tight")

@@ -6,6 +6,7 @@ This example shows how to plot a 1d histogram with error bars with plothist.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 from plothist import make_hist, plot_hist
@@ -46,4 +47,4 @@ plot_error_hist(h3, ax=ax, color="black", label="c3")
 # Update the legend
 ax.legend()
 
-fig.savefig("1d_elt2.svg", bbox_inches='tight')
+fig.savefig("1d_elt2.svg", bbox_inches="tight")

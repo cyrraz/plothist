@@ -6,6 +6,7 @@ This example shows every possible comparison between data and model.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 from plothist import make_hist, get_color_palette
@@ -22,7 +23,9 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+background_categories_colors = get_color_palette(
+    "cubehelix", len(background_categories)
+)
 
 background_masks = [df[category] == p for p in background_categories]
 
@@ -47,7 +50,7 @@ from plothist import (
     plot_data_model_comparison,
     add_text,
     set_fitting_ylabel_fontsize,
-    plot_comparison
+    plot_comparison,
 )
 import matplotlib.pyplot as plt
 
@@ -60,21 +63,23 @@ fig, axes = create_comparison_figure(
 background_sum = sum(background_hists)
 
 fig, ax_main, ax_comparison = plot_data_model_comparison(
-        data_hist=data_hist,
-        stacked_components=background_hists,
-        stacked_labels=background_categories_labels,
-        stacked_colors=background_categories_colors,
-        xlabel="",
-        ylabel="Entries",
-        comparison="ratio",
-        fig=fig,
-        ax_main=axes[0],
-        ax_comparison=axes[1],
-    )
+    data_hist=data_hist,
+    stacked_components=background_hists,
+    stacked_labels=background_categories_labels,
+    stacked_colors=background_categories_colors,
+    xlabel="",
+    ylabel="Entries",
+    comparison="ratio",
+    fig=fig,
+    ax_main=axes[0],
+    ax_comparison=axes[1],
+)
 
 add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
-for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"], start=2):
+for k_comp, comparison in enumerate(
+    ["pull", "relative_difference", "difference"], start=2
+):
 
     ax_comparison = axes[k_comp]
 
@@ -89,7 +94,9 @@ for k_comp, comparison in enumerate(["pull", "relative_difference", "difference"
         ratio_uncertainty="split",
         hist_1_uncertainty="asymmetrical",
     )
-    add_text(f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13)
+    add_text(
+        f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13
+    )
     set_fitting_ylabel_fontsize(ax_comparison)
 
 axes[-1].set_xlabel(key)

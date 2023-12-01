@@ -6,6 +6,7 @@ This example shows how to plot a 2d histogram with uneven binning.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 ###
@@ -25,4 +26,4 @@ fig, ax, ax_colorbar = plot_2d_hist(h, colorbar_kwargs={"label": "Entries"})
 ax.set_xlabel(name_x)
 ax.set_ylabel(name_y)
 
-fig.savefig("2d_hist_uneven.svg", bbox_inches='tight')
+fig.savefig("2d_hist_uneven.svg", bbox_inches="tight")

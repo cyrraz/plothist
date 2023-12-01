@@ -6,6 +6,7 @@ This example shows how to plot a 2d histogram with plothist.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 ###
@@ -25,4 +26,4 @@ ax.set_ylabel(name_y)
 ax.set_xlim(-9, 9)
 ax.set_ylim(-9, 9)
 
-fig.savefig("2d_hist_simple.svg", bbox_inches='tight')
+fig.savefig("2d_hist_simple.svg", bbox_inches="tight")

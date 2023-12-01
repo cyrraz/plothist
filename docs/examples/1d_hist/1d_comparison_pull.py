@@ -6,6 +6,7 @@ This example shows how to compare two 1D histograms using the pull method.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 name = "variable_1"
@@ -31,7 +32,7 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     ylabel="Entries",
     h1_label="$c_2$",
     h2_label="$c_3$",
-    comparison="pull", # <---
+    comparison="pull",  # <---
 )
 
-fig.savefig("1d_comparison_pull.svg", bbox_inches='tight')
+fig.savefig("1d_comparison_pull.svg", bbox_inches="tight")

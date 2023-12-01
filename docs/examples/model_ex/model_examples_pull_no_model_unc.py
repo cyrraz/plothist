@@ -6,6 +6,7 @@ This example shows how to plot a pull plot with data/model comparison without mo
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 from plothist import make_hist, get_color_palette
@@ -22,7 +23,9 @@ data_mask = df[category] == 8
 
 background_categories = [0, 1, 2]
 background_categories_labels = [f"c{i}" for i in background_categories]
-background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+background_categories_colors = get_color_palette(
+    "cubehelix", len(background_categories)
+)
 
 background_masks = [df[category] == p for p in background_categories]
 
@@ -52,8 +55,10 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     xlabel=f"${key}\,\,[eV/c^2]$",
     ylabel="Hits in the LMN per $4.2\\times 10^{-1}\,\,eV/c^2$",
     comparison="pull",
-    model_uncertainty=False # <--
+    model_uncertainty=False,  # <--
 )
-add_luminosity(collaboration="Beast III", ax=ax_main, lumi=8.2, lumi_unit="zb", preliminary=True)
+add_luminosity(
+    collaboration="Beast III", ax=ax_main, lumi=8.2, lumi_unit="zb", preliminary=True
+)
 
-fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches='tight')
+fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches="tight")

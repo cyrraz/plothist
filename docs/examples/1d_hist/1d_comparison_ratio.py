@@ -6,6 +6,7 @@ This example shows how to compare two 1D histograms using the ratio method.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
+
 df = generate_dummy_data()
 
 name = "variable_1"
@@ -33,4 +34,4 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h2_label="c3",
 )
 
-fig.savefig("1d_comparison_ratio.svg", bbox_inches='tight')
+fig.savefig("1d_comparison_ratio.svg", bbox_inches="tight")
