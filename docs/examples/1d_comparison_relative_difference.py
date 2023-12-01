@@ -21,9 +21,9 @@ h2 = make_hist(x2, bins=50, range=x_range)
 h3 = make_hist(x3, bins=50, range=x_range)
 
 ###
-from plothist import compare_two_hist
+from plothist import plot_two_hist_comparison
 
-fig, ax_main, ax_comparison = compare_two_hist(
+fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h2,
     h3,
     xlabel=name,
@@ -31,5 +31,6 @@ fig, ax_main, ax_comparison = compare_two_hist(
     h1_label="$\mathbf{H\,\,1}$",
     h2_label="$\mathbf{H\,\,2}$",
     comparison = "relative_difference", # <--
-    save_as="1d_comparison_relative_difference.svg",
 )
+
+fig.savefig("1d_comparison_relative_difference.svg", bbox_inches='tight')

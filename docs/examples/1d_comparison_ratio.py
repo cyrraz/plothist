@@ -21,15 +21,16 @@ h2 = make_hist(x2, bins=50, range=x_range)
 h3 = make_hist(x3, bins=50, range=x_range)
 
 ###
-from plothist import compare_two_hist
+from plothist import plot_two_hist_comparison
 
 # Default comparison is ratio
-fig, ax_main, ax_comparison = compare_two_hist(
+fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h2,
     h3,
     xlabel=name,
     ylabel="Entries",
     h1_label="c2",
     h2_label="c3",
-    save_as="1d_comparison_ratio.svg",
 )
+
+fig.savefig("1d_comparison_ratio.svg", bbox_inches='tight')

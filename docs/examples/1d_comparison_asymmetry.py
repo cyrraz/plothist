@@ -1,8 +1,8 @@
 """
-Difference comparison
-=====================
+Asymmetry comparison
+====================
 
-This example shows how to compare two 1D histograms using the difference method.
+This example shows how to compare two 1D histograms using the asymmetry difference.
 """
 
 from plothist.generate_dummy_data import generate_dummy_data
@@ -21,19 +21,16 @@ h2 = make_hist(x2, bins=50, range=x_range)
 h3 = make_hist(x3, bins=50, range=x_range)
 
 ###
-from plothist import plot_two_hist_comparison, add_text
+from plothist import plot_two_hist_comparison
 
 fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h2,
     h3,
     xlabel=name,
     ylabel="Entries",
-    h1_label="$\mathcal{C}_{2}$",
-    h2_label="$\mathcal{C}_{3}$",
-    comparison = "difference", # <--
+    h1_label="$h_1$",
+    h2_label="$h_2$",
+    comparison = "asymmetry", # <--
 )
 
-add_text("Comparison of two hist with difference plot", ax=ax_main)
-add_text("Difference ax", x="right", ax=ax_comparison)
-
-fig.savefig("1d_comparison_difference.svg", bbox_inches='tight')
+fig.savefig("1d_comparison_asymmetry.svg", bbox_inches='tight')
