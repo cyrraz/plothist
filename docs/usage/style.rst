@@ -90,7 +90,7 @@ We recommand using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
 
     from plothist import get_color_palette
 
-    # From HEP examples
+    # From model examples
     ...
     background_categories_colors = get_color_palette("Any cmap name", len(background_categories))
     ...
@@ -137,17 +137,17 @@ You can also set both styles in the same script:
     set_style("default")
     fig, ax = ...
 
-For the first hep example in :ref:`advanced-hep_examples-label`:
+For the first example in :ref:`advanced-model_examples-label`:
 
 Default style:
 
-.. image:: ../img/hep_examples_dataMC_stacked.svg
+.. image:: ../img/model_examples_stacked.svg
    :alt: Default style
    :width: 500
 
 
 Small style:
 
-.. image:: ../img/hep_examples_dataMC_stacked_small.svg
+.. image:: ../img/model_examples_stacked_small.svg
    :alt: Small style
    :width: 500
