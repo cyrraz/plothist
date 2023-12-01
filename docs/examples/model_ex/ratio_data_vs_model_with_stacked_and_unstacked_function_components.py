@@ -33,7 +33,7 @@ def f_background2(x):
     return 3000*norm.pdf(x, loc=-1.8, scale=1.8)
 
 ###
-from plothist import plot_data_model_comparison
+from plothist import plot_data_model_comparison, add_luminosity
 
 fig, ax_main, ax_comparison = plot_data_model_comparison(
     data_hist=data_hist,
