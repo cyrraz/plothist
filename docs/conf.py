@@ -192,7 +192,9 @@ sphinx_gallery_conf = {
     'gallery_dirs': ['example_gallery'],
     'subsection_order': ExplicitOrder(['examples/1d_hist',
                                        'examples/2d_hist',
-                                       'examples/model_ex',]),
+                                       'examples/model_ex',
+                                       'examples/advanced_1d',
+                                       'examples/advanced_2d',]),
     'nested_sections': False,
     # specify that examples should be ordered according to filename
     # 'within_subsection_order': FileNameSortKey,
