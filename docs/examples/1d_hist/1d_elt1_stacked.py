@@ -8,6 +8,20 @@ This example shows how to stack two 1d histogram with plothist.
 from plothist.generate_dummy_data import generate_dummy_data
 df = generate_dummy_data()
 
+from plothist import make_hist, plot_hist
+import matplotlib.pyplot as plt
+
+name = "variable_1"
+category = "category"
+
+x1 = df[name][df[category] == 1]
+x2 = df[name][df[category] == 2]
+
+x_range = (min(min(x1), min(x2)), max(max(x1), max(x2)))
+
+h1 = make_hist(x1, bins=50, range=x_range)
+h2 = make_hist(x2, bins=50, range=x_range)
+
 ###
 fig2, ax2 = plt.subplots()
 
