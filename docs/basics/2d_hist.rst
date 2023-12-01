@@ -17,7 +17,7 @@ Simple plot
 
 To plot a simple 2d histogram:
 
-.. litteralinclude:: ../examples/2d_hist/2d_hist_simple.py
+.. literalinclude:: ../examples/2d_hist/2d_hist_simple.py
     :language: python
     :start-after: ###
 
@@ -33,7 +33,7 @@ See :ref:`basics-variable_registry-label` on how to use the variable registry.
 
 The variable registry is a really useful tool to manage and plot the correlation between multiple variables:
 
-.. litteralinclude:: ../examples/2d_hist/2d_hist_correlations.py
+.. literalinclude:: ../examples/2d_hist/2d_hist_correlations.py
     :language: python
     :start-after: ###
 
@@ -53,16 +53,12 @@ The variable registry is a really useful tool to manage and plot the correlation
    :width: 210
 
 
-Advanced
-========
-
-
 Uneven binning
-------------
+==============
 
 Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins parameter can be a list of all the edges:
 
-.. litteralinclude:: ../examples/2d_hist/2d_hist_uneven.py
+.. literalinclude:: ../examples/2d_hist/2d_hist_uneven.py
     :language: python
     :start-after: ###
 
@@ -72,15 +68,3 @@ Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins
 
 
 
-Display 1D distributions
-------------------------
-
-To plot a 2d histogram with x and y projections:
-
-.. litteralinclude:: ../examples/2d_hist/2d_hist_with_projections.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/2d_hist_with_projections.svg
-   :alt: 2d hist with x and y projections
-   :width: 500

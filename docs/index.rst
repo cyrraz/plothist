@@ -19,8 +19,8 @@ Content
     :maxdepth: 2
     :caption: Advanced examples
 
-    advanced/1d_advanced
     advanced/model_examples
+    advanced/1d_advanced
 
 .. toctree::
     :maxdepth: 2
@@ -29,7 +29,6 @@ Content
     basics/variable_registry
     usage/style
     usage/utilities
-    documentation/statistics
 
 .. toctree::
     :maxdepth: 2
@@ -37,3 +36,4 @@ Content
 
     example_gallery/index
     documentation/documentation
+    documentation/statistics

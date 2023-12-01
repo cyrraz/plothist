@@ -158,7 +158,9 @@ Asymmetry
 
 To plot the asymmetry between the two histograms:
 
-.. code-block:: python
+.. literalinclude:: ../examples/1d_hist/1d_comparison_asymmetry.py
+    :language: python
+    :start-after: ###
 
 .. image:: ../img/1d_comparison_asymmetry.svg
    :alt: Simple asymmetry comparison
