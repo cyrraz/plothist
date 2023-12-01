@@ -194,7 +194,8 @@ sphinx_gallery_conf = {
                                        'examples/2d_hist',
                                        'examples/model_ex',
                                        'examples/advanced_1d',
-                                       'examples/advanced_2d',]),
+                                       'examples/advanced_2d',
+                                       'examples/utility',]),
     'nested_sections': False,
     # specify that examples should be ordered according to filename
     # 'within_subsection_order': FileNameSortKey,
