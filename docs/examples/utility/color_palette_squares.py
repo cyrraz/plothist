@@ -81,17 +81,18 @@ def create_palette_plot(colors, fig_name, add_text=False, add_black_border=False
 
 ncolors = 7
 
-cmap_list = ["viridis", "coolwarm", "YlGnBu_r"]
-for cmap_name in cmap_list:
-    colors = get_color_palette(cmap_name, ncolors)
-    create_palette_plot(colors, fig_name=f"usage_{cmap_name}_palette.svg")
-
-colors = get_color_palette("cubehelix", ncolors)
-create_palette_plot(colors, fig_name="usage_cubehelix.svg")
-
 if ncolors > 7:
     ncolors_ggplot = 7
 else:
     ncolors_ggplot = ncolors
 colors = get_color_palette("ggplot", ncolors_ggplot)
 create_palette_plot(colors, fig_name="usage_style_cycle.svg", add_text=True)
+
+colors = get_color_palette("cubehelix", ncolors)
+create_palette_plot(colors, fig_name="usage_cubehelix.svg")
+
+cmap_list = ["viridis", "coolwarm", "YlGnBu_r"]
+for cmap_name in cmap_list:
+    colors = get_color_palette(cmap_name, ncolors)
+    create_palette_plot(colors, fig_name=f"usage_{cmap_name}_palette.svg")
+

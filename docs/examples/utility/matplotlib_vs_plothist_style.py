@@ -13,15 +13,13 @@ import numpy as np
 from plothist.generate_dummy_data import generate_dummy_data
 df = generate_dummy_data()
 
-for style in ["matplotlib", "plothist"]:
+for style in ["plothist", "matplotlib"]:
 
     if style == "matplotlib":
         plt.style.use("default")
     else:
-        # No need to set the style if we use plothist, just importing it is enough
-        # Here we set the style because the matplotlib style was set before
-        from plothist import set_style
-        set_style("default")
+        # A simple import of plothist will set the style to plothist
+        import plothist
 
     # Create a figure with subplots
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 5.4), sharex=True, gridspec_kw={"height_ratios": [4, 1]})
