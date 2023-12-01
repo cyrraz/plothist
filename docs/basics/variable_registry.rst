@@ -1,4 +1,4 @@
-.. _basics-variable_manager-label:
+.. _basics-variable_registry-label:
 
 =================
 Variable registry

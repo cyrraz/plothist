@@ -8,6 +8,7 @@ This example shows how to plot a 2d histogram with plothist.
 from plothist.generate_dummy_data import generate_dummy_data
 df = generate_dummy_data()
 
+###
 from plothist import make_2d_hist, plot_2d_hist
 import matplotlib.pyplot as plt
 

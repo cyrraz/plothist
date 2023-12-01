@@ -17,7 +17,7 @@ Simple 1D histogram
 
 To plot a simple 1d histogram:
 
-.. literalinclude:: ../examples/1d_hist_simple.py
+.. literalinclude:: ../examples/1d_hist/1d_hist_simple.py
     :language: python
     :start-after: ###
 
@@ -28,7 +28,7 @@ To plot a simple 1d histogram:
 
 It is really easy to add multiple histogram to the same figure:
 
-.. literalinclude:: ../examples/1d_elt1.py
+.. literalinclude:: ../examples/1d_hist/1d_elt1.py
     :language: python
     :start-after: ###
 
@@ -39,7 +39,7 @@ It is really easy to add multiple histogram to the same figure:
 
 or stack them:
 
-.. literalinclude:: ../examples/1d_elt1_stacked.py
+.. literalinclude:: ../examples/1d_hist/1d_elt1_stacked.py
     :language: python
     :start-after: ###
 
@@ -52,7 +52,7 @@ Histogram with error bars
 
 To perform a simple histogram with error bars, use the ``plot_error_hist`` function:
 
-.. literalinclude:: ../examples/1d_elt2.py
+.. literalinclude:: ../examples/1d_hist/1d_elt2.py
     :language: python
     :start-after: ###
 
@@ -69,7 +69,7 @@ Plotting functions
 
 Everything presented for the histogram is also true to plot functions using ``plot_function`` function:
 
-.. literalinclude:: ../examples/1d_fct.py
+.. literalinclude:: ../examples/1d_hist/1d_fct.py
     :language: python
     :start-after: ###
 
@@ -79,7 +79,7 @@ Everything presented for the histogram is also true to plot functions using ``pl
 
 and stack them:
 
-.. literalinclude:: ../examples/1d_fct_stacked.py
+.. literalinclude:: ../examples/1d_hist/1d_fct_stacked.py
     :language: python
     :start-after: ###
 
@@ -102,7 +102,7 @@ Ratio
 
 Ratio is the default comparison method:
 
-.. literalinclude:: ../examples/1d_comparison_ratio.py
+.. literalinclude:: ../examples/1d_hist/1d_comparison_ratio.py
     :language: python
     :start-after: ###
 
@@ -116,7 +116,7 @@ Pull
 
 To perform a pull comparison:
 
-.. literalinclude:: ../examples/1d_comparison_pull.py
+.. literalinclude:: ../examples/1d_hist/1d_comparison_pull.py
     :language: python
     :start-after: ###
 
@@ -130,7 +130,7 @@ Difference
 
 To plot the difference between the two histograms:
 
-.. literalinclude:: ../examples/1d_comparison_difference.py
+.. literalinclude:: ../examples/1d_hist/1d_comparison_difference.py
     :language: python
     :start-after: ###
 
@@ -144,7 +144,7 @@ Relative difference
 
 To plot the relative difference between the two histograms:
 
-.. literalinclude:: ../examples/1d_comparison_relative_difference.py
+.. literalinclude:: ../examples/1d_hist/1d_comparison_relative_difference.py
     :language: python
     :start-after: ###
 
