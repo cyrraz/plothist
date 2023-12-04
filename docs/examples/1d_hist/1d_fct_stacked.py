@@ -36,6 +36,7 @@ plot_function(
 
 ax.set_xlabel("x")
 ax.set_ylabel("f(x)")
+ax.set_ylim(0)
 ax.legend()
 
 fig.savefig("1d_fct_stacked.svg", bbox_inches="tight")
