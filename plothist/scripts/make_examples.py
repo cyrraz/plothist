@@ -3,7 +3,9 @@ import yaml
 import subprocess
 import argparse
 
-parser = argparse.ArgumentParser(description="Redo the examples. Only run this script from the plothist/scripts folder.")
+parser = argparse.ArgumentParser(
+    description="Redo the examples. Only run this script from the plothist/scripts folder."
+)
 parser.add_argument(
     "--print_code", action="store_true", help="Print the code of the examples"
 )
@@ -80,9 +82,7 @@ for root, dirs, files in os.walk(example_folder):
             for line in f:
                 if "savefig" in line:
                     if file == "matplotlib_vs_plothist_style.py":
-                        line = (
-                            "    plt.rcParams['svg.hashsalt'] = '8311311'\n" + line
-                        )
+                        line = "    plt.rcParams['svg.hashsalt'] = '8311311'\n" + line
                     line = line.replace(
                         "savefig(",
                         f"savefig({svg_metadata}, fname=",
