@@ -3,7 +3,7 @@ import yaml
 import subprocess
 import argparse
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description="Redo the examples. Only run this script from the plothist/scripts folder.")
 parser.add_argument(
     "--print_code", action="store_true", help="Print the code of the examples"
 )
