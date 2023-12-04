@@ -22,7 +22,7 @@ In this example, we will compare two tuples of histograms and use pull and ratio
 
 First, we make the histograms and scale them. Then, we plot the histograms and the comparison plots on different axes:
 
-.. literalinclude:: ../../examples/advanced/1d_hist_comparison.py
+.. literalinclude:: ../examples/advanced/1d_comparison_advanced.py
    :language: python
    :start-after: ###
 
