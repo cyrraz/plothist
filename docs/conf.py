@@ -12,14 +12,24 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
+import os
+import sys
+
 # sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
-import os
+import subprocess
+
+subprocess.check_call(["pip", "install", "sphinx-gallery"])
+subprocess.check_call(["pip", "install", "flit"])
+subprocess.check_call(["pip", "install", "matplotlib"])
+subprocess.check_call(["pip", "install", "boost_histogram"])
+subprocess.check_call(["pip", "install", "PyYAML"])
+subprocess.check_call(["pip", "install", "sphinx_rtd_theme"])
+subprocess.check_call(["flit", "install", "-s"], cwd="../")
+from sphinx_gallery.sorting import FileNameSortKey
 
 project = "plothist"
 copyright = "2023, Cyrille Praz, Tristan Fillinger"
@@ -40,7 +50,13 @@ release = "0.9"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.doctest", "sphinx.ext.autodoc", "sphinx.ext.napoleon"]
+extensions = [
+    "sphinx.ext.doctest",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx_gallery.gen_gallery",
+    "sphinx.ext.intersphinx",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -161,15 +177,53 @@ texinfo_documents = [
     ),
 ]
 
-# Cheating around read the docs: we need to install our project which is not possible because we
-# have no setup.py. But this should work...
 
-if os.getenv("READTHEDOCS"):
-    import subprocess
+# sphinx-gallery configuration
+def reset_mpl(gallery_conf, fname):
+    from plothist import set_style
 
-    subprocess.check_call(["pip", "install", "flit"])
-    subprocess.check_call(["pip", "install", "matplotlib"])
-    subprocess.check_call(["pip", "install", "boost_histogram"])
-    subprocess.check_call(["pip", "install", "PyYAML"])
-    subprocess.check_call(["pip", "install", "sphinx_rtd_theme"])
-    subprocess.check_call(["flit", "install", "-s"], cwd="../")
+    set_style("default")
+
+
+from sphinx_gallery.scrapers import matplotlib_scraper
+
+
+class matplotlib_svg_scraper(object):
+    def __repr__(self):
+        return self.__class__.__name__
+
+    def __call__(self, *args, **kwargs):
+        return matplotlib_scraper(*args, format="svg", bbox_inches="tight", **kwargs)
+
+
+from sphinx_gallery.sorting import ExplicitOrder
+
+sphinx_gallery_conf = {
+    # path to your example scripts
+    "examples_dirs": ["examples"],
+    # path to where to save gallery generated output
+    "gallery_dirs": ["example_gallery"],
+    "subsection_order": ExplicitOrder(
+        [
+            "examples/1d_hist",
+            "examples/2d_hist",
+            "examples/model_ex",
+            "examples/advanced",
+            "examples/utility",
+        ]
+    ),
+    "nested_sections": False,
+    # specify that examples should be ordered according to filename
+    # 'within_subsection_order': FileNameSortKey,
+    "inspect_global_variables": False,
+    # 'thumbnail_size': (600, 400),
+    "reset_modules": (reset_mpl),
+    "image_scrapers": (matplotlib_svg_scraper(),),
+}
+
+# configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
+    "matplotlib": ("https://matplotlib.org/", None),
+    "pandas": ("https://pandas.pydata.org/", None),
+}

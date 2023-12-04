@@ -1,0 +1,39 @@
+"""
+1d functions
+============
+
+This example shows how to plot a function with plothist.
+"""
+
+from scipy.stats import norm
+
+# Define the gaussian function of mean=0.5 and std_dev=3
+def f(x):
+    return 1000 * norm.pdf(x, loc=0.5, scale=3)
+
+
+###
+from plothist import plot_function
+from scipy.stats import norm
+from matplotlib import pyplot as plt
+
+# Another function
+def g(x):
+    return 1000 * norm.pdf(x, loc=2, scale=3)
+
+
+fig, ax = plt.subplots()
+
+plot_function(
+    [f, g],
+    range=[-10, 10],
+    ax=ax,
+    labels=["f1", "f2"],
+    stacked=True,
+)
+
+ax.set_xlabel("x")
+ax.set_ylabel("f(x)")
+ax.legend(reverse=True)
+
+fig.savefig("1d_fct_stacked.svg", bbox_inches="tight")

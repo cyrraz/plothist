@@ -4751,13 +4751,13 @@ L 363.355625 26.4
 L 363.355625 18 
 L 339.355625 18 
 z
-" style="fill: #348abd"/>
+" style="fill: #e24a33"/>
     </g>
     <g id="text_14">
-     <!-- f1 -->
+     <!-- f2 -->
      <g style="fill: #1a1a1a" transform="translate(372.955625 26.4) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-66"/>
-      <use xlink:href="#LatinModernMath-Regular-31" x="30.599991"/>
+      <use xlink:href="#LatinModernMath-Regular-32" x="30.599991"/>
      </g>
     </g>
     <g id="patch_8">
@@ -4766,13 +4766,13 @@ L 363.355625 43.12875
 L 363.355625 34.72875 
 L 339.355625 34.72875 
 z
-" style="fill: #e24a33"/>
+" style="fill: #348abd"/>
     </g>
     <g id="text_15">
-     <!-- f2 -->
+     <!-- f1 -->
      <g style="fill: #1a1a1a" transform="translate(372.955625 43.12875) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-66"/>
-      <use xlink:href="#LatinModernMath-Regular-32" x="30.599991"/>
+      <use xlink:href="#LatinModernMath-Regular-31" x="30.599991"/>
      </g>
     </g>
    </g>

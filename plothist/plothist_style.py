@@ -15,8 +15,7 @@ def set_style(style="default"):
     Parameters
     ----------
     style : str, optional
-        Switch between different styles. Default is 'default'.
-        Available styles: ['default', 'small']
+        Switch between different styles. Default is 'default'. More style might come in the futur.
 
     Returns
     -------
@@ -31,7 +30,7 @@ def set_style(style="default"):
     -----
     - The default plothist style is tuned to be presentation and publication ready.
     """
-    available_styles = ["default", "small"]
+    available_styles = ["default"]
 
     if style in available_styles:
         with resources_path("plothist", f"{style}_style.mplstyle") as style_file:
@@ -93,7 +92,7 @@ def cubehelix_palette(
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (γ > 1)
-            lambda_gamma = lambda_**gamma
+            lambda_gamma = lambda_ ** gamma
 
             # Angle and amplitude for the deviation
             # from the black to white diagonal
