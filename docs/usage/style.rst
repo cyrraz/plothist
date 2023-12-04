@@ -17,7 +17,7 @@ Here are shown two simple comparison plots done with matplotlib functions only. 
    :alt: without plothist
    :width: 320
 
-.. |img2| image:: ../img/matplotlib_plothist_example.svg
+.. |img2| image:: ../img/plothist_example.svg
    :alt: with plothist
    :width: 320
 
