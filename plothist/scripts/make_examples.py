@@ -15,6 +15,7 @@ example_folder = plothist_folder + "/docs/examples"
 img_folder = plothist_folder + "/docs/img"
 temp_img_folder = plothist_folder + "/docs/temp_img"
 
+# Get all python files in the example folder
 python_files = [
     file
     for root, dirs, files in os.walk(example_folder)
@@ -23,6 +24,7 @@ python_files = [
 ]
 python_files.sort()
 
+# Ask which python files to relaunch
 print(
     "Which python script do you want to relauch? (ex: 1 2 4 ... [OR] 1d model 2d color [OR] all (just press enter for all))"
 )
@@ -32,6 +34,7 @@ k_plots = input("> ")
 if k_plots == "":
     k_plots = "all"
 
+# Get the list of python files to relaunch
 plots_to_redo = []
 for k_plot in k_plots.split(" "):
     if k_plot == "all":
@@ -53,9 +56,12 @@ if not os.path.exists(temp_img_folder):
     os.mkdir(temp_img_folder)
 
 # Get the metadata for the svg files
-with open(plothist_folder + "/plothist/scripts/metadata.yaml", "r") as f:
-    svg_metadata = yaml.safe_load(f)
-svg_metadata = "metadata=" + str(svg_metadata)
+if os.path.exists(plothist_folder + "/plothist/scripts/metadata.yaml"):
+    with open(plothist_folder + "/plothist/scripts/metadata.yaml", "r") as f:
+        svg_metadata = yaml.safe_load(f)
+    svg_metadata = "metadata=" + str(svg_metadata)
+else:
+    svg_metadata = "metadata={}"
 
 import matplotlib.pyplot as plt
 
