@@ -233,20 +233,3 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
    :alt: Data/model comparison with all comparisons option for ratio
    :width: 500
 
-
-Advanced
-========
-
-Flatten 2D variable
--------------------
-
-Compare data and stacked histogram for a flatten 2D variable:
-
-.. literalinclude:: ../examples/model_ex/model_examples_flatten2D.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/model_examples_flatten2D.svg
-   :alt: Data/model comparison, flatten variable
-   :width: 500
-

@@ -20,8 +20,7 @@ Content
     :caption: Advanced examples
 
     advanced/model_examples
-    advanced/1d_advanced
-    advanced/2d_advanced
+    advanced/other_advanced
 
 .. toctree::
     :maxdepth: 2
