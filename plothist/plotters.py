@@ -143,6 +143,33 @@ def plot_2d_hist(
     return fig, ax, ax_colorbar
 
 
+def _invert_collection_order(ax, n=0):
+    """
+    Invert the order of the collection objects in an Axes instance.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The Axes instance for plotting.
+    n : int, optional
+        The number of collections to keep in the original order. Default is 0.
+
+    """
+    # Retrieve the list of collection objects
+    collections = list(ax.collections)
+
+    # Separate the first n collections and reverse the rest
+    first_n = collections[:n]
+    rest = collections[n:]
+    rest.reverse()
+
+    # Remove all collections and re-add them in the new order
+    for collection in ax.collections:
+        collection.remove()
+    for collection in first_n + rest:
+        ax.add_collection(collection)
+
+
 def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
     """
     Plot a 1D function on a given range.
@@ -177,11 +204,14 @@ def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
     else:
         if not isinstance(func, list):
             func = [func]
+        n_collections_before = len(list(ax.collections))
         ax.stackplot(
             x,
             [f(x) for f in func],
             **kwargs,
         )
+        # Invert the order of the collection objects to match the top-down order of the stackplot
+        _invert_collection_order(ax, n_collections_before)
 
 
 def plot_2d_hist_with_projections(
@@ -522,7 +552,7 @@ def plot_comparison(
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
         hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
-        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties ** 2]
+        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
     else:
         plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
         hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
