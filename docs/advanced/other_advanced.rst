@@ -37,7 +37,7 @@ Flatten 2D variable
 
 Compare data and stacked histogram for a flatten 2D variable:
 
-.. literalinclude:: ../examples/model_ex/model_examples_flatten2D.py
+.. literalinclude:: ../examples/advanced/model_examples_flatten2D.py
     :language: python
     :start-after: ###
 
