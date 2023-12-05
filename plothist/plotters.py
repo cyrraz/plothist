@@ -522,7 +522,7 @@ def plot_comparison(
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
         hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
-        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties ** 2]
+        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
     else:
         plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
         hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
@@ -722,7 +722,6 @@ def plot_model(
     function_range=None,
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
-    leg_ncol=1,
     fig=None,
     ax=None,
 ):
@@ -762,8 +761,6 @@ def plot_model(
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
         The label for the model uncertainties. Default is "Model stat. unc.".
-    leg_ncol : int, optional
-        The number of columns for the legend. Default is 1.
     fig : matplotlib.figure.Figure or None, optional
         The Figure object to use for the plot. Create a new one if none is provided.
     ax : matplotlib.axes.Axes or None, optional
@@ -778,6 +775,11 @@ def plot_model(
         The Axes object containing the plot.
 
     """
+
+    # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    stacked_kwargs = stacked_kwargs.copy()
+    unstacked_kwargs_list = unstacked_kwargs_list.copy()
+    model_sum_kwargs = model_sum_kwargs.copy()
 
     components = stacked_components + unstacked_components
 
@@ -805,16 +807,16 @@ def plot_model(
 
     if len(stacked_components) > 0:
         # Plot the stacked components
+        stacked_kwargs.setdefault("edgecolor", "black")
+        stacked_kwargs.setdefault("linewidth", 0.5)
         if model_type == "histograms":
+            stacked_kwargs.setdefault("histtype", "stepfilled")
             plot_hist(
                 stacked_components,
                 ax=ax,
                 stacked=True,
                 color=stacked_colors,
                 label=stacked_labels,
-                edgecolor="black",
-                linewidth=0.5,
-                histtype="stepfilled",
                 **stacked_kwargs,
             )
             if model_uncertainty and len(unstacked_components) == 0:
@@ -828,8 +830,6 @@ def plot_model(
                 stacked=True,
                 colors=stacked_colors,
                 labels=stacked_labels,
-                edgecolor="black",
-                linewidth=0.5,
                 range=xlim,
                 **stacked_kwargs,
             )
@@ -849,13 +849,13 @@ def plot_model(
             unstacked_kwargs_list,
         ):
             if model_type == "histograms":
+                unstacked_kwargs.setdefault("histtype", "step")
                 plot_hist(
                     component,
                     ax=ax,
                     stacked=False,
                     color=color,
                     label=label,
-                    histtype="step",
                     **unstacked_kwargs,
                 )
             else:
@@ -907,7 +907,7 @@ def plot_model(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     set_fitting_ylabel_fontsize(ax)
-    ax.legend(ncol=leg_ncol)
+    ax.legend()
 
     return fig, ax
 
@@ -1030,7 +1030,6 @@ def plot_data_model_comparison(
         function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
         model_uncertainty=model_uncertainty,
         model_uncertainty_label=model_uncertainty_label,
-        leg_ncol=1,
         fig=fig,
         ax=ax_main,
     )
