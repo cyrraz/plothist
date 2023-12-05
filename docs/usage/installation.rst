@@ -38,7 +38,7 @@ Install ``plothist``
    This will automatically also install ``plothist`` into your current environment.
    Please make sure to always setup your environment correctly before using ``plothist``.
 
- The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the step by step tutorial here :ref:`basics-1d_hist-label` or directly to the gallery here :ref:`gallery-label`.
+ The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the step by step tutorial here :ref:`basics-1d_hist-label` or directly to the `gallery here <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
 
 
 Update ``plothist``

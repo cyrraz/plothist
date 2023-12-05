@@ -12,11 +12,8 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
     df = generate_dummy_data()
 
 
-Advanced 1D
-===========
-
 Compare two histograms
-----------------------
+======================
 
 In this example, we will compare two tuples of histograms and use pull and ratio comparisons.
 
@@ -32,7 +29,7 @@ First, we make the histograms and scale them. Then, we plot the histograms and t
 
 
 Advanced asymmetry plot
------------------------
+=======================
 
 This example shows how to plot an asymmetry plot between two histograms and two functions:
 
@@ -46,7 +43,7 @@ This example shows how to plot an asymmetry plot between two histograms and two 
 
 
 Flatten 2D variable
--------------------
+===================
 
 Compare data and stacked histogram for a flatten 2D variable:
 
