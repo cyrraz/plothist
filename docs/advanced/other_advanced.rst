@@ -31,6 +31,19 @@ First, we make the histograms and scale them. Then, we plot the histograms and t
    :width: 500
 
 
+Advanced asymmetry plot
+-----------------------
+
+This example shows how to plot an asymmetry plot between two histograms and two functions:
+
+.. literalinclude:: ../examples/advanced/asymmetry_comparison_advanced.py
+   :language: python
+   :start-after: ###
+
+.. image:: ../img/asymmetry_comparison_advanced.svg
+   :alt: Advanced asymmetry comparison
+   :width: 500
+
 
 Flatten 2D variable
 -------------------
