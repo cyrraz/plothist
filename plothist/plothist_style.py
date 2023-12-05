@@ -396,7 +396,7 @@ def plot_reordered_legend(ax, order):
     handlers, labels = ax.get_legend_handles_labels()
 
     # Check if order is valid
-    if not all(i in range(len(labels)) for i in order):
+    if not all(i in range(len(labels)) for i in order) or len(set(order)) < len(order):
         raise ValueError(
             "The order list should contain all integers from 0 to "
             f"{len(labels) - 1}."
