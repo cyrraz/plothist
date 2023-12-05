@@ -1,3 +1,5 @@
+.. _gallery-label:
+
 Image gallery
 =============
 
