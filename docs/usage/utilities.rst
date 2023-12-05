@@ -40,7 +40,10 @@ Automatic ylabel fontsize
    :alt: Pull comparison
    :width: 500
 
+Reorder legend entries
+======================
 
+The function ``reorder_legend(ax, order)`` reorder the legend entries of a given plot. It is useful when you want to have a specific order in your legend.
 
 Save figure
 ===========

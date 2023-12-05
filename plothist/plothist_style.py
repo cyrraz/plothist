@@ -92,7 +92,7 @@ def cubehelix_palette(
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (γ > 1)
-            lambda_gamma = lambda_ ** gamma
+            lambda_gamma = lambda_**gamma
 
             # Angle and amplitude for the deviation
             # from the black to white diagonal
@@ -353,3 +353,58 @@ def add_luminosity(
         ax=ax,
         **kwargs,
     )
+
+
+def plot_reordered_legend(ax, order):
+    """
+    Reorder the legend handlers and labels on the given Matplotlib axis based
+    on the specified order and plot the reordered legend.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The Matplotlib Axes object on which the legend is to be reordered.
+
+    order : list of int
+        A list of integers specifying the new order of the legend items.
+        The integers refer to the indices of the current legend items.
+
+    Returns
+    -------
+    None
+
+    Raises
+    ------
+    ValueError
+        If the order list does not contain all integers from 0 to
+        len(labels) - 1.
+
+    Examples
+    --------
+
+    >>> fig, ax = plt.subplots()
+    >>> ax.plot([1, 2, 3], label='Line 1')
+    >>> ax.plot([3, 2, 1], label='Line 2')
+
+    To reorder the legend so that 'Line 2' comes first, use:
+
+    >>> plot_reordered_legend(ax, [1, 0])
+
+    """
+
+    # Extract the original handlers and labels
+    handlers, labels = ax.get_legend_handles_labels()
+
+    # Check if order is valid
+    if not all(i in range(len(labels)) for i in order):
+        raise ValueError(
+            "The order list should contain all integers from 0 to "
+            f"{len(labels) - 1}."
+        )
+
+    # Reorder handlers and labels
+    new_handlers = [handlers[i] for i in order]
+    new_labels = [labels[i] for i in order]
+
+    # Draw the new legend
+    ax.legend(new_handlers, new_labels)
