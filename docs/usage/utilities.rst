@@ -40,6 +40,22 @@ Automatic ylabel fontsize
    :alt: Pull comparison
    :width: 500
 
+Reorder legend entries
+======================
+
+The function ``reorder_legend(ax, order)`` reorder the legend entries of a given plot. It is useful when you want to have a specific order in your legend.
+
+.. code-block:: python
+
+   import matplotlib.pyplot as plt
+   from plothist import plot_reordered_legend
+
+   fig, ax = plt.subplots()
+   ax.plot([1, 2, 3], label='Line 1')
+   ax.plot([3, 2, 1], label='Line 2')
+
+   # To reorder the legend so that 'Line 2' comes first, use:
+   plot_reordered_legend(ax, [1, 0])
 
 
 Save figure

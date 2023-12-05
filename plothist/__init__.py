@@ -47,6 +47,7 @@ from .plothist_style import (
     set_fitting_ylabel_fontsize,
     add_text,
     add_luminosity,
+    plot_reordered_legend,
 )
 
 __all__ = [
@@ -85,6 +86,7 @@ __all__ = [
     "get_ratio",
     "get_ratio_variances",
     "flatten_2d_hist",
+    "plot_reordered_legend",
 ]
 
 
