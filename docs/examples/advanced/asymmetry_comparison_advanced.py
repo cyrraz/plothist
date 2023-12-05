@@ -1,3 +1,11 @@
+"""
+Complex asymmetry
+=================
+
+This example shows how to plot the asymmetry between 2 histograms.
+"""
+
+
 # Get dummy data
 from plothist.generate_dummy_data import generate_dummy_data
 
