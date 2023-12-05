@@ -56,7 +56,6 @@ The function ``reorder_legend(ax, order)`` reorder the legend entries of a given
 
    # To reorder the legend so that 'Line 2' comes first, use:
    plot_reordered_legend(ax, [1, 0])
-   plt.show()
 
 
 Save figure
