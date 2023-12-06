@@ -958,6 +958,7 @@ def plot_data_model_comparison(
     model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
+    data_uncertainty_type="asymmetrical",
     fig=None,
     ax_main=None,
     ax_comparison=None,
@@ -1001,6 +1002,8 @@ def plot_data_model_comparison(
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
         The label for the model uncertainties. Default is "Model stat. unc.".
+    data_uncertainty_type : str, optional
+        What kind of bin uncertainty to use for data_hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "asymmetrical".
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
@@ -1063,14 +1066,6 @@ def plot_data_model_comparison(
         fig=fig,
         ax=ax_main,
     )
-
-    # Compute data uncertainties
-    if _is_unweighted(data_hist):
-        # For unweighted data, use a Poisson confidence interval as uncertainty
-        data_uncertainty_type = "asymmetrical"
-    else:
-        # Otherwise, use the Poisson standard deviation as uncertainty
-        data_uncertainty_type = "symmetrical"
 
     plot_error_hist(
         data_hist,
