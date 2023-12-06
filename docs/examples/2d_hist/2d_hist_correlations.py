@@ -5,9 +5,9 @@
 This example shows how to plot a multiple 2d histograms with the variable registry.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist.get_dummy_data import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 ###
 from itertools import combinations

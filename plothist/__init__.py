@@ -50,6 +50,8 @@ from .plothist_style import (
     plot_reordered_legend,
 )
 
+from .get_dummy_data import get_dummy_data
+
 __all__ = [
     "__version__",
     "create_variable_registry",
@@ -87,6 +89,7 @@ __all__ = [
     "get_ratio_variances",
     "flatten_2d_hist",
     "plot_reordered_legend",
+    "get_dummy_data"
 ]
 
 

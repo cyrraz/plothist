@@ -5,9 +5,9 @@ All data/model comparisons, no model uncertainty
 This example shows every possible comparison between data and model, without model uncertainty.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist.get_dummy_data import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 from plothist import make_hist, get_color_palette
 

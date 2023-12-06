@@ -7,9 +7,9 @@ This example shows how to plot the asymmetry between 2 histograms.
 
 
 # Get dummy data
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist.get_dummy_data import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 ###
 from scipy.stats import norm
