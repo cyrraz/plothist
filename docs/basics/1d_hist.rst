@@ -4,12 +4,12 @@
 Basic 1D
 ========
 
-The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
+The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be loaded with:
 
 .. code-block:: python
 
-    from plothist.generate_dummy_data import generate_dummy_data
-    df = generate_dummy_data()
+    from plothist import get_dummy_data
+    df = get_dummy_data()
 
 
 Simple 1D histogram

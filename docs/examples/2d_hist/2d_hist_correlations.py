@@ -1,13 +1,13 @@
 """
-2d hist correlations
-====================
+2d Multiple hists
+=================
 
-This example shows how to plot a multiple 2d histograms with the variable registry.
+Plot multiple 2d histograms easily with the variable registry.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 ###
 from itertools import combinations

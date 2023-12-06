@@ -2,7 +2,7 @@
 Color palette squares
 =====================
 
-This example shows how to create a plot with a color palette with squares representing the gradient of the color palette.
+Create a plot of a color palette with squares representing the color gradient of the palette.
 """
 
 

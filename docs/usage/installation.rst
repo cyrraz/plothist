@@ -8,6 +8,9 @@ Installation and update
 Using PyPI (stable version)
 ===========================
 
+Install ``plothist``
+--------------------
+
 1.  (Optional) If you use a local environment:
 
     For example, run:
@@ -35,7 +38,11 @@ Using PyPI (stable version)
    This will automatically also install ``plothist`` into your current environment.
    Please make sure to always setup your environment correctly before using ``plothist``.
 
-   The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the :ref:`basics-1d_hist-label`.
+ The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the step by step tutorial here :ref:`basics-1d_hist-label` or directly to the `gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
+
+
+Update ``plothist``
+-------------------
 
 To update ``plothist`` to its latest stable version, follow the instructions above, adding the argument ``--upgrade`` right after ``pip3 install``:
 

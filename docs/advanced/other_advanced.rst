@@ -1,22 +1,21 @@
 .. _advanced-label:
 
-====================
-Other advanced plots
-====================
+======================
+Other complex examples
+======================
 
-The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
+This section shows how to use the ``plothist`` package to make more complex plots. The examples below use a lot of the functionnality of the package to produce the plots, but the code is still quite simple and easy to read.
+
+They make use of a pandas dataframe ``df`` containing dummy data, that can be loaded with:
 
 .. code-block:: python
 
-    from plothist.generate_dummy_data import generate_dummy_data
-    df = generate_dummy_data()
+    from plothist import get_dummy_data
+    df = get_dummy_data()
 
 
-Advanced 1D
-===========
-
-Compare two histograms
-----------------------
+Advanced example comparing two histograms
+=========================================
 
 In this example, we will compare two tuples of histograms and use pull and ratio comparisons.
 
@@ -31,9 +30,22 @@ First, we make the histograms and scale them. Then, we plot the histograms and t
    :width: 500
 
 
+Advanced example using asymmetry comparison
+===========================================
+
+This example shows how to plot an asymmetry plot between two histograms and two functions:
+
+.. literalinclude:: ../examples/advanced/asymmetry_comparison_advanced.py
+   :language: python
+   :start-after: ###
+
+.. image:: ../img/asymmetry_comparison_advanced.svg
+   :alt: Advanced asymmetry comparison
+   :width: 500
+
 
 Flatten 2D variable
--------------------
+===================
 
 Compare data and stacked histogram for a flatten 2D variable:
 
@@ -45,20 +57,3 @@ Compare data and stacked histogram for a flatten 2D variable:
    :alt: Data/model comparison, flatten variable
    :width: 500
 
-
-
-Advanced 2D
-===========
-
-Display 1D distributions
-------------------------
-
-To plot a 2d histogram with x and y projections:
-
-.. literalinclude:: ../examples/advanced/2d_hist_with_projections.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/2d_hist_with_projections.svg
-   :alt: 2d hist with x and y projections
-   :width: 500

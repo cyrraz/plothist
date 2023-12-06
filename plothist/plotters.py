@@ -72,7 +72,7 @@ def plot_hist(hist, ax, **kwargs):
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
     **kwargs
-        Additional keyword arguments forwarded to ax.hist().
+        Additional keyword arguments forwarded to ax.hist(), such as density, color, label, histtype...
     """
     if not isinstance(hist, list):
         # Single histogram
@@ -124,6 +124,10 @@ def plot_2d_hist(
     square_ax : bool, optional
         Whether to make the main ax square (default is True).
     """
+    # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    pcolormesh_kwargs = pcolormesh_kwargs.copy()
+    colorbar_kwargs = colorbar_kwargs.copy()
+
     pcolormesh_kwargs.setdefault("edgecolors", "face")
 
     if fig is None and ax is None and ax_colorbar is None:
@@ -264,6 +268,10 @@ def plot_2d_hist_with_projections(
     ax_colorbar : matplotlib.axes.Axes
         The axes for the colorbar.
     """
+    # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    pcolormesh_kwargs = pcolormesh_kwargs.copy()
+    colorbar_kwargs = colorbar_kwargs.copy()
+    plot_hist_kwargs = plot_hist_kwargs.copy()
 
     colorbar_kwargs.setdefault("label", colorbar_label)
     plot_hist_kwargs.setdefault("histtype", "stepfilled")
@@ -336,7 +344,7 @@ def plot_2d_hist_with_projections(
     return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
-def plot_error_hist(hist, ax, uncertainty_type="symmetrical", **kwargs):
+def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **kwargs):
     """
     Create an errorbar plot from a boost histogram.
 
@@ -351,10 +359,16 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", **kwargs):
         Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
         More information in :ref:`documentation-statistics-label`.
         The uncertainties are overwritten if the keyword argument yerr is provided.
+    density : bool, optional
+        Whether to normalize the histogram to unit area. Default is False.
     **kwargs
         Additional keyword arguments forwarded to ax.errorbar().
     """
     _check_uncertainty_type(uncertainty_type)
+
+    if density:
+        hist = hist.copy()
+        hist *= 1 / (hist.values() * hist.axes[0].widths).sum()
 
     if uncertainty_type == "symmetrical":
         kwargs.setdefault("yerr", np.sqrt(hist.variances()))
@@ -496,8 +510,8 @@ def plot_comparison(
     comparison="ratio",
     comparison_ylabel=None,
     comparison_ylim=None,
-    ratio_uncertainty="uncorrelated",
-    hist_1_uncertainty="symmetrical",
+    ratio_uncertainty_type="uncorrelated",
+    hist_1_uncertainty_type="symmetrical",
     **plot_hist_kwargs,
 ):
     """
@@ -523,9 +537,9 @@ def plot_comparison(
         The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
-    ratio_uncertainty : str, optional
+    ratio_uncertainty_type : str, optional
         How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
-    hist_1_uncertainty : str, optional
+    hist_1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
@@ -547,7 +561,7 @@ def plot_comparison(
     _check_binning_consistency([hist_1, hist_2])
 
     comparison_values, lower_uncertainties, upper_uncertainties = get_comparison(
-        hist_1, hist_2, comparison, ratio_uncertainty, hist_1_uncertainty
+        hist_1, hist_2, comparison, ratio_uncertainty_type, hist_1_uncertainty_type
     )
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
@@ -584,7 +598,7 @@ def plot_comparison(
             ax.axhline(1, ls="--", lw=1.0, color="black")
             ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
-        if ratio_uncertainty == "split":
+        if ratio_uncertainty_type == "split":
             np.seterr(divide="ignore", invalid="ignore")
             h2_scaled_uncertainties = np.where(
                 hist_2.values() != 0,
@@ -958,6 +972,7 @@ def plot_data_model_comparison(
     model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
+    data_uncertainty_type="asymmetrical",
     fig=None,
     ax_main=None,
     ax_comparison=None,
@@ -1001,6 +1016,8 @@ def plot_data_model_comparison(
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
         The label for the model uncertainties. Default is "Model stat. unc.".
+    data_uncertainty_type : str, optional
+        What kind of bin uncertainty to use for data_hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "asymmetrical".
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
@@ -1008,7 +1025,7 @@ def plot_data_model_comparison(
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty="split".
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty_type="split".
 
     Returns
     -------
@@ -1027,7 +1044,7 @@ def plot_data_model_comparison(
     comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "ratio")
-    comparison_kwargs.setdefault("ratio_uncertainty", "split")
+    comparison_kwargs.setdefault("ratio_uncertainty_type", "split")
 
     model_components = stacked_components + unstacked_components
 
@@ -1063,14 +1080,6 @@ def plot_data_model_comparison(
         fig=fig,
         ax=ax_main,
     )
-
-    # Compute data uncertainties
-    if _is_unweighted(data_hist):
-        # For unweighted data, use a Poisson confidence interval as uncertainty
-        data_uncertainty_type = "asymmetrical"
-    else:
-        # Otherwise, use the Poisson standard deviation as uncertainty
-        data_uncertainty_type = "symmetrical"
 
     plot_error_hist(
         data_hist,
@@ -1108,7 +1117,7 @@ def plot_data_model_comparison(
         model_hist,
         ax=ax_comparison,
         xlabel=xlabel,
-        hist_1_uncertainty=data_uncertainty_type,
+        hist_1_uncertainty_type=data_uncertainty_type,
         **comparison_kwargs,
     )
 

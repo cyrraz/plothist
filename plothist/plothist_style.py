@@ -275,12 +275,12 @@ def add_text(
 
 
 def add_luminosity(
-    collaboration="Belle II",
+    collaboration,
     x="right",
     y="top",
     fontsize=12,
     is_data=True,
-    lumi=362,
+    lumi="",
     lumi_unit="fb",
     preliminary=False,
     two_lines=False,
@@ -294,7 +294,7 @@ def add_luminosity(
     Parameters
     ----------
     collaboration : str, optional
-        Collaboration name, by default "Belle II"
+        Collaboration name.
     x : float, optional
         Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0.
     y : float, optional
@@ -304,7 +304,7 @@ def add_luminosity(
     is_data : bool, optional
         If True, plot integrated luminosity. If False, plot "Simulation", by default True.
     lumi : int/string, optional
-        Integrated luminosity. Default value is 362. If empty, do not plot luminosity.
+        Integrated luminosity. If empty, do not plot luminosity. Default value is empty.
     lumi_unit : string, optional
         Integrated luminosity unit. Default value is fb. The exponent is automatically -1.
     preliminary : bool, optional
@@ -342,7 +342,7 @@ def add_luminosity(
         if lumi:
             text += rf"$\int\,\mathcal{{L}}\,\mathrm{{dt}}={lumi}\,{lumi_unit}^{{-1}}$"
     else:
-        text += r"$\mathrm{\mathbf{Simulation}}$"
+        text += r"$\mathrm{simulation}$"
 
     add_text(
         text,

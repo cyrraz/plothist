@@ -5,7 +5,8 @@ plothist
 
 **Plot histograms in a scalable way and a beautiful style.**
 
-Installation and documentation: `https://plothist.readthedocs.io/ <https://plothist.readthedocs.io/>`_
+* Installation and documentation: `https://plothist.readthedocs.io/ <https://plothist.readthedocs.io/>`_
+* Image gallery: `https://plothist.readthedocs.io/en/latest/example_gallery/ <https://plothist.readthedocs.io/en/latest/example_gallery/>`_
 
 |img1| |img2|
 
@@ -21,13 +22,16 @@ Installation and documentation: `https://plothist.readthedocs.io/ <https://ploth
 |GitHub Project| |PyPI version| |Docs from latest| |Docs from main| |Code style: black|
 
 
-**Major advantages over other plotting libraries**: scalability, style and user friendly way of managing variables.
+**Major advantages over other plotting libraries**: scalability, style and user-friendly way of managing variables and a stunning `image gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
 
-1. **First idea**: Default style is already presentation-ready and/or paper-ready (with no effort).
+1. **First idea**: default style is already presentation-ready and/or paper-ready (with no effort).
 
-2. **Second idea**: separate the histogram creation from its plotting. Then you can easily manage histogram objects (``boost_histogram`` library) and plot large amount of variables and data really fast.
+2. **Second idea**: separate the histogram creation from its plotting. Then you can easily manage histogram objects (``boost_histogram`` `library <https://boost-histogram.readthedocs.io/>`_) and plot large amount of variables and data really fast.
 
 3. **Third idea**: plot a lot of variable easily with a variable manager. Really easy to modify the plotting information and do multiple plots with same variable but different settings.
+
+4. **Fourth idea**: detailed and user-friendly documentation including a marvelous `gallery of examples <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
+
 
 
 .. image:: https://raw.githubusercontent.com/cyrraz/plothist/main/docs/img/2d_hist_with_projections.svg

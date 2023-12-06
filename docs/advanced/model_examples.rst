@@ -4,12 +4,12 @@
 Plotting model and data
 =======================
 
-The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
+The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be loaded with:
 
 .. code-block:: python
 
-    from plothist.generate_dummy_data import generate_dummy_data
-    df = generate_dummy_data()
+    from plothist import get_dummy_data
+    df = get_dummy_data()
 
 
 Creating the data and model
@@ -223,7 +223,7 @@ Same example plot but we remove the statistical uncertainties of the model by ad
 Ratio options
 -------------
 
-For ``ratio`` or ``relative_difference``, the uncertainties can be split between model and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty="uncorrelated"``). Here are all the possible options:
+For ``ratio`` or ``relative_difference``, the uncertainties can be split between model and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty_type="uncorrelated"``). Here are all the possible options:
 
 .. literalinclude:: ../examples/model_ex/model_comparisons_ratio_options.py
     :language: python

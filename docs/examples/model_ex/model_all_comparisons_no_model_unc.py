@@ -5,9 +5,9 @@ All data/model comparisons, no model uncertainty
 This example shows every possible comparison between data and model, without model uncertainty.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 from plothist import make_hist, get_color_palette
 
@@ -82,7 +82,6 @@ add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=
 for k_comp, comparison in enumerate(
     ["pull", "relative_difference", "difference"], start=2
 ):
-
     ax_comparison = axes[k_comp]
 
     # Copy the original histogram and set the uncertainties of the copy to 0.
@@ -99,8 +98,8 @@ for k_comp, comparison in enumerate(
         xlabel="",
         h1_label="Data",
         h2_label="Pred.",
-        ratio_uncertainty="split",
-        hist_1_uncertainty="asymmetrical",
+        ratio_uncertainty_type="split",
+        hist_1_uncertainty_type="asymmetrical",
     )
     if comparison == "pull":
         # Since the uncertainties of the model are neglected, the pull label is "(Data - Pred.)/sigma_Data"

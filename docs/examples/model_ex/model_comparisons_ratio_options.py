@@ -5,9 +5,9 @@ Data/model ratio comparison
 This example shows every possible parameter combination when comparing data and model with ratio method.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 from plothist import make_hist, get_color_palette
 
@@ -72,19 +72,19 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     xlabel="",
     ylabel="Entries",
     comparison="ratio",
-    ratio_uncertainty="split",
+    ratio_uncertainty_type="split",
     fig=fig,
     ax_main=axes[0],
     ax_comparison=axes[1],
 )
 
 add_text(
-    f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="split", model_uncertainty = True',
+    f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty_type="split", model_uncertainty = True',
     ax=ax_comparison,
     fontsize=10,
 )
 
-for k_comp, (ratio_uncertainty, model_uncertainty) in enumerate(
+for k_comp, (ratio_uncertainty_type, model_uncertainty) in enumerate(
     [
         ("uncorrelated", True),
         ("split", False),
@@ -92,7 +92,6 @@ for k_comp, (ratio_uncertainty, model_uncertainty) in enumerate(
     ],
     start=2,
 ):
-
     ax_comparison = axes[k_comp]
 
     # When the uncertainties on the model are neglected, copy the original histogram and set the uncertainties of the copy to 0.
@@ -110,11 +109,11 @@ for k_comp, (ratio_uncertainty, model_uncertainty) in enumerate(
         xlabel="",
         h1_label="Data",
         h2_label="Pred.",
-        ratio_uncertainty=ratio_uncertainty,
-        hist_1_uncertainty="asymmetrical",
+        ratio_uncertainty_type=ratio_uncertainty_type,
+        hist_1_uncertainty_type="asymmetrical",
     )
     add_text(
-        f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty="{ratio_uncertainty}", model_uncertainty = {model_uncertainty}',
+        f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty_type="{ratio_uncertainty_type}", model_uncertainty = {model_uncertainty}',
         ax=ax_comparison,
         fontsize=10,
     )

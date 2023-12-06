@@ -1,13 +1,14 @@
 """
-1d functions
-============
+1d function
+===========
 
-This example shows how to plot a function with plothist.
+Plot a function with ``plot_function``.
 """
 ###
 from plothist import plot_function
 from scipy.stats import norm
 from matplotlib import pyplot as plt
+
 
 # Define the gaussian function of mean=0.5 and std_dev=3
 def f(x):

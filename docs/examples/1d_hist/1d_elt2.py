@@ -1,13 +1,13 @@
 """
-1d error hist
+1d Error hist
 =============
 
-This example shows how to plot a 1d histogram with error bars with plothist.
+Plot a 1d histogram with error bars using ``plot_error_hist``.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 from plothist import make_hist, plot_hist
 import matplotlib.pyplot as plt

@@ -2,12 +2,12 @@
 Color palette presentation
 ==========================
 
-This example shows how to create a plot with 4 color palettes displayed.
+Create a plot with 4 color palettes displayed.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 import matplotlib.pyplot as plt
 from plothist import make_hist, get_color_palette, add_text, plot_model, plot_error_hist
@@ -55,7 +55,6 @@ cmap_list = ["viridis", "ggplot", "coolwarm", "YlGnBu_r"]
 ax_coords = [(x, y) for x in range(nrows) for y in range(ncols)]
 
 for k, cmap_name in enumerate(cmap_list):
-
     background_categories_colors = get_color_palette(
         cmap_name, len(background_categories)
     )

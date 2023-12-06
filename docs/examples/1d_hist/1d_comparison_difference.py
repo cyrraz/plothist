@@ -2,12 +2,12 @@
 Difference comparison
 =====================
 
-This example shows how to compare two 1D histograms using the difference method.
+Compare two 1D histograms using the difference [h1-h2] method.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 name = "variable_1"
 

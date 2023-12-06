@@ -2,12 +2,12 @@
 Relative difference comparison
 ==============================
 
-This example shows how to compare two 1D histograms using the relative difference.
+Compare two 1D histograms using the relative difference [(h1-h2)/h2].
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 name = "variable_1"
 

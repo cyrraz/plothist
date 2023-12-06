@@ -2,12 +2,12 @@
 Model with stacked and unstacked function components
 =====================================================
 
-This example shows how to plot a model made of stacked and unstacked function components.
+Plot a model made of stacked and unstacked function components.
 """
 
-from plothist.generate_dummy_data import generate_dummy_data
+from plothist import get_dummy_data
 
-df = generate_dummy_data()
+df = get_dummy_data()
 
 from plothist import make_hist, get_color_palette
 
@@ -37,7 +37,7 @@ def f_background2(x):
 
 
 ###
-from plothist import plot_model, add_luminosity, add_text
+from plothist import plot_model, add_text
 
 fig, ax = plot_model(
     stacked_components=[f_background1, f_background2],
@@ -52,8 +52,6 @@ fig, ax = plot_model(
 )
 
 add_text("Model made of functions", ax=ax)
-
-add_luminosity(collaboration="Beast III", ax=ax, is_data=False)
 
 fig.savefig(
     "model_with_stacked_and_unstacked_function_components.svg", bbox_inches="tight"
