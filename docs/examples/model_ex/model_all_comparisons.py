@@ -91,8 +91,8 @@ for k_comp, comparison in enumerate(
         xlabel="",
         h1_label="Data",
         h2_label="Pred.",
-        ratio_uncertainty="split",
-        hist_1_uncertainty="asymmetrical",
+        ratio_uncertainty_type="split",
+        hist_1_uncertainty_type="asymmetrical",
     )
     add_text(
         f'  $\mathbf{{→}}$ comparison = "{comparison}"', ax=ax_comparison, fontsize=13

@@ -99,8 +99,8 @@ for k_comp, comparison in enumerate(
         xlabel="",
         h1_label="Data",
         h2_label="Pred.",
-        ratio_uncertainty="split",
-        hist_1_uncertainty="asymmetrical",
+        ratio_uncertainty_type="split",
+        hist_1_uncertainty_type="asymmetrical",
     )
     if comparison == "pull":
         # Since the uncertainties of the model are neglected, the pull label is "(Data - Pred.)/sigma_Data"
