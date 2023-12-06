@@ -34,12 +34,11 @@ h2 = make_hist(x2, bins=50, range=x_range)
 h3 = make_hist(x3, bins=50, range=x_range)
 h4 = make_hist(x4, bins=50, range=x_range)
 
-# Scaling
-scaling = max([h1.sum().value, h2.sum().value, h3.sum().value, h4.sum().value])
-h1 *= scaling / h1.sum().value
-h2 *= scaling / h2.sum().value
-h3 *= scaling / h3.sum().value
-h4 *= scaling / h4.sum().value
+# Scale the histograms so the area is 1 (density plot)
+h1 *= 1 / h1.sum().value
+h2 *= 1 / h2.sum().value
+h3 *= 1 / h3.sum().value
+h4 *= 1 / h4.sum().value
 
 # Create the 3 axes that we need for this plot
 fig, axes = create_comparison_figure(
@@ -76,7 +75,7 @@ ax1_comparison.set_xlim(x_range)
 ax2_comparison.set_xlim(x_range)
 
 # Set the labels for the different axes
-ax_main.set_ylabel("Entries")
+ax_main.set_ylabel("Entry density")
 ax1_comparison.set_ylabel("$Pull_{A}$")
 ax2_comparison.set_ylabel("$Ratio_{B}$")
 ax2_comparison.set_xlabel("Variable [unit]")
