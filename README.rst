@@ -22,7 +22,7 @@ plothist
 |GitHub Project| |PyPI version| |Docs from latest| |Docs from main| |Code style: black|
 
 
-**Major advantages over other plotting libraries**: scalability, style and user-friendly way of managing variables and a stunning `gallery of examples <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
+**Major advantages over other plotting libraries**: scalability, style and user-friendly way of managing variables and a stunning `image gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
 
 1. **First idea**: default style is already presentation-ready and/or paper-ready (with no effort).
 
