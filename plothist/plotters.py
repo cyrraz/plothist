@@ -124,6 +124,10 @@ def plot_2d_hist(
     square_ax : bool, optional
         Whether to make the main ax square (default is True).
     """
+    # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    pcolormesh_kwargs = pcolormesh_kwargs.copy()
+    colorbar_kwargs = colorbar_kwargs.copy()
+
     pcolormesh_kwargs.setdefault("edgecolors", "face")
 
     if fig is None and ax is None and ax_colorbar is None:
@@ -264,6 +268,10 @@ def plot_2d_hist_with_projections(
     ax_colorbar : matplotlib.axes.Axes
         The axes for the colorbar.
     """
+    # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    pcolormesh_kwargs = pcolormesh_kwargs.copy()
+    colorbar_kwargs = colorbar_kwargs.copy()
+    plot_hist_kwargs = plot_hist_kwargs.copy()
 
     colorbar_kwargs.setdefault("label", colorbar_label)
     plot_hist_kwargs.setdefault("histtype", "stepfilled")
