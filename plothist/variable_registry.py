@@ -134,14 +134,14 @@ def create_variable_registry(
     _save_variable_registry(variable_registry, path=path)
 
 
-def get_variable_from_registry(variable, path="./variable_registry.yaml"):
+def get_variable_from_registry(variable_key, path="./variable_registry.yaml"):
     """
     This function retrieves the parameter information for a variable from the variable registry file specified by the 'path' parameter.
     It loads the variable registry file and returns the dictionary entry corresponding to the specified variable name.
 
     Parameters
     ----------
-    variable : str
+    variable_key : str
         The name of the variable for which to retrieve parameter information.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
@@ -160,7 +160,7 @@ def get_variable_from_registry(variable, path="./variable_registry.yaml"):
 
     with open(path, "r") as f:
         variable_registry = yaml.safe_load(f)
-        return variable_registry[variable]
+        return variable_registry[variable_key]
 
 
 def update_variable_registry(
@@ -250,8 +250,8 @@ def update_variable_registry_ranges(
 
     Parameters
     ----------
-    data : dict
-        A dictionary containing the data for the variables.
+    data : dict or pandas.DataFrame
+        A dataset containing the data for the variables.
     variable_keys : list
         A list of variable keys for which to update the range parameters in the registry. The variable needs to have a bin and range properties in the registry. Default is None: all variables in the registry are updated.
     path : str, optional

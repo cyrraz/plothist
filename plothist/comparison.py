@@ -100,15 +100,15 @@ def _check_binning_consistency(hist_list):
                 raise ValueError("The bins of the histograms must be equal.")
 
 
-def get_ratio_variances(hist_1, hist_2):
+def get_ratio_variances(h1, h2):
     """
-    Calculate the variances of the ratio of two histograms (hist_1/hist_2).
+    Calculate the variances of the ratio of two histograms (h1/h2).
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The first histogram.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The second histogram.
 
     Returns
@@ -121,15 +121,13 @@ def get_ratio_variances(hist_1, hist_2):
     ValueError
         If the bins of the histograms are not equal.
     """
-
-    _check_binning_consistency([hist_1, hist_2])
-    _check_binning_consistency([hist_1, hist_2])
+    _check_binning_consistency([h1, h2])
 
     np.seterr(divide="ignore", invalid="ignore")
     ratio_variances = np.where(
-        hist_2.values() != 0,
-        hist_1.variances() / hist_2.values() ** 2
-        + hist_2.variances() * hist_1.values() ** 2 / hist_2.values() ** 4,
+        h2.values() != 0,
+        h1.variances() / h2.values() ** 2
+        + h2.variances() * h1.values() ** 2 / h2.values() ** 4,
         np.nan,
     )
     np.seterr(divide="warn", invalid="warn")
@@ -137,18 +135,19 @@ def get_ratio_variances(hist_1, hist_2):
     return ratio_variances
 
 
-def get_pull(hist_1, hist_2, hist_1_uncertainty_type="symmetrical"):
+def get_pull(h1, h2, h1_uncertainty_type="symmetrical"):
     """
     Compute the pull between two histograms.
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The first histogram.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The second histogram.
-    hist_1_uncertainty_type : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+    h1_uncertainty_type : str, optional
+        What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -158,23 +157,23 @@ def get_pull(hist_1, hist_2, hist_1_uncertainty_type="symmetrical"):
     comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the pull. Always ones.
     """
-    _check_uncertainty_type(hist_1_uncertainty_type)
-    _check_binning_consistency([hist_1, hist_2])
+    _check_uncertainty_type(h1_uncertainty_type)
+    _check_binning_consistency([h1, h2])
 
-    if hist_1_uncertainty_type == "asymmetrical":
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
-        hist_1_variances = np.where(
-            hist_1.values() >= hist_2.values(),
+    if h1_uncertainty_type == "asymmetrical":
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
+        h1_variances = np.where(
+            h1.values() >= h2.values(),
             uncertainties_low ** 2,
             uncertainties_high ** 2,
         )
-        hist_1 = hist_1.copy()
-        hist_1[:] = np.c_[hist_1.values(), hist_1_variances]
+        h1 = h1.copy()
+        h1[:] = np.c_[h1.values(), h1_variances]
 
     comparison_values = np.where(
-        hist_1.variances() + hist_2.variances() != 0,
-        (hist_1.values() - hist_2.values())
-        / np.sqrt(hist_1.variances() + hist_2.variances()),
+        h1.variances() + h2.variances() != 0,
+        (h1.values() - h2.values())
+        / np.sqrt(h1.variances() + h2.variances()),
         np.nan,
     )
     comparison_uncertainties_low = np.ones_like(comparison_values)
@@ -187,18 +186,19 @@ def get_pull(hist_1, hist_2, hist_1_uncertainty_type="symmetrical"):
     )
 
 
-def get_difference(hist_1, hist_2, hist_1_uncertainty_type="symmetrical"):
+def get_difference(h1, h2, h1_uncertainty_type="symmetrical"):
     """
     Compute the difference between two histograms.
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The first histogram.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The second histogram.
-    hist_1_uncertainty_type : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+    h1_uncertainty_type : str, optional
+        What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -208,22 +208,22 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty_type="symmetrical"):
     comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the difference.
     """
-    _check_uncertainty_type(hist_1_uncertainty_type)
-    _check_binning_consistency([hist_1, hist_2])
+    _check_uncertainty_type(h1_uncertainty_type)
+    _check_binning_consistency([h1, h2])
 
-    comparison_values = hist_1.values() - hist_2.values()
+    comparison_values = h1.values() - h2.values()
 
-    if hist_1_uncertainty_type == "asymmetrical":
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
+    if h1_uncertainty_type == "asymmetrical":
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
 
         comparison_uncertainties_low = np.sqrt(
-            uncertainties_low ** 2 + hist_2.variances()
+            uncertainties_low ** 2 + h2.variances()
         )
         comparison_uncertainties_high = np.sqrt(
-            uncertainties_high ** 2 + hist_2.variances()
+            uncertainties_high ** 2 + h2.variances()
         )
     else:
-        comparison_uncertainties_low = np.sqrt(hist_1.variances() + hist_2.variances())
+        comparison_uncertainties_low = np.sqrt(h1.variances() + h2.variances())
         comparison_uncertainties_high = comparison_uncertainties_low
 
     return (
@@ -233,17 +233,18 @@ def get_difference(hist_1, hist_2, hist_1_uncertainty_type="symmetrical"):
     )
 
 
-def get_asymmetry(hist_1, hist_2):
+def get_asymmetry(h1, h2):
     """
-    Get the asymmetry between two histograms hist_1 and hist_2, defined as (hist_1 - hist_2) / (hist_1 + hist_2).
+    Get the asymmetry between two histograms h1 and h2, defined as (h1 - h2) / (h1 + h2).
     Only symmetrical uncertainties are supported.
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The first histogram.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The second histogram.
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -253,10 +254,10 @@ def get_asymmetry(hist_1, hist_2):
     comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the asymmetry.
     """
-    _check_binning_consistency([hist_1, hist_2])
+    _check_binning_consistency([h1, h2])
 
-    hist_sum = hist_1 + hist_2
-    hist_diff = hist_1 + (-1 * hist_2)
+    hist_sum = h1 + h2
+    hist_diff = h1 + (-1 * h2)
     comparison_values = np.where(
         hist_sum.values() != 0, hist_diff.values() / hist_sum.values(), np.nan
     )
@@ -269,24 +270,25 @@ def get_asymmetry(hist_1, hist_2):
 
 
 def get_ratio(
-    hist_1,
-    hist_2,
+    h1,
+    h2,
+    h1_uncertainty_type="symmetrical",
     ratio_uncertainty_type="uncorrelated",
-    hist_1_uncertainty_type="symmetrical",
 ):
     """
     Compute the ratio between two histograms.
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The numerator histogram.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The denominator histogram.
+    h1_uncertainty_type : str, optional
+        What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     ratio_uncertainty_type : str, optional
-        How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties. Default is "uncorrelated".
-    hist_1_uncertainty_type : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+        How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties. Default is "uncorrelated".
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -296,39 +298,39 @@ def get_ratio(
     comparison_uncertainties_high : numpy.ndarray
         The upper uncertainties on the ratio.
     """
-    _check_uncertainty_type(hist_1_uncertainty_type)
-    _check_binning_consistency([hist_1, hist_2])
+    _check_uncertainty_type(h1_uncertainty_type)
+    _check_binning_consistency([h1, h2])
 
     comparison_values = np.where(
-        hist_2.values() != 0, hist_1.values() / hist_2.values(), np.nan
+        h2.values() != 0, h1.values() / h2.values(), np.nan
     )
 
-    if hist_1_uncertainty_type == "asymmetrical":
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist_1)
+    if h1_uncertainty_type == "asymmetrical":
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
 
     if ratio_uncertainty_type == "uncorrelated":
-        if hist_1_uncertainty_type == "asymmetrical":
-            hist_1_high = hist_1.copy()
-            hist_1_high[:] = np.c_[hist_1_high.values(), uncertainties_high ** 2]
-            hist_1_low = hist_1.copy()
-            hist_1_low[:] = np.c_[hist_1_low.values(), uncertainties_low ** 2]
+        if h1_uncertainty_type == "asymmetrical":
+            h1_high = h1.copy()
+            h1_high[:] = np.c_[h1_high.values(), uncertainties_high ** 2]
+            h1_low = h1.copy()
+            h1_low[:] = np.c_[h1_low.values(), uncertainties_low ** 2]
             comparison_uncertainties_low = np.sqrt(
-                get_ratio_variances(hist_1_low, hist_2)
+                get_ratio_variances(h1_low, h2)
             )
             comparison_uncertainties_high = np.sqrt(
-                get_ratio_variances(hist_1_high, hist_2)
+                get_ratio_variances(h1_high, h2)
             )
         else:
-            comparison_uncertainties_low = np.sqrt(get_ratio_variances(hist_1, hist_2))
+            comparison_uncertainties_low = np.sqrt(get_ratio_variances(h1, h2))
             comparison_uncertainties_high = comparison_uncertainties_low
     elif ratio_uncertainty_type == "split":
-        if hist_1_uncertainty_type == "asymmetrical":
-            comparison_uncertainties_low = uncertainties_low / hist_2.values()
-            comparison_uncertainties_high = uncertainties_high / hist_2.values()
+        if h1_uncertainty_type == "asymmetrical":
+            comparison_uncertainties_low = uncertainties_low / h2.values()
+            comparison_uncertainties_high = uncertainties_high / h2.values()
         else:
             h1_scaled_uncertainties = np.where(
-                hist_2.values() != 0,
-                np.sqrt(hist_1.variances()) / hist_2.values(),
+                h2.values() != 0,
+                np.sqrt(h1.variances()) / h2.values(),
                 np.nan,
             )
             comparison_uncertainties_low = h1_scaled_uncertainties
@@ -344,27 +346,28 @@ def get_ratio(
 
 
 def get_comparison(
-    hist_1,
-    hist_2,
+    h1,
+    h2,
     comparison,
+    h1_uncertainty_type="symmetrical",
     ratio_uncertainty_type="uncorrelated",
-    hist_1_uncertainty_type="symmetrical",
 ):
     """
     Compute the comparison between two histograms.
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The first histogram for comparison.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The second histogram for comparison.
     comparison : str
         The type of comparison ("ratio", "pull", "difference", "relative_difference" or "asymmetry").
+    h1_uncertainty_type : str, optional
+        What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     ratio_uncertainty_type : str, optional
-        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
-    hist_1_uncertainty_type : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
+
     Returns
     -------
     values : numpy.ndarray
@@ -374,34 +377,34 @@ def get_comparison(
     upper_uncertainties : numpy.ndarray
         The upper uncertainties on the comparison values.
     """
-    _check_uncertainty_type(hist_1_uncertainty_type)
-    _check_binning_consistency([hist_1, hist_2])
+    _check_uncertainty_type(h1_uncertainty_type)
+    _check_binning_consistency([h1, h2])
 
     np.seterr(divide="ignore", invalid="ignore")
 
     if comparison == "ratio":
         values, lower_uncertainties, upper_uncertainties = get_ratio(
-            hist_1, hist_2, ratio_uncertainty_type, hist_1_uncertainty_type
+            h1, h2, h1_uncertainty_type, ratio_uncertainty_type
         )
     elif comparison == "relative_difference":
         values, lower_uncertainties, upper_uncertainties = get_ratio(
-            hist_1, hist_2, ratio_uncertainty_type, hist_1_uncertainty_type
+            h1, h2, h1_uncertainty_type, ratio_uncertainty_type
         )
         values -= 1  # relative difference is ratio-1
     elif comparison == "pull":
         values, lower_uncertainties, upper_uncertainties = get_pull(
-            hist_1, hist_2, hist_1_uncertainty_type
+            h1, h2, h1_uncertainty_type
         )
     elif comparison == "difference":
         values, lower_uncertainties, upper_uncertainties = get_difference(
-            hist_1, hist_2, hist_1_uncertainty_type
+            h1, h2, h1_uncertainty_type
         )
     elif comparison == "asymmetry":
-        if hist_1_uncertainty_type == "asymmetrical":
+        if h1_uncertainty_type == "asymmetrical":
             raise ValueError(
                 "Asymmetrical uncertainties are not supported for the asymmetry comparison."
             )
-        values, lower_uncertainties, upper_uncertainties = get_asymmetry(hist_1, hist_2)
+        values, lower_uncertainties, upper_uncertainties = get_asymmetry(h1, h2)
     else:
         raise ValueError(
             f"{comparison} not available as a comparison ('ratio', 'pull', 'difference', 'relative_difference' or 'asymmetry')."

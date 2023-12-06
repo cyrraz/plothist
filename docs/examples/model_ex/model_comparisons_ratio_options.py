@@ -110,7 +110,7 @@ for k_comp, (ratio_uncertainty_type, model_uncertainty) in enumerate(
         h1_label="Data",
         h2_label="Pred.",
         ratio_uncertainty_type=ratio_uncertainty_type,
-        hist_1_uncertainty_type="asymmetrical",
+        h1_uncertainty_type="asymmetrical",
     )
     add_text(
         f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty_type="{ratio_uncertainty_type}", model_uncertainty = {model_uncertainty}',

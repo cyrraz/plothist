@@ -33,14 +33,14 @@ for style in ["matplotlib", "plothist"]:
     hist_0, bins, _ = ax1.hist(
         df["variable_0"], bins=20, histtype="step", linewidth=1.2, label="h1"
     )
-    hist_1 = ax1.hist(
+    h1 = ax1.hist(
         df["variable_1"], bins=bins, histtype="step", linewidth=1.2, label="h2"
     )
     ax1.set_ylabel("Entries")
     ax1.legend()
 
     # Calculate the ratio of histogram values and plot in the second subplot (ax2)
-    ratio = hist_0 / hist_1[0]  # Divide bin values of variable_0 by variable_1
+    ratio = hist_0 / h1[0]  # Divide bin values of variable_0 by variable_1
     bin_centers = 0.5 * (bins[:-1] + bins[1:])  # Calculate bin centers
 
     # Create fake error bars for the ratio
