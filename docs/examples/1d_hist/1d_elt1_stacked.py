@@ -1,8 +1,8 @@
 """
-1d hist stacked
-===============
+1d Stacked hists
+================
 
-This example shows how to stack two 1d histogram with plothist.
+Stack two 1d histograms with ``plot_hist`` function.
 """
 
 from plothist.get_dummy_data import get_dummy_data

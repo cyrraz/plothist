@@ -1,8 +1,8 @@
 """
-Advanced comparison of 1D histograms
-====================================
+Advanced example comparing 1D histograms
+========================================
 
-This example shows how to compare two 1D histograms using the pull and ratio methods on the same plot.
+Compare two 1D histograms using the pull and ratio methods on the same plot.
 """
 
 from plothist.get_dummy_data import get_dummy_data

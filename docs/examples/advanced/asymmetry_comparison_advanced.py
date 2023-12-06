@@ -1,8 +1,8 @@
 """
-Complex asymmetry
-=================
+Advanced example using asymmetry comparison
+===========================================
 
-This example shows how to plot the asymmetry between 2 histograms.
+Plot the asymmetry between 2 histograms and 2 functions.
 """
 
 

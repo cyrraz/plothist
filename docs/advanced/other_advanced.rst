@@ -12,8 +12,8 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
     df = get_dummy_data()
 
 
-Compare two histograms
-======================
+Advanced example comparing two histograms
+=========================================
 
 In this example, we will compare two tuples of histograms and use pull and ratio comparisons.
 
@@ -28,8 +28,8 @@ First, we make the histograms and scale them. Then, we plot the histograms and t
    :width: 500
 
 
-Advanced asymmetry plot
-=======================
+Advanced example using asymmetry comparison
+===========================================
 
 This example shows how to plot an asymmetry plot between two histograms and two functions:
 

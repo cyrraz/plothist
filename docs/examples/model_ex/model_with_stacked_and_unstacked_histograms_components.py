@@ -2,7 +2,7 @@
 Model with stacked and unstacked histograms components
 ======================================================
 
-This example shows how to plot a model made of stacked and unstacked histograms components.
+Plot a model made of stacked and unstacked histograms components.
 """
 
 from plothist.get_dummy_data import get_dummy_data

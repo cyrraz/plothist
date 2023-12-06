@@ -2,7 +2,7 @@
 Pull comparison
 ===============
 
-This example shows how to compare two 1D histograms using the pull method.
+Compare two 1D histograms using the pull method.
 """
 
 from plothist.get_dummy_data import get_dummy_data

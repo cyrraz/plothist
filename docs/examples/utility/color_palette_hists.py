@@ -2,7 +2,7 @@
 Color palette presentation
 ==========================
 
-This example shows how to create a plot with 4 color palettes displayed.
+Create a plot with 4 color palettes displayed.
 """
 
 from plothist.get_dummy_data import get_dummy_data

@@ -1,8 +1,8 @@
 """
-1d functions
-============
+1d function
+===========
 
-This example shows how to plot a function with plothist.
+Plot a function with ``plot_function``.
 """
 ###
 from plothist import plot_function

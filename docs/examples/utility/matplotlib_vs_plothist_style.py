@@ -2,7 +2,7 @@
 Matplotlib vs plothist style
 ============================
 
-This example shows the difference between the matplotlib and plothist styles using a simple example.
+This example shows the difference between matplotlib and plothist default style.
 """
 
 

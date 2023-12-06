@@ -2,7 +2,7 @@
 Ratio comparison
 ================
 
-This example shows how to compare two 1D histograms using the ratio method.
+Compare two 1D histograms using the ratio [h1/h2] method.
 """
 
 from plothist.get_dummy_data import get_dummy_data

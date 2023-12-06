@@ -1,8 +1,8 @@
 """
-1d functions
-============
+1d Stacked functions
+====================
 
-This example shows how to plot a function with plothist.
+Plot stacked functions using ``plot_function``.
 """
 
 from scipy.stats import norm

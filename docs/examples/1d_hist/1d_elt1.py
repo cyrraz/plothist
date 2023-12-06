@@ -1,8 +1,8 @@
 """
-1d, two hist
-============
+1d Multiple hists
+=================
 
-This example shows how to add multiple histograms to the same plot.
+Add multiple histograms to the same plot using multiple ``plot_hist``.
 """
 
 from plothist.get_dummy_data import get_dummy_data

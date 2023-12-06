@@ -1,8 +1,8 @@
 """
-2d hist uneven
-==============
+2d Uneven binning
+=================
 
-This example shows how to plot a 2d histogram with uneven binning.
+Plot a 2d histogram with uneven binning.
 """
 
 from plothist.get_dummy_data import get_dummy_data

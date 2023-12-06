@@ -1,8 +1,8 @@
 """
-1d error hist
+1d Error hist
 =============
 
-This example shows how to plot a 1d histogram with error bars with plothist.
+Plot a 1d histogram with error bars using ``plot_error_hist``.
 """
 
 from plothist.get_dummy_data import get_dummy_data

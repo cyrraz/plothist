@@ -2,7 +2,7 @@
 Model with stacked and unstacked function components
 =====================================================
 
-This example shows how to plot a model made of stacked and unstacked function components.
+Plot a model made of stacked and unstacked function components.
 """
 
 from plothist.get_dummy_data import get_dummy_data

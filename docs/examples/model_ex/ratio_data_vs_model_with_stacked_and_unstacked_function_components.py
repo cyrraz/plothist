@@ -2,7 +2,7 @@
 Model with data, stacked and unstacked functions
 ================================================
 
-This example shows how to plot a model with stacked + unstacked functions and data.
+Plot a model with stacked + unstacked functions and data.
 """
 
 from plothist.get_dummy_data import get_dummy_data

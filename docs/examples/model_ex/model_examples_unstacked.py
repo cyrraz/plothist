@@ -2,7 +2,7 @@
 Model with data, unstacked
 ==========================
 
-This example shows how to plot a model with unstacked components and data.
+Plot a model with unstacked components and data.
 """
 
 from plothist.get_dummy_data import get_dummy_data
