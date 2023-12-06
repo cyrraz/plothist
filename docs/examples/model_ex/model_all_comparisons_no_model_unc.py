@@ -82,7 +82,6 @@ add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=
 for k_comp, comparison in enumerate(
     ["pull", "relative_difference", "difference"], start=2
 ):
-
     ax_comparison = axes[k_comp]
 
     # Copy the original histogram and set the uncertainties of the copy to 0.

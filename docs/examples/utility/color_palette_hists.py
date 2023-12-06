@@ -55,7 +55,6 @@ cmap_list = ["viridis", "ggplot", "coolwarm", "YlGnBu_r"]
 ax_coords = [(x, y) for x in range(nrows) for y in range(ncols)]
 
 for k, cmap_name in enumerate(cmap_list):
-
     background_categories_colors = get_color_palette(
         cmap_name, len(background_categories)
     )

@@ -58,8 +58,6 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     model_uncertainty=False,  # <--
 )
 
-add_luminosity(
-    collaboration="Beast III", ax=ax_main, is_data=False
-)
+add_luminosity(collaboration="Beast III", ax=ax_main, is_data=False)
 
 fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches="tight")

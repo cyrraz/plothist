@@ -92,7 +92,6 @@ for k_comp, (ratio_uncertainty_type, model_uncertainty) in enumerate(
     ],
     start=2,
 ):
-
     ax_comparison = axes[k_comp]
 
     # When the uncertainties on the model are neglected, copy the original histogram and set the uncertainties of the copy to 0.

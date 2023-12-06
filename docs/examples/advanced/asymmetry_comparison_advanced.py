@@ -97,7 +97,7 @@ plot_comparison(
     h1_label="$Data_1$",
     h2_label="$Data_2$",
     comparison="asymmetry",
-    comparison_ylim=(-1, 1)
+    comparison_ylim=(-1, 1),
 )
 
 # Define the asymmetry of the 2 functions
@@ -120,6 +120,8 @@ ax_comparison.set_xlabel(name)
 
 add_text("Data and fit asymmetry comparison", ax=ax_comparison, x="right")
 
-add_luminosity(collaboration="LMN 3", ax=ax_main, lumi="(1 + 0.3)", preliminary=True, x="left")
+add_luminosity(
+    collaboration="LMN 3", ax=ax_main, lumi="(1 + 0.3)", preliminary=True, x="left"
+)
 
 fig.savefig("asymmetry_comparison_advanced.svg", bbox_inches="tight")

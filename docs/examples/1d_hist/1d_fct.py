@@ -9,6 +9,7 @@ from plothist import plot_function
 from scipy.stats import norm
 from matplotlib import pyplot as plt
 
+
 # Define the gaussian function of mean=0.5 and std_dev=3
 def f(x):
     return 1000 * norm.pdf(x, loc=0.5, scale=3)

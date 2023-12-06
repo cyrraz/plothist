@@ -58,6 +58,9 @@ To easily get this color palette, the function ``get_color_palette()`` can be us
 
     colors = get_color_palette("ggplot", 7)
 
+    >>> colors
+    ['#348ABD','#E24A33', '#988ED5', '#777777', '#FBC15E', '#8EBA42', '#FFB5B8']
+
 
 Cubehelix palette
 -----------------

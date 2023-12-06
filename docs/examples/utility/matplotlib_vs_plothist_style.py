@@ -15,7 +15,6 @@ from plothist import get_dummy_data
 df = get_dummy_data()
 
 for style in ["matplotlib", "plothist"]:
-
     if style == "matplotlib":
         plt.style.use("default")
     else:

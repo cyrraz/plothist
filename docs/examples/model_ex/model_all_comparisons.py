@@ -80,7 +80,6 @@ add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=
 for k_comp, comparison in enumerate(
     ["pull", "relative_difference", "difference"], start=2
 ):
-
     ax_comparison = axes[k_comp]
 
     plot_comparison(
