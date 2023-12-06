@@ -40,7 +40,7 @@ def f_background2(x):
 
 
 ###
-from plothist import plot_data_model_comparison, add_luminosity
+from plothist import plot_data_model_comparison
 
 fig, ax_main, ax_comparison = plot_data_model_comparison(
     data_hist=data_hist,
@@ -54,8 +54,6 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
     comparison="pull",
 )
-
-add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
 fig.savefig(
     "ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg",

@@ -269,7 +269,10 @@ def get_asymmetry(hist_1, hist_2):
 
 
 def get_ratio(
-    hist_1, hist_2, ratio_uncertainty_type="uncorrelated", hist_1_uncertainty_type="symmetrical"
+    hist_1,
+    hist_2,
+    ratio_uncertainty_type="uncorrelated",
+    hist_1_uncertainty_type="symmetrical",
 ):
     """
     Compute the ratio between two histograms.

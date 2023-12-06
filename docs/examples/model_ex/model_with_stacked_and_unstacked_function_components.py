@@ -37,7 +37,7 @@ def f_background2(x):
 
 
 ###
-from plothist import plot_model, add_luminosity, add_text
+from plothist import plot_model, add_text
 
 fig, ax = plot_model(
     stacked_components=[f_background1, f_background2],
@@ -52,8 +52,6 @@ fig, ax = plot_model(
 )
 
 add_text("Model made of functions", ax=ax)
-
-add_luminosity(collaboration="Beast III", ax=ax, is_data=False)
 
 fig.savefig(
     "model_with_stacked_and_unstacked_function_components.svg", bbox_inches="tight"

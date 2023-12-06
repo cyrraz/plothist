@@ -45,7 +45,7 @@ signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
 signal_hist *= signal_scaling_factor
 
 ###
-from plothist import plot_model, add_luminosity, add_text
+from plothist import plot_model, add_text
 
 fig, ax = plot_model(
     stacked_components=background_hists,
@@ -62,8 +62,6 @@ fig, ax = plot_model(
 )
 
 add_text("Model made of histograms", ax=ax)
-
-add_luminosity(collaboration="Beast III", ax=ax, preliminary=True, is_data=False)
 
 fig.savefig(
     "model_with_stacked_and_unstacked_histograms_components.svg", bbox_inches="tight"

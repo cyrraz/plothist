@@ -45,7 +45,7 @@ signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
 signal_hist *= signal_scaling_factor
 
 ###
-from plothist import plot_data_model_comparison, add_luminosity
+from plothist import plot_data_model_comparison
 
 fig, ax_main, ax_comparison = plot_data_model_comparison(
     data_hist=data_hist,
@@ -56,7 +56,5 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     ylabel="Candidates per 0.42 $TeV/c^2$",
     comparison="pull",
 )
-
-add_luminosity(collaboration="Beast III", ax=ax_main, lumi="(1 + 0.74)", lumi_unit="ab")
 
 fig.savefig("model_examples_pull.svg", bbox_inches="tight")

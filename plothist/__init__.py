@@ -89,7 +89,7 @@ __all__ = [
     "get_ratio_variances",
     "flatten_2d_hist",
     "plot_reordered_legend",
-    "get_dummy_data"
+    "get_dummy_data",
 ]
 
 

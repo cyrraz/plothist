@@ -118,6 +118,8 @@ ax_main.legend()
 ax_comparison.set_xlim(x_range)
 ax_comparison.set_xlabel(name)
 
-add_luminosity(collaboration="LMN 3", ax=ax_main, is_data=False, preliminary=True)
+add_text("Data and fit asymmetry comparison", ax=ax_comparison, x="right")
+
+add_luminosity(collaboration="LMN 3", ax=ax_main, lumi="(1 + 0.3)", preliminary=True, x="left")
 
 fig.savefig("asymmetry_comparison_advanced.svg", bbox_inches="tight")

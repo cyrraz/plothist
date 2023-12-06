@@ -49,7 +49,6 @@ from plothist import (
     make_2d_hist,
     get_color_palette,
     plot_data_model_comparison,
-    add_luminosity,
     flatten_2d_hist,
     plot_hist,
 )
@@ -112,7 +111,6 @@ plot_hist(
     histtype="step",
 )
 
-add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 ax_main.legend(ncol=3, fontsize=10, loc="upper left")
 
 fig.savefig("model_examples_flatten2D.svg", bbox_inches="tight")

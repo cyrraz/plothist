@@ -45,7 +45,7 @@ signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
 signal_hist *= signal_scaling_factor
 
 ###
-from plothist import plot_data_model_comparison, add_luminosity
+from plothist import plot_data_model_comparison
 
 fig, ax_main, ax_comparison = plot_data_model_comparison(
     data_hist=data_hist,
@@ -60,7 +60,5 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
     comparison_ylim=(0.5, 1.5),
 )
-
-add_luminosity(collaboration="Beast III", ax=ax_main, lumi=50, lumi_unit="zb")
 
 fig.savefig("model_examples_stacked_unstacked.svg", bbox_inches="tight")
