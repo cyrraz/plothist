@@ -25,7 +25,7 @@ from plothist import (
 )
 
 
-# Define some random functions that will be used as fit functions
+# Define some random functions that will be used as Data fit functions
 def f1(x):
     return 4000 * norm.pdf(x, loc=-0.5, scale=1.6)
 
@@ -57,7 +57,7 @@ marker_1 = {
     "ls": "None",
     "fmt": "o",
     "markersize": 5,
-    "label": r"$Event^{+}$",
+    "label": "$Data_1$",
 }
 
 marker_2 = {
@@ -67,7 +67,7 @@ marker_2 = {
     "ls": "None",
     "fmt": "o",
     "markersize": 5,
-    "label": r"$Event^{-}$",
+    "label": "$Data_2$",
 }
 
 # Plot the data
@@ -84,19 +84,20 @@ plot_error_hist(
 )
 
 # Plot the functions
-plot_function(f1, x_range, ax_main, color=marker_1["color"], label="$Fit^+$")
+plot_function(f1, x_range, ax_main, color=marker_1["color"], label="Data$_1$ fit")
 plot_function(
-    f2, x_range, ax_main, color=marker_2["color"], linestyle="--", label="$Fit^-$"
+    f2, x_range, ax_main, color=marker_2["color"], linestyle="--", label="Data$_2$ fit"
 )
 
 # Plot the asymmetry comparison between the 2 histograms
 plot_comparison(
     h1,
     h2,
-    ax_comparison,
+    ax=ax_comparison,
+    h1_label="$Data_1$",
+    h2_label="$Data_2$",
     comparison="asymmetry",
-    comparison_ylim=(-1, 1),
-    comparison_ylabel="Asymmetry",
+    comparison_ylim=(-1, 1)
 )
 
 # Define the asymmetry of the 2 functions
@@ -111,7 +112,7 @@ fig.align_ylabels()
 
 ax_main.set_xlim(x_range)
 ax_main.set_ylim(ymin=0)
-ax_main.set_ylabel("Candidates")
+ax_main.set_ylabel("Entries")
 ax_main.legend()
 
 ax_comparison.set_xlim(x_range)
