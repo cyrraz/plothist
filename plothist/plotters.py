@@ -72,7 +72,7 @@ def plot_hist(hist, ax, **kwargs):
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
     **kwargs
-        Additional keyword arguments forwarded to ax.hist().
+        Additional keyword arguments forwarded to ax.hist(), such as density, color, label, histtype...
     """
     if not isinstance(hist, list):
         # Single histogram
@@ -336,7 +336,7 @@ def plot_2d_hist_with_projections(
     return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
-def plot_error_hist(hist, ax, uncertainty_type="symmetrical", **kwargs):
+def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **kwargs):
     """
     Create an errorbar plot from a boost histogram.
 
@@ -351,10 +351,16 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", **kwargs):
         Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
         More information in :ref:`documentation-statistics-label`.
         The uncertainties are overwritten if the keyword argument yerr is provided.
+    density : bool, optional
+        Whether to normalize the histogram to unit area. Default is False.
     **kwargs
         Additional keyword arguments forwarded to ax.errorbar().
     """
     _check_uncertainty_type(uncertainty_type)
+
+    if density:
+        hist = hist.copy()
+        hist *= 1 / (hist.values() * hist.axes[0].widths).sum()
 
     if uncertainty_type == "symmetrical":
         kwargs.setdefault("yerr", np.sqrt(hist.variances()))

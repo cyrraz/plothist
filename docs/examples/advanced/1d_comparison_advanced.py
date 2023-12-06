@@ -34,12 +34,6 @@ h2 = make_hist(x2, bins=50, range=x_range)
 h3 = make_hist(x3, bins=50, range=x_range)
 h4 = make_hist(x4, bins=50, range=x_range)
 
-# Scale the histograms so the area is 1 (density plot)
-h1 *= 1 / h1.sum().value
-h2 *= 1 / h2.sum().value
-h3 *= 1 / h3.sum().value
-h4 *= 1 / h4.sum().value
-
 # Create the 3 axes that we need for this plot
 fig, axes = create_comparison_figure(
     figsize=(6, 6), nrows=3, gridspec_kw={"height_ratios": [5, 1, 1]}
@@ -52,15 +46,19 @@ ax_main, ax1_comparison, ax2_comparison = axes
 colors = get_color_palette("ggplot", 2)
 
 # Here, we use step as a histtype to only draw the line
-plot_hist(h1, label="Train A", ax=ax_main, histtype="step", linewidth=1.2)
-plot_hist(h3, label="Train B", ax=ax_main, histtype="step", linewidth=1.2)
+plot_hist(h1, label="Train A", ax=ax_main, histtype="step", linewidth=1.2, density=True)
+plot_hist(h3, label="Train B", ax=ax_main, histtype="step", linewidth=1.2, density=True)
 # And then, to make the plot easier to read, we redraw them with stepfilled, which add color below the line
-plot_hist(h1, ax=ax_main, histtype="stepfilled", color=colors[0], alpha=0.2)
-plot_hist(h3, ax=ax_main, histtype="stepfilled", color=colors[1], alpha=0.2)
+plot_hist(
+    h1, ax=ax_main, histtype="stepfilled", color=colors[0], alpha=0.2, density=True
+)
+plot_hist(
+    h3, ax=ax_main, histtype="stepfilled", color=colors[1], alpha=0.2, density=True
+)
 
 # We plot 2 additionnal histograms with point style
-plot_error_hist(h2, label="Test A", ax=ax_main, color="blue")
-plot_error_hist(h4, label="Test B", ax=ax_main, color="red")
+plot_error_hist(h2, label="Test A", ax=ax_main, color="blue", density=True)
+plot_error_hist(h4, label="Test B", ax=ax_main, color="red", density=True)
 
 # First comparison is using pulls. We also change the color of the bars to make the plot easier to read
 plot_comparison(

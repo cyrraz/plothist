@@ -4,7 +4,7 @@
 Basic 1D
 ========
 
-The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
+The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be loaded with:
 
 .. code-block:: python
 
