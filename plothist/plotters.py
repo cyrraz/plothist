@@ -13,7 +13,6 @@ from plothist.comparison import (
     get_asymmetrical_uncertainties,
     _check_binning_consistency,
     _check_uncertainty_type,
-    _is_unweighted,
 )
 from plothist.histogramming import _make_hist_from_function
 from plothist.plothist_style import set_fitting_ylabel_fontsize
@@ -415,8 +414,8 @@ def plot_hist_uncertainties(hist, ax, **kwargs):
 
 
 def plot_two_hist_comparison(
-    hist_1,
-    hist_2,
+    h1,
+    h2,
     xlabel=None,
     ylabel=None,
     h1_label="h1",
@@ -431,9 +430,9 @@ def plot_two_hist_comparison(
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The first histogram to compare.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The second histogram to compare.
     xlabel : str, optional
         The label for the x-axis. Default is None.
@@ -467,7 +466,7 @@ def plot_two_hist_comparison(
 
     """
 
-    _check_binning_consistency([hist_1, hist_2])
+    _check_binning_consistency([h1, h2])
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -476,18 +475,18 @@ def plot_two_hist_comparison(
             "Need to provid fig, ax_main and ax_comparison (or none of them)."
         )
 
-    xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
+    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
 
-    plot_hist(hist_1, ax=ax_main, label=h1_label, histtype="step")
-    plot_hist(hist_2, ax=ax_main, label=h2_label, histtype="step")
+    plot_hist(h1, ax=ax_main, label=h1_label, histtype="step")
+    plot_hist(h2, ax=ax_main, label=h2_label, histtype="step")
     ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
     ax_main.legend()
     _ = ax_main.xaxis.set_ticklabels([])
 
     plot_comparison(
-        hist_1,
-        hist_2,
+        h1,
+        h2,
         ax_comparison,
         xlabel=xlabel,
         h1_label=h1_label,
@@ -501,8 +500,8 @@ def plot_two_hist_comparison(
 
 
 def plot_comparison(
-    hist_1,
-    hist_2,
+    h1,
+    h2,
     ax,
     xlabel="",
     h1_label="h1",
@@ -510,8 +509,8 @@ def plot_comparison(
     comparison="ratio",
     comparison_ylabel=None,
     comparison_ylim=None,
+    h1_uncertainty_type="symmetrical",
     ratio_uncertainty_type="uncorrelated",
-    hist_1_uncertainty_type="symmetrical",
     **plot_hist_kwargs,
 ):
     """
@@ -519,9 +518,9 @@ def plot_comparison(
 
     Parameters
     ----------
-    hist_1 : boost_histogram.Histogram
+    h1 : boost_histogram.Histogram
         The first histogram for comparison.
-    hist_2 : boost_histogram.Histogram
+    h2 : boost_histogram.Histogram
         The second histogram for comparison.
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
@@ -537,10 +536,10 @@ def plot_comparison(
         The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
+    h1_uncertainty_type : str, optional
+        What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
     ratio_uncertainty_type : str, optional
-        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split hist_1 and hist_2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
-    hist_1_uncertainty_type : str, optional
-        What kind of bin uncertainty to use for hist_1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 
@@ -558,18 +557,18 @@ def plot_comparison(
     h1_label = _get_math_text(h1_label)
     h2_label = _get_math_text(h2_label)
 
-    _check_binning_consistency([hist_1, hist_2])
+    _check_binning_consistency([h1, h2])
 
     comparison_values, lower_uncertainties, upper_uncertainties = get_comparison(
-        hist_1, hist_2, comparison, ratio_uncertainty_type, hist_1_uncertainty_type
+        h1, h2, comparison, ratio_uncertainty_type, h1_uncertainty_type
     )
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
-        hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+        hist_comparison = bh.Histogram(h2.axes[0], storage=bh.storage.Weight())
         hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
     else:
         plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
-        hist_comparison = bh.Histogram(hist_2.axes[0], storage=bh.storage.Weight())
+        hist_comparison = bh.Histogram(h2.axes[0], storage=bh.storage.Weight())
         hist_comparison[:] = np.c_[comparison_values, np.zeros_like(comparison_values)]
 
     if comparison == "pull":
@@ -601,13 +600,13 @@ def plot_comparison(
         if ratio_uncertainty_type == "split":
             np.seterr(divide="ignore", invalid="ignore")
             h2_scaled_uncertainties = np.where(
-                hist_2.values() != 0,
-                np.sqrt(hist_2.variances()) / hist_2.values(),
+                h2.values() != 0,
+                np.sqrt(h2.variances()) / h2.values(),
                 np.nan,
             )
             np.seterr(divide="warn", invalid="warn")
             ax.bar(
-                x=hist_2.axes[0].centers,
+                x=h2.axes[0].centers,
                 bottom=np.nan_to_num(
                     bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
@@ -615,7 +614,7 @@ def plot_comparison(
                     2 * h2_scaled_uncertainties,
                     nan=comparison_ylim[-1] - comparison_ylim[0],
                 ),
-                width=hist_2.axes[0].widths,
+                width=h2.axes[0].widths,
                 edgecolor="dimgrey",
                 hatch="////",
                 fill=False,
@@ -640,7 +639,7 @@ def plot_comparison(
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(rf"$\frac{{{h1_label} - {h2_label}}}{{{h1_label} + {h2_label}}}$")
 
-    xlim = (hist_1.axes[0].edges[0], hist_1.axes[0].edges[-1])
+    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
     if comparison_ylim is not None:
@@ -1117,7 +1116,7 @@ def plot_data_model_comparison(
         model_hist,
         ax=ax_comparison,
         xlabel=xlabel,
-        hist_1_uncertainty_type=data_uncertainty_type,
+        h1_uncertainty_type=data_uncertainty_type,
         **comparison_kwargs,
     )
 
