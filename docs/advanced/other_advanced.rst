@@ -1,10 +1,12 @@
 .. _advanced-label:
 
-====================
-Other advanced plots
-====================
+======================
+Other complex examples
+======================
 
-The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
+This section shows how to use the ``plothist`` package to make more complex plots. The examples below use a lot of the functionnality of the package to produce the plots, but the code is still quite simple and easy to read.
+
+They make use of a pandas dataframe ``df`` containing dummy data, that can be generated with:
 
 .. code-block:: python
 
