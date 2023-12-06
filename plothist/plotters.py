@@ -205,6 +205,9 @@ def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
                 **kwargs,
             )
     else:
+        if kwargs.get("labels", None) is None:
+            kwargs["labels"] = []
+
         if not isinstance(func, list):
             func = [func]
         n_collections_before = len(list(ax.collections))
@@ -560,7 +563,7 @@ def plot_comparison(
     _check_binning_consistency([h1, h2])
 
     comparison_values, lower_uncertainties, upper_uncertainties = get_comparison(
-        h1, h2, comparison, ratio_uncertainty_type, h1_uncertainty_type
+        h1, h2, comparison, h1_uncertainty_type, ratio_uncertainty_type
     )
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):

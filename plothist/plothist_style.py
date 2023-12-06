@@ -10,12 +10,12 @@ from importlib.resources import path as resources_path
 
 def set_style(style="default"):
     """
-    Set the matplotlib style.
+    Set the plothist style.
 
     Parameters
     ----------
     style : str, optional
-        Switch between different styles. Default is 'default'. More style might come in the futur.
+        Switch between different styles. Default is 'default'. More style might come in the future.
 
     Returns
     -------

@@ -121,8 +121,6 @@ def get_ratio_variances(h1, h2):
     ValueError
         If the bins of the histograms are not equal.
     """
-
-    _check_binning_consistency([h1, h2])
     _check_binning_consistency([h1, h2])
 
     np.seterr(divide="ignore", invalid="ignore")
@@ -149,6 +147,7 @@ def get_pull(h1, h2, h1_uncertainty_type="symmetrical"):
         The second histogram.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -199,6 +198,7 @@ def get_difference(h1, h2, h1_uncertainty_type="symmetrical"):
         The second histogram.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -244,6 +244,7 @@ def get_asymmetry(h1, h2):
         The first histogram.
     h2 : boost_histogram.Histogram
         The second histogram.
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -271,8 +272,8 @@ def get_asymmetry(h1, h2):
 def get_ratio(
     h1,
     h2,
-    ratio_uncertainty_type="uncorrelated",
     h1_uncertainty_type="symmetrical",
+    ratio_uncertainty_type="uncorrelated",
 ):
     """
     Compute the ratio between two histograms.
@@ -283,10 +284,11 @@ def get_ratio(
         The numerator histogram.
     h2 : boost_histogram.Histogram
         The denominator histogram.
-    ratio_uncertainty_type : str, optional
-        How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties. Default is "uncorrelated".
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+    ratio_uncertainty_type : str, optional
+        How to treat the uncertainties of the histograms: "uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties. Default is "uncorrelated".
+
     Returns
     -------
     comparison_values : numpy.ndarray
@@ -347,8 +349,8 @@ def get_comparison(
     h1,
     h2,
     comparison,
-    ratio_uncertainty_type="uncorrelated",
     h1_uncertainty_type="symmetrical",
+    ratio_uncertainty_type="uncorrelated",
 ):
     """
     Compute the comparison between two histograms.
@@ -361,10 +363,10 @@ def get_comparison(
         The second histogram for comparison.
     comparison : str
         The type of comparison ("ratio", "pull", "difference", "relative_difference" or "asymmetry").
-    ratio_uncertainty_type : str, optional
-        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+    ratio_uncertainty_type : str, optional
+        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
     Returns
     -------
     values : numpy.ndarray
@@ -381,11 +383,11 @@ def get_comparison(
 
     if comparison == "ratio":
         values, lower_uncertainties, upper_uncertainties = get_ratio(
-            h1, h2, ratio_uncertainty_type, h1_uncertainty_type
+            h1, h2, h1_uncertainty_type, ratio_uncertainty_type
         )
     elif comparison == "relative_difference":
         values, lower_uncertainties, upper_uncertainties = get_ratio(
-            h1, h2, ratio_uncertainty_type, h1_uncertainty_type
+            h1, h2, h1_uncertainty_type, ratio_uncertainty_type
         )
         values -= 1  # relative difference is ratio-1
     elif comparison == "pull":
