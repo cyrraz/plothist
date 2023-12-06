@@ -5,7 +5,7 @@ Flatten 2D histograms
 This example shows how to flatten 2D histograms.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

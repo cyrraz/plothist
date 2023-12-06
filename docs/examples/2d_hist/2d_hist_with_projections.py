@@ -5,7 +5,7 @@
 Plot a 2d histogram with the two projections of the 1d distributions.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

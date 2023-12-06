@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

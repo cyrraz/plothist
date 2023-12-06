@@ -5,7 +5,7 @@ Model with data, stacked and unstacked functions
 Plot a model with stacked + unstacked functions and data.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

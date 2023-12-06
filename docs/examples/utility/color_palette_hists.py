@@ -5,7 +5,7 @@ Color palette presentation
 Create a plot with 4 color palettes displayed.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

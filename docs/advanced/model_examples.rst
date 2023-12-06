@@ -8,7 +8,7 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
 
 .. code-block:: python
 
-    from plothist.get_dummy_data import get_dummy_data
+    from plothist import get_dummy_data
     df = get_dummy_data()
 
 

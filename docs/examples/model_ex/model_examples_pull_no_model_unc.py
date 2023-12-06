@@ -5,7 +5,7 @@ Pull plot, no model uncertainty
 Plot a pull plot with data/model comparison without model uncertainty.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

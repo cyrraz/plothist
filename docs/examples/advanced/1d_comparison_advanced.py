@@ -5,7 +5,7 @@ Advanced example comparing 1D histograms
 Compare two 1D histograms using the pull and ratio methods on the same plot.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

@@ -5,7 +5,7 @@
 Plot a 1d histogram with with ``plot_hist``.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

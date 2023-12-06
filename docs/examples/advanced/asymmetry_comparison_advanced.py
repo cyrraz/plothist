@@ -7,7 +7,7 @@ Plot the asymmetry between 2 histograms and 2 functions.
 
 
 # Get dummy data
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 

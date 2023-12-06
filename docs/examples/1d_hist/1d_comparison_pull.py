@@ -5,7 +5,7 @@ Pull comparison
 Compare two 1D histograms using the pull method.
 """
 
-from plothist.get_dummy_data import get_dummy_data
+from plothist import get_dummy_data
 
 df = get_dummy_data()
 
