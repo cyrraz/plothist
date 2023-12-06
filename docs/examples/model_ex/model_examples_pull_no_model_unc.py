@@ -57,6 +57,7 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     comparison="pull",
     model_uncertainty=False,  # <--
 )
+
 add_luminosity(
     collaboration="Beast III", ax=ax_main, is_data=False
 )

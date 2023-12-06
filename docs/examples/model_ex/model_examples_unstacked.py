@@ -58,6 +58,4 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     comparison_ylim=[0.5, 1.5],
 )
 
-ax_main.legend()
-
 fig.savefig("model_examples_unstacked.svg", bbox_inches="tight")
