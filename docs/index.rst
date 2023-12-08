@@ -29,6 +29,7 @@ Content
     basics/variable_registry
     usage/style
     usage/utilities
+    usage/misc
 
 .. toctree::
     :maxdepth: 2
