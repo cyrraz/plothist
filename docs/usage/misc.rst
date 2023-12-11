@@ -4,7 +4,7 @@
 Misc
 ====
 
-
+.. _plot-fit-result-label:
 Plot fit results
 ================
 
@@ -26,7 +26,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
    from scipy.interpolate import interp1d
    import pickle
 
-   def save_pdf(var, pdf, path="pdf.pkl", npoints=10000, verbose=True):
+   def save_pdf(var, pdf, path="pdf.pkl", npoints=10000):
       """
       Save a RooFit PDF as a scipy.interpolate.interp1d function.
 
@@ -40,8 +40,6 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
          The path to save the PDF to. Should end with `.pkl`. Default is "pdf.pkl".
       npoints : int, optional
          The number of points to evaluate the PDF at. Default is 10000.
-      verbose : bool, optional
-         Whether to print progress. Default is True.
 
       Returns
       -------
@@ -62,16 +60,12 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
          var.setVal(i)
          # Evaluate the PDF at the given x value
          pdf_x.append(pdf.getVal(var))
-         if verbose:
-               print(f"\t{path.replace('.pkl','')} progress [{k*100/len(x):.1f}%]", end="\r")
-      if verbose: print()
 
       # Interpolate the PDF
       pdf_func = interp1d(x, pdf_x)
 
       with open(path, "wb") as f:
-         if verbose:
-            print(f"Saving model to {f.name}")
+         print(f"Saving model to {f.name}")
          pickle.dump(pdf_func, f)
 
       return pdf_func
@@ -87,7 +81,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
     from scipy.interpolate import interp1d
     import pickle
 
-    def save_pdf(var, pdf, path="pdf.pkl", npoints=10000, verbose=True):
+    def save_pdf(var, pdf, path="pdf.pkl", npoints=10000):
         """
         Save a PDF from zfit as a callable function.
 
@@ -101,8 +95,6 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
             The path to save the PDF to. Default is "pdf.pkl".
         npoints : int, optional
             The number of points to evaluate the PDF at. Default is 10000.
-        verbose : bool, optional
-            Whether to print progress. Default is True.
 
         Returns
         -------
@@ -123,8 +115,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
         pdf_func = interp1d(x, pdf_x)
 
         with open(path, "wb") as f:
-            if verbose:
-                print(f"Saving model to {f.name}")
+            print(f"Saving model to {f.name}")
             pickle.dump(pdf_func, f)
 
         return pdf_func
@@ -165,4 +156,8 @@ The ``pdf_func`` you get, by either get it from function or read the saved pickl
 
       return lambda x: pdf(x) * n_data * integral * bin_width
 
-Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` to plot the PDF and do all sort of comparisons with the ``plothist`` interface.
+Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` (see :ref:`advanced-asymmetry-label`) to plot the PDF and do all sort of comparisons with the ``plothist`` interface:
+
+.. image:: ../img/asymmetry_comparison_advanced.svg
+   :alt: Advanced asymmetry comparison
+   :width: 500
