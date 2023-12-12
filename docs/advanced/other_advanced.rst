@@ -30,10 +30,11 @@ First, we make the histograms and scale them. Then, we plot the histograms and t
    :width: 500
 
 
+.. _advanced-asymmetry-label:
 Advanced example using asymmetry comparison
 ===========================================
 
-This example shows how to plot an asymmetry plot between two histograms and two functions:
+This example shows how to plot an asymmetry plot between two histograms and two functions. Information on how to convert a function from an external fitting package to an object that can be used by ``plothist`` can be found here :ref:`plot-fit-result-label`.
 
 .. literalinclude:: ../examples/advanced/asymmetry_comparison_advanced.py
    :language: python
