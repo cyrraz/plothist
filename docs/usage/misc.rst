@@ -26,7 +26,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
    from scipy.interpolate import interp1d
    import pickle
 
-   def save_pdf(var, pdf, path="pdf.pkl", npoints=10000):
+   def save_pdf(var, pdf, path="pdf.pkl", n_points=10000):
       """
       Save a RooFit PDF as a scipy.interpolate.interp1d function.
 
@@ -38,7 +38,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
          The PDF to save.
       path : str, optional
          The path to save the PDF to. Should end with `.pkl`. Default is "pdf.pkl".
-      npoints : int, optional
+      n_points : int, optional
          The number of points to evaluate the PDF at. Default is 10000.
 
       Returns
@@ -50,11 +50,12 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
       -----
       The PDF is saved as a scipy.interpolate.interp1d function with pickle.
       """
+
       pdf_x = []
 
       xlim = (var.getMin(), var.getMax())
       # Get a sample of x values
-      x = np.linspace(*xlim, npoints)
+      x = np.linspace(*xlim, n_points)
 
       for k, i in enumerate(x, 1):
          var.setVal(i)
@@ -81,7 +82,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
     from scipy.interpolate import interp1d
     import pickle
 
-    def save_pdf(var, pdf, path="pdf.pkl", npoints=10000):
+    def save_pdf(var, pdf, path="pdf.pkl", n_points=10000):
         """
         Save a PDF from zfit as a callable function.
 
@@ -93,7 +94,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
             The PDF to save.
         path : str, optional
             The path to save the PDF to. Default is "pdf.pkl".
-        npoints : int, optional
+        n_points : int, optional
             The number of points to evaluate the PDF at. Default is 10000.
 
         Returns
@@ -106,7 +107,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
         """
 
         lower, upper = var.limits
-        x = np.linspace(lower[-1][0], upper[0][0], npoints)
+        x = np.linspace(lower[-1][0], upper[0][0], n_points)
 
         # Evaluate the PDF at the given points
         pdf_x = zfit.run(pdf.pdf(x, norm_range=var))
@@ -124,13 +125,13 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
 Renormalize the PDF
 -------------------
 
-The ``pdf_func`` you get, by either get it from function or read the saved pickle file for ``RooFit`` or ``zfit``, has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range and the integral of the PDF in the range. This can be done easily using this small function:
+The ``pdf_func`` you get, by either get it from function or read the saved pickle file for ``RooFit`` or ``zfit``, has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and the integral of the PDF in the range. This can be done easily using this small function:
 
 .. code-block:: python
 
    from scipy.integrate import quad
 
-   def renormalize(pdf, x_range, bins, n_data):
+   def renormalize(pdf, x_range, n_bins, n_data):
       """
       Renormalize a PDF to the number of data events.
 
@@ -140,19 +141,20 @@ The ``pdf_func`` you get, by either get it from function or read the saved pickl
          The PDF to renormalize.
       x_range : tuple
          The range of the PDF.
-      bins : int
-         The number of bins.
+      n_bins : int
+         The number of bins. Regular binning is assumed.
       n_data : int
-         The number of data events expected in the PDF range.
+         The number of predicted data events in the x_range associated to the pdf.
 
       Returns
       -------
       pdf : callable
          The renormalized PDF.
       """
+
       xmin, xmax = x_range
-      bin_width = (xmax - xmin) / bins
-      integral = quad(pdf, xmin, xmax)[0]
+      bin_width = (xmax - xmin) / n_bins
+      integral = quad(pdf, xmin, xmax)[0] # If x_range is equal to the full range of the PDF, this is equal to 1.
 
       return lambda x: pdf(x) * n_data * integral * bin_width
 
