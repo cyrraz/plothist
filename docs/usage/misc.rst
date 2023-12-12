@@ -57,7 +57,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
       # Get a sample of x values
       x = np.linspace(*xlim, n_points)
 
-      for k, i in enumerate(x, 1):
+      for i in x:
          var.setVal(i)
          # Evaluate the PDF at the given x value
          pdf_x.append(pdf.getVal(var))
@@ -70,6 +70,11 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
          pickle.dump(pdf_func, f)
 
       return pdf_func
+
+
+.. warning::
+
+   For a complex PDF that depends on multiple observables, be sure get the correct PDF projection before calling this function (e.g. setting your categories with `category.setIndex()`, create a PDF product with `ROOT.RooProdPdf()`, and if one observable depends on the binning creating the projection using `pdf.createProjection()`...).
 
 
 With zfit
