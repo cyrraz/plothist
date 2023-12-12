@@ -74,7 +74,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
 
 .. warning::
 
-   For a complex PDF that depends on multiple observables, be sure get the correct PDF projection before calling this function (e.g. setting your categories with `category.setIndex()`, create a PDF product with `ROOT.RooProdPdf()`, and if one observable depends on the binning creating the projection using `pdf.createProjection()`...).
+   For a complex PDF that depends on multiple observables, be sure get the correct PDF projection before calling this function (e.g. setting your categories with ``category.setIndex()``, create a PDF product with ``ROOT.RooProdPdf()``, and if one observable depends on the binning creating the projection using ``pdf.createProjection()``...).
 
 
 With zfit
