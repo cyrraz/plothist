@@ -156,7 +156,7 @@ The ``pdf_func`` you get, by either get it from function or read the saved pickl
       bin_width = (xmax - xmin) / n_bins
       integral = quad(pdf, xmin, xmax)[0] # If x_range is equal to the full range of the PDF, this is equal to 1.
 
-      return lambda x: pdf(x) * n_data * integral * bin_width
+      return lambda x: pdf(x) * n_data * bin_width / integral
 
 Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` (see :ref:`advanced-asymmetry-label`) to plot the PDF and do all sort of comparisons with the ``plothist`` interface:
 
