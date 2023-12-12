@@ -51,16 +51,16 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
       The PDF is saved as a scipy.interpolate.interp1d function with pickle.
       """
 
-      pdf_x = []
+      pdf_x = np.zeros(n_points)
 
       xlim = (var.getMin(), var.getMax())
       # Get a sample of x values
       x = np.linspace(*xlim, n_points)
 
-      for i in x:
-         var.setVal(i)
+      for i in range(len(x)):
+         var.setVal(x[i])
          # Evaluate the PDF at the given x value
-         pdf_x.append(pdf.getVal(var))
+         pdf_x[i] = pdf.getVal(var)
 
       # Interpolate the PDF
       pdf_func = interp1d(x, pdf_x)
