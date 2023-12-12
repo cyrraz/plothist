@@ -4,7 +4,6 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "plothist"
-description = "Plot histograms in a scalable way and a beautiful style."
 authors = [
     {name = "Cyrille Praz", email = "code.cyrraz@protonmail.com"},
     {name = "Tristan Fillinger", email = "tristan.github@gmail.com"},
