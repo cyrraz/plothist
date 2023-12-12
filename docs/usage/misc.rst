@@ -133,7 +133,7 @@ The ``pdf_func`` you get, by either get it from function or read the saved pickl
 
    def renormalize(pdf, x_range, n_bins, n_data):
       """
-      Renormalize a PDF to the number of data events.
+      Renormalize a PDF to its corresponding number of data events.
 
       Parameters
       ----------
@@ -156,7 +156,10 @@ The ``pdf_func`` you get, by either get it from function or read the saved pickl
       bin_width = (xmax - xmin) / n_bins
       integral = quad(pdf, xmin, xmax)[0] # If x_range is equal to the full range of the PDF, this is equal to 1.
 
-      return lambda x: pdf(x) * n_data * bin_width / integral
+      def renormalized_pdf(x):
+         return pdf(x) * n_data * bin_width / integral
+
+      return renormalized_pdf
 
 Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` (see :ref:`advanced-asymmetry-label`) to plot the PDF and do all sort of comparisons with the ``plothist`` interface:
 
