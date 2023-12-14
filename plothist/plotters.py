@@ -944,6 +944,7 @@ def plot_model(
             model_uncertainty
             and len(stacked_components) == 0
             and len(unstacked_components) == 1
+            and model_type == "histograms"
         ):
             plot_hist_uncertainties(
                 sum(components), ax=ax, label=model_uncertainty_label
