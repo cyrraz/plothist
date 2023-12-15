@@ -1,8 +1,8 @@
 .. _documentation-label:
 
-=====================
-Package documentation
-=====================
+==================
+Package references
+==================
 
 
 histogramming.py

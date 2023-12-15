@@ -10,7 +10,7 @@ The variable registry is a really convenient tool to store the plotting informat
 Create the registry
 ===================
 
-To create it, you just need to input the list of variable keys you want to store information for. It will automatically create a ``variable_registry.yaml`` that is easy to use and modify:
+To create a variable registry, you just need to input the list of variable keys you want to store information for. It will automatically create a ``variable_registry.yaml`` that is easy to use and modify:
 
 .. code-block:: python
 

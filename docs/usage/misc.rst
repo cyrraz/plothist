@@ -20,6 +20,12 @@ With RooFit
 
 This should be called after you have fitted your model and you have a ``RooAbsPdf`` object.
 
+
+.. warning::
+
+   For a complex PDF that depends on multiple observables, be sure get the correct PDF projection before calling this function.
+
+
 .. code-block:: python
 
    import numpy as np
@@ -70,12 +76,6 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
          pickle.dump(pdf_func, f)
 
       return pdf_func
-
-
-.. warning::
-
-   For a complex PDF that depends on multiple observables, be sure get the correct PDF projection before calling this function.
-
 
 With zfit
 ~~~~~~~~~
@@ -130,7 +130,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
 Renormalize the PDF
 -------------------
 
-The ``pdf_func`` you get, by either get it from function or read the saved pickle file for ``RooFit`` or ``zfit``, has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and the integral of the PDF in the range. This can be done easily using this small function:
+A ``pdf_func`` you get from a scipy function or from the saved pickle file for ``RooFit`` or ``zfit`` has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and divide by the integral of the PDF in the range. This can be done easily using this small function:
 
 .. code-block:: python
 

@@ -11,7 +11,7 @@ Using PyPI (stable version)
 Install ``plothist``
 --------------------
 
-1.  (Optional) If you use a local environment:
+1.  (Optional) If you use a local environment, activate it.
 
     For example, run:
 
@@ -22,7 +22,7 @@ Install ``plothist``
 
 2. Install ``plothist`` from ``PyPI`` into your environment.
 
-   a.  If you have a local installation, you can use the normal setup command
+   a.  If you have a local installation, you can use the normal setup command:
 
    .. code-block:: bash
 
@@ -38,7 +38,7 @@ Install ``plothist``
    This will automatically also install ``plothist`` into your current environment.
    Please make sure to always setup your environment correctly before using ``plothist``.
 
- The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the step by step tutorial here :ref:`basics-1d_hist-label` or directly to the `gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
+ The ``plothist`` package can now be imported in any of your scripts. Now you can go on with the step by step tutorial starting with :ref:`basics-1d_hist-label` or directly to the `gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
 
 
 Update ``plothist``
@@ -54,7 +54,7 @@ To update ``plothist`` to its latest stable version, follow the instructions abo
 Using Flit (development version)
 ================================
 
-1.  (Optional) If you use a local environment:
+1.  (Optional) If you use a local environment, activate it.
 
     For example, run:
 

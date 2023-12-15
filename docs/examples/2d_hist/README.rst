@@ -1,4 +1,4 @@
-Basic 2D histograms
--------------------
+Plot 2D histograms
+------------------
 
-Gallery of images that are used in the basic 2D section.
+Gallery of images that are used in the section about plotting 2D histograms.
