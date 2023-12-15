@@ -70,7 +70,7 @@ The function can also take what kind of bin uncertainty to use for hist with the
 Plotting functions
 ==================
 
-Everything presented for the histogram is also true to plot functions using ``plot_function`` function:
+Everything presented for the histogram is also true to plot functions using the ``plot_function`` function:
 
 .. literalinclude:: ../examples/1d_hist/1d_fct.py
     :language: python
@@ -80,7 +80,7 @@ Everything presented for the histogram is also true to plot functions using ``pl
     :alt: Simple function
     :width: 500
 
-and stack them:
+In particular, you can stack functions:
 
 .. literalinclude:: ../examples/1d_hist/1d_fct_stacked.py
     :language: python
@@ -90,15 +90,11 @@ and stack them:
     :alt: Simple stacked function
     :width: 500
 
-
-Any function from ``scipy.stats`` can also be used to plot a function using ``ax.plot()``.
-
-
 .. _basics-1d_hist_comparison-label:
 Comparing two histograms
 ========================
 
-To compare two histograms, four comparison methods are available: ``ratio``, ``pull``, ``difference`` and ``relative_difference``. The examples below are using the histograms defined above.
+To compare two histograms, five comparison methods are available: ``ratio``, ``pull``, ``difference``, ``relative_difference`` and ``asymmetry``. The examples below are using the histograms defined above.
 
 Ratio
 -----

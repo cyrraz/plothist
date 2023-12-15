@@ -18,7 +18,7 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
 Creating the data and model
 ===========================
 
-Below is the code that generates the data and model histograms used in all the examples of this section. The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of events over a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model to everything that is not our signal. We also show an example of how to scale the model to the data. We also define three functions that will be used as model components.
+Below is the code that generates the data and model histograms used in all the examples of this section. The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of entries for a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model everything that is not the signal. We also show an example of how to scale the model to the data. We also define three functions that will be used as model components.
 
 .. code-block:: python
 
@@ -73,7 +73,7 @@ Simple model plots
 
 If you want to plot only the model, use ``plot_model()``. It supports models made of functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
 
-It can take a lot more arguments to customize the plot than shown in the examples below, see the documentation for more details.
+It can take a lot more arguments to customize the plot than shown in the examples below, see the :ref:`documentation-label` for more details.
 
 Histograms
 ----------
@@ -106,7 +106,7 @@ Here is an example with a model made of functions:
 Compare data and model
 ======================
 
-A data histogram can be added to the plot with ``plot_data_model_comparison()``. It will then compare the sum of the components to the data, witht the comparison of your choice. The default comparison is the ratio between the model and the data. It can take any comparison method available in ``plot_comparison()``. If the events are unweighted, data uncertainties will always be asymmetrical.
+A data histogram can be added to the plot with ``plot_data_model_comparison()``. It will then compare the sum of the components to the data, with the comparison of your choice. The default comparison is the ratio between the model and the data. It can take any comparison method available in ``plot_comparison()``.
 
 Stacked histograms
 ------------------
@@ -125,7 +125,7 @@ An example with stacked histograms:
 Unstacked histograms
 --------------------
 
-Unstacked histogram:
+Unstacked histograms:
 
 .. literalinclude:: ../examples/model_ex/model_examples_unstacked.py
     :language: python
@@ -136,7 +136,7 @@ Unstacked histogram:
    :width: 500
 
 
-Stacked and unnstacked histograms
+Stacked and unstacked histograms
 ---------------------------------
 
 Stacked and unstacked histograms can be combined:
@@ -177,7 +177,7 @@ As said ealier, the comparison function can take any comparison method available
    :width: 500
 
 
-Now, if you do not want to show and take into account the model uncertainties, setting ``model_uncertainty`` to ``False`` remove them and updates the definition of the pulls:
+Now, if you do not want to show nor take into account the model uncertainties, setting ``model_uncertainty`` to ``False`` removes them and updates the definition of the pulls:
 
 .. literalinclude:: ../examples/model_ex/model_examples_pull_no_model_unc.py
     :language: python
@@ -191,7 +191,7 @@ Now, if you do not want to show and take into account the model uncertainties, s
 Comparison overview
 ===================
 
-Here are a series of examples showing complex plots resuming all the possible comparisons between data and model. The idea is to show how to use ``plot_comparison()`` and ``plot_data_model_comparison()`` to make the plots shown in the examples below. The plots are a bit more complex than the ones shown above, but the code to produce them is still quite simple.
+Here is a collection of examples showing complex plots showing all the possible comparisons between data and model. The idea is to show how to use ``plot_comparison()`` and ``plot_data_model_comparison()`` to make the plots shown in the examples below. The plots are a bit more complex than the ones shown above, but the code to produce them is still quite simple.
 
 
 All the different comparisons
@@ -212,7 +212,7 @@ No model uncertainties
 ----------------------
 
 
-Same example plot but we remove the statistical uncertainties of the model by adding ``model_uncertainty=False`` in ``plot_data_model_comparison()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
+Same example as above, but we remove the statistical uncertainties of the model by adding ``model_uncertainty=False`` in ``plot_data_model_comparison()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
 
 .. literalinclude:: ../examples/model_ex/model_all_comparisons_no_model_unc.py
     :language: python
