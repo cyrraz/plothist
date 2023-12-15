@@ -45,12 +45,14 @@ It was observed in some cases that, after the procedure above, you may need to m
    from matplotlib import font_manager
    font_manager.findSystemFonts(fontpaths=None, fontext="ttf")
 
-Make also sure to delete the cache of matplotlib, otherwise the fonts may not be loaded correctly. You can locate the cache folder by running in a python console:
+Make also sure to delete the cache of matplotlib, otherwise the fonts may not be loaded correctly. You can delete the cache folder by running in a python console:
 
 .. code-block:: python
 
    import matplotlib
-   matplotlib.get_cachedir()
+   import subprocess
+   cache_dir = matplotlib.get_cachedir()
+   subprocess.run(["rm", "-rv", cache_dir])
 
 Color palettes
 ==============

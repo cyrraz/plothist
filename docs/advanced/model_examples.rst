@@ -13,7 +13,6 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
 
 .. note::
    This page presents functions of ``plothist`` step by step and gives information about how to use them.
-   It is not necessary to copy and paste code from this page to reproduce the shown examples.
    To reproduce the examples, please visit the `plot gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_, because it contains a standalone script for each example, that you can run directly.
 
 
