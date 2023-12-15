@@ -26,6 +26,22 @@ To plot a simple 2d histogram:
    :width: 500
 
 
+Change the colormap
+-------------------
+
+The argument ``cmap`` in ``pcolormesh_kwargs`` can be used to change the colormap. Any matplotlib colormap can be used (see :ref:`usage-style-label`). By default, ``pcolormesh_kwargs = {'cmap': 'viridis'}``.
+
+Here is a more complex example on how to get a discrete colormap:
+
+.. literalinclude:: ../examples/2d_hist/2d_hist_simple_discrete_colormap.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/2d_hist_simple_discrete_colormap.svg
+   :alt: Simple 2d hist with discrete colormap
+   :width: 500
+
+
 Correlations with variable registry
 ===================================
 
