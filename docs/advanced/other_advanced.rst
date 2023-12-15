@@ -13,6 +13,9 @@ They make use of a pandas dataframe ``df`` containing dummy data, that can be lo
     from plothist import get_dummy_data
     df = get_dummy_data()
 
+.. note::
+   It is not recommended to copy and paste code from this page to reproduce the shown examples.
+   Instead, please visit the `plot gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_, because it contains a standalone script for each example, that you can run directly to produce the plot.
 
 Advanced example comparing two histograms
 =========================================

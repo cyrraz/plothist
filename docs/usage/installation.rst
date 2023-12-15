@@ -11,7 +11,7 @@ Using PyPI (stable version)
 Install ``plothist``
 --------------------
 
-1.  (Optional) If you use a local environment:
+1.  (Optional) If you use a local environment, activate it.
 
     For example, run:
 
@@ -22,7 +22,7 @@ Install ``plothist``
 
 2. Install ``plothist`` from ``PyPI`` into your environment.
 
-   a.  If you have a local installation, you can use the normal setup command
+   a.  If you have a local installation, you can use the normal setup command:
 
    .. code-block:: bash
 
@@ -54,7 +54,7 @@ To update ``plothist`` to its latest stable version, follow the instructions abo
 Using Flit (development version)
 ================================
 
-1.  (Optional) If you use a local environment:
+1.  (Optional) If you use a local environment, activate it.
 
     For example, run:
 
