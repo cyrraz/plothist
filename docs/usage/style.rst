@@ -34,12 +34,12 @@ On Linux/Ubuntu/MacOS, you can install the fonts by running on your terminal:
 
     install_latin_modern_fonts
 
-If the command doesn't work, you can read the detailed instructions direclty in the python script `here <https://github.com/cyrraz/plothist/blob/main/plothist/scripts/install_latin_modern_fonts.py>`_.
+If the command doesn't work, you can read the detailed procedure directly in the `python script <https://github.com/cyrraz/plothist/blob/main/plothist/scripts/install_latin_modern_fonts.py>`_ called by the command ``install_latin_modern_fonts``.
 
 Color palettes
 ==============
 
-Multiple palettes are available in ``plothist`` in order to make beautiful plots. The function ``get_color_palette(cmap, N)`` get ``N`` different colors from a chosen ``cmap`` colormap.
+Multiple palettes are available in ``plothist`` in order to make beautiful plots. The function ``get_color_palette(cmap, N)`` gets ``N`` different colors from a chosen ``cmap`` colormap.
 
 
 Default palette

@@ -7,7 +7,7 @@ Utility functions
 Add text
 ========
 
-``add_text()`` is a useful function to add text to a plot. It allows you to easily position text either to the left or right and at the top or bottom of your plot, thanks to aliases on the x and y parameters. Using them will ensure that your text stays aligned to the left or right of the sub-plot (= ax) you specify. The function is a wrapper around ``plt.text()``, so you can pass any parameter to it that you would pass to ``plt.text()`` like ``fontsize``, ``color``, ``fontweight``, etc.
+``add_text()`` is a useful function to add text to a plot. It allows you to easily position a text either to the left or right and at the top or bottom of your plot, thanks to aliases on the x and y parameters. Using them will ensure that your text stays aligned to the left or right of the sub-plot (= ax) you specify. The function is a wrapper around ``plt.text()``, so you can pass any parameter to it that you would pass to ``plt.text()`` like ``fontsize``, ``color``, ``fontweight``, etc.
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ Add text
 Automatic ylabel fontsize
 =========================
 
-``set_fitting_ylabel_fontsize(ax)`` is a function that will automatically adjust the fontsize of the ylabel so that it fits in the given sub-plot height. It also output the fontsize it used, so you can use it to set the same fontsize for other labels.
+``set_fitting_ylabel_fontsize(ax)`` is a function that will automatically adjust the fontsize of the ylabel so that it fits in the given sub-plot height. It also outputs the fontsize it used, so you can use it to set the same fontsize for other labels.
 
 .. code-block:: python
 
@@ -43,7 +43,7 @@ Automatic ylabel fontsize
 Reorder legend entries
 ======================
 
-The function ``reorder_legend(ax, order)`` reorder the legend entries of a given plot. It is useful when you want to have a specific order in your legend.
+The function ``reorder_legend(ax, order)`` reorders the legend entries of a given plot. It is useful when you want to have a specific order in your legend.
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ When saving a figure, doing ``fig.savefig(path, bbox_inches="tight")`` works gre
 
 If you want to have a fixed figure size (e.g. when putting plots into a LaTeX document), the option matplotlib provides is to call ``fig.tight_layout()`` then saving without ``bbox_inches`` argument. This will keep the figure size to the default value or the value you specify in ``plt.figure()``, but it will also change the size and position of the sub-plots, which usually have a negative effect on the overall appearance of the figure.
 
-``savefig(fig, path)`` is a function that keeps the ``figsize`` you specify, but also keeps the sub-plots as they are. If the sub-plots are too big for the figure, you can also specify a new ``figsize`` and the sub-plots will remain the same size and position, while the final figure will be larger.
+``savefig(fig, path)`` is a function that keeps the ``figsize`` you specify, but also keeps the sub-plots as they are. If the sub-plots are too big for the figure, you need to specify a larger ``figsize`` and the sub-plots will remain the same size and position, while the final figure will be larger.
 
 For example, below is shown a plot saved with ``fig.savefig(path, bbox_inches="tight")``, then with ``fig.tight_layout()`` and saved with ``fig.savefig(path)``, and finally with ``savefig(fig, path)`` from ``plothist``:
 
