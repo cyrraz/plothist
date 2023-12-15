@@ -231,6 +231,7 @@ def plot_2d_hist_with_projections(
     pcolormesh_kwargs={},
     colorbar_kwargs={},
     plot_hist_kwargs={},
+    figsize=(6, 6),
 ):
     """Plot a 2D histogram with projections on the x and y axes.
 
@@ -256,6 +257,8 @@ def plot_2d_hist_with_projections(
         Keyword arguments for the colorbar call. Default is {}.
     plot_hist_kwargs : dict, optional
         Keyword arguments for the plot_hist call (x and y projections). Default is {}.
+    figsize : tuple, optional
+        Figure size in inches. Default is (6, 6). To get square bins if the figure is not square shaped, be sure to set the bins and the ranges of the histogram according to the ratio of the figure width and height.
 
     Returns
     -------
@@ -278,15 +281,14 @@ def plot_2d_hist_with_projections(
     colorbar_kwargs.setdefault("label", colorbar_label)
     plot_hist_kwargs.setdefault("histtype", "stepfilled")
 
-    fig_width = 6
-    fig_height = 6
-    gridspec = [6, 0.75, 1.5]
+    gridspec_w = [figsize[0], 0.75, 1.5]
+    gridspec_h = [1.5, 0.75, figsize[1]]
 
     fig, axs = plt.subplots(
-        figsize=(fig_width, fig_height),
+        figsize=figsize,
         ncols=3,
         nrows=3,
-        gridspec_kw={"width_ratios": gridspec, "height_ratios": gridspec[::-1]},
+        gridspec_kw={"width_ratios": gridspec_w, "height_ratios": gridspec_h},
     )
 
     for x in range(3):
@@ -308,6 +310,7 @@ def plot_2d_hist_with_projections(
         ax_colorbar=ax_colorbar,
         pcolormesh_kwargs=pcolormesh_kwargs,
         colorbar_kwargs=colorbar_kwargs,
+        square_ax=False,
     )
     plot_hist(hist[:, :: bh.sum], ax=ax_x_projection, **plot_hist_kwargs)
     plot_hist(
