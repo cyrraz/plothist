@@ -34,7 +34,23 @@ On Linux/Ubuntu/MacOS, you can install the fonts by running on your terminal:
 
     install_latin_modern_fonts
 
-If the command doesn't work, you can read the detailed procedure directly in the `python script <https://github.com/cyrraz/plothist/blob/main/plothist/scripts/install_latin_modern_fonts.py>`_ called by the command ``install_latin_modern_fonts``.
+Try to restart your python session and run ``import plothist`` again. If no warning is raised, the fonts are installed correctly and you can skip the rest of this section.
+
+If the command doesn't work, you may read the detailed procedure directly in the `python script <https://github.com/cyrraz/plothist/blob/main/plothist/scripts/install_latin_modern_fonts.py>`_ called by the command ``install_latin_modern_fonts`` and execute the commands line by line in a terminal.
+
+It was observed in some cases that, after the procedure above, you may need to move the font files ``latinmodern-math.otf``, ``latin-modern-roman/`` and ``latin-modern-sans/`` from ``~/.fonts/`` into another folder. To get an idea of where the fonts are installed on your system, you can run the following commands in a python console:
+
+.. code-block:: python
+
+   from matplotlib import font_manager
+   font_manager.findSystemFonts(fontpaths=None, fontext="ttf")
+
+Make also sure to delete the cache of matplotlib, otherwise the fonts may not be loaded correctly. You can locate the cache folder by running in a python console:
+
+.. code-block:: python
+
+   import matplotlib
+   matplotlib.get_cachedir()
 
 Color palettes
 ==============

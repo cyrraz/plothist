@@ -130,7 +130,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
 Renormalize the PDF
 -------------------
 
-A ``pdf_func`` you get from a scipy function or from the saved pickle file for ``RooFit`` or ``zfit`` has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and the integral of the PDF in the range. This can be done easily using this small function:
+A ``pdf_func`` you get from a scipy function or from the saved pickle file for ``RooFit`` or ``zfit`` has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and divide by the integral of the PDF in the range. This can be done easily using this small function:
 
 .. code-block:: python
 
