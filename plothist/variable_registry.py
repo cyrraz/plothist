@@ -281,10 +281,11 @@ def update_variable_registry_ranges(
             raise RuntimeError(
                 f"Variable {variable_key} does not have a bins or range property in the registry {path}."
             )
-        if variable["range"] == ["min", "max"] or overwrite:
-            if overwrite:
-                range = ["min", "max"]
-            axis = create_axis(data[variable_key], variable["bins"], variable["range"])
+
+        range = ["min", "max"] if overwrite else variable["range"]
+
+        if range == ["min", "max"]:
+            axis = create_axis(data[variable_key], variable["bins"], range)
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
                     {"range": [float(axis.edges[0]), float(axis.edges[-1])]},
