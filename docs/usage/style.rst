@@ -22,9 +22,10 @@ Here are shown two simple comparison plots done with matplotlib functions only. 
    :width: 320
 
 
+.. _usage-fonts-label:
 
-Fonts
-=====
+Fonts installation
+==================
 
 Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
 
