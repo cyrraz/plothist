@@ -210,7 +210,7 @@ To plot multiple variables using the ``variable_manager``, you can use the follo
     update_variable_registry_ranges(df, variable_keys)
 
     # Add custom info
-    update_variable_registry({"text": "simulation"}, variable_keys)
+    update_variable_registry({"text": "my analysis"}, variable_keys)
 
     for variable_key in variable_keys:
         variable = get_variable_from_registry(variable_key)
@@ -224,7 +224,7 @@ To plot multiple variables using the ``variable_manager``, you can use the follo
         ax.set_xlim(variable["range"])
         ax.set_ylabel("Entries")
 
-        add_text(variable["text"], ax=ax)
+        add_text(variable["text"], ax=ax, x="right")
 
         fig.savefig(f"{variable_key}.png", bbox_inches="tight")
 

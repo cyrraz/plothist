@@ -20,10 +20,10 @@ nentries = 1000
 
 h = make_2d_hist([df[name_x][:nentries], df[name_y][:nentries]], bins=[50, 50])
 
+###
 from matplotlib.colors import ListedColormap
 from plothist import get_color_palette
 
-###
 # 0 entries will be white, the rest will have one color from the plasma colormap per entry value
 cmap = ListedColormap(
     ["white"] + list(get_color_palette("plasma", int(h.values().max()) * 2 - 1))
