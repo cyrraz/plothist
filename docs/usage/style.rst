@@ -24,8 +24,8 @@ Here are shown two simple comparison plots done with matplotlib functions only. 
 
 .. _usage-fonts-label:
 
-Fonts installation
-==================
+Font installation
+=================
 
 Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
 
