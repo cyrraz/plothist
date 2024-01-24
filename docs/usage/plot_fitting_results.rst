@@ -1,7 +1,7 @@
 .. _plot-fit-result-label:
 
 ====================
-Plot fitting results
+Plot result of a fit
 ====================
 
 Two steps are necessary when you want to use ``plothist`` to plot the result of a fit using ``RooFit`` or ``zfit``.
