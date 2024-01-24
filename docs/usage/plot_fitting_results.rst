@@ -35,7 +35,8 @@ Here is an example of a fit with ``pyhf``, whose result is then shown using ``pl
    signal_hist = make_hist(data=[], bins=bins)
    background_hist = make_hist(data=[], bins=bins)
    
-   # Set explicitly the content and variance of each bin. For the signal and background histograms, we assume no variance.
+   # Set explicitly the content and variance of each bin.
+   # For the signal and background histograms, we assume no variance.
    data_hist[:] = np.c_[data_yield, data_yield]
    background_hist[:] = np.c_[model_yields[0], [0.0, 0.0]]
    signal_hist[:] = np.c_[model_yields[1], [0.0, 0.0]]
@@ -47,6 +48,7 @@ Here is an example of a fit with ``pyhf``, whose result is then shown using ``pl
        model_uncertainty=False,
        xlabel="Variable",
        ylabel="Entries",
+       comparison="pull",
    )
    ax_main.set_xticks([0, 0.5, 1.0])
    ax_main.tick_params(axis="x", which="minor", bottom=False, top=False)
