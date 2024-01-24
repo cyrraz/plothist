@@ -29,7 +29,7 @@ Content
     basics/variable_registry
     usage/style
     usage/utilities
-    usage/misc
+    usage/plot_fitting_results
 
 .. toctree::
     :maxdepth: 2

@@ -1,22 +1,18 @@
-.. _usage-misc-label:
-
-====
-Misc
-====
-
 .. _plot-fit-result-label:
-Plot fit results
-================
+
+====================
+Plot fitting results
+====================
 
 Two steps are necessary when you want to use ``plothist`` to plot the result of a fit using ``RooFit`` or ``zfit``.
 
 Getting the PDF
----------------
+===============
 
 First you need to convert your functions to scipy functions. This can be done using a small function.
 
 With RooFit
-~~~~~~~~~~~
+-----------
 
 This should be called after you have fitted your model and you have a ``RooAbsPdf`` object.
 
@@ -78,7 +74,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
       return pdf_func
 
 With zfit
-~~~~~~~~~
+---------
 
 This should be called after you have fitted your model and you have a ``zfit.pdf.BasePDF`` object.
 
@@ -128,7 +124,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
 
 
 Renormalize the PDF
--------------------
+===================
 
 A ``pdf_func`` you get from a scipy function or from the saved pickle file for ``RooFit`` or ``zfit`` has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and divide by the integral of the PDF in the range. This can be done easily using this small function:
 
