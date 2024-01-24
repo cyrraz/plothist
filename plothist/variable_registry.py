@@ -266,7 +266,7 @@ def update_variable_registry_ranges(
     Raises
     ------
     RuntimeError
-        If the variable does not have a bins or range property in the registry.
+        If the variable does not have a name, bins or range property in the registry.
     """
     _check_if_variable_registry_exists(path)
 
@@ -277,15 +277,15 @@ def update_variable_registry_ranges(
 
     for variable_key in variable_keys:
         variable = get_variable_from_registry(variable_key, path=path)
-        if "bins" not in variable.keys() or "range" not in variable.keys():
+        if not all(key in variable.keys() for key in ["bins", "range", "name"]):
             raise RuntimeError(
-                f"Variable {variable_key} does not have a bins or range property in the registry {path}."
+                f"Variable {variable_key} does not have a name, bins or range property in the registry {path}."
             )
 
         range = ["min", "max"] if overwrite else variable["range"]
 
         if range == ["min", "max"]:
-            axis = create_axis(data[variable_key], variable["bins"], range)
+            axis = create_axis(data[variable["name"]], variable["bins"], range)
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
                     {"range": [float(axis.edges[0]), float(axis.edges[-1])]},
