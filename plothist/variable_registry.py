@@ -266,7 +266,7 @@ def update_variable_registry_ranges(
     Raises
     ------
     RuntimeError
-        If the variable does not have a name, bins and/or range property in the registry.
+        If the variable does not have a name, bins or range property in the registry.
     """
     _check_if_variable_registry_exists(path)
 
@@ -279,7 +279,7 @@ def update_variable_registry_ranges(
         variable = get_variable_from_registry(variable_key, path=path)
         if not all(key in variable.keys() for key in ["bins", "range", "name"]):
             raise RuntimeError(
-                f"Variable {variable_key} does not have a name, bins and/or range property in the registry {path}."
+                f"Variable {variable_key} does not have a name, bins or range property in the registry {path}."
             )
 
         range = ["min", "max"] if overwrite else variable["range"]
