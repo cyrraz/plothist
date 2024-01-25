@@ -61,6 +61,7 @@ Here is an example of a fit with ``pyhf``, whose result is then shown using ``pl
    :alt: pyhf example
    :width: 500
 
+In this trivial case, the pulls are null because the model has enough freedom to perfectly fit the two data points.
 
 RooFit or zfit
 **************
