@@ -29,7 +29,6 @@ To plot a simple 1d histogram:
    :alt: Simple hist
    :width: 500
 
-
 It is really easy to add multiple histogram to the same figure:
 
 .. literalinclude:: ../examples/1d_hist/1d_elt1.py
@@ -50,6 +49,11 @@ or stack them:
 .. image:: ../img/1d_elt1_stacked.svg
    :alt: Simple stacked hist
    :width: 500
+
+
+.. note::
+    The function ``make_hist()`` returns a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/>`_ object that supports potentially weighted data. You may call the ``make_hist()`` function without input data and fill the histogram object later in your code. An advantage of separating the histogramming from the plotting is that you can plot large datasets without having to load all the data into memory (see `this tutorial <https://github.com/cyrraz/visualise-large-dataset>`_).
+
 
 Histogram with error bars
 =========================
