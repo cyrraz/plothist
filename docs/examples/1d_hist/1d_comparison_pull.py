@@ -24,7 +24,6 @@ h3 = make_hist(x3, bins=50, range=x_range)
 ###
 from plothist import plot_two_hist_comparison
 
-# Default comparison is ratio
 fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h2,
     h3,
