@@ -235,7 +235,7 @@ Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` (see :ref:
 Getting RooFit PDFs from the canvas
 ===================================
 
-Some PDFs normalization are not easy to get from the RooFit PDF object. If the two steps above didn't work, you can use the canvas to get the PDF. This solution has the advantage of being already normalized to the data sample. The main disadvantage is that the resulting PDF is bin dependent, you need to use the same binning as the one used to create the canvas.
+Some PDFs normalization are not easy to get from the RooFit PDF object. If the two steps above didn't work, you can use the canvas to get the PDF. This solution has the advantage of being already normalized to the data sample. The main disadvantage is that the resulting PDF is bin dependent, you need to use the same number of bins as the one used to create the canvas.
 
 To get the PDF from the canvas, you first need to save the canvas as a root file with ``canvas.SaveAs("root_file_name.root")``. Then you can use the following function to get the PDF:
 
