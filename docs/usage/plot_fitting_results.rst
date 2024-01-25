@@ -4,6 +4,67 @@
 Plot result of a fit
 ====================
 
+This section shows how to plot the result of a fit with ``pyhf``, ``RooFit`` or ``zfit``.
+
+pyhf
+****
+
+Here is an example of a fit with ``pyhf``, whose result is then shown using ``plothist``:
+
+.. code-block:: python
+
+   import pyhf
+   import numpy as np
+   from plothist import make_hist, plot_data_model_comparison
+
+   pyhf.set_backend("numpy")
+
+   # Define model
+   data_yield = [100, 50]
+   model = pyhf.simplemodels.uncorrelated_background(
+       signal=[20, 0.0], bkg=[75.0, 50.0], bkg_uncertainty=[np.sqrt(75.0), np.sqrt(50.0)]
+   )
+   data = data_yield + model.config.auxdata
+   # Maximum likelihood fit
+   bestfit_pars = pyhf.infer.mle.fit(data, model)
+   # Extract fit results
+   model_yields = model.main_model.expected_data(bestfit_pars, return_by_sample=True)
+
+   bins = [0, 0.5, 1.0]
+   data_hist = make_hist(data=[], bins=bins)
+   signal_hist = make_hist(data=[], bins=bins)
+   background_hist = make_hist(data=[], bins=bins)
+
+   # Set explicitly the content and variance of each bin.
+   # For the signal and background histograms, we assume no variance.
+   data_hist[:] = np.c_[data_yield, data_yield]
+   background_hist[:] = np.c_[model_yields[0], [0.0, 0.0]]
+   signal_hist[:] = np.c_[model_yields[1], [0.0, 0.0]]
+
+   fig, ax_main, ax_comparison = plot_data_model_comparison(
+       data_hist=data_hist,
+       stacked_components=[background_hist, signal_hist],
+       stacked_labels=["Background", "Signal"],
+       model_uncertainty=False,
+       xlabel="Variable",
+       ylabel="Entries",
+       comparison="pull",
+   )
+   ax_main.set_xticks([0, 0.5, 1.0])
+   ax_main.tick_params(axis="x", which="minor", bottom=False, top=False)
+   ax_comparison.set_xticks([0, 0.5, 1.0])
+   ax_comparison.tick_params(axis="x", which="minor", bottom=False, top=False)
+
+   fig.savefig("pyhf.svg", bbox_inches="tight")
+
+.. image:: ../img/pyhf_example.svg
+   :alt: pyhf example
+   :width: 500
+
+
+RooFit or zfit
+**************
+
 Two steps are necessary when you want to use ``plothist`` to plot the result of a fit using ``RooFit`` or ``zfit``.
 
 Getting the PDF
