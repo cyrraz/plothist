@@ -21,6 +21,9 @@ def create_axis(bins, range=None, data=np.array([])):
     -------
     Axis object
         An axis object for histogram binning.
+        The axis type is determined based on the input parameters.
+        If bins is an integer, a regular axis is returned.
+        If bins is an array-like, a variable axis is returned.
 
     Raises
     ------
@@ -97,9 +100,8 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     """
 
     axis = create_axis(bins, range, data)
-    storage = bh.storage.Weight()
 
-    h = bh.Histogram(axis, storage=storage)
+    h = bh.Histogram(axis, storage=bh.storage.Weight())
 
     if len(data) > 0:
         h.fill(data, weight=weights, threads=0)
@@ -115,14 +117,15 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     return h
 
 
-def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
+def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), weights=1):
     """
     Create a 2D histogram object and fill it with the provided data.
 
     Parameters
     ----------
-    data : array-like
-        2D array-like data used to fill the histogram.
+    data : array-like, optional
+        2D array-like data used to fill the histogram (default is an empty array).
+        If an empty array, an empty histogram is returned.
     bins : tuple, optional
         Binning specification for each dimension of the histogram (default is (10, 10)).
         Each element of the tuple represents the number of bins for the corresponding dimension.
@@ -156,15 +159,17 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
         create_axis(bins[1], range[1], data[1]),
         storage=bh.storage.Weight(),
     )
-    h.fill(*data, weight=weights, threads=0)
 
-    # Check what proportion of the data is in the underflow and overflow bins
-    range_coverage = h.values().sum() / h.values(flow=True).sum()
-    # Issue a warning in more than 1% of the data is outside of the binning range
-    if range_coverage < 0.99:
-        warnings.warn(
-            f"Only {100*range_coverage:.2f}% of data contained in the binning range."
-        )
+    if len(data[0]) > 0:
+        h.fill(*data, weight=weights, threads=0)
+
+        # Check what proportion of the data is in the underflow and overflow bins
+        range_coverage = h.values().sum() / h.values(flow=True).sum()
+        # Issue a warning in more than 1% of the data is outside of the binning range
+        if range_coverage < 0.99:
+            warnings.warn(
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range."
+            )
 
     return h
 
