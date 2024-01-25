@@ -113,7 +113,7 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
         # Issue a warning in more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range ({axis.edges[0]}, {axis.edges[-1]})."
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}). Note that the upper edge is exclusive."
             )
 
     return h
@@ -156,9 +156,12 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     if len(data[0]) != len(data[1]):
         raise ValueError("x and y must have the same length.")
 
+    x_axis = create_axis(bins[0], range[0], data[0])
+    y_axis = create_axis(bins[1], range[1], data[1])
+
     h = bh.Histogram(
-        create_axis(bins[0], range[0], data[0]),
-        create_axis(bins[1], range[1], data[1]),
+        x_axis,
+        y_axis,
         storage=bh.storage.Weight(),
     )
 
@@ -170,7 +173,7 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
         # Issue a warning in more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range."
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}), [{y_axis.edges[0]}, {y_axis.edges[-1]})). Note that the upper edges are exclusive."
             )
 
     return h
