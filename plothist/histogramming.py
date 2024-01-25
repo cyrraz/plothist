@@ -4,28 +4,33 @@ import numpy as np
 import warnings
 
 
-def create_axis(data, bins, range=None):
+def create_axis(bins, range=None, data=np.array([])):
     """
     Create an axis object for histogram binning based on the input data and parameters.
 
     Parameters
     ----------
-    data : array-like
-        The input data for determining the axis range.
     bins : int or array-like
         The number of bins or bin edges for the axis.
     range : None or tuple, optional
         The range of the axis. If None, it will be determined based on the data.
+    data : array-like, optional
+        The input data for determining the axis range. Default is an empty array.
 
     Returns
     -------
     Axis object
         An axis object for histogram binning.
+        The axis type is determined based on the input parameters.
+        If bins is an integer, a regular axis is returned.
+        If bins is an array-like, a variable axis is returned.
 
     Raises
     ------
     ValueError
         If the range parameter is invalid or not finite.
+    ValueError
+        If the range parameter contains "min" or "max" but the data is empty.
     """
 
     try:
@@ -40,6 +45,11 @@ def create_axis(data, bins, range=None):
 
     # Inspired from np.histograms
     if range is not None:
+        if len(data) == 0 and (range[0] == "min" or range[1] == "max"):
+            raise ValueError(
+                "Cannot use 'min'/'max' range values with empty data. "
+                "Please supply a range or provide data."
+            )
         x_min = min(data) if range[0] == "min" else range[0]
         x_max = max(data) if range[1] == "max" else range[1]
         if x_min > x_max:
@@ -48,7 +58,7 @@ def create_axis(data, bins, range=None):
             )
         if not (np.isfinite(x_min) and np.isfinite(x_max)):
             raise ValueError(f"Range of [{x_min}, {x_max}] is not finite.")
-    elif data.size == 0:
+    elif len(data) == 0:
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0, 1
     else:
@@ -64,14 +74,15 @@ def create_axis(data, bins, range=None):
     return bh.axis.Regular(bins, x_min, x_max)
 
 
-def make_hist(data, bins=50, range=None, weights=1):
+def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     """
     Create a histogram object and fill it with the provided data.
 
     Parameters
     ----------
-    data : array-like
-        1D array-like data used to fill the histogram.
+    data : array-like, optional
+        1D array-like data used to fill the histogram (default is an empty array).
+        If an empty array, an empty histogram is returned.
     bins : int or tuple, optional
         Binning specification for the histogram (default is 50).
         If an integer, it represents the number of bins.
@@ -90,35 +101,33 @@ def make_hist(data, bins=50, range=None, weights=1):
         The filled histogram object.
     """
 
-    axis = create_axis(data, bins, range)
+    axis = create_axis(bins, range, data)
 
-    if weights is None:
-        storage = bh.storage.Double()
-    else:
-        storage = bh.storage.Weight()
+    h = bh.Histogram(axis, storage=bh.storage.Weight())
 
-    h = bh.Histogram(axis, storage=storage)
-    h.fill(data, weight=weights, threads=0)
+    if len(data) > 0:
+        h.fill(data, weight=weights, threads=0)
 
-    # Check what proportion of the data is in the underflow and overflow bins
-    range_coverage = h.values().sum() / h.values(flow=True).sum()
-    # Issue a warning in more than 1% of the data is outside of the binning range
-    if range_coverage < 0.99:
-        warnings.warn(
-            f"Only {100*range_coverage:.2f}% of data contained in the binning range ({axis.edges[0]}, {axis.edges[-1]})."
-        )
+        # Check what proportion of the data is in the underflow and overflow bins
+        range_coverage = h.values().sum() / h.values(flow=True).sum()
+        # Issue a warning in more than 1% of the data is outside of the binning range
+        if range_coverage < 0.99:
+            warnings.warn(
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range ({axis.edges[0]}, {axis.edges[-1]})."
+            )
 
     return h
 
 
-def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
+def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), weights=1):
     """
     Create a 2D histogram object and fill it with the provided data.
 
     Parameters
     ----------
-    data : array-like
-        2D array-like data used to fill the histogram.
+    data : array-like, optional
+        2D array-like data used to fill the histogram (default is an empty array).
+        If an empty array, an empty histogram is returned.
     bins : tuple, optional
         Binning specification for each dimension of the histogram (default is (10, 10)).
         Each element of the tuple represents the number of bins for the corresponding dimension.
@@ -148,19 +157,21 @@ def make_2d_hist(data, bins=(10, 10), range=(None, None), weights=1):
         raise ValueError("x and y must have the same length.")
 
     h = bh.Histogram(
-        create_axis(data[0], bins[0], range[0]),
-        create_axis(data[1], bins[1], range[1]),
+        create_axis(bins[0], range[0], data[0]),
+        create_axis(bins[1], range[1], data[1]),
         storage=bh.storage.Weight(),
     )
-    h.fill(*data, weight=weights, threads=0)
 
-    # Check what proportion of the data is in the underflow and overflow bins
-    range_coverage = h.values().sum() / h.values(flow=True).sum()
-    # Issue a warning in more than 1% of the data is outside of the binning range
-    if range_coverage < 0.99:
-        warnings.warn(
-            f"Only {100*range_coverage:.2f}% of data contained in the binning range."
-        )
+    if len(data[0]) > 0:
+        h.fill(*data, weight=weights, threads=0)
+
+        # Check what proportion of the data is in the underflow and overflow bins
+        range_coverage = h.values().sum() / h.values(flow=True).sum()
+        # Issue a warning in more than 1% of the data is outside of the binning range
+        if range_coverage < 0.99:
+            warnings.warn(
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range."
+            )
 
     return h
 
