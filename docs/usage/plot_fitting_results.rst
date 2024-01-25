@@ -236,9 +236,14 @@ Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` (see :ref:
 Getting RooFit PDFs from the canvas
 ===================================
 
-Some PDFs normalization are not easy to get from the RooFit PDF object. If the two steps above didn't work, you can use the canvas to get the PDF. This solution has the advantage of being already normalized to the data sample. The main disadvantage is that the resulting PDF is bin dependent, you need to use the same number of bins as the one used to create the canvas.
+Some PDFs normalization are not easy to get from the RooFit PDF object.
+If the two steps above did not work, you can use the canvas to get the PDF.
+This solution has the advantage of being already normalized to the data sample.
+The disadvantage is that the resulting PDF is bin dependent, so when plotting your data, you need to use the same bins as the ones used to create the canvas.
 
-To get the PDF from the canvas, you first need to save the canvas as a root file with ``canvas.SaveAs("root_file.root")``. Then you can use the following function to get the PDF:
+To get the PDFs from the canvas, you first need plot the desired PDFs on a frame with ``plotOn()``.
+Then, you need to save the canvas as a root file with ``canvas.SaveAs("root_file.root")``.
+Then you can use the following function to get the PDF:
 
 .. code-block:: python
 
@@ -274,4 +279,4 @@ To get the PDF from the canvas, you first need to save the canvas as a root file
 
       return pdf_list
 
-The main idea is that when you do a ``PlotOn`` on a frame, the function is saved as a ``TGraph`` object. You can then get the x and y values of the graph and interpolate it to get a function. The function is then saved in a list with the name of the function. The PDF order in the list is the same as the order you used to plot them on the frame.
+The main idea is that when you do a ``plotOn()`` on a frame, the function is saved as a ``TGraph`` object. You can then get the x and y values of the graph and interpolate it to get a function. The function is then saved in a list with the name of the function. The PDF order in the list is the same as the order you used to plot them on the frame.
