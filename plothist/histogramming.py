@@ -29,6 +29,8 @@ def create_axis(bins, range=None, data=np.array([])):
     ------
     ValueError
         If the range parameter is invalid or not finite.
+    ValueError
+        If the range parameter contains "min" or "max" but the data is empty.
     """
 
     try:
