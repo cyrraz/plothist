@@ -31,9 +31,9 @@ Here is an example of a fit with ``pyhf``, whose result is then shown using ``pl
    model_yields = model.main_model.expected_data(bestfit_pars, return_by_sample=True)
 
    bins = [0, 0.5, 1.0]
-   data_hist = make_hist(data=[], bins=bins)
-   signal_hist = make_hist(data=[], bins=bins)
-   background_hist = make_hist(data=[], bins=bins)
+   data_hist = make_hist(bins=bins)
+   signal_hist = make_hist(bins=bins)
+   background_hist = make_hist(bins=bins)
 
    # Set explicitly the content and variance of each bin.
    # For the signal and background histograms, we assume no variance.
