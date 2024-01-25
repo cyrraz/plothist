@@ -29,7 +29,6 @@ To plot a simple 1d histogram:
    :alt: Simple hist
    :width: 500
 
-
 It is really easy to add multiple histogram to the same figure:
 
 .. literalinclude:: ../examples/1d_hist/1d_elt1.py
@@ -50,6 +49,11 @@ or stack them:
 .. image:: ../img/1d_elt1_stacked.svg
    :alt: Simple stacked hist
    :width: 500
+
+
+.. note::
+    One of the advantages of having the histogram object separate from the plotting function is that you can plot large data sets quickly and easily (see [this tutorial](https://github.com/cyrraz/visualise-large-dataset)).
+
 
 Histogram with error bars
 =========================
