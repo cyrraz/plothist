@@ -285,7 +285,7 @@ def update_variable_registry_ranges(
         range = ["min", "max"] if overwrite else variable["range"]
 
         if range == ["min", "max"]:
-            axis = create_axis(data[variable["name"]], variable["bins"], range)
+            axis = create_axis(variable["bins"], range, data[variable["name"]])
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
                     {"range": [float(axis.edges[0]), float(axis.edges[-1])]},
