@@ -52,7 +52,7 @@ or stack them:
 
 
 .. note::
-    One of the advantages of having the histogram object separate from the plotting function is that you can plot large data sets quickly and easily (see [this tutorial](https://github.com/cyrraz/visualise-large-dataset)).
+    The function ``make_hist()`` returns a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/>`_ object. You may call the ``make_hist()`` function without input data and fill the histogram object later in your code. An advantage of separating the histogramming from the plotting is that you can plot large datasets without having to load all the data into memory (see `this tutorial <https://github.com/cyrraz/visualise-large-dataset>`_).
 
 
 Histogram with error bars
