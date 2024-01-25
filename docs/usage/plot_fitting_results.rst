@@ -19,7 +19,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
 
 .. warning::
 
-   For a complex PDF that depends on multiple observables, be sure get the correct PDF projection before calling this function.
+   For a complex PDF that depends on multiple observables, be sure get the correct PDF projection before calling this function. If it doesn't work, you can use the other method described in :ref:`plot-roofit-canvas-solution-label`.
 
 
 .. code-block:: python
@@ -167,3 +167,49 @@ Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` (see :ref:
 .. image:: ../img/asymmetry_comparison_advanced.svg
    :alt: Advanced asymmetry comparison
    :width: 500
+
+
+
+.. _plot-roofit-canvas-solution-label:
+Getting RooFit PDFs from the canvas
+===================================
+
+Some PDFs normalization are not easy to get from the RooFit PDF object. In this case, you can use the canvas to get the PDF. This solution has the advantage of being already normalized to the data sample. The main disadvantage is that the resulting PDF is bin dependent, you need to use the same binning as the one used to create the canvas.
+
+To get the PDF from the canvas, you first need to save the canvas as a root file with ``canvas.SaveAs("root_file_name.root")``. Then you can use the following function to get the PDF:
+
+.. code-block:: python
+
+   import ROOT
+   from scipy.interpolate import interp1d
+
+   def get_pdf_list(root_file_name, canvas_name="canvas"):
+      # Open the ROOT file
+      root_file = ROOT.TFile(root_file_name, "READ")
+
+      # Get the TCanvas from the file
+      canvas = root_file.Get(canvas_name)
+
+      pdf_list = []
+      pdf_names = []
+
+      for obj in canvas.GetListOfPrimitives():
+         if isinstance(obj, ROOT.TGraph) and not isinstance(obj, ROOT.TGraphAsymmErrors):
+               # Get the x and y values of the TGraph
+               pdf_names.append(obj.GetName())
+               x_values = obj.GetX()
+               y_values = obj.GetY()
+
+               # Interpolate the TGraph to get a function
+               pdf_func = interp1d(x_values, y_values)
+
+               pdf_list.append(pdf_func)
+
+      print(f"\nPDFs from {root_file_name} saved in the list:")
+      for k_name, pdf_name in enumerate(pdf_names):
+         print(f"\t[{k_name}] {pdf_name}")
+      print()
+
+      return pdf_list
+
+The main idea is that when you do a ``PlotOn`` on a frame, the function is saved as a ``TGraph`` object. You can then get the x and y values of the graph and interpolate it to get a function. The function is then saved in a list with the name of the function. The PDF order in the list is the same as the order you used to plot them on the frame.
