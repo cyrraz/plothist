@@ -172,3 +172,10 @@ To plot the asymmetry between the two histograms:
    :alt: Simple asymmetry comparison
    :width: 500
 
+
+Comparison with functions
+=========================
+
+To compare one histogram with one or multiple functions, see :ref:`advanced-model-functions-comparison-label`.
+
+To compare two functions together, see :ref:`advanced-asymmetry-label`.
