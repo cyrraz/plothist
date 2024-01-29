@@ -260,6 +260,11 @@ Then you can use the following function to get the PDF:
       pdf_list = []
       pdf_names = []
 
+      ## If you have mutliple pads, you need to specify which one you want to get the PDF from
+      # pad = canvas.GetPrimitive("pad_name")
+      ## Then loop over the primitives of the pad and not the canvas
+      # for obj in pad.GetListOfPrimitives():
+
       for obj in canvas.GetListOfPrimitives():
          if isinstance(obj, ROOT.TGraph) and not isinstance(obj, ROOT.TGraphAsymmErrors):
                # Get the x and y values of the TGraph
