@@ -29,8 +29,8 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h3,
     xlabel=name,
     ylabel="Entries",
-    h1_label="$h_2$",
-    h2_label="$h_3$",
+    h1_label="$\mathit{h}_2$",
+    h2_label="$\mathit{h}_3$",
     comparison="asymmetry",  # <--
 )
 
