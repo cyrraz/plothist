@@ -355,7 +355,7 @@ def add_luminosity(
     )
 
 
-def plot_reordered_legend(ax, order):
+def plot_reordered_legend(ax, order, **kwargs):
     """
     Reorder the legend handlers and labels on the given Matplotlib axis based
     on the specified order and plot the reordered legend.
@@ -364,10 +364,11 @@ def plot_reordered_legend(ax, order):
     ----------
     ax : matplotlib.axes.Axes
         The Matplotlib Axes object on which the legend is to be reordered.
-
     order : list of int
         A list of integers specifying the new order of the legend items.
         The integers refer to the indices of the current legend items.
+    kwargs : dict, optional
+        Keyword arguments to be passed to the ax.legend() function, such as the legend location (loc).
 
     Returns
     -------
@@ -407,4 +408,4 @@ def plot_reordered_legend(ax, order):
     new_labels = [labels[i] for i in order]
 
     # Draw the new legend
-    ax.legend(new_handlers, new_labels)
+    ax.legend(new_handlers, new_labels, **kwargs)
