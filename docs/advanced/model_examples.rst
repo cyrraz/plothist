@@ -150,6 +150,7 @@ Stacked and unstacked histograms can be combined:
    :alt: Data/model comparison, stacked and unstacked plot with histograms
    :width: 500
 
+.. _advanced-model-functions-comparison-label:
 Models made of functions
 ------------------------
 
@@ -162,6 +163,9 @@ The function ``plot_data_model_comparison()`` can also be used to compare data a
 .. image:: ../img/ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg
    :alt: Data/Model comparison, model with stacked and unstacked function components
    :width: 500
+
+.. note::
+   ``plot_data_model_comparison()`` can also be used with only one component as the model. To compare a function with a histogram, just put the function in a list in ``stacked_components`` (or ``unstacked_components``, it gives the same result in this case) argument and the histogram in the ``data_hist`` argument.
 
 
 Model uncertainty
@@ -187,6 +191,10 @@ Now, if you do not want to show nor take into account the model uncertainties, s
 .. image:: ../img/model_examples_pull_no_model_unc.svg
    :alt: Data/model comparison with pull, no model stat. unc., stacked plot
    :width: 500
+
+
+.. warning::
+   ``data_hist`` has by default asymmetrical error bars. If the provided histogram is weighted, an error is raised and you need to set ``data_uncertainty_type="symmetrical"``.
 
 
 Comparison overview
