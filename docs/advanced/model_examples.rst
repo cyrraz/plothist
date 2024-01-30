@@ -165,7 +165,7 @@ The function ``plot_data_model_comparison()`` can also be used to compare data a
    :width: 500
 
 .. note::
-   ``plot_data_model_comparison()`` can also be used with only one component as the model. To compare a function with a histogram, just put the function in a list in ``stacked_components`` (or ``unstacked_components``, it is symmetrical in this case) argument and the histogram in the ``data_hist`` argument.
+   ``plot_data_model_comparison()`` can also be used with only one component as the model. To compare a function with a histogram, just put the function in a list in ``stacked_components`` (or ``unstacked_components``, it gives the same result in this case) argument and the histogram in the ``data_hist`` argument.
 
 
 Model uncertainty
@@ -194,7 +194,7 @@ Now, if you do not want to show nor take into account the model uncertainties, s
 
 
 .. warning::
-   ``data_hist`` will have by default asymmetrical error bars. If the provided histogram is re-weighted, an error will be raised and you need to set ``data_uncertainty_type="symmetrical"``.
+   ``data_hist`` has by default asymmetrical error bars. If the provided histogram is weighted, an error is raised and you need to set ``data_uncertainty_type="symmetrical"``.
 
 
 Comparison overview
