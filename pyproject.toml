@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "plothist"
 authors = [
-    {name = "Cyrille Praz", email = "code.cyrraz@protonmail.com"},
+    {name = "Cyrille Praz", email = "cyrraz.code@protonmail.com"},
     {name = "Tristan Fillinger", email = "tristan.github@gmail.com"},
     ]
 readme = "README.rst"
