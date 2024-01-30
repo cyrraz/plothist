@@ -32,7 +32,7 @@ subprocess.check_call(["flit", "install", "-s"], cwd="../")
 from sphinx_gallery.sorting import FileNameSortKey
 
 project = "plothist"
-copyright = "2023, Cyrille Praz, Tristan Fillinger"
+copyright = "2023-2024, Cyrille Praz, Tristan Fillinger"
 author = "Cyrille Praz, Tristan Fillinger"
 
 # The short X.Y version
