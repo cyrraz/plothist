@@ -537,15 +537,21 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ("ratio", "pull", "difference", "relative_difference" or "asymmetry"). Default is "ratio".
+        The type of comparison to plot ("ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry"). Default is "ratio".
     comparison_ylabel : str, optional
         The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
         The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+        Asymmetrical uncertainties are not supported for the asymmetry and efficiency comparisons.
     ratio_uncertainty_type : str, optional
-        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference" ("uncorrelated" for simple comparison, "split" for scaling and split h1 and h2 uncertainties). This argument has no effect if comparison != "ratio" or "relative_difference". Default is "uncorrelated".
+        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference":
+        This argument has no effect if comparison != "ratio" or "relative_difference".
+        The options are:
+        * "uncorrelated" for the comparison of two uncorrelated histograms,
+        * "split" for scaling the uncertainties of h1 by the inverse of the bin content of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty, and plotting separately scaled h2 uncertainties.
+        Default is "uncorrelated".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist() or plot_error_hist(), called in case the comparison is "pull" or "ratio", respectively. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". In case of ratio, the default argument is color="black".
 
@@ -638,6 +644,11 @@ def plot_comparison(
     elif comparison == "difference":
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(f"${h1_label} - {h2_label}$")
+
+    elif comparison == "efficiency":
+        if comparison_ylim is None:
+            comparison_ylim = (0.0, 1.0)
+        ax.set_ylabel("Efficiency")
 
     elif comparison == "asymmetry":
         if comparison_ylim is None:
