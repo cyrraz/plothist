@@ -4,7 +4,7 @@
 Plotting model and data
 =======================
 
-The examples below make use of a pandas dataframe ``df`` containing dummy data, that can be loaded with:
+The examples below make use of a numpy ndarray ``df`` containing dummy data (you may also use a pandas dataframe), that can be loaded with:
 
 .. code-block:: python
 
