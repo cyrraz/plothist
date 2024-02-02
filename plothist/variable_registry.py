@@ -250,7 +250,7 @@ def update_variable_registry_ranges(
 
     Parameters
     ----------
-    data : dict or pandas.DataFrame
+    data : numpy.ndarray or pandas.DataFrame
         A dataset containing the data for the variables.
     variable_keys : list
         A list of variable keys for which to update the range parameters in the registry. The variable needs to have a bin and range properties in the registry. Default is None: all variables in the registry are updated.

@@ -225,5 +225,4 @@ sphinx_gallery_conf = {
 intersphinx_mapping = {
     "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
     "matplotlib": ("https://matplotlib.org/", None),
-    "pandas": ("https://pandas.pydata.org/", None),
 }
