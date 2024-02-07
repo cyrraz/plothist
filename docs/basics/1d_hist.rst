@@ -15,6 +15,8 @@ The examples below make use of a pandas dataframe ``df`` containing dummy data, 
    This page presents functions of ``plothist`` step by step and gives information about how to use them.
    To reproduce the examples, please visit the `plot gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_, because it contains a standalone script for each example, that you can run directly.
 
+.. note::
+    All the functions used in the examples below can take a lot more arguments to customize the plot, see the :ref:`documentation-label` for more details.
 
 Simple 1D histogram
 ===================
@@ -173,9 +175,37 @@ To plot the asymmetry between the two histograms:
    :width: 500
 
 
+Efficiency
+----------
+
+To plot the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2. The variances are calculated according to the formula given in :ref:`documentation-statistics-label` (Clopper-Pearson):
+
+.. literalinclude:: ../examples/1d_hist/1d_comparison_efficiency.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/1d_comparison_efficiency.svg
+   :alt: Simple efficiency comparison
+   :width: 500
+
+
 Comparison with functions
 =========================
 
 To compare one histogram with one or multiple functions, see :ref:`advanced-model-functions-comparison-label`.
 
 To compare two functions together, see :ref:`advanced-asymmetry-label`.
+
+
+To only plot the comparison
+===========================
+
+With any of the example above, you can use the ``plot_comparison`` function to only plot the comparison. Here is an example with the efficiency comparison of two histograms:
+
+.. literalinclude:: ../examples/1d_hist/1d_comparison_only_efficiency.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/1d_comparison_only_efficiency.svg
+    :alt: Simple efficiency comparison, only the comparison
+    :width: 500
