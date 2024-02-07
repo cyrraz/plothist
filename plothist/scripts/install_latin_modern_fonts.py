@@ -7,7 +7,7 @@ from pathlib import PosixPath
 def install_latin_modern_fonts():
     """
     Install Latin Modern Math, Latin Modern Roman and Latin Modern Sans fonts.
-    The font cache of matplotlib is removed, so that the new fonts are available in matplotlib.
+    The font cache of matplotlib is removed, so matplotlib will be forced to update its font list.
 
     The Latin Modern Math font is available at http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf
     The Latin Modern Roman and Latin Modern Sans fonts are available at https://www.1001fonts.com/latin-modern-roman-font.html and https://www.1001fonts.com/latin-modern-sans-font.html
