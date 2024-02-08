@@ -1,8 +1,8 @@
 .. _usage-style-label:
 
-=======================
-Style, fonts and colors
-=======================
+================
+Style and colors
+================
 
 Default style
 =============
