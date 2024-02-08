@@ -6,7 +6,7 @@ Font installation
 
 Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
 
-On Linux/Ubuntu/MacOS, you can install the fonts by running on your terminal:
+On Linux/Ubuntu/MacOS, after installing ``plothist``, you can install the fonts by running on your terminal:
 
 .. code-block:: bash
 
