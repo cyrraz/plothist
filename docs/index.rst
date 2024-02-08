@@ -7,6 +7,7 @@ Content
     :maxdepth: 2
 
     usage/installation
+    usage/font_installation
 
 .. toctree::
     :maxdepth: 2
@@ -27,7 +28,6 @@ Content
     :caption: Utilities
 
     basics/variable_registry
-    usage/font_installation
     usage/style
     usage/utilities
     usage/plot_fitting_results
