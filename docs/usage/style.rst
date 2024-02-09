@@ -58,7 +58,7 @@ Make also sure to delete the cache of matplotlib, otherwise the fonts may not be
 Color palettes
 ==============
 
-Multiple palettes are available in ``plothist`` in order to make beautiful plots. The function ``get_color_palette(cmap, N)`` gets ``N`` different colors from a chosen ``cmap`` colormap.
+Multiple palettes are available in ``plothist`` in order to make beautiful plots. The function :func:`get_color_palette(cmap, N) <plothist.plothist_style.get_color_palette>` gets ``N`` different colors from a chosen ``cmap`` colormap.
 
 
 Default palette
@@ -104,7 +104,7 @@ Matplotlib palettes
 -------------------
 
 
-The function ``get_color_palette(cmap, N)`` can also take any ``cmap`` matplotlib color palette and sequence it in ``N`` different colors (see `here <https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_ for the different ``cmap`` names).
+The function :func:`get_color_palette(cmap, N) <plothist.plothist_style.get_color_palette>` can also take any ``cmap`` matplotlib color palette and sequence it in ``N`` different colors (see `here <https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_ for the different ``cmap`` names).
 
 We recommand using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
 
@@ -141,7 +141,7 @@ We recommand using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
 Setting style
 =============
 
-If the style is not set automatically by ``import plothist``, you can set it manually with the function ``set_style()``:
+If the style is not set automatically by ``import plothist``, you can set it manually with the function :func:`set_style() <plothist.plothist_style.set_style>`:
 
 .. code-block:: python
 

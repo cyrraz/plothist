@@ -72,7 +72,7 @@ Below is the code that generates the data and model histograms used in all the e
 Simple model plots
 ==================
 
-If you want to plot only the model, use ``plot_model()``. It supports models made of functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
+If you want to plot only the model, use :func:`plot_model() <plothist.plotters.plot_model>`. It supports models made of functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
 
 It can take a lot more arguments to customize the plot than shown in the examples below, see the :ref:`documentation-label` for more details.
 
@@ -107,7 +107,7 @@ Here is an example with a model made of functions:
 Compare data and model
 ======================
 
-A data histogram can be added to the plot with ``plot_data_model_comparison()``. It will then compare the sum of the components to the data, with the comparison of your choice. The default comparison is the ratio between the model and the data. It can take any comparison method available in ``plot_comparison()``.
+A data histogram can be added to the plot with :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>`. It will then compare the sum of the components to the data, with the comparison of your choice. The default comparison is the ratio between the model and the data. It can take any comparison method available in :func:`plot_comparison() <plothist.plotters.plot_comparison>`.
 
 Stacked histograms
 ------------------
@@ -154,7 +154,7 @@ Stacked and unstacked histograms can be combined:
 Models made of functions
 ------------------------
 
-The function ``plot_data_model_comparison()`` can also be used to compare data and functions:
+The function :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` can also be used to compare data and functions:
 
 .. literalinclude:: ../examples/model_ex/ratio_data_vs_model_with_stacked_and_unstacked_function_components.py
     :language: python
@@ -165,13 +165,13 @@ The function ``plot_data_model_comparison()`` can also be used to compare data a
    :width: 500
 
 .. note::
-   ``plot_data_model_comparison()`` can also be used with only one component as the model. To compare a function with a histogram, just put the function in a list in ``stacked_components`` (or ``unstacked_components``, it gives the same result in this case) argument and the histogram in the ``data_hist`` argument.
+   :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` can also be used with only one component as the model. To compare a function with a histogram, just put the function in a list in ``stacked_components`` (or ``unstacked_components``, it gives the same result in this case) argument and the histogram in the ``data_hist`` argument.
 
 
 Model uncertainty
 -----------------
 
-As said ealier, the comparison function can take any comparison method available in ``plot_comparison()``. To use pulls instead of the ratio to compare the histograms:
+As said ealier, the comparison function can take any comparison method available in :func:`plot_comparison() <plothist.plotters.plot_comparison>`. To use pulls instead of the ratio to compare the histograms:
 
 .. literalinclude:: ../examples/model_ex/model_examples_pull.py
     :language: python
@@ -200,13 +200,13 @@ Now, if you do not want to show nor take into account the model uncertainties, s
 Comparison overview
 ===================
 
-Here is a collection of examples showing complex plots showing all the possible comparisons between data and model. The idea is to show how to use ``plot_comparison()`` and ``plot_data_model_comparison()`` to make the plots shown in the examples below. The plots are a bit more complex than the ones shown above, but the code to produce them is still quite simple.
+Here is a collection of examples showing complex plots showing all the possible comparisons between data and model. The idea is to show how to use :func:`plot_comparison() <plothist.plotters.plot_comparison>` and :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` to make the plots shown in the examples below. The plots are a bit more complex than the ones shown above, but the code to produce them is still quite simple.
 
 
 All the different comparisons
 -----------------------------
 
-Below is shown how to make a plot with all the possible comparisons between data and model. The idea is to use ``plot_data_model_comparison()`` to make the plot with the ratio comparison, and then use ``plot_comparison()`` to add the other comparisons. The ``plot_comparison()`` function can take a ``fig`` and ``ax`` argument to add the comparison to an existing figure. The ``plot_data_model_comparison()`` function returns the figure and axes used to make the plot, so we can use them to add the other comparisons.
+Below is shown how to make a plot with all the possible comparisons between data and model. The idea is to use :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` to make the plot with the ratio comparison, and then use :func:`plot_comparison() <plothist.plotters.plot_comparison>` to add the other comparisons. The :func:`plot_comparison() <plothist.plotters.plot_comparison>` function can take a ``fig`` and ``ax`` argument to add the comparison to an existing figure. The :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` function returns the figure and axes used to make the plot, so we can use them to add the other comparisons.
 
 .. literalinclude:: ../examples/model_ex/model_all_comparisons.py
     :language: python
@@ -221,7 +221,7 @@ No model uncertainties
 ----------------------
 
 
-Same example as above, but we remove the statistical uncertainties of the model by adding ``model_uncertainty=False`` in ``plot_data_model_comparison()`` and pass a model histogram without uncertainties to ``plot_comparison()``:
+Same example as above, but we remove the statistical uncertainties of the model by adding ``model_uncertainty=False`` in :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` and pass a model histogram without uncertainties to :func:`plot_comparison() <plothist.plotters.plot_comparison>`:
 
 .. literalinclude:: ../examples/model_ex/model_all_comparisons_no_model_unc.py
     :language: python

@@ -42,12 +42,12 @@ For each variable, the following information is stored by default in the ``varia
 
 It is then really easy to modify the plotting information by hand inside the ``yaml`` file.
 
-To add new variables to an already existing ``variable_registry.yaml`` file, you only need to add the new variable keys to the ``variable_keys`` list and call ``create_variable_registry`` again. By default, the information on the variables already present in the registry is not overwritten. The hand-written modifications are kept, unless the ``reset`` parameter is set to ``True``.
+To add new variables to an already existing ``variable_registry.yaml`` file, you only need to add the new variable keys to the ``variable_keys`` list and call :func:`create_variable_registry <plothist.variable_registry.create_variable_registry>` again. By default, the information on the variables already present in the registry is not overwritten. The hand-written modifications are kept, unless the ``reset`` parameter is set to ``True``.
 
 Getting the plotting information
 ================================
 
-To get the plotting information of a variable, you can use the ``get_variable_from_registry`` function:
+To get the plotting information of a variable, you can use the :func:`get_variable_from_registry <plothist.variable_registry.get_variable_from_registry>` function:
 
 .. code-block:: python
 
@@ -66,7 +66,7 @@ Update the registry
 Ranges
 ------
 
-The ``update_variable_registry_ranges`` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
+The :func:`update_variable_registry_ranges <plothist.variable_registry.update_variable_registry_ranges>` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
 
 .. code-block:: python
 
@@ -102,7 +102,7 @@ Calling this function again on the same variable keys will not overwrite their `
 Add variable properties
 -----------------------
 
-You can also add new plotting properties to the variable by using the ``update_variable_registry`` and a custom dictionnary:
+You can also add new plotting properties to the variable by using the :func:`update_variable_registry <plothist.variable_registry.update_variable_registry>` and a custom dictionnary:
 
 .. code-block:: python
 
@@ -146,13 +146,13 @@ This will add the new properties to the ``yaml`` file to all the variables in ``
     variable_1:
         ...
 
-The same ``get_variable_from_registry`` function can be used to get the new properties.
+The same :func:`get_variable_from_registry <plothist.variable_registry.get_variable_from_registry>` function can be used to get the new properties.
 
 
 Remove parameters
 -----------------
 
-To remove a parameter from the plotting informations, you can use the ``remove_variable_registry_parameters`` function:
+To remove a parameter from the plotting informations, you can use the :func:`remove_variable_registry_parameters <plothist.variable_registry.remove_variable_registry_parameters>` function:
 
 .. code-block:: python
 
@@ -231,7 +231,7 @@ To plot multiple variables using the ``variable_manager``, you can use the follo
 Advanced example
 ================
 
-It is also really convenient to plot the same variable with different plotting parameters. A variable is identified by its ``variable_key`` using ``get_variable_from_registry``, and the ``name`` is the variable name in the dataset.
+It is also really convenient to plot the same variable with different plotting parameters. A variable is identified by its ``variable_key`` using :func:`get_variable_from_registry <plothist.variable_registry.get_variable_from_registry>`, and the ``name`` is the variable name in the dataset.
 
 To plot a zoom on some variable, but still keep the original plot:
 
