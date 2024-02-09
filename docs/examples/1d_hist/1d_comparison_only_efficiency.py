@@ -1,8 +1,8 @@
 """
-Efficiency plot
-===============
+Only the comparison plot
+========================
 
-Compare the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2. Only plot the efficiency comparison.
+Example that shows how to only plot the comparison. Here, we compare the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2.
 """
 
 # Set the seed for the .sample() method

@@ -209,3 +209,14 @@ With any of the example above, you can use the ``plot_comparison`` function to o
 .. image:: ../img/1d_comparison_only_efficiency.svg
     :alt: Simple efficiency comparison, only the comparison
     :width: 500
+
+
+Get the values of the comparison
+================================
+
+To easily get the values and the uncertainties of the comparison, the :func:`plothist.comparison.get_comparison` returns three arrays: the values, the lower uncertainties and the upper uncertainties. Here is an example with the ratio comparison:
+
+.. code-block:: python
+
+    from plothist.comparison import get_comparison
+    values, lower_uncertainties, upper_uncertainties = get_comparison(h1, h2, comparison="ratio")
