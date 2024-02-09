@@ -214,7 +214,7 @@ With any of the example above, you can use the ``plot_comparison`` function to o
 Get the values of the comparison
 ================================
 
-To easily get the values and the uncertainties of the comparison, the :func:`plothist.comparison.get_comparison` returns three arrays: the values, the lower uncertainties and the upper uncertainties. Here is an example with the ratio comparison:
+To easily get the values and the uncertainties of the comparison, the `get_comparison <plothist.comparison.get_comparison>`_ returns three arrays: the values, the lower uncertainties and the upper uncertainties. Here is an example with the ratio comparison:
 
 .. code-block:: python
 
