@@ -20,6 +20,7 @@ repos:
       - id: mixed-line-ending
       - id: requirements-txt-fixer
       - id: trailing-whitespace
+        exclude: '.*\.svg$'
 
   - repo: https://github.com/psf/black
     rev: "24.2.0"
