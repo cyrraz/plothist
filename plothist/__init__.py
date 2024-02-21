@@ -1,4 +1,5 @@
 """Plot histograms in a scalable way and a beautiful style."""
+
 __version__ = "1.0.6"
 
 from .plotters import (

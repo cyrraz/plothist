@@ -90,50 +90,51 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
    from scipy.interpolate import interp1d
    import pickle
 
+
    def save_pdf(var, pdf, path="pdf.pkl", n_points=10000):
-      """
-      Save a RooFit PDF as a scipy.interpolate.interp1d function.
+       """
+       Save a RooFit PDF as a scipy.interpolate.interp1d function.
 
-      Parameters
-      ----------
-      var : RooRealVar
-         The variable to evaluate the PDF at.
-      pdf : RooAbsPdf
-         The PDF to save.
-      path : str, optional
-         The path to save the PDF to. Should end with `.pkl`. Default is "pdf.pkl".
-      n_points : int, optional
-         The number of points to evaluate the PDF at. Default is 10000.
+       Parameters
+       ----------
+       var : RooRealVar
+          The variable to evaluate the PDF at.
+       pdf : RooAbsPdf
+          The PDF to save.
+       path : str, optional
+          The path to save the PDF to. Should end with `.pkl`. Default is "pdf.pkl".
+       n_points : int, optional
+          The number of points to evaluate the PDF at. Default is 10000.
 
-      Returns
-      -------
-      pdf_func : scipy.interpolate.interp1d
-         The PDF as a function.
+       Returns
+       -------
+       pdf_func : scipy.interpolate.interp1d
+          The PDF as a function.
 
-      Notes
-      -----
-      The PDF is saved as a scipy.interpolate.interp1d function with pickle.
-      """
+       Notes
+       -----
+       The PDF is saved as a scipy.interpolate.interp1d function with pickle.
+       """
 
-      pdf_x = np.zeros(n_points)
+       pdf_x = np.zeros(n_points)
 
-      xlim = (var.getMin(), var.getMax())
-      # Get a sample of x values
-      x = np.linspace(*xlim, n_points)
+       xlim = (var.getMin(), var.getMax())
+       # Get a sample of x values
+       x = np.linspace(*xlim, n_points)
 
-      for i in range(len(x)):
-         var.setVal(x[i])
-         # Evaluate the PDF at the given x value
-         pdf_x[i] = pdf.getVal(var)
+       for i in range(len(x)):
+           var.setVal(x[i])
+           # Evaluate the PDF at the given x value
+           pdf_x[i] = pdf.getVal(var)
 
-      # Interpolate the PDF
-      pdf_func = interp1d(x, pdf_x)
+       # Interpolate the PDF
+       pdf_func = interp1d(x, pdf_x)
 
-      with open(path, "wb") as f:
-         print(f"Saving model to {f.name}")
-         pickle.dump(pdf_func, f)
+       with open(path, "wb") as f:
+           print(f"Saving model to {f.name}")
+           pickle.dump(pdf_func, f)
 
-      return pdf_func
+       return pdf_func
 
 With zfit
 ---------
@@ -144,6 +145,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
 
     from scipy.interpolate import interp1d
     import pickle
+
 
     def save_pdf(var, pdf, path="pdf.pkl", n_points=10000):
         """
@@ -194,35 +196,38 @@ A ``pdf_func`` you get from a scipy function or from the saved pickle file for `
 
    from scipy.integrate import quad
 
+
    def renormalize(pdf, x_range, n_bins, n_data):
-      """
-      Renormalize a PDF to its corresponding number of data events.
+       """
+       Renormalize a PDF to its corresponding number of data events.
 
-      Parameters
-      ----------
-      pdf : callable
-         The PDF to renormalize.
-      x_range : tuple
-         The range of the PDF.
-      n_bins : int
-         The number of bins. Regular binning is assumed.
-      n_data : int
-         The number of predicted data events in the x_range associated to the pdf.
+       Parameters
+       ----------
+       pdf : callable
+          The PDF to renormalize.
+       x_range : tuple
+          The range of the PDF.
+       n_bins : int
+          The number of bins. Regular binning is assumed.
+       n_data : int
+          The number of predicted data events in the x_range associated to the pdf.
 
-      Returns
-      -------
-      pdf : callable
-         The renormalized PDF.
-      """
+       Returns
+       -------
+       pdf : callable
+          The renormalized PDF.
+       """
 
-      xmin, xmax = x_range
-      bin_width = (xmax - xmin) / n_bins
-      integral = quad(pdf, xmin, xmax)[0] # If x_range is equal to the full range of the PDF, this is equal to 1.
+       xmin, xmax = x_range
+       bin_width = (xmax - xmin) / n_bins
+       integral = quad(pdf, xmin, xmax)[
+           0
+       ]  # If x_range is equal to the full range of the PDF, this is equal to 1.
 
-      def renormalized_pdf(x):
-         return pdf(x) * n_data * bin_width / integral
+       def renormalized_pdf(x):
+           return pdf(x) * n_data * bin_width / integral
 
-      return renormalized_pdf
+       return renormalized_pdf
 
 Then you can use ``plot_model()`` or ``plot_data_model_comparison()`` (see :ref:`advanced-asymmetry-label`) to plot the PDF and do all sort of comparisons with the ``plothist`` interface:
 
@@ -250,23 +255,24 @@ Then you can use the following function to get the PDF:
    import ROOT
    from scipy.interpolate import interp1d
 
+
    def get_pdf_list(root_file_name, canvas_name="canvas"):
-      # Open the ROOT file
-      root_file = ROOT.TFile(root_file_name, "READ")
+       # Open the ROOT file
+       root_file = ROOT.TFile(root_file_name, "READ")
 
-      # Get the TCanvas from the file
-      canvas = root_file.Get(canvas_name)
+       # Get the TCanvas from the file
+       canvas = root_file.Get(canvas_name)
 
-      pdf_list = []
-      pdf_names = []
+       pdf_list = []
+       pdf_names = []
 
-      ## If you have mutliple pads, you need to specify which one you want to get the PDF from
-      # pad = canvas.GetPrimitive("pad_name")
-      ## Then loop over the primitives of the pad and not the canvas
-      # for obj in pad.GetListOfPrimitives():
+       ## If you have mutliple pads, you need to specify which one you want to get the PDF from
+       # pad = canvas.GetPrimitive("pad_name")
+       ## Then loop over the primitives of the pad and not the canvas
+       # for obj in pad.GetListOfPrimitives():
 
-      for obj in canvas.GetListOfPrimitives():
-         if isinstance(obj, ROOT.TGraph) and not isinstance(obj, ROOT.TGraphAsymmErrors):
+       for obj in canvas.GetListOfPrimitives():
+           if isinstance(obj, ROOT.TGraph) and not isinstance(obj, ROOT.TGraphAsymmErrors):
                # Get the x and y values of the TGraph
                pdf_names.append(obj.GetName())
                x_values = obj.GetX()
@@ -277,11 +283,11 @@ Then you can use the following function to get the PDF:
 
                pdf_list.append(pdf_func)
 
-      print(f"\nPDFs from {root_file_name} saved in the list:")
-      for k_name, pdf_name in enumerate(pdf_names):
-         print(f"\t[{k_name}] {pdf_name}")
-      print()
+       print(f"\nPDFs from {root_file_name} saved in the list:")
+       for k_name, pdf_name in enumerate(pdf_names):
+           print(f"\t[{k_name}] {pdf_name}")
+       print()
 
-      return pdf_list
+       return pdf_list
 
 The main idea is that when you do a ``plotOn()`` on a frame, the function is saved as a ``TGraph`` object. You can then get the x and y values of the graph and interpolate it to get a function. The function is then saved in a list with the name of the function. The PDF order in the list is the same as the order you used to plot them on the frame.

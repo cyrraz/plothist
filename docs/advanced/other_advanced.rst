@@ -11,6 +11,7 @@ They make use of a numpy ndarray ``df`` containing dummy data (you may also use 
 .. code-block:: python
 
     from plothist import get_dummy_data
+
     df = get_dummy_data()
 
 Advanced example comparing two histograms

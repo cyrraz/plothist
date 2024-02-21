@@ -114,6 +114,3 @@ If the style is not set automatically by ``import plothist``, you can set it man
 
     from plothist import set_style
     set_style()
-
-
-

@@ -9,6 +9,7 @@ The examples below make use of a numpy ndarray ``df`` containing dummy data (you
 .. code-block:: python
 
     from plothist import get_dummy_data
+
     df = get_dummy_data()
 
 .. note::
@@ -37,7 +38,9 @@ Below is the code that generates the data and model histograms used in all the e
 
     background_categories = [0, 1, 2]
     background_categories_labels = [f"c{i}" for i in background_categories]
-    background_categories_colors = get_color_palette("cubehelix", len(background_categories))
+    background_categories_colors = get_color_palette(
+        "cubehelix", len(background_categories)
+    )
 
     background_masks = [df[category] == p for p in background_categories]
 
@@ -60,12 +63,17 @@ Below is the code that generates the data and model histograms used in all the e
     # Define some random functions that will be used as model components with functions
     from scipy.stats import norm
 
+
     def f_signal(x):
-        return 1000*norm.pdf(x, loc=0.5, scale=3)
+        return 1000 * norm.pdf(x, loc=0.5, scale=3)
+
+
     def f_background1(x):
-        return 1000*norm.pdf(x, loc=-1.5, scale=4)
+        return 1000 * norm.pdf(x, loc=-1.5, scale=4)
+
+
     def f_background2(x):
-        return 3000*norm.pdf(x, loc=-1.8, scale=1.8)
+        return 3000 * norm.pdf(x, loc=-1.8, scale=1.8)
 
 
 
@@ -244,4 +252,3 @@ For ``ratio`` or ``relative_difference``, the uncertainties can be split between
 .. image:: ../img/model_comparisons_ratio_options.svg
    :alt: Data/model comparison with all comparisons option for ratio
    :width: 500
-

@@ -164,16 +164,15 @@ def get_pull(h1, h2, h1_uncertainty_type="symmetrical"):
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
         h1_variances = np.where(
             h1.values() >= h2.values(),
-            uncertainties_low ** 2,
-            uncertainties_high ** 2,
+            uncertainties_low**2,
+            uncertainties_high**2,
         )
         h1 = h1.copy()
         h1[:] = np.c_[h1.values(), h1_variances]
 
     comparison_values = np.where(
         h1.variances() + h2.variances() != 0,
-        (h1.values() - h2.values())
-        / np.sqrt(h1.variances() + h2.variances()),
+        (h1.values() - h2.values()) / np.sqrt(h1.variances() + h2.variances()),
         np.nan,
     )
     comparison_uncertainties_low = np.ones_like(comparison_values)
@@ -216,12 +215,8 @@ def get_difference(h1, h2, h1_uncertainty_type="symmetrical"):
     if h1_uncertainty_type == "asymmetrical":
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
 
-        comparison_uncertainties_low = np.sqrt(
-            uncertainties_low ** 2 + h2.variances()
-        )
-        comparison_uncertainties_high = np.sqrt(
-            uncertainties_high ** 2 + h2.variances()
-        )
+        comparison_uncertainties_low = np.sqrt(uncertainties_low**2 + h2.variances())
+        comparison_uncertainties_high = np.sqrt(uncertainties_high**2 + h2.variances())
     else:
         comparison_uncertainties_low = np.sqrt(h1.variances() + h2.variances())
         comparison_uncertainties_high = comparison_uncertainties_low
@@ -301,9 +296,7 @@ def get_ratio(
     _check_uncertainty_type(h1_uncertainty_type)
     _check_binning_consistency([h1, h2])
 
-    comparison_values = np.where(
-        h2.values() != 0, h1.values() / h2.values(), np.nan
-    )
+    comparison_values = np.where(h2.values() != 0, h1.values() / h2.values(), np.nan)
 
     if h1_uncertainty_type == "asymmetrical":
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
@@ -311,15 +304,11 @@ def get_ratio(
     if ratio_uncertainty_type == "uncorrelated":
         if h1_uncertainty_type == "asymmetrical":
             h1_high = h1.copy()
-            h1_high[:] = np.c_[h1_high.values(), uncertainties_high ** 2]
+            h1_high[:] = np.c_[h1_high.values(), uncertainties_high**2]
             h1_low = h1.copy()
-            h1_low[:] = np.c_[h1_low.values(), uncertainties_low ** 2]
-            comparison_uncertainties_low = np.sqrt(
-                get_ratio_variances(h1_low, h2)
-            )
-            comparison_uncertainties_high = np.sqrt(
-                get_ratio_variances(h1_high, h2)
-            )
+            h1_low[:] = np.c_[h1_low.values(), uncertainties_low**2]
+            comparison_uncertainties_low = np.sqrt(get_ratio_variances(h1_low, h2))
+            comparison_uncertainties_high = np.sqrt(get_ratio_variances(h1_high, h2))
         else:
             comparison_uncertainties_low = np.sqrt(get_ratio_variances(h1, h2))
             comparison_uncertainties_high = comparison_uncertainties_low
