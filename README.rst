@@ -3,7 +3,7 @@
 plothist
 ========
 
-**Visualize data in a scalable way and a beautiful style.**
+**Visualize and compare data in a scalable way and a beautiful style.**
 
 * Installation and documentation: `https://plothist.readthedocs.io/ <https://plothist.readthedocs.io/>`_
 * Image gallery: `https://plothist.readthedocs.io/en/latest/example_gallery/ <https://plothist.readthedocs.io/en/latest/example_gallery/>`_
