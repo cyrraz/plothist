@@ -16,12 +16,23 @@ def test_efficiency_subsample():
         assert True
 
 
+def simple_efficiency_uncertainty(total, sample):
+    """
+    Calculate the uncertainty of the efficiency of a sample.
+    """
+    efficiency = sample / total
+    return np.sqrt(efficiency * (1 - efficiency) / total)
+
+
 def test_efficiency_simple_values():
     """
     Test efficiency with simple values.
     """
-    h1 = make_hist(data=[1] * 100, bins=1, range=(0, 2))
-    h2 = make_hist(data=[1] * 10, bins=1, range=(0, 2))
+    n1 = 100
+    n2 = 10
+
+    h1 = make_hist(data=[1] * n1, bins=1, range=(0, 2))
+    h2 = make_hist(data=[1] * n2, bins=1, range=(0, 2))
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="efficiency"
@@ -29,6 +40,31 @@ def test_efficiency_simple_values():
     assert approx(values) == np.array([0.1])
     assert approx(high_uncertainty) == np.array([0.03056316])
     assert approx(low_uncertainty) == np.array([0.03056316])
+
+    assert approx(high_uncertainty[0], 0.02) == simple_efficiency_uncertainty(n1, n2) # 0.02 relative error
+    assert approx(low_uncertainty[0], 0.02) == simple_efficiency_uncertainty(n1, n2) # 0.02 relative error
+
+    # Test with larger numbers
+    n1 = 10000000
+    n2 = 1000000
+
+    h1 = make_hist(data=[1] * n1, bins=1, range=(0, 2))
+    h2 = make_hist(data=[1] * n2, bins=1, range=(0, 2))
+
+    values, high_uncertainty, low_uncertainty = get_comparison(
+        h2, h1, comparison="efficiency"
+    )
+
+    assert approx(values) == np.array([0.1])
+    assert approx(high_uncertainty) == np.array([9.48683493e-05])
+    assert approx(low_uncertainty) == np.array([9.48683493e-05])
+
+    assert approx(high_uncertainty[0]) == simple_efficiency_uncertainty(n1, n2) # 1e-6 relative error by default
+    assert approx(low_uncertainty[0]) == simple_efficiency_uncertainty(n1, n2) # 1e-6 relative error by default
+
+
+
+test_efficiency_simple_values()
 
 
 def test_efficiency_complex_values():

@@ -178,7 +178,7 @@ To plot the asymmetry between the two histograms:
 Efficiency
 ----------
 
-To plot the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2. The variances are calculated according to the formula given in :ref:`documentation-statistics-label` (Clopper-Pearson):
+To plot the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2. The variances are calculated according to the formula given in :ref:`documentation-statistics-label`:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_efficiency.py
     :language: python
@@ -200,7 +200,7 @@ To compare two functions together, see :ref:`advanced-asymmetry-label`.
 To only plot the comparison
 ===========================
 
-With any of the example above, you can use the :func:`plot_comparison() <plothist.plotters.plot_comparison>` function to only plot the comparison. Here is an example with the efficiency comparison of two histograms:
+With any of the examples above, you can use the :func:`plot_comparison() <plothist.plotters.plot_comparison>` function to only plot the comparison. Here is an example with the efficiency comparison of two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_only_efficiency.py
     :language: python
