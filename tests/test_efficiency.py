@@ -1,6 +1,6 @@
 from plothist import make_hist, get_comparison
 import numpy as np
-from pytest import approx
+from pytest import approx, raises
 
 
 def test_efficiency_subsample():
@@ -9,16 +9,51 @@ def test_efficiency_subsample():
     """
     h1 = make_hist(data=np.random.normal(size=11), bins=100, range=(-5, 5))
     h2 = make_hist(data=np.random.normal(size=10), bins=100, range=(-5, 5))
-    try:
+    with raises(ValueError) as err:
         get_comparison(h1, h2, comparison="efficiency")
-        assert False
-    except ValueError:
-        assert True
+    assert (
+        str(err.value)
+        == "The ratio of two correlated histograms (efficiency) can only be computed if the bin contents of h1 are a subsample of the bin contents of h2."
+    )
+
+
+def test_efficiency_weighted_histograms():
+    """
+    Test weighted histograms error.
+    """
+    h1 = make_hist(data=np.random.normal(size=10), bins=10, range=(-5, 5))
+    h2 = make_hist(data=np.random.normal(size=100), bins=10, range=(-5, 5))
+    h1w = make_hist(
+        data=np.random.normal(size=10),
+        bins=10,
+        range=(-5, 5),
+        weights=np.random.normal(size=10),
+    )
+    h2w = make_hist(
+        data=np.random.normal(size=100),
+        bins=10,
+        range=(-5, 5),
+        weights=np.random.normal(size=100),
+    )
+
+    error_msg = "The ratio of two correlated histograms (efficiency) can only be computed for unweighted histograms."
+
+    with raises(ValueError) as err:
+        get_comparison(h1w, h2, comparison="efficiency")
+    assert str(err.value) == error_msg
+
+    with raises(ValueError) as err:
+        get_comparison(h1, h2w, comparison="efficiency")
+    assert str(err.value) == error_msg
+
+    with raises(ValueError) as err:
+        get_comparison(h1w, h2w, comparison="efficiency")
+    assert str(err.value) == error_msg
 
 
 def simple_efficiency_uncertainty(total, sample):
     """
-    Calculate the uncertainty of the efficiency of a sample.
+    Calculate the uncertainty of the efficiency of a sample, derived from the Binomial Statistics.
     """
     efficiency = sample / total
     return np.sqrt(efficiency * (1 - efficiency) / total)
