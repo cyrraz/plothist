@@ -44,9 +44,8 @@ To easily get this color palette, the function ``get_color_palette()`` can be us
 
     colors = get_color_palette("ggplot", 7)
 
-    >>> colors
-    ['#348ABD','#E24A33', '#988ED5', '#777777', '#FBC15E', '#8EBA42', '#FFB5B8']
-
+    print(colors)
+    # ['#348ABD','#E24A33', '#988ED5', '#777777', '#FBC15E', '#8EBA42', '#FFB5B8']
 
 Cubehelix palette
 -----------------
@@ -81,7 +80,9 @@ We recommend using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
 
     # From model examples
     ...
-    background_categories_colors = get_color_palette("Any cmap name", len(background_categories))
+    background_categories_colors = get_color_palette(
+        "Any cmap name", len(background_categories)
+    )
     ...
 
 .. image:: ../img/usage_colorpalette_examples.svg
@@ -113,4 +114,5 @@ If the style is not set automatically by ``import plothist``, you can set it man
 .. code-block:: python
 
     from plothist import set_style
+
     set_style()

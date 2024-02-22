@@ -22,9 +22,10 @@ If the command doesn't exist, you can run the script manually. First you need to
 .. code-block:: python
 
    import plothist
+
    plothist.__file__
 
-   > '/path/to/plothist/__init__.py'
+   # > '/path/to/plothist/__init__.py'
 
 Then you can run the following command in a terminal:
 
@@ -39,6 +40,7 @@ It was observed in some cases that, after the procedure above, you may need to m
 .. code-block:: python
 
    from matplotlib import font_manager
+
    font_manager.findSystemFonts(fontpaths=None, fontext="ttf")
 
 Make also sure to delete the cache of matplotlib, otherwise the fonts may not be loaded correctly. You can delete the cache folder by running in a python console:
@@ -47,5 +49,6 @@ Make also sure to delete the cache of matplotlib, otherwise the fonts may not be
 
    import matplotlib
    import subprocess
+
    cache_dir = matplotlib.get_cachedir()
    subprocess.run(["rm", "-rv", cache_dir])

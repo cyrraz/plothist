@@ -56,8 +56,7 @@ To get the plotting information of a variable, you can use the ``get_variable_fr
     variable = get_variable_from_registry("variable_0")
 
     print(variable)
-
-    >>> {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
+    # {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
 
 
 Update the registry
@@ -158,7 +157,9 @@ To remove a parameter from the plotting information, you can use the ``remove_va
 
     from plothist import remove_variable_registry_parameters
 
-    remove_variable_registry_parameters(["range", "log", "legend_ncols", "new_property"], variable_keys)
+    remove_variable_registry_parameters(
+        ["range", "log", "legend_ncols", "new_property"], variable_keys
+    )
 
 The ``yaml`` file is updated:
 
