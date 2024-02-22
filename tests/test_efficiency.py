@@ -41,8 +41,12 @@ def test_efficiency_simple_values():
     assert approx(high_uncertainty) == np.array([0.03056316])
     assert approx(low_uncertainty) == np.array([0.03056316])
 
-    assert approx(high_uncertainty[0], 0.02) == simple_efficiency_uncertainty(n1, n2) # 0.02 relative error
-    assert approx(low_uncertainty[0], 0.02) == simple_efficiency_uncertainty(n1, n2) # 0.02 relative error
+    assert approx(high_uncertainty[0], 0.02) == simple_efficiency_uncertainty(
+        n1, n2
+    )  # 0.02 relative error
+    assert approx(low_uncertainty[0], 0.02) == simple_efficiency_uncertainty(
+        n1, n2
+    )  # 0.02 relative error
 
     # Test with larger numbers
     n1 = 10000000
@@ -59,66 +63,66 @@ def test_efficiency_simple_values():
     assert approx(high_uncertainty) == np.array([9.48683493e-05])
     assert approx(low_uncertainty) == np.array([9.48683493e-05])
 
-    assert approx(high_uncertainty[0]) == simple_efficiency_uncertainty(n1, n2) # 1e-6 relative error by default
-    assert approx(low_uncertainty[0]) == simple_efficiency_uncertainty(n1, n2) # 1e-6 relative error by default
-
-
-
-test_efficiency_simple_values()
+    assert approx(high_uncertainty[0]) == simple_efficiency_uncertainty(
+        n1, n2
+    )  # 1e-6 relative error by default
+    assert approx(low_uncertainty[0]) == simple_efficiency_uncertainty(
+        n1, n2
+    )  # 1e-6 relative error by default
 
 
 def test_efficiency_complex_values():
     """
     Test efficiency with random values.
     """
-    np.random.seed(8311311)
-    x1 = np.random.normal(size=100000)
-    # Sample a subset of x1
-    x2 = np.random.choice(x1, size=10000)
+    rng = np.random.default_rng(8311311)
+    x1 = rng.normal(size=100000)
+    x2 = rng.choice(x1, size=10000)
     h1 = make_hist(data=x1, bins=10, range=(-5, 5))
     h2 = make_hist(data=x2, bins=10, range=(-5, 5))
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="efficiency"
     )
+
     assert approx(values) == np.array(
         [
             0.0,
-            0.11194029850746269,
-            0.08786610878661087,
-            0.10043157047765343,
-            0.10032448377581121,
-            0.1001991681799543,
-            0.10057009209179944,
-            0.09644670050761421,
-            0.10666666666666667,
+            0.1079136690647482,
+            0.09734917733089579,
+            0.09864446736407839,
+            0.10128659769643328,
+            0.09779355671615515,
+            0.10337194717036818,
+            0.10388437217705511,
+            0.10655737704918032,
             0.0,
         ]
     )
     assert approx(high_uncertainty) == np.array(
         [
+            0.12371791482634838,
+            0.02661654698726243,
+            0.006343589231090674,
+            0.0025597549707911415,
+            0.0016334320872715157,
+            0.0016090633836174837,
+            0.002615474280842884,
+            0.006489834814808297,
+            0.02830633673352296,
             0.19364916731037085,
-            0.02752652713580867,
-            0.006111813184158927,
-            0.0025710863669062846,
-            0.0016318216468728468,
-            0.0016251250652707272,
-            0.0025716247924324667,
-            0.0063480077226947835,
-            0.025480153593469827,
-            0.23570226039551584,
         ]
     )
     assert approx(low_uncertainty) == np.array(
         [
+            0.12371791482634838,
+            0.02661654698726243,
+            0.006343589231090674,
+            0.0025597549707911415,
+            0.0016334320872715157,
+            0.0016090633836174837,
+            0.002615474280842884,
+            0.006489834814808297,
+            0.02830633673352296,
             0.19364916731037085,
-            0.02752652713580867,
-            0.006111813184158927,
-            0.0025710863669062846,
-            0.0016318216468728468,
-            0.0016251250652707272,
-            0.0025716247924324667,
-            0.0063480077226947835,
-            0.025480153593469827,
-            0.23570226039551584,
         ]
     )
