@@ -179,7 +179,7 @@ The function ``plot_data_model_comparison()`` can also be used to compare data a
 Model uncertainty
 -----------------
 
-As said ealier, the comparison function can take any comparison method available in ``plot_comparison()``. To use pulls instead of the ratio to compare the histograms:
+As said earlier, the comparison function can take any comparison method available in ``plot_comparison()``. To use pulls instead of the ratio to compare the histograms:
 
 .. literalinclude:: ../examples/model_ex/model_examples_pull.py
     :language: python

@@ -266,7 +266,7 @@ Then you can use the following function to get the PDF:
        pdf_list = []
        pdf_names = []
 
-       ## If you have mutliple pads, you need to specify which one you want to get the PDF from
+       ## If you have multiple pads, you need to specify which one you want to get the PDF from
        # pad = canvas.GetPrimitive("pad_name")
        ## Then loop over the primitives of the pad and not the canvas
        # for obj in pad.GetListOfPrimitives():

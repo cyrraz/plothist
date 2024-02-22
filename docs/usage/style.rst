@@ -73,7 +73,7 @@ Matplotlib palettes
 
 The function ``get_color_palette(cmap, N)`` can also take any ``cmap`` matplotlib color palette and sequence it in ``N`` different colors (see `here <https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_ for the different ``cmap`` names).
 
-We recommand using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
+We recommend using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
 
 .. code-block:: python
 

@@ -4,7 +4,7 @@
 Other complex examples
 ======================
 
-This section shows how to use the ``plothist`` package to make more complex plots. The examples below use a lot of the functionnality of the package to produce the plots, but the code is still quite simple and easy to read.
+This section shows how to use the ``plothist`` package to make more complex plots. The examples below use a lot of the functionality of the package to produce the plots, but the code is still quite simple and easy to read.
 
 They make use of a numpy ndarray ``df`` containing dummy data (you may also use a pandas dataframe), that can be loaded with:
 
