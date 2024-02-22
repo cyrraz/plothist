@@ -220,9 +220,8 @@ A ``pdf_func`` you get from a scipy function or from the saved pickle file for `
 
        xmin, xmax = x_range
        bin_width = (xmax - xmin) / n_bins
-       integral = quad(pdf, xmin, xmax)[
-           0
-       ]  # If x_range is equal to the full range of the PDF, this is equal to 1.
+       integral = quad(pdf, xmin, xmax)[0]
+       # Note: If x_range is equal to the full range of the PDF, the integral is equal to 1.
 
        def renormalized_pdf(x):
            return pdf(x) * n_data * bin_width / integral
