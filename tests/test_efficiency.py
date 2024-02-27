@@ -161,3 +161,4 @@ def test_efficiency_complex_values():
             0.19364916731037085,
         ]
     )
+    assert approx(high_uncertainty) == low_uncertainty
