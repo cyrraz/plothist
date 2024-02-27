@@ -2,7 +2,7 @@ import subprocess
 
 def print_json_fonts():
     import json
-    with open(get_cachedir()+"/fontlist-v330.json", "r") as f:
+    with open("/home/runner/.cache/matplotlib/fontlist-v330.json", "r") as f:
         data = json.load(f)
         for datakey, datavalue in data.items():
             if datakey == "ttflist":
