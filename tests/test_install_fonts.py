@@ -93,9 +93,6 @@ def test_install_latin_modern_fonts():
     """
     Test install_latin_modern_fonts.
     """
-    import plothist
-
-    print("plothist folder ", plothist.__file__)
 
     from matplotlib.font_manager import findSystemFonts
     print("findSystemFonts")
@@ -155,6 +152,12 @@ def test_install_latin_modern_fonts():
         print("ls in the matplotlib font directory ", "unknown")
 
     install_latin_modern_fonts(font_directory=matplotlib.get_data_path()+"/fonts/ttf/")
+
+    # ls in the matplotlib font directory
+    try:
+        print("ls in the matplotlib font directory ", os.listdir(matplotlib.get_data_path()+"/fonts/ttf/"))
+    except:
+        print("ls in the matplotlib font directory ", "unknown")
 
     failed = False
     for font_type in ["Math", "Sans", "Roman"]:
