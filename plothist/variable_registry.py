@@ -167,7 +167,7 @@ def update_variable_registry(
     dictionary, variable_keys=None, path="./variable_registry.yaml", overwrite=False
 ):
     """
-    Update the variable registry file with a dictionary. Each key in the provided dictionnary will be added as parameters for each variable. If they are already in the variable information, they will be updated with the new values only if the overwrite flag is True.
+    Update the variable registry file with a dictionary. Each key in the provided dictionary will be added as parameters for each variable. If they are already in the variable information, they will be updated with the new values only if the overwrite flag is True.
 
     Parameters
     ----------

@@ -4,6 +4,7 @@
 
 Plot a function with ``plot_function``.
 """
+
 ###
 from plothist import plot_function
 from scipy.stats import norm

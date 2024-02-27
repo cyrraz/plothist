@@ -5,3 +5,9 @@ _build/
 test/
 metadata.yaml
 temp_img/
+
+# Ignore local readthedocs build
+html/
+sg_execution_times.rst
+docs/examples/*/*.svg
+example_gallery/

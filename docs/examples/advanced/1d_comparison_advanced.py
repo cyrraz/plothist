@@ -56,7 +56,7 @@ plot_hist(
     h3, ax=ax_main, histtype="stepfilled", color=colors[1], alpha=0.2, density=True
 )
 
-# We plot 2 additionnal histograms with point style
+# We plot 2 additional histograms with point style
 plot_error_hist(h2, label="Test A", ax=ax_main, color="blue", density=True)
 plot_error_hist(h4, label="Test B", ax=ax_main, color="red", density=True)
 

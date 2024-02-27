@@ -34,5 +34,10 @@ Homepage = "https://github.com/cyrraz/plothist"
 Documentation = "https://plothist.readthedocs.io/"
 "Bug Tracker" = "https://github.com/cyrraz/plothist/issues"
 
+[tool.codespell]
+skip = '*.pdf,./test/*,*.svg,./docs/html/*'
+quiet-level = 3
+write-changes = true
+
 [project.scripts]
 install_latin_modern_fonts = "plothist.scripts.install_latin_modern_fonts:install_latin_modern_fonts"

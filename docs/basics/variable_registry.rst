@@ -56,8 +56,7 @@ To get the plotting information of a variable, you can use the ``get_variable_fr
     variable = get_variable_from_registry("variable_0")
 
     print(variable)
-
-    >>> {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
+    # {'name': 'variable_0', 'bins': 50, 'range': [min, max], 'label': 'variable_0', 'log': False, 'legend_location': 'best', 'legend_ncols': 1, 'docstring': ''}
 
 
 Update the registry
@@ -102,7 +101,7 @@ Calling this function again on the same variable keys will not overwrite their `
 Add variable properties
 -----------------------
 
-You can also add new plotting properties to the variable by using the ``update_variable_registry`` and a custom dictionnary:
+You can also add new plotting properties to the variable by using the ``update_variable_registry`` and a custom dictionary:
 
 .. code-block:: python
 
@@ -152,13 +151,15 @@ The same ``get_variable_from_registry`` function can be used to get the new prop
 Remove parameters
 -----------------
 
-To remove a parameter from the plotting informations, you can use the ``remove_variable_registry_parameters`` function:
+To remove a parameter from the plotting information, you can use the ``remove_variable_registry_parameters`` function:
 
 .. code-block:: python
 
     from plothist import remove_variable_registry_parameters
 
-    remove_variable_registry_parameters(["range", "log", "legend_ncols", "new_property"], variable_keys)
+    remove_variable_registry_parameters(
+        ["range", "log", "legend_ncols", "new_property"], variable_keys
+    )
 
 The ``yaml`` file is updated:
 
