@@ -4,7 +4,7 @@ import platform
 from pathlib import PosixPath
 
 
-def install_latin_modern_fonts():
+def install_latin_modern_fonts(font_directory = None):
     """
     Install Latin Modern Math, Latin Modern Roman and Latin Modern Sans fonts.
     The font cache of matplotlib is removed, so matplotlib will be forced to update its font list.
@@ -14,18 +14,23 @@ def install_latin_modern_fonts():
 
     This function is only implemented for Linux and MacOS.
 
+    Parameters:
+    ----------
+        font_directory: str, optional
+            The directory where the fonts should be installed. If not given, the default directory is used.
+
     Raises:
     ------
         NotImplementedError: If the function is called on an unsupported operating system.
     """
     if platform.system() == "Linux":  # Linux
-        font_directory = PosixPath("~/.fonts/").expanduser()
+        font_directory = PosixPath("~/.fonts/").expanduser() if font_directory is None else PosixPath(font_directory).expanduser()
         font_directory.mkdir(parents=True, exist_ok=True)
         matplotlib_font_cache = PosixPath(
             "~/.cache/matplotlib/fontlist-v330.json"
         ).expanduser()
     elif platform.system() == "Darwin":  # MacOS
-        font_directory = PosixPath(f"/Users/{os.getlogin()}/Library/Fonts").expanduser()
+        font_directory = PosixPath(f"/Users/{os.getlogin()}/Library/Fonts").expanduser() if font_directory is None else PosixPath(font_directory).expanduser()
         matplotlib_font_cache = PosixPath(
             "~/.matplotlib/fontlist-v330.json"
         ).expanduser()
