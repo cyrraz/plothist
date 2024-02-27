@@ -10,6 +10,8 @@ def test_install_latin_modern_fonts_test():
 
     failed = True
     print(sorted(get_font_names()))
+    for font in get_font_names():
+        print(findfont(font))
 
     for font_type in ["Math", "Sans", "Roman"]:
         try:
