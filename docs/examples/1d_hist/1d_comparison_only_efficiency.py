@@ -12,7 +12,7 @@ df = get_dummy_data()
 name = "variable_1"
 
 x_total = df[name][df["category"] == 2]
-x_sample = x_total[:int(len(x_total)*0.75)]
+x_sample = x_total[: int(len(x_total) * 0.75)]
 
 x_range = (min(x_total), max(x_total))
 

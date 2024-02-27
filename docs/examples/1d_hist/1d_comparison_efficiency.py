@@ -4,6 +4,7 @@ Efficiency comparison
 
 Compare the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2.
 """
+
 from plothist import get_dummy_data
 
 df = get_dummy_data()
@@ -11,7 +12,7 @@ df = get_dummy_data()
 name = "variable_1"
 
 x_total = df[name][df["category"] == 2]
-x_sample = x_total[:int(len(x_total)*0.75)]
+x_sample = x_total[: int(len(x_total) * 0.75)]
 
 x_range = (min(x_total), max(x_total))
 

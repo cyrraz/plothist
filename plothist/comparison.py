@@ -216,9 +216,7 @@ def get_difference(h1, h2, h1_uncertainty_type="symmetrical"):
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
 
         difference_uncertainties_low = np.sqrt(uncertainties_low**2 + h2.variances())
-        difference_uncertainties_high = np.sqrt(
-            uncertainties_high**2 + h2.variances()
-        )
+        difference_uncertainties_high = np.sqrt(uncertainties_high**2 + h2.variances())
     else:
         difference_uncertainties_low = np.sqrt(h1.variances() + h2.variances())
         difference_uncertainties_high = difference_uncertainties_low

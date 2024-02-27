@@ -220,4 +220,7 @@ To easily get the values and the uncertainties of the comparison, the :func:`get
 .. code-block:: python
 
     from plothist.comparison import get_comparison
-    values, lower_uncertainties, upper_uncertainties = get_comparison(h1, h2, comparison="ratio")
+
+    values, lower_uncertainties, upper_uncertainties = get_comparison(
+        h1, h2, comparison="ratio"
+    )
