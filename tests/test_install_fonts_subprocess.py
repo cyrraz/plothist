@@ -21,14 +21,13 @@ def test_install_latin_modern_fonts():
         print("fonts in the json  ")
     except:
         from matplotlib.font_manager import _load_fontmanager
-        _load_fontmanager(try_read_cache=False)
+        fm = _load_fontmanager(try_read_cache=False)
         print_json_fonts()
         print("fonts in the json.")
+        print(sorted(fm.get_font_names()), " fm.get_font_names()")
 
     from matplotlib.font_manager import findfont, get_font_names
     print(sorted(get_font_names()))
-    for font in get_font_names():
-        print(findfont(font))
 
     print("Now reloading matplotlib to see if the fonts are available.")
     import importlib

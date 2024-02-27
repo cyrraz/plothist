@@ -154,7 +154,7 @@ def test_install_latin_modern_fonts():
     # for font_directory in [get_data_path()+"/fonts/ttf/", get_data_path()+"/fonts/", get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
         install_latin_modern_fonts(font_directory=font_directory)
         from matplotlib.font_manager import _load_fontmanager
-        _load_fontmanager(try_read_cache=False)
+        fm = _load_fontmanager(try_read_cache=False)
 
         # try to open the .json file of the matplotlib font cache, and if Latin Modern is in the name, print the content
         import json
@@ -171,32 +171,26 @@ def test_install_latin_modern_fonts():
         import matplotlib
         from matplotlib.font_manager import findfont, get_font_names
         print(sorted(get_font_names()))
-        for font in get_font_names():
-            print(findfont(font))
 
-        print("Now reloading matplotlib to see if the fonts are available.")
-        import importlib
-        importlib.reload(matplotlib)
-        print("Now the fonts should be available???")
-        from matplotlib.font_manager import findfont, get_font_names
-        print(sorted(get_font_names()))
+        print(sorted(fm.get_font_names()), " fm get font names")
+
         for font_type in ["Math", "Sans", "Roman"]:
             try:
-                print(findfont(f"Latin Modern {font_type}", fallback_to_default=False))
+                print(fm.findfont(f"Latin Modern {font_type}", fallback_to_default=False))
                 failed = False
                 print(f"The font Latin Modern {font_type} was found with font_directory={font_directory}.")
             except ValueError:
                 # failed = True
                 print(f"The font Latin Modern {font_type} was not found.")
             try:
-                print(findfont(f"Latin Modern {font_type}", fallback_to_default=False, fontext="otf"))
+                print(fm.findfont(f"Latin Modern {font_type}", fallback_to_default=False, fontext="otf"))
                 failed = False
                 print(f"The font Latin Modern {font_type} was found with font_directory={font_directory}.")
             except ValueError:
                 # failed = True
                 print(f"The font Latin Modern {font_type} was not found.")
             try:
-                print(findfont(f"Latin Modern {font_type}", fallback_to_default=False, rebuild_if_missing=True))
+                print(fm.findfont(f"Latin Modern {font_type}", fallback_to_default=False, rebuild_if_missing=True))
                 failed = False
                 print(f"The font Latin Modern {font_type} was found with font_directory={font_directory}.")
             except ValueError:
@@ -209,4 +203,4 @@ def test_install_latin_modern_fonts():
 
     assert not failed
 
-# test_install_latin_modern_fonts()
+test_install_latin_modern_fonts()
