@@ -21,14 +21,26 @@ def test_install_latin_modern_fonts():
 
     # print the current user
     import os
-    print("current user ", os.getlogin())
+    try:
+        print("current user ", os.getlogin())
+    except:
+        print("current user ", "unknown")
     # print the current system
     import platform
-    print("current platform ", platform.system())
+    try:
+        print("current platform ", platform.system())
+    except:
+        print("current platform ", "unknown")
     # print the current directory
-    print("current directory ", os.getcwd())
+    try:
+        print("current directory ", os.getcwd())
+    except:
+        print("current directory ", "unknown")
     # print the current home directory
-    print("current home directory ", os.path.expanduser("~"))
+    try:
+        print("current home directory ", os.path.expanduser("~"))
+    except:
+        print("current home directory ", "unknown")
 
     install_latin_modern_fonts(font_directory="/usr/share/fonts/truetype/")
 
