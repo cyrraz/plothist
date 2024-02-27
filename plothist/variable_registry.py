@@ -167,7 +167,7 @@ def update_variable_registry(
     dictionary, variable_keys=None, path="./variable_registry.yaml", overwrite=False
 ):
     """
-    Update the variable registry file with a dictionary. Each key in the provided dictionnary will be added as parameters for each variable. If they are already in the variable information, they will be updated with the new values only if the overwrite flag is True.
+    Update the variable registry file with a dictionary. Each key in the provided dictionary will be added as parameters for each variable. If they are already in the variable information, they will be updated with the new values only if the overwrite flag is True.
 
     Parameters
     ----------
@@ -250,7 +250,7 @@ def update_variable_registry_ranges(
 
     Parameters
     ----------
-    data : dict or pandas.DataFrame
+    data : numpy.ndarray or pandas.DataFrame
         A dataset containing the data for the variables.
     variable_keys : list
         A list of variable keys for which to update the range parameters in the registry. The variable needs to have a bin and range properties in the registry. Default is None: all variables in the registry are updated.

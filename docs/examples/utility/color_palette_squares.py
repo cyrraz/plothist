@@ -5,7 +5,6 @@ Color palette squares
 Create a plot of a color palette with squares representing the color gradient of the palette.
 """
 
-
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np

@@ -5,10 +5,7 @@ Matplotlib vs plothist style
 This example shows the difference between matplotlib and plothist default style.
 """
 
-
 import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 
 from plothist import get_dummy_data
 

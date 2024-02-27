@@ -127,7 +127,7 @@ def get_color_palette(cmap, N):
     Parameters
     ----------
     cmap : str
-        The name of the colormap to use. Use "ggplot" get the cycle of the default style. Use "cubehelix" to get the cubehelix palette with default settings. Can also be any colormap from matplotlib (we recommand "viridis", "coolwarm" or "YlGnBu_r").
+        The name of the colormap to use. Use "ggplot" get the cycle of the default style. Use "cubehelix" to get the cubehelix palette with default settings. Can also be any colormap from matplotlib (we recommend "viridis", "coolwarm" or "YlGnBu_r").
     N : int
         The number of colors to sample.
 

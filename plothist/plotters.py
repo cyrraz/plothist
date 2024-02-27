@@ -134,7 +134,7 @@ def plot_2d_hist(
             figsize=(6, 4.5), ncols=2, gridspec_kw={"width_ratios": [4, 0.23]}
         )
     elif fig is None or ax is None or ax_colorbar is None:
-        raise ValueError("Need to provid fig, ax and ax_colorbar (or None of them).")
+        raise ValueError("Need to provide fig, ax and ax_colorbar (or None of them).")
 
     if square_ax:
         ax.set_box_aspect(1)
@@ -478,7 +478,7 @@ def plot_two_hist_comparison(
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
-            "Need to provid fig, ax_main and ax_comparison (or none of them)."
+            "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
 
     xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
@@ -854,7 +854,7 @@ def plot_model(
     if fig is None and ax is None:
         fig, ax = plt.subplots()
     elif fig is None or ax is None:
-        raise ValueError("Need to provid both fig and ax (or none).")
+        raise ValueError("Need to provide both fig and ax (or none).")
 
     if model_type == "histograms":
         xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
@@ -1077,7 +1077,7 @@ def plot_data_model_comparison(
         fig, (ax_main, ax_comparison) = create_comparison_figure()
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
-            "Need to provid fig, ax_main and ax_comparison (or none of them)."
+            "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
 
     plot_model(

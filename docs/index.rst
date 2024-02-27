@@ -7,6 +7,7 @@ Content
     :maxdepth: 2
 
     usage/installation
+    usage/font_installation
 
 .. toctree::
     :maxdepth: 2
