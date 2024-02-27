@@ -10,7 +10,8 @@ def print_json_fonts():
                     for key, value in elt.items():
                         if key == "name":
                             if "Latin Modern" in value:
-                                print(elt)
+                                print("Found latin modern font in the json file: ", elt)
+                                return
 
 def test_install_latin_modern_fonts():
     subprocess.run(["python", "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/plothist/scripts/install_latin_modern_fonts.py"])
@@ -23,6 +24,19 @@ def test_install_latin_modern_fonts():
         _load_fontmanager(try_read_cache=False)
         print_json_fonts()
         print("fonts in the json.")
+
+    from matplotlib.font_manager import findfont, get_font_names
+    print(sorted(get_font_names()))
+    for font in get_font_names():
+        print(findfont(font))
+
+    print("Now reloading matplotlib to see if the fonts are available.")
+    import importlib
+    importlib.reload(matplotlib)
+    print("Now the fonts should be available???")
+
+    print_json_fonts()
+
 
     print("\n")
     from matplotlib.font_manager import findfont, get_font_names

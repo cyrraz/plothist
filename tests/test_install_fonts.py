@@ -168,10 +168,17 @@ def test_install_latin_modern_fonts():
                                 if "Latin Modern" in value:
                                     print(elt)
         print("\n")
-        from matplotlib.font_manager import findfont, get_font_names
+        from matplotlib.font_manager import get_font_names
         print(sorted(get_font_names()))
         for font in get_font_names():
             print(findfont(font))
+
+        print("Now reloading matplotlib to see if the fonts are available.")
+        import importlib
+        importlib.reload(matplotlib)
+        print("Now the fonts should be available???")
+        from matplotlib.font_manager import findfont, get_font_names
+        print(sorted(get_font_names()))
         for font_type in ["Math", "Sans", "Roman"]:
             try:
                 print(findfont(f"Latin Modern {font_type}", fallback_to_default=False))
