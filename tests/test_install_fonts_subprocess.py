@@ -1,5 +1,17 @@
 import subprocess
 
+def print_json_fonts():
+    import json
+    with open("/home/runner/.cache/matplotlib/fontlist-v330.json", "r") as f:
+        data = json.load(f)
+        for datakey, datavalue in data.items():
+            if datakey == "ttflist":
+                for elt in datavalue:
+                    for key, value in elt.items():
+                        if key == "name":
+                            if "Latin Modern" in value:
+                                print(elt)
+
 def test_install_latin_modern_fonts():
     subprocess.run(["python", "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/plothist/scripts/install_latin_modern_fonts.py"])
 
