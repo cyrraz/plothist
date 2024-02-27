@@ -12,7 +12,12 @@ def test_install_latin_modern_fonts():
     print("plothist folder ", plothist.__file__)
 
     from matplotlib.font_manager import findSystemFonts
-    print(findSystemFonts(fontpaths=None, fontext="ttf"), " findSystemFonts")
+    print("findSystemFonts")
+    for elt in findSystemFonts(fontpaths=None, fontext="ttf"):
+        print("> ",elt)
+
+    print("\nTry to find DejaVu Sans")
+    print(findfont(f"DejaVu Sans", fallback_to_default=False))
 
     install_latin_modern_fonts(font_directory="/usr/share/fonts/")
 
