@@ -22,5 +22,3 @@ def test_install_latin_modern_fonts():
 
     if installation_failed:
         fail(f"One of the font was not installed correctly.")
-
-test_install_latin_modern_fonts()
