@@ -243,7 +243,9 @@ Same example as above, but we remove the statistical uncertainties of the model 
 Ratio options
 -------------
 
-For ``ratio`` or ``relative_difference``, the uncertainties can be split between model and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty_type="uncorrelated"``). Here are all the possible options:
+When using the option ``split_ratio``, the uncertainties of the data are scaled by the inverse of the bin content of the model, i.e. assuming zero uncertainty coming from the model in the ratio uncertainty.
+The uncertainties of the model are displayed separately as a hatched area.
+Here is an example with different options for comparison:
 
 .. literalinclude:: ../examples/model_ex/model_comparisons_ratio_options.py
     :language: python

@@ -71,13 +71,13 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     xlabel="",
     ylabel="Entries",
     model_uncertainty=False,  # <--
-    comparison="ratio",
+    comparison="split_ratio",
     fig=fig,
     ax_main=axes[0],
     ax_comparison=axes[1],
 )
 
-add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
+add_text(f'  $\mathbf{{→}}$ comparison = "split_ratio"', ax=ax_comparison, fontsize=13)
 
 for k_comp, comparison in enumerate(
     ["pull", "relative_difference", "difference"], start=2
@@ -98,7 +98,6 @@ for k_comp, comparison in enumerate(
         xlabel="",
         h1_label="Data",
         h2_label="Pred.",
-        ratio_uncertainty_type="split",
         h1_uncertainty_type="asymmetrical",
     )
     if comparison == "pull":

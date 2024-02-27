@@ -71,24 +71,23 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     stacked_colors=background_categories_colors,
     xlabel="",
     ylabel="Entries",
-    comparison="ratio",
-    ratio_uncertainty_type="split",
+    comparison="split_ratio",
     fig=fig,
     ax_main=axes[0],
     ax_comparison=axes[1],
 )
 
 add_text(
-    f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty_type="split", model_uncertainty = True',
+    f'  $\mathbf{{→}}$ comparison = "split_ratio", model_uncertainty = True',
     ax=ax_comparison,
     fontsize=10,
 )
 
-for k_comp, (ratio_uncertainty_type, model_uncertainty) in enumerate(
+for k_comp, (ratio_type, model_uncertainty) in enumerate(
     [
-        ("uncorrelated", True),
-        ("split", False),
-        ("uncorrelated", False),
+        ("ratio", True),
+        ("split_ratio", False),
+        ("ratio", False),
     ],
     start=2,
 ):
@@ -105,15 +104,14 @@ for k_comp, (ratio_uncertainty_type, model_uncertainty) in enumerate(
         data_hist,
         background_sum_copy,
         ax=ax_comparison,
-        comparison="ratio",
+        comparison=ratio_type,
         xlabel="",
         h1_label="Data",
         h2_label="Pred.",
-        ratio_uncertainty_type=ratio_uncertainty_type,
         h1_uncertainty_type="asymmetrical",
     )
     add_text(
-        f'  $\mathbf{{→}}$ comparison = "ratio", \n  $\mathbf{{→}}$ ratio_uncertainty_type="{ratio_uncertainty_type}", model_uncertainty = {model_uncertainty}',
+        f'  $\mathbf{{→}}$ comparison = "{ratio_type}", model_uncertainty = {model_uncertainty}',
         ax=ax_comparison,
         fontsize=10,
     )
