@@ -16,10 +16,10 @@ def test_install_latin_modern_fonts():
     for elt in findSystemFonts(fontpaths=None, fontext="ttf"):
         print("> ",elt)
 
-    print("\nTry to find DejaVu Sans")
-    print(findfont(f"DejaVu Sans", fallback_to_default=False))
+    print("\nTry to find Lato-HairlineItalic")
+    print(findfont(f"Lato-HairlineItalic", fallback_to_default=False))
 
-    install_latin_modern_fonts(font_directory="/usr/share/fonts/")
+    install_latin_modern_fonts(font_directory="/usr/share/fonts/truetype/")
 
     for font_type in ["Math", "Sans", "Roman"]:
         try:
