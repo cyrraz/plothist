@@ -41,6 +41,27 @@ def test_install_latin_modern_fonts():
         print("current home directory ", os.path.expanduser("~"))
     except:
         print("current home directory ", "unknown")
+    # print matplotlib location
+    import matplotlib
+    try:
+        print("matplotlib location ", matplotlib.__file__)
+    except:
+        print("matplotlib location ", "unknown")
+    # print matplotlib font cache
+    try:
+        print("matplotlib font cache ", matplotlib.get_cachedir())
+    except:
+        print("matplotlib font cache ", "unknown")
+    # print matplotlib font list
+    try:
+        print("matplotlib font list ", matplotlib.get_configdir())
+    except:
+        print("matplotlib font list ", "unknown")
+    # print matplotlib font directory
+    try:
+        print("matplotlib font directory ", matplotlib.get_data_path())
+    except:
+        print("matplotlib font directory ", "unknown")
 
     install_latin_modern_fonts(font_directory="/usr/share/fonts/truetype/")
 
