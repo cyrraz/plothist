@@ -267,7 +267,7 @@ def get_efficency(h1, h2):
         raise ValueError(
             "The ratio of two correlated histograms (efficiency) can only be computed for unweighted histograms."
         )
-    if not np.all(h1.values() >= 0) and np.all(h2.values() >= 0):
+    if not (np.all(h1.values() >= 0) and np.all(h2.values() >= 0)):
         raise ValueError(
             "The ratio of two correlated histograms (efficiency) can only be computed if the bin contents of both histograms are positive or zero."
         )

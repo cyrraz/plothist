@@ -553,7 +553,7 @@ def plot_comparison(
         * "split" for scaling the uncertainties of h1 by the inverse of the bin content of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty, and plotting separately scaled h2 uncertainties.
         Default is "uncorrelated".
     **plot_hist_kwargs : optional
-        Arguments to be passed to plot_hist(), called in case the comparison is "pull", or plot_error_hist(), called for every other comparison cases. In case of pull, the default arguments are histtype="stepfilled" and color="darkgrey". For the other, the default argument is color="black".
+        Arguments to be passed to plot_hist(), called in case the comparison is "pull", or plot_error_hist(), called for every other comparison case. In the former case, the default arguments are histtype="stepfilled" and color="darkgrey". In the later case, the default argument is color="black".
 
     Returns
     -------
