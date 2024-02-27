@@ -7,7 +7,7 @@ Utility functions
 Add text
 ========
 
-``add_text()`` is a useful function to add text to a plot. It allows you to easily position a text either to the left or right and at the top or bottom of your plot, thanks to aliases on the x and y parameters. Using them will ensure that your text stays aligned to the left or right of the sub-plot (= ax) you specify. The function is a wrapper around ``plt.text()``, so you can pass any parameter to it that you would pass to ``plt.text()`` like ``fontsize``, ``color``, ``fontweight``, etc.
+:func:`add_text() <plothist.plothist_style.add_text>` is a useful function to add text to a plot. It allows you to easily position a text either to the left or right and at the top or bottom of your plot, thanks to aliases on the x and y parameters. Using them will ensure that your text stays aligned to the left or right of the sub-plot (= ax) you specify. The function is a wrapper around ``plt.text()``, so you can pass any parameter to it that you would pass to ``plt.text()`` like ``fontsize``, ``color``, ``fontweight``, etc.
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ Add text
 Automatic ylabel fontsize
 =========================
 
-``set_fitting_ylabel_fontsize(ax)`` is a function that will automatically adjust the fontsize of the ylabel so that it fits in the given sub-plot height. It also outputs the fontsize it used, so you can use it to set the same fontsize for other labels.
+:func:`set_fitting_ylabel_fontsize(ax) <plothist.plothist_style.set_fitting_ylabel_fontsize>` is a function that will automatically adjust the fontsize of the ylabel so that it fits in the given sub-plot height. It also outputs the fontsize it used, so you can use it to set the same fontsize for other labels.
 
 .. code-block:: python
 
@@ -43,7 +43,7 @@ Automatic ylabel fontsize
 Reorder legend entries
 ======================
 
-The function ``reorder_legend(ax, order)`` reorders the legend entries of a given plot. It is useful when you want to have a specific order in your legend.
+The function :func:`plot_reorder_legend(ax, order) <plothist.plothist_style.plot_reordered_legend>` reorders the legend entries of a given plot. It is useful when you want to have a specific order in your legend.
 
 .. code-block:: python
 

@@ -77,7 +77,7 @@ The variable registry is a really useful tool to manage and plot the correlation
 Uneven binning
 ==============
 
-Instead of inputing a number of bins and a range in ``make_2d_hist()``, the bins parameter can be a list of all the edges:
+Instead of inputing a number of bins and a range in :func:`make_2d_hist() <plothist.histogramming.make_2d_hist>`, the bins parameter can be a list of all the edges:
 
 .. literalinclude:: ../examples/2d_hist/2d_hist_uneven.py
     :language: python
