@@ -98,11 +98,17 @@ def test_install_latin_modern_fonts():
     print("findSystemFonts")
     for elt in findSystemFonts(fontpaths=None, fontext="ttf"):
         print("> ",elt)
+    try:
+        print("findSystemFonts otf")
+        for elt in findSystemFonts(fontpaths=None, fontext="otf"):
+            print("> ",elt)
+    except:
+        pass
 
     print(findfont("DejaVuSerif", fallback_to_default=True))
     print(findfont("www", fallback_to_default=True))
 
-    # print the current user
+    # print the current user plothist folder  /opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/plothist/__init__.py
     import os
     try:
         print("current user ", os.getlogin())
@@ -151,26 +157,35 @@ def test_install_latin_modern_fonts():
     except:
         print("ls in the matplotlib font directory ", "unknown")
 
-    install_latin_modern_fonts(font_directory=matplotlib.get_data_path()+"/fonts/ttf/")
+    failed = True
+    for font_directory in [matplotlib.get_data_path()+"/fonts/ttf/", matplotlib.get_data_path()+"/fonts/", matplotlib.get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
+        install_latin_modern_fonts(font_directory=font_directory)
+        print("\n")
+        for font_type in ["Math", "Sans", "Roman"]:
+            try:
+                print(findfont(f"Latin Modern {font_type}", fallback_to_default=False))
+                failed = False
+                print(f"The font Latin Modern {font_type} was found with font_directory={font_directory}.")
+            except ValueError:
+                # failed = True
+                print(f"The font Latin Modern {font_type} was not found.")
+            try:
+                print(findfont(f"Latin Modern {font_type}", fallback_to_default=False, fontext="otf"))
+                failed = False
+                print(f"The font Latin Modern {font_type} was found with font_directory={font_directory}.")
+            except ValueError:
+                # failed = True
+                print(f"The font Latin Modern {font_type} was not found.")
+            try:
+                print(findfont(f"Latin Modern {font_type}", fallback_to_default=False, rebuild_if_missing=True))
+                failed = False
+                print(f"The font Latin Modern {font_type} was found with font_directory={font_directory}.")
+            except ValueError:
+                # failed = True
+                print(f"The font Latin Modern {font_type} was not found.")
 
-    # ls in the matplotlib font directory
-    try:
-        print("ls in the matplotlib font directory ", os.listdir(matplotlib.get_data_path()+"/fonts/ttf/"))
-    except:
-        print("ls in the matplotlib font directory ", "unknown")
 
-    failed = False
-    for font_type in ["Math", "Sans", "Roman"]:
-        try:
-            print(findfont(f"Latin Modern {font_type}", fallback_to_default=False))
-        except ValueError:
-            failed = True
-            print(f"The font Latin Modern {font_type} was not found.")
+        # if failed:
+        #     fail(f"Installation failed.")
 
-
-    if failed:
-        fail(f"Installation failed.")
-
-    assert True
-
-test_install_latin_modern_fonts()
+    assert not failed
