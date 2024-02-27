@@ -4,11 +4,12 @@ def test_install_latin_modern_fonts_test():
     """
 
 
-    from matplotlib.font_manager import findfont
+    from matplotlib.font_manager import findfont, get_font_names
     print(findfont("DejaVuSerif", fallback_to_default=True))
     print(findfont("www", fallback_to_default=True))
 
     failed = True
+    print(sorted(get_font_names()))
 
     for font_type in ["Math", "Sans", "Roman"]:
         try:
