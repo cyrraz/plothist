@@ -63,12 +63,16 @@ def test_install_latin_modern_fonts():
     except:
         print("matplotlib font directory ", "unknown")
 
-    install_latin_modern_fonts(font_directory=matplotlib.get_data_path()+"/fonts/ttf")
+    install_latin_modern_fonts(font_directory=matplotlib.get_data_path()+"/fonts/")
 
+    failed = False
     for font_type in ["Math", "Sans", "Roman"]:
         try:
             findfont(f"Latin Modern {font_type}", fallback_to_default=False)
         except ValueError:
-            fail(f"The font Latin Modern {font_type} was not found.")
+            failed = True
+            print(f"The font Latin Modern {font_type} was not found.")
+    if failed:
+        fail(f"Installation failed.")
 
     assert True
