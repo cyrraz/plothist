@@ -32,7 +32,7 @@ def test_install_latin_modern_fonts():
 
     print("Now reloading matplotlib to see if the fonts are available.")
     import importlib
-    importlib.reload(matplotlib)
+    importlib.reload(matplotlib.font_manager)
     print("Now the fonts should be available???")
 
     print_json_fonts()
