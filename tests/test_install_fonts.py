@@ -152,16 +152,23 @@ def test_install_latin_modern_fonts():
         print("matplotlib font directory ", matplotlib.get_data_path())
     except:
         print("matplotlib font directory ", "unknown")
-    # ls in the matplotlib font directory
-    try:
-        print("ls in the matplotlib font directory ", os.listdir(matplotlib.get_data_path()+"/fonts/ttf/"))
-    except:
-        print("ls in the matplotlib font directory ", "unknown")
 
     failed = True
     for font_directory in [matplotlib.get_data_path()+"/fonts/ttf/", matplotlib.get_data_path()+"/fonts/", matplotlib.get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
         install_latin_modern_fonts(font_directory=font_directory)
         matplotlib.font_manager._load_fontmanager(try_read_cache=False)
+
+        # try to open the .json file of the matplotlib font cache, and if Latin Modern is in the name, print the content
+        import json
+        with open(matplotlib.get_cachedir()+"/fontlist-v330.json", "r") as f:
+            data = json.load(f)
+            for datakey, datavalue in data.items():
+                if datakey == "ttflist":
+                    for elt in datavalue:
+                        for key, value in elt.items():
+                            if key == "name":
+                                if "Latin Modern" in value:
+                                    print(elt)
         print("\n")
         for font_type in ["Math", "Sans", "Roman"]:
             try:
@@ -191,3 +198,5 @@ def test_install_latin_modern_fonts():
         #     fail(f"Installation failed.")
 
     assert not failed
+
+# test_install_latin_modern_fonts()
