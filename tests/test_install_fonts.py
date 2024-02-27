@@ -16,9 +16,6 @@ def test_install_latin_modern_fonts():
     for elt in findSystemFonts(fontpaths=None, fontext="ttf"):
         print("> ",elt)
 
-    print("\nTry to find DejaVuSansCondensed")
-    print(findfont(f"DejaVuSansCondensed", fallback_to_default=False))
-
     install_latin_modern_fonts(font_directory="/usr/share/fonts/truetype/")
 
     for font_type in ["Math", "Sans", "Roman"]:
