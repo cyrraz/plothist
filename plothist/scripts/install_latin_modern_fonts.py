@@ -70,19 +70,19 @@ def install_latin_modern_fonts(font_directory = None):
         subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
 
     # Remove font cache
-    # try:
-    #     subprocess.run(
-    #         ["rm", "-v", matplotlib_font_cache],
-    #         check=True,
-    #     )
-    # except subprocess.CalledProcessError:
-    #     print(
-    #         f"""
-    #         Error while trying to remove {matplotlib_font_cache}, but maybe this is not needed.
-    #         Check whether the Latin Modern fonts are now available in your matplotlib.
-    #         If they are not, find the correct fontlist-XXX.json file in your matplotlib cache and remove it manually.
-    #         """
-    #     )
+    try:
+        subprocess.run(
+            ["rm", "-v", matplotlib_font_cache],
+            check=True,
+        )
+    except subprocess.CalledProcessError:
+        print(
+            f"""
+            Error while trying to remove {matplotlib_font_cache}, but maybe this is not needed.
+            Check whether the Latin Modern fonts are now available in your matplotlib.
+            If they are not, find the correct fontlist-XXX.json file in your matplotlib cache and remove it manually.
+            """
+        )
 
 
 if __name__ == "__main__":
