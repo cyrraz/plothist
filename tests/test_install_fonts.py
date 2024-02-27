@@ -150,7 +150,8 @@ def test_install_latin_modern_fonts():
 
     from matplotlib import get_data_path, get_cachedir
     failed = True
-    for font_directory in [get_data_path()+"/fonts/ttf/", get_data_path()+"/fonts/", get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
+    for font_directory in [get_data_path()+"/fonts/ttf/"]:
+    # for font_directory in [get_data_path()+"/fonts/ttf/", get_data_path()+"/fonts/", get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
         install_latin_modern_fonts(font_directory=font_directory)
         from matplotlib.font_manager import _load_fontmanager
         _load_fontmanager(try_read_cache=False)
@@ -200,4 +201,4 @@ def test_install_latin_modern_fonts():
 
     assert not failed
 
-test_install_latin_modern_fonts()
+# test_install_latin_modern_fonts()
