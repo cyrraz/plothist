@@ -1,5 +1,6 @@
 # from plothist.scripts import install_latin_modern_fonts
 from matplotlib.font_manager import findfont
+import matplotlib
 from pytest import fail
 
 import subprocess
@@ -160,6 +161,7 @@ def test_install_latin_modern_fonts():
     failed = True
     for font_directory in [matplotlib.get_data_path()+"/fonts/ttf/", matplotlib.get_data_path()+"/fonts/", matplotlib.get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
         install_latin_modern_fonts(font_directory=font_directory)
+        matplotlib.font_manager._load_fontmanager(try_read_cache=False)
         print("\n")
         for font_type in ["Math", "Sans", "Roman"]:
             try:
