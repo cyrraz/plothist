@@ -1,6 +1,4 @@
 # from plothist.scripts import install_latin_modern_fonts
-from matplotlib.font_manager import findfont
-import matplotlib
 from pytest import fail
 
 import subprocess
@@ -95,19 +93,16 @@ def test_install_latin_modern_fonts():
     Test install_latin_modern_fonts.
     """
 
-    from matplotlib.font_manager import findSystemFonts
-    print("findSystemFonts")
-    for elt in findSystemFonts(fontpaths=None, fontext="ttf"):
-        print("> ",elt)
-    try:
-        print("findSystemFonts otf")
-        for elt in findSystemFonts(fontpaths=None, fontext="otf"):
-            print("> ",elt)
-    except:
-        pass
-
-    print(findfont("DejaVuSerif", fallback_to_default=True))
-    print(findfont("www", fallback_to_default=True))
+    # from matplotlib.font_manager import findSystemFonts
+    # print("findSystemFonts")
+    # for elt in findSystemFonts(fontpaths=None, fontext="ttf"):
+    #     print("> ",elt)
+    # try:
+    #     print("findSystemFonts otf")
+    #     for elt in findSystemFonts(fontpaths=None, fontext="otf"):
+    #         print("> ",elt)
+    # except:
+    #     pass
 
     # print the current user plothist folder  /opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/plothist/__init__.py
     import os
@@ -132,35 +127,37 @@ def test_install_latin_modern_fonts():
     except:
         print("current home directory ", "unknown")
     # print matplotlib location
-    import matplotlib
-    try:
-        print("matplotlib location ", matplotlib.__file__)
-    except:
-        print("matplotlib location ", "unknown")
-    # print matplotlib font cache
-    try:
-        print("matplotlib font cache ", matplotlib.get_cachedir())
-    except:
-        print("matplotlib font cache ", "unknown")
-    # print matplotlib font list
-    try:
-        print("matplotlib font list ", matplotlib.get_configdir())
-    except:
-        print("matplotlib font list ", "unknown")
-    # print matplotlib font directory
-    try:
-        print("matplotlib font directory ", matplotlib.get_data_path())
-    except:
-        print("matplotlib font directory ", "unknown")
+    # import matplotlib
+    # try:
+    #     print("matplotlib location ", matplotlib.__file__)
+    # except:
+    #     print("matplotlib location ", "unknown")
+    # # print matplotlib font cache
+    # try:
+    #     print("matplotlib font cache ", matplotlib.get_cachedir())
+    # except:
+    #     print("matplotlib font cache ", "unknown")
+    # # print matplotlib font list
+    # try:
+    #     print("matplotlib font list ", matplotlib.get_configdir())
+    # except:
+    #     print("matplotlib font list ", "unknown")
+    # # print matplotlib font directory
+    # try:
+    #     print("matplotlib font directory ", get_data_path())
+    # except:
+    #     print("matplotlib font directory ", "unknown")
 
+    from matplotlib import get_data_path, get_cachedir
     failed = True
-    for font_directory in [matplotlib.get_data_path()+"/fonts/ttf/", matplotlib.get_data_path()+"/fonts/", matplotlib.get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
+    for font_directory in [get_data_path()+"/fonts/ttf/", get_data_path()+"/fonts/", get_data_path(), None, "/usr/share/fonts/opentype/", "/usr/share/fonts/truetype/", "/usr/share/fonts/"]:
         install_latin_modern_fonts(font_directory=font_directory)
-        matplotlib.font_manager._load_fontmanager(try_read_cache=False)
+        from matplotlib.font_manager import _load_fontmanager
+        _load_fontmanager(try_read_cache=False)
 
         # try to open the .json file of the matplotlib font cache, and if Latin Modern is in the name, print the content
         import json
-        with open(matplotlib.get_cachedir()+"/fontlist-v330.json", "r") as f:
+        with open(get_cachedir()+"/fontlist-v330.json", "r") as f:
             data = json.load(f)
             for datakey, datavalue in data.items():
                 if datakey == "ttflist":
@@ -170,6 +167,7 @@ def test_install_latin_modern_fonts():
                                 if "Latin Modern" in value:
                                     print(elt)
         print("\n")
+        from matplotlib.font_manager import findfont
         for font_type in ["Math", "Sans", "Roman"]:
             try:
                 print(findfont(f"Latin Modern {font_type}", fallback_to_default=False))
@@ -199,4 +197,4 @@ def test_install_latin_modern_fonts():
 
     assert not failed
 
-# test_install_latin_modern_fonts()
+test_install_latin_modern_fonts()
