@@ -112,6 +112,7 @@ Here is an example with a model made of functions:
    :width: 500
 
 
+.. _advanced-model_comparison-label:
 Compare data and model
 ======================
 

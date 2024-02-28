@@ -123,7 +123,7 @@ Ratio is the default comparison method:
 Split ratio
 -----------
 
-When the `split_ratio` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents. The h2 adjusted uncertainties are shown separately as a hatched area. In practice, the "split_ratio" comparison option is used when h1 is filled with measured data and h2 is a model, see :ref:`advanced-model_examples-label` for more details.
+When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents. The h2 adjusted uncertainties are shown separately as a hatched area. In practice, the ``split_ratio`` comparison option is used when h1 is filled with measured data and h2 is a model, see :ref:`advanced-model_comparison-label` for more details.
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_split_ratio.py
     :language: python
