@@ -537,8 +537,7 @@ def plot_comparison(
         The label for the second histogram. Default is "h2".
     comparison : str, optional
         The type of comparison to plot ("ratio", "split_ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry"). Default is "ratio".
-        In case of "split_ratio", the uncertainties of h1 are scaled by the inverse of the bin content of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty.
-        The uncertainties of h2 are displayed separately as a hatched area.
+        When the `split_ratio` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents, and the h2 adjusted uncertainties are shown separately as a hatched area.
     comparison_ylabel : str, optional
         The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
