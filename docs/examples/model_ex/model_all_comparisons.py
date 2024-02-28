@@ -55,9 +55,9 @@ from plothist import (
 import matplotlib.pyplot as plt
 
 fig, axes = create_comparison_figure(
-    figsize=(6, 11),
-    nrows=5,
-    gridspec_kw={"height_ratios": [3.3, 1, 1, 1, 1]},
+    figsize=(6, 13),
+    nrows=6,
+    gridspec_kw={"height_ratios": [3, 1, 1, 1, 1, 1]},
     hspace=0.3,
 )
 background_sum = sum(background_hists)
@@ -69,16 +69,20 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     stacked_colors=background_categories_colors,
     xlabel="",
     ylabel="Entries",
-    comparison="split_ratio",
+    comparison="ratio",
     fig=fig,
     ax_main=axes[0],
     ax_comparison=axes[1],
 )
 
-add_text(f'  $\mathbf{{→}}$ comparison = "split_ratio"', ax=ax_comparison, fontsize=13)
+add_text(
+    "Multiple data-model comparisons, $\mathbf{with}$ model uncertainty",
+    ax=ax_main,
+)
+add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
 
 for k_comp, comparison in enumerate(
-    ["pull", "relative_difference", "difference"], start=2
+    ["split_ratio", "pull", "relative_difference", "difference"], start=2
 ):
     ax_comparison = axes[k_comp]
 

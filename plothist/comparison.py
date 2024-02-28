@@ -482,7 +482,7 @@ def get_comparison(
         upper_uncertainties = uncertainties
     else:
         raise ValueError(
-            f"{comparison} not available as a comparison ('ratio', 'pull', 'difference', 'relative_difference' or 'asymmetry')."
+            f"{comparison} not available as a comparison ('ratio', 'split_ratio', 'pull', 'difference', 'relative_difference', 'asymmetry' or 'efficiency')."
         )
     np.seterr(divide="warn", invalid="warn")
 

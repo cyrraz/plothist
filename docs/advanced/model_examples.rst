@@ -238,19 +238,3 @@ Same example as above, but we remove the statistical uncertainties of the model 
 .. image:: ../img/model_all_comparisons_no_model_unc.svg
    :alt: Data/model comparison with all comparisons, no model uncertainties, stacked plot
    :width: 500
-
-
-Ratio options
--------------
-
-When using the option ``split_ratio``, the uncertainties of the data are scaled by the inverse of the bin content of the model, i.e. assuming zero uncertainty coming from the model in the ratio uncertainty.
-The uncertainties of the model are displayed separately as a hatched area.
-Here is an example with different options for comparison:
-
-.. literalinclude:: ../examples/model_ex/model_comparisons_ratio_options.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/model_comparisons_ratio_options.svg
-   :alt: Data/model comparison with all comparisons option for ratio
-   :width: 500
