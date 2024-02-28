@@ -453,7 +453,7 @@ def get_comparison(
         )
     elif comparison == "relative_difference":
         values, lower_uncertainties, upper_uncertainties = get_ratio(
-            h1, h2, h1_uncertainty_type, "uncorrelated"
+            h1, h2, h1_uncertainty_type
         )
         values -= 1  # relative difference is ratio-1
     elif comparison == "pull":
