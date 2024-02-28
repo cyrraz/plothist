@@ -25,4 +25,4 @@ def test_install_latin_modern_fonts():
             installation_failed = True
 
     if installation_failed:
-        fail(f"One of the font was not installed correctly.")
+        fail(f"At least one of the Latin Modern fonts was not installed correctly.")

@@ -38,6 +38,12 @@ def install_latin_modern_fonts():
     subprocess.run(
         [
             "wget",
+            "--retry-connrefused", # retry refused connections and similar fatal errors
+            "--waitretry=1", # wait 1 second before next retry
+            "--read-timeout=20", # wait a maximum of 20 seconds in case no data is received and then try again
+            "--timeout=15", # wait max 15 seconds before the initial connection times out
+            "-t",
+            "10", # retry 10 times
             "-P",
             font_directory,
             "http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf",
@@ -48,6 +54,12 @@ def install_latin_modern_fonts():
         subprocess.run(
             [
                 "wget",
+                "--retry-connrefused",
+                "--waitretry=1",
+                "--read-timeout=20",
+                "--timeout=15",
+                "-t",
+                "10",
                 "-P",
                 font_directory,
                 f"https://www.1001fonts.com/download/latin-modern-{lm}.zip",
