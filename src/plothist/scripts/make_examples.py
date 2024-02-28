@@ -12,7 +12,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 # Define folders
-plothist_folder = os.path.dirname(os.path.realpath(__file__)) + "/../.."
+plothist_folder = os.path.dirname(os.path.realpath(__file__)) + "/../../.."
 example_folder = plothist_folder + "/docs/examples"
 img_folder = plothist_folder + "/docs/img"
 temp_img_folder = plothist_folder + "/docs/temp_img"
