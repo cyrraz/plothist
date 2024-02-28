@@ -516,7 +516,6 @@ def plot_comparison(
     comparison_ylabel=None,
     comparison_ylim=None,
     h1_uncertainty_type="symmetrical",
-    ratio_uncertainty_type="uncorrelated",
     **plot_hist_kwargs,
 ):
     """
@@ -537,7 +536,8 @@ def plot_comparison(
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     comparison : str, optional
-        The type of comparison to plot ("ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry"). Default is "ratio".
+        The type of comparison to plot ("ratio", "split_ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry"). Default is "ratio".
+        When the `split_ratio` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents, and the h2 adjusted uncertainties are shown separately as a hatched area.
     comparison_ylabel : str, optional
         The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
     comparison_ylim : tuple or None, optional
@@ -545,13 +545,6 @@ def plot_comparison(
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
         Asymmetrical uncertainties are not supported for the asymmetry and efficiency comparisons.
-    ratio_uncertainty_type : str, optional
-        How to treat the uncertainties of the histograms when comparison is "ratio" or "relative_difference":
-        This argument has no effect if comparison != "ratio" or "relative_difference".
-        The options are:
-        * "uncorrelated" for the comparison of two uncorrelated histograms,
-        * "split" for scaling the uncertainties of h1 by the inverse of the bin content of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty, and plotting separately scaled h2 uncertainties.
-        Default is "uncorrelated".
     **plot_hist_kwargs : optional
         Arguments to be passed to plot_hist(), called in case the comparison is "pull", or plot_error_hist(), called for every other comparison case. In the former case, the default arguments are histtype="stepfilled" and color="darkgrey". In the later case, the default argument is color="black".
 
@@ -572,7 +565,7 @@ def plot_comparison(
     _check_binning_consistency([h1, h2])
 
     comparison_values, lower_uncertainties, upper_uncertainties = get_comparison(
-        h1, h2, comparison, h1_uncertainty_type, ratio_uncertainty_type
+        h1, h2, comparison, h1_uncertainty_type
     )
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
@@ -591,7 +584,7 @@ def plot_comparison(
         plot_hist_kwargs.setdefault("color", "black")
         plot_error_hist(hist_comparison, ax=ax, **plot_hist_kwargs)
 
-    if comparison in ["ratio", "relative_difference"]:
+    if comparison in ["ratio", "split_ratio", "relative_difference"]:
         if comparison_ylim is None:
             if comparison == "relative_difference":
                 comparison_ylim = (-1.0, 1.0)
@@ -609,7 +602,7 @@ def plot_comparison(
             ax.axhline(1, ls="--", lw=1.0, color="black")
             ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
-        if ratio_uncertainty_type == "split":
+        if comparison == "split_ratio":
             np.seterr(divide="ignore", invalid="ignore")
             h2_scaled_uncertainties = np.where(
                 h2.values() != 0,
@@ -1042,7 +1035,7 @@ def plot_data_model_comparison(
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="ratio", and ratio_uncertainty_type="split".
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="split_ratio".
 
     Returns
     -------
@@ -1060,8 +1053,7 @@ def plot_data_model_comparison(
     """
     comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
-    comparison_kwargs.setdefault("comparison", "ratio")
-    comparison_kwargs.setdefault("ratio_uncertainty_type", "split")
+    comparison_kwargs.setdefault("comparison", "split_ratio")
 
     model_components = stacked_components + unstacked_components
 

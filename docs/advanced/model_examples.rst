@@ -112,6 +112,7 @@ Here is an example with a model made of functions:
    :width: 500
 
 
+.. _advanced-model_comparison-label:
 Compare data and model
 ======================
 
@@ -239,18 +240,4 @@ Same example as above, but we remove the statistical uncertainties of the model 
 
 .. image:: ../img/model_all_comparisons_no_model_unc.svg
    :alt: Data/model comparison with all comparisons, no model uncertainties, stacked plot
-   :width: 500
-
-
-Ratio options
--------------
-
-For ``ratio`` or ``relative_difference``, the uncertainties can be split between model and data (default option) or both can be added to the ratio uncertainty (``ratio_uncertainty_type="uncorrelated"``). Here are all the possible options:
-
-.. literalinclude:: ../examples/model_ex/model_comparisons_ratio_options.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/model_comparisons_ratio_options.svg
-   :alt: Data/model comparison with all comparisons option for ratio
    :width: 500

@@ -104,7 +104,7 @@ In particular, you can stack functions:
 Comparing two histograms
 ========================
 
-To compare two histograms, five comparison methods are available: ``ratio``, ``pull``, ``difference``, ``relative_difference`` and ``asymmetry``. The examples below are using the histograms defined above.
+To compare two histograms, seven comparison methods are available: ``ratio``, ``split_ratio``, ``pull``, ``difference``, ``relative_difference``, ``asymmetry`` and ``efficiency``. The examples below are using the histograms defined above.
 
 Ratio
 -----
@@ -118,6 +118,20 @@ Ratio is the default comparison method:
 .. image:: ../img/1d_comparison_ratio.svg
    :alt: Simple ratio comparison
    :width: 500
+
+
+Split ratio
+-----------
+
+When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents. The h2 adjusted uncertainties are shown separately as a hatched area. In practice, the ``split_ratio`` comparison option is used when h1 is filled with measured data and h2 is a model, see :ref:`advanced-model_comparison-label` for more details.
+
+.. literalinclude:: ../examples/1d_hist/1d_comparison_split_ratio.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/1d_comparison_split_ratio.svg
+    :alt: Simple split ratio comparison
+    :width: 500
 
 
 Pull
