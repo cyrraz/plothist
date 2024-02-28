@@ -392,7 +392,7 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **k
 
 def plot_hist_uncertainties(hist, ax, **kwargs):
     """
-    Plot the symmetrical uncertainty of a histogram, the Poisson standard deviation derived from the variance stored in the histogram, as a hatched area.
+    Plot the symmetrical uncertainty, which is the Poisson standard deviation derived from the variance stored in the histogram, as a hatched area.
 
     Parameters
     ----------
