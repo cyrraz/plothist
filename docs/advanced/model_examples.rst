@@ -204,6 +204,8 @@ Now, if you do not want to show nor take into account the model uncertainties, s
 .. warning::
    ``data_hist`` has by default asymmetrical error bars. If the provided histogram is weighted, an error is raised and you need to set ``data_uncertainty_type="symmetrical"``.
 
+.. note::
+    To plot the uncertainty of the model as a hashed area, as done in :func:`plot_model() <plothist.plotters.plot_model>`, you can use the standalone function :func:`plot_hist_uncertainties() <plothist.plotters.plot_hist_uncertainties>`.
 
 Comparison overview
 ===================
