@@ -341,7 +341,7 @@ def get_ratio(
     ratio_uncertainty_type : str, optional
         How to treat the uncertainties of the histograms:
         * "uncorrelated" for the comparison of two uncorrelated histograms,
-        * "split" for scaling the uncertainties of h1 by the inverse of the bin content of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty.
+        * "split" for scaling down the uncertainties of h1 by bin contents of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty.
         Default is "uncorrelated".
 
     Returns
@@ -416,7 +416,7 @@ def get_comparison(
         The second histogram for comparison.
     comparison : str
         The type of comparison ("ratio", "split_ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry").
-        In case of "split_ratio", the uncertainties of h1 are scaled by the inverse of the bin content of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty.
+        When the `split_ratio` option is used, the uncertainties of h1 are scaled down by the bin contents of h2, i.e. assuming zero uncertainty coming from h2 in the ratio uncertainty.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval.
         Asymmetrical uncertainties are not supported for the asymmetry and efficiency comparisons.
