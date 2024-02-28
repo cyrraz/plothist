@@ -12,7 +12,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 # Define folders
-plothist_folder = os.path.dirname(os.path.realpath(__file__)) + "/../.."
+plothist_folder = os.path.dirname(os.path.realpath(__file__)) + "/../../.."
 example_folder = plothist_folder + "/docs/examples"
 img_folder = plothist_folder + "/docs/img"
 temp_img_folder = plothist_folder + "/docs/temp_img"
@@ -58,12 +58,13 @@ if not os.path.exists(temp_img_folder):
     os.mkdir(temp_img_folder)
 
 # Get the metadata for the svg files
-if os.path.exists(plothist_folder + "/plothist/scripts/metadata.yaml"):
-    with open(plothist_folder + "/plothist/scripts/metadata.yaml", "r") as f:
+if os.path.exists(plothist_folder + "/src/plothist/scripts/metadata.yaml"):
+    with open(plothist_folder + "/src/plothist/scripts/metadata.yaml", "r") as f:
         svg_metadata = yaml.safe_load(f)
     svg_metadata = "metadata=" + str(svg_metadata)
 else:
     svg_metadata = "metadata={}"
+
 
 import matplotlib.pyplot as plt
 
