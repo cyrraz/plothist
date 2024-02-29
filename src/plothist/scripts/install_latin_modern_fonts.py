@@ -35,20 +35,27 @@ def install_latin_modern_fonts():
         )
 
     # Install Latin Modern Math
-    subprocess.run(
-        [
-            "wget",
-            "--retry-connrefused",  # retry refused connections and similar fatal errors
-            "--retry-on-host-error",# retry on host errors such as 404 "Not Found"
-            "--waitretry=1",        # wait 1 second before next retry
-            "--read-timeout=20",    # wait a maximum of 20 seconds in case no data is received and then try again
-            "--timeout=15",         # wait max 15 seconds before the initial connection times out
-            "-t", "10",             # retry 10 times
-            "-P",
-            font_directory,
-            "http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf",
-        ]
-    )
+    for _ in range(10):
+        try:
+            subprocess.run(
+                [
+                    "wget",
+                    "--retry-connrefused",  # retry refused connections and similar fatal errors
+                    "--retry-on-host-error",# retry on host errors such as 404 "Not Found"
+                    "--waitretry=1",        # wait 1 second before next retry
+                    "--read-timeout=20",    # wait a maximum of 20 seconds in case no data is received and then try again
+                    "--timeout=15",         # wait max 15 seconds before the initial connection times out
+                    "-t", "10",             # retry 10 times
+                    "-P",
+                    font_directory,
+                    "http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf",
+                ],
+                check=True
+            )
+            break
+        except subprocess.CalledProcessError:
+            time.sleep(5)
+
     # Install Latin Modern Roman and Latin Modern Sans
     for lm in ["roman", "sans"]:
         subprocess.run(
