@@ -131,6 +131,9 @@ An example with stacked histograms:
    :alt: Data/model comparison, stacked plot
    :width: 500
 
+.. note::
+    The function :func:`add_luminosity() <plothist.plothist_style.add_luminosity>` is used here to add information on the luminosity used for the data. This is common practice in high energy physics, and this function is provided to make it easy to add this information to the plot.
+
 
 Unstacked histograms
 --------------------
