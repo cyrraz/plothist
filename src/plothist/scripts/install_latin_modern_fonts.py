@@ -36,6 +36,50 @@ def _get_install_command(url, font_directory):
     ]
 
 
+def _download_font(url, font_directory, font_name):
+    """
+    Download a font from a URL and save it in a directory.
+
+    Parameters
+    ----------
+    url : str
+        The URL of the font.
+    font_directory : PosixPath
+        The directory where the font should be installed.
+
+    Raises
+    ------
+    RuntimeError
+        If the download fails.
+    """
+    print(f"Downloading {font_name}...")
+    attempt = 0
+    max_attempt = 10
+    success = False
+
+    while not success and attempt < max_attempt:
+        result = subprocess.run(
+            _get_install_command(url, font_directory),
+            capture_output=True,
+            text=True,
+        )
+        success = result.returncode == 0
+        if not success:
+            # Print the output to the terminal
+            print("Try", attempt + 1, "of", max_attempt)
+            print("STDOUT:", result.stdout)
+            print("STDERR:", result.stderr)
+            # Increment attempt counter and wait before the next attempt
+            attempt += 1
+            time.sleep(5)
+
+    if not success:
+        raise RuntimeError(
+            f"Failed to download {font_name} after {max_attempt} attempts. Try to install it manually (see https://plothist.readthedocs.io/en/latest/usage/font_installation.html)."
+        )
+    print(f"{font_name} downloaded successfully.")
+
+
 def install_latin_modern_fonts():
     """
     Install Latin Modern Math, Latin Modern Roman and Latin Modern Sans fonts.
@@ -68,67 +112,21 @@ def install_latin_modern_fonts():
         )
 
     # Install Latin Modern Math
-    print("Downloading Latin Modern Math...")
-    attempt = 0
-    max_attempt = 10
-    success = False
-
-    while not success and attempt < max_attempt:
-        result = subprocess.run(
-            _get_install_command(
-                "http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf",
-                font_directory,
-            ),
-            capture_output=True,
-            text=True,
-        )
-        success = result.returncode == 0
-        if not success:
-            # Print the output to the terminal
-            print("Try", attempt + 1, "of", max_attempt)
-            print("STDOUT:", result.stdout)
-            print("STDERR:", result.stderr)
-            # Increment attempt counter and wait before the next attempt
-            attempt += 1
-            time.sleep(5)
-
-    if not success:
-        raise RuntimeError(
-            f"Failed to download Latin Modern Math after {max_attempt} attempts. Try to install it manually (see https://plothist.readthedocs.io/en/latest/usage/font_installation.html)."
-        )
-    print("Latin Modern Math downloaded successfully.\n")
+    _download_font(
+        "http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf",
+        font_directory,
+        "Latin Modern Math",
+    )
+    print("Latin Modern Math installed successfully.\n")
 
     # Install Latin Modern Roman and Latin Modern Sans
     for lm in ["roman", "sans"]:
-        print(f"Downloading Latin Modern {lm}...")
-
-        attempt = 0
-        max_attempt = 10
-        success = False
-
-        while not success and attempt < max_attempt:
-            result = subprocess.run(
-                _get_install_command(
-                    f"https://www.1001fonts.com/download/latin-modern-{lm}.zip",
-                    font_directory,
-                ),
-                capture_output=True,
-                text=True,
-            )
-            success = result.returncode == 0
-            if not success:
-                # Print the output to the terminal
-                print("Try", attempt + 1, "of", max_attempt)
-                print("STDOUT:", result.stdout)
-                print("STDERR:", result.stderr)
-                # Increment attempt counter and wait before the next attempt
-                attempt += 1
-                time.sleep(5)
-
-        if not success:
-            raise RuntimeError(
-                f"Failed to download Latin Modern {lm} after {max_attempt} attempts. Try to install it manually (see https://plothist.readthedocs.io/en/latest/usage/font_installation.html)."
-            )
+        _download_font(
+            f"https://www.1001fonts.com/download/latin-modern-{lm}.zip",
+            font_directory,
+            f"Latin Modern {lm}",
+        )
+        print(f"Unzipping Latin Modern {lm}...")
 
         subprocess.run(
             [
@@ -141,7 +139,7 @@ def install_latin_modern_fonts():
         )
         subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
 
-        print(f"Latin Modern {lm} downloaded successfully.\n")
+        print(f"Latin Modern {lm} installed successfully.\n")
 
     # Remove font cache
     try:
