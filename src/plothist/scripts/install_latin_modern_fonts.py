@@ -153,7 +153,7 @@ def install_latin_modern_fonts():
             Error while trying to remove {matplotlib_font_cache}, but maybe this is not needed.
             Check whether the Latin Modern fonts are now available in your matplotlib.
             If they are not, find the correct fontlist-XXX.json file in your matplotlib cache and remove it manually.
-            If it still does not work, please check the documentation at https://plothist.readthedocs.io/en/latest/usage/font_installation.html.
+            If it still does not work, please check the documentation at https://plothist.readthedocs.io/en/latest/usage/font_installation.html
             """
         )
 
