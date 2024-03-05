@@ -25,7 +25,7 @@ h = make_2d_hist([df[name_x], df[name_y]], bins=[50, 50])
     ax_colorbar,
 ) = plot_2d_hist_with_projections(
     h,
-    xlabel="variable_0",
+    xlabel="variable_2",
     ylabel="variable_1",
     ylabel_x_projection="Entries",
     xlabel_y_projection="Entries",

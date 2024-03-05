@@ -59,7 +59,7 @@ key1 = "variable_1"
 key2 = "variable_2"
 # Bins [-10,0], [0,10] for variable 1,
 # and bins [-10,-5], [-5,0], [0,5], [5,10] for variable 2
-bins = [[-10, 0, 10], [-10, -5, 0, 5, 10]]
+bins = [[-10, 0, 10], [-10, -4, 0, 5, 10]]
 category = "category"
 
 # Define datasets

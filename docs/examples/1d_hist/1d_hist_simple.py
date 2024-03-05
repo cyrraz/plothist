@@ -22,6 +22,6 @@ h = make_hist(df[name])
 plot_hist(h, ax=ax)
 
 ax.set_xlabel(name)
-ax.set_ylabel("Entries")
+ax.set_ylabel("Entriess")
 
 fig.savefig("1d_hist_simple.svg", bbox_inches="tight")

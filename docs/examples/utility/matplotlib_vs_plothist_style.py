@@ -49,7 +49,7 @@ for style in ["matplotlib", "plothist"]:
     ax2.set_ylabel("Ratio")
 
     ax1.set_xlim(-10, 10)
-    ax2.set_xlim(-10, 10)
+    ax2.set_xlim(-10, 9)
     ax2.set_ylim(0, 2)
 
     fig.subplots_adjust(hspace=0.15)
