@@ -52,7 +52,7 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     xlabel=key,
     ylabel="Entries",
     model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
-    comparison="ratio",
+    comparison="pull",
 )
 
 fig.savefig(
