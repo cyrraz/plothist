@@ -53,7 +53,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
     python_files.sort()
 
     if no_input:
-        k_plots = "14"
+        k_plots = "all"
     else:
         # Ask which python files to relaunch
         print(
