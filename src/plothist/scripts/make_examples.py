@@ -170,7 +170,10 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             fail(
                 f"The following images have changed: {', '.join(changed_img)}. Please check the changes in the svg files and commit them if they are correct."
             )
-
+        if len(new_img_hashes) != len(img_hashes):
+            fail(
+                f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images: {set(new_img_hashes.keys()) - set(img_hashes.keys())}"
+            )
 
 if __name__ == "__main__":
     make_examples()
