@@ -98,7 +98,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             ]
         )
 
-    with open(plothist_folder + ".svg_metadata.yaml", "r") as f:
+    with open(plothist_folder + "/.svg_metadata.yaml", "r") as f:
         svg_metadata = yaml.safe_load(f)
 
     svg_metadata = "metadata=" + str(svg_metadata)
