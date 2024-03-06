@@ -174,8 +174,8 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
         # Check that the hashes are the same and print the ones that are different
         changed_img = []
-        for file, file_hash in new_img_hashes.items():
-            if img_hashes[file] != file_hash:
+        for file, file_hash in img_hashes.items():
+            if new_img_hashes[file] != file_hash:
                 changed_img.append(file)
         if changed_img:
             fail(
