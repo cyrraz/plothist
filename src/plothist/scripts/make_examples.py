@@ -5,6 +5,8 @@ import plothist
 from pytest import fail
 import hashlib
 import matplotlib.pyplot as plt
+import warnings
+import sys
 
 # Set figure.max_open_warning to a large number to avoid warnings
 plt.rcParams["figure.max_open_warning"] = 1000
@@ -12,12 +14,14 @@ plt.rcParams["figure.max_open_warning"] = 1000
 
 def make_examples(no_input=False, check_svg=False, print_code=False):
     """
-    This function cam redo automatically all the examples from the documentation.
+    This function cam redo automatically all the examples from the documentation. Only works with python 3.9 or higher.
 
     Parameters
     ----------
     no_input : bool, optional
         If True, the function will not ask for any input and will relaunch all the python files.
+    check_svg : bool, optional
+        If True, the function will check that the svg files have not changed after the relaunch.
     print_code : bool, optional
         If True, the function will print the code that will be executed for each python file.
 
@@ -26,6 +30,13 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
     FileNotFoundError
         If the example or img folder does not exist, the function will raise a FileNotFoundError.
     """
+
+    # If python version is lower than 3.9, return a warning
+    if sys.version_info < (3, 9):
+        warnings.warn(
+            "svg behavior is not consistent across python versions. Please run this script with python 3.9 or higher. Skipping."
+        )
+        return 1
 
     plothist_folder = (
         plothist.__path__[0]
@@ -174,6 +185,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             fail(
                 f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images: {set(new_img_hashes.keys()) - set(img_hashes.keys())}"
             )
+
 
 if __name__ == "__main__":
     make_examples()
