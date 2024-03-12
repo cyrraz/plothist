@@ -36,7 +36,7 @@ def test_ratio_simple_values():
     )
     assert approx(values) == np.array([0.1])
     assert approx(high_uncertainty) == np.array([0.03316625])
-    assert approx(low_uncertainty) == np.array([0.03316625])
+    assert approx(low_uncertainty) == high_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="ratio", h1_uncertainty_type="asymmetrical"
@@ -56,7 +56,6 @@ def test_ratio_complex_values():
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="ratio"
     )
-    print(list(values), "\n", list(high_uncertainty), "\n", list(low_uncertainty))
 
     assert approx(values) == np.array(
         [
@@ -132,5 +131,117 @@ def test_ratio_complex_values():
             0.024469519001226153,
             0.12637764392827852,
             1.4965212485612585,
+        ]
+    )
+
+
+def test_split_ratio_simple_values():
+    """
+    Test split ratio with simple values.
+    """
+
+    h1 = make_hist(data=[1] * 100, bins=1, range=(0, 3))
+    h2 = make_hist(data=[1] * 10, bins=1, range=(0, 3))
+
+    values, high_uncertainty, low_uncertainty = get_comparison(
+        h2, h1, comparison="split_ratio"
+    )
+    assert approx(values) == np.array([0.1])
+    assert approx(high_uncertainty) == np.array([0.0316227766016838])
+    assert approx(low_uncertainty) == high_uncertainty
+
+    values, high_uncertainty, low_uncertainty = get_comparison(
+        h2, h1, comparison="split_ratio", h1_uncertainty_type="asymmetrical"
+    )
+    assert approx(values) == np.array([0.1])
+    assert approx(high_uncertainty) == np.array([0.031086944386636207])
+    assert approx(low_uncertainty) == np.array([0.04266949759891313])
+
+
+def test_split_ratio_complex_values():
+    """
+    Test split ratio with random values.
+    """
+    rng = np.random.default_rng(8311311)
+    h1 = make_hist(data=rng.normal(size=100000), bins=10, range=(-5, 5))
+    h2 = make_hist(data=rng.normal(size=80000), bins=10, range=(-5, 5))
+    values, high_uncertainty, low_uncertainty = get_comparison(
+        h2, h1, comparison="split_ratio"
+    )
+
+    assert approx(values) == np.array(
+        [
+            0.4,
+            0.6618705035971223,
+            0.7947897623400365,
+            0.8067629291292177,
+            0.7964303508103514,
+            0.7981632533302037,
+            0.8179000959197226,
+            0.7402890695573623,
+            0.9180327868852459,
+            1.0,
+        ]
+    )
+    assert approx(high_uncertainty) == np.array(
+        [
+            0.282842712474619,
+            0.06900477011960747,
+            0.019059103712973532,
+            0.007709372753648256,
+            0.004831289095230075,
+            0.004839308721902339,
+            0.007768414861135622,
+            0.01828571136404441,
+            0.08674594462506854,
+            0.7071067811865476,
+        ]
+    )
+    assert approx(high_uncertainty) == low_uncertainty
+
+    values, high_uncertainty, low_uncertainty = get_comparison(
+        h2, h1, comparison="split_ratio", h1_uncertainty_type="asymmetrical"
+    )
+
+    assert approx(values) == np.array(
+        [
+            0.4,
+            0.6618705035971223,
+            0.7947897623400365,
+            0.8067629291292177,
+            0.7964303508103514,
+            0.7981632533302037,
+            0.8179000959197226,
+            0.7402890695573623,
+            0.9180327868852459,
+            1.0,
+        ]
+    )
+    assert approx(high_uncertainty) == np.array(
+        [
+            0.2583629119969045,
+            0.06887914601983501,
+            0.019057275098979868,
+            0.007709255370032222,
+            0.00483125945512883,
+            0.004839279063162287,
+            0.007768298008664885,
+            0.018283849850174488,
+            0.0866162856135678,
+            0.6459072799922612,
+        ]
+    )
+    assert approx(low_uncertainty) == np.array(
+        [
+            0.5275719245593493,
+            0.07644923227878979,
+            0.019519797023699485,
+            0.007783277712946144,
+            0.004860655827597242,
+            0.00486870902804312,
+            0.007842432908702224,
+            0.01874110314510096,
+            0.09520105928933346,
+            1.3189298113983732,
         ]
     )
