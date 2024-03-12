@@ -94,6 +94,3 @@ def test_pull_complex_values():
     )
     assert approx(high_uncertainty) == np.array([1.0] * 10)
     assert approx(high_uncertainty) == low_uncertainty
-
-
-test_pull_complex_values()
