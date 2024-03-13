@@ -41,3 +41,4 @@ write-changes = true
 
 [project.scripts]
 install_latin_modern_fonts = "plothist.scripts.install_latin_modern_fonts:install_latin_modern_fonts"
+plothist_make_examples = "plothist.scripts.make_examples:make_examples"
