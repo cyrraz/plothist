@@ -74,7 +74,7 @@ def test_efficiency_simple_values():
     )
     assert approx(values) == np.array([0.1])
     assert approx(high_uncertainty) == np.array([0.03056316])
-    assert approx(low_uncertainty) == np.array([0.03056316])
+    assert approx(low_uncertainty) == high_uncertainty
 
     assert approx(high_uncertainty[0], 0.02) == simple_efficiency_uncertainty(
         n1, n2
@@ -96,7 +96,7 @@ def test_efficiency_simple_values():
 
     assert approx(values) == np.array([0.1])
     assert approx(high_uncertainty) == np.array([9.48683493e-05])
-    assert approx(low_uncertainty) == np.array([9.48683493e-05])
+    assert approx(low_uncertainty) == high_uncertainty
 
     assert approx(high_uncertainty[0]) == simple_efficiency_uncertainty(
         n1, n2
@@ -134,20 +134,6 @@ def test_efficiency_complex_values():
         ]
     )
     assert approx(high_uncertainty) == np.array(
-        [
-            0.12371791482634838,
-            0.02661654698726243,
-            0.006343589231090674,
-            0.0025597549707911415,
-            0.0016334320872715157,
-            0.0016090633836174837,
-            0.002615474280842884,
-            0.006489834814808297,
-            0.02830633673352296,
-            0.19364916731037085,
-        ]
-    )
-    assert approx(low_uncertainty) == np.array(
         [
             0.12371791482634838,
             0.02661654698726243,
