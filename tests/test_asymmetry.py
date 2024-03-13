@@ -14,7 +14,6 @@ def test_asymmetry_simple_values():
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="asymmetry"
     )
-    print(list(values), "\n", list(high_uncertainty), "\n", list(low_uncertainty))
     assert approx(values) == np.array([0.3333333333333333])
     assert approx(high_uncertainty) == np.array([0.08606629658238704])
     assert approx(low_uncertainty) == high_uncertainty
@@ -30,7 +29,6 @@ def test_asymmetry_complex_values():
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="asymmetry"
     )
-    print(list(values), "\n", list(high_uncertainty), "\n", list(low_uncertainty))
 
     assert approx(values) == np.array(
         [
