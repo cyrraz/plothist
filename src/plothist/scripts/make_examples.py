@@ -4,17 +4,13 @@ import subprocess
 import plothist
 from pytest import fail
 import hashlib
-import matplotlib.pyplot as plt
 import warnings
 import sys
-
-# Set figure.max_open_warning to a large number to avoid warnings
-plt.rcParams["figure.max_open_warning"] = 1000
 
 
 def make_examples(no_input=False, check_svg=False, print_code=False):
     """
-    This function cam redo automatically all the examples from the documentation. Only works with python 3.9 or higher.
+    This function can redo automatically all the examples from the documentation. Only works with python 3.9 or higher.
 
     Parameters
     ----------
