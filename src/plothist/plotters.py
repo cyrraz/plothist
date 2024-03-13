@@ -14,7 +14,7 @@ from plothist.comparison import (
     _check_binning_consistency,
     _check_uncertainty_type,
 )
-from plothist.histogramming import _make_hist_from_function
+from plothist.histogramming import _make_hist_from_function, _check_counting_histogram
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
@@ -273,6 +273,8 @@ def plot_2d_hist_with_projections(
     ax_colorbar : matplotlib.axes.Axes
         The axes for the colorbar.
     """
+    _check_counting_histogram(hist)
+
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
     pcolormesh_kwargs = pcolormesh_kwargs.copy()
     colorbar_kwargs = colorbar_kwargs.copy()
@@ -403,6 +405,8 @@ def plot_hist_uncertainties(hist, ax, **kwargs):
     **kwargs
         Additional keyword arguments forwarded to ax.bar().
     """
+    _check_counting_histogram(hist)
+
     uncertainty = np.sqrt(hist.variances())
 
     kwargs.setdefault("edgecolor", "dimgrey")
@@ -473,6 +477,8 @@ def plot_two_hist_comparison(
     """
 
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()
@@ -563,6 +569,8 @@ def plot_comparison(
     h2_label = _get_math_text(h2_label)
 
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     comparison_values, lower_uncertainties, upper_uncertainties = get_comparison(
         h1, h2, comparison, h1_uncertainty_type
@@ -842,6 +850,8 @@ def plot_model(
     model_type = _get_model_type(components)
 
     if model_type == "histograms":
+        for component in components:
+            _check_counting_histogram(component)
         _check_binning_consistency(components)
 
     if fig is None and ax is None:
@@ -1064,6 +1074,8 @@ def plot_data_model_comparison(
 
     if model_type == "histograms":
         _check_binning_consistency(model_components + [data_hist])
+        for component in model_components + [data_hist]:
+            _check_counting_histogram(component)
 
     if fig is None and ax_main is None and ax_comparison is None:
         fig, (ax_main, ax_comparison) = create_comparison_figure()

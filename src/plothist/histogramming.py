@@ -179,6 +179,29 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     return h
 
 
+def _check_counting_histogram(hist):
+    """
+    Check that the histogram is a counting histogram.
+
+    Parameters
+    ----------
+    hist : boost_histogram.Histogram
+        The histogram to check.
+
+    Raise
+    -----
+    ValueError
+        If the histogram is not a counting histogram.
+
+    """
+    kind = hist.kind
+    if kind != bh.Kind.COUNT:
+        raise ValueError(
+            f"The histogram must be a counting histogram, but the input histogram has kind {kind}."
+        )
+    return
+
+
 def _make_hist_from_function(func, ref_hist):
     """
     Create a histogram from a function and a reference histogram.
@@ -231,6 +254,8 @@ def flatten_2d_hist(hist):
     ValueError
         If the input histogram is not 2D.
     """
+    _check_counting_histogram(hist)
+
     if len(hist.axes) != 2:
         raise ValueError("The input histogram must be 2D.")
     n_bins = hist.axes[0].size * hist.axes[1].size

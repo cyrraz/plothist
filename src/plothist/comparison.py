@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats as stats
+from plothist.histogramming import _check_counting_histogram
 
 
 def _check_uncertainty_type(uncertainty_type):
@@ -64,6 +65,8 @@ def get_asymmetrical_uncertainties(hist):
         If the histogram is weighted.
 
     """
+    _check_counting_histogram(hist)
+
     if not _is_unweighted(hist):
         raise ValueError(
             "Asymmetrical uncertainties can only be computed for an unweighted histogram."
@@ -122,6 +125,8 @@ def get_ratio_variances(h1, h2):
         If the bins of the histograms are not equal.
     """
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     np.seterr(divide="ignore", invalid="ignore")
     ratio_variances = np.where(
@@ -159,6 +164,8 @@ def get_pull(h1, h2, h1_uncertainty_type="symmetrical"):
     """
     _check_uncertainty_type(h1_uncertainty_type)
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     if h1_uncertainty_type == "asymmetrical":
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
@@ -209,6 +216,8 @@ def get_difference(h1, h2, h1_uncertainty_type="symmetrical"):
     """
     _check_uncertainty_type(h1_uncertainty_type)
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     difference_values = h1.values() - h2.values()
 
@@ -263,6 +272,9 @@ def get_efficency(h1, h2):
         If the bin contents of h1 are not a subsample of the bin contents of h2.
     """
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
+
     if not (_is_unweighted(h1) and _is_unweighted(h2)):
         raise ValueError(
             "The ratio of two correlated histograms (efficiency) can only be computed for unweighted histograms."
@@ -308,6 +320,8 @@ def get_asymmetry(h1, h2):
         The uncertainties on the asymmetry.
     """
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     hist_sum = h1 + h2
     hist_diff = h1 + (-1 * h2)
@@ -360,6 +374,8 @@ def get_ratio(
     """
     _check_uncertainty_type(h1_uncertainty_type)
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     ratio_values = np.where(h2.values() != 0, h1.values() / h2.values(), np.nan)
 
@@ -440,6 +456,8 @@ def get_comparison(
     """
     _check_uncertainty_type(h1_uncertainty_type)
     _check_binning_consistency([h1, h2])
+    _check_counting_histogram(h1)
+    _check_counting_histogram(h2)
 
     np.seterr(divide="ignore", invalid="ignore")
 
