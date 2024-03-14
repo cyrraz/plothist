@@ -243,9 +243,8 @@ To easily get the values and the uncertainties of the comparison, the :func:`get
 Mean histogram (profile plot)
 =============================
 
-The function :func:`make_hist() <plothist.histogramming.make_hist>` returns a counting histogram, where each bin holds the total number of data points or their weighted sum.
-The returned histogram is an object defined in the ``boost_histogram`` `package <https://boost-histogram.readthedocs.io/>`_.
-This package also supports mean histograms, where each bin holds the (possibly weighted) average of a sample.
+The function :func:`make_hist() <plothist.histogramming.make_hist>` returns a counting histogram (technically, a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/user-guide/histogram.html>`_ of "COUNT" kind), where each bin holds the total number of data points or their weighted sum.
+The ``boost_histogram`` package also supports mean histograms, where each bin holds the (possibly weighted) average of a sample.
 The example below shows how to create a mean histogram (also called a profile) in ``boost_histogram`` and plot it with ``plothist``.
 In this example, the data points and the error bars are the average value and the standard deviation of the sample in each bin, respectively.
 Note that most functions in ``plothist`` work only with counting histograms and will raise an error if you try to use them with a mean histogram.

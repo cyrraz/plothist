@@ -5,6 +5,7 @@
 Plot a 1d mean histogram (profile plot).
 """
 
+###
 import boost_histogram as bh
 from plothist import plot_error_hist
 import matplotlib.pyplot as plt

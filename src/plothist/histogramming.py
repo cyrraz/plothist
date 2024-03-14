@@ -194,10 +194,9 @@ def _check_counting_histogram(hist):
         If the histogram is not a counting histogram.
 
     """
-    kind = hist.kind
-    if kind != bh.Kind.COUNT:
+    if hist.kind != bh.Kind.COUNT:
         raise ValueError(
-            f"The histogram must be a counting histogram, but the input histogram has kind {kind}."
+            f"The histogram must be a counting histogram, but the input histogram has kind {hist.kind}."
         )
     return
 
