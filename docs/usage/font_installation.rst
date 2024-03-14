@@ -33,7 +33,7 @@ Then you can run the following command in a terminal:
 
    python3 /path/to/plothist/scripts/install_latin_modern_fonts.py
 
-If the command doesn't work, you may read the detailed procedure directly in the `python script <https://github.com/cyrraz/plothist/blob/main/plothist/scripts/install_latin_modern_fonts.py>`_ called by the command ``install_latin_modern_fonts`` and execute the commands line by line in a terminal.
+If the command doesn't work, you may read the detailed procedure directly in the `python script <https://github.com/cyrraz/plothist/blob/main/src/plothist/scripts/install_latin_modern_fonts.py>`_ called by the command ``install_latin_modern_fonts`` and execute the commands line by line in a terminal.
 
 It was observed in some cases that, after the procedure above, you may need to move the font files ``latinmodern-math.otf``, ``latin-modern-roman/`` and ``latin-modern-sans/`` from ``~/.fonts/`` into another folder. To get an idea of where the fonts are installed on your system, you can run the following commands in a python console:
 
