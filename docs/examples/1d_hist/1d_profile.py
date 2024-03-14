@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 # Regular axis with 3 bins from -1 to 1
 axis = bh.axis.Regular(3, -1, 1)
 
+# 6 data points, two in each bin
 data = [-0.5, -0.5, 0.0, 0.0, 0.5, 0.5]
 sample = [0, 100, 40, 60, 0, 20]
 weights = [1, 1, 1, 1, 1, 1]
