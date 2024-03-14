@@ -10,8 +10,6 @@ import boost_histogram as bh
 from plothist import plot_error_hist
 import matplotlib.pyplot as plt
 
-fig, ax = plt.subplots()
-
 # Regular axis with 3 bins from -1 to 1
 axis = bh.axis.Regular(3, -1, 1)
 
@@ -21,6 +19,8 @@ weights = [1, 1, 1, 1, 1, 1]
 
 h = bh.Histogram(axis, storage=bh.storage.WeightedMean())
 h.fill(data, weight=weights, sample=sample)
+
+fig, ax = plt.subplots()
 
 plot_error_hist(h, ax=ax)
 
