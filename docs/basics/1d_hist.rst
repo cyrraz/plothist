@@ -193,7 +193,7 @@ To plot the asymmetry between the two histograms:
 Efficiency
 ----------
 
-To plot the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2. The variances are calculated according to the formula given in :ref:`documentation-statistics-label`:
+This example shows how to plot the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2. The variances are calculated according to the formula given in :ref:`documentation-statistics-label`.
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_efficiency.py
     :language: python
@@ -233,7 +233,7 @@ To easily get the values and the uncertainties of the comparison, the :func:`get
 
 .. code-block:: python
 
-    from plothist.comparison import get_comparison
+    from plothist import get_comparison
 
     values, lower_uncertainties, upper_uncertainties = get_comparison(
         h1, h2, comparison="ratio"
