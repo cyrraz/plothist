@@ -366,6 +366,8 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **k
         Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
         More information in :ref:`documentation-statistics-label`.
         The uncertainties are overwritten if the keyword argument yerr is provided.
+        In the case of a mean histogram, only symmetrical uncertainties are supported and correspond to the standard deviation of the sample and not to a Poisson standard deviation (see :ref:`1d-profile-plot-label`).
+
     density : bool, optional
         Whether to normalize the histogram to unit area. Default is False.
     **kwargs
