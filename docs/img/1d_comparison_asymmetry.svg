@@ -888,84 +888,69 @@ z
    </g>
    <g id="legend_1">
     <g id="patch_9">
-     <path d="M 346.7 26.4 
-L 370.7 26.4 
-L 370.7 18 
-L 346.7 18 
-L 346.7 26.4 
+     <path d="M 346.82 26.4 
+L 370.82 26.4 
+L 370.82 18 
+L 346.82 18 
+L 346.82 26.4 
 z
 " style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
     </g>
     <g id="text_7">
-     <!-- $\mathit{h}_2$ -->
-     <g style="fill: #1a1a1a" transform="translate(380.3 26.4) scale(0.12 -0.12)">
+     <!-- $\mathbfit{h}_2$ -->
+     <g style="fill: #1a1a1a" transform="translate(380.42 26.4) scale(0.12 -0.12)">
       <defs>
-       <path id="Cmmi10-68" d="M 341 116 
-Q 341 153 347 172 
-L 1275 3872 
-Q 1300 3981 1306 4044 
-Q 1306 4147 891 4147 
-Q 825 4147 825 4231 
-Q 828 4247 839 4287 
-Q 850 4328 867 4350 
-Q 884 4372 916 4372 
-L 1778 4441 
-L 1797 4441 
-Q 1797 4434 1819 4423 
-Q 1841 4413 1844 4409 
-Q 1856 4378 1856 4359 
-L 1356 2363 
-Q 1750 2828 2291 2828 
-Q 2516 2828 2680 2750 
-Q 2844 2672 2936 2514 
-Q 3028 2356 3028 2138 
-Q 3028 1875 2911 1503 
-Q 2794 1131 2619 672 
-Q 2528 463 2528 288 
-Q 2528 97 2675 97 
-Q 2925 97 3092 364 
-Q 3259 631 3328 941 
-Q 3341 978 3378 978 
-L 3456 978 
-Q 3481 978 3497 961 
-Q 3513 944 3513 922 
-Q 3513 916 3506 903 
-Q 3450 672 3339 448 
-Q 3228 225 3059 76 
-Q 2891 -72 2663 -72 
-Q 2438 -72 2278 83 
-Q 2119 238 2119 459 
-Q 2119 578 2169 709 
-Q 2350 1191 2470 1569 
-Q 2591 1947 2591 2234 
-Q 2591 2419 2519 2541 
-Q 2447 2663 2278 2663 
-Q 1934 2663 1678 2452 
-Q 1422 2241 1234 1894 
-L 800 147 
-Q 775 50 703 -11 
-Q 631 -72 538 -72 
-Q 456 -72 398 -17 
-Q 341 38 341 116 
+       <path id="STIXGeneral-BoldItalic-68" d="M 3046 909 
+L 3187 813 
+Q 2867 320 2640 131 
+Q 2413 -58 2118 -58 
+Q 1926 -58 1811 51 
+Q 1696 160 1696 352 
+Q 1696 544 1766 800 
+Q 1837 1056 2086 1792 
+L 2214 2170 
+Q 2259 2304 2259 2362 
+Q 2259 2496 2131 2496 
+Q 1862 2496 1453 1894 
+Q 1222 1555 1081 1203 
+Q 941 851 691 0 
+L -83 0 
+L 890 3597 
+Q 954 3834 954 3898 
+Q 954 4109 685 4109 
+L 544 4109 
+L 544 4282 
+Q 1178 4339 1882 4474 
+L 1190 1811 
+Q 1664 2483 1945 2720 
+Q 2227 2957 2554 2957 
+Q 2790 2957 2915 2829 
+Q 3040 2701 3040 2477 
+Q 3040 2298 2854 1722 
+L 2477 557 
+Q 2458 506 2458 480 
+Q 2458 448 2493 413 
+Q 2528 378 2566 378 
+Q 2675 378 3046 909 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Cmmi10-68" transform="translate(0 0.609375)"/>
-      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(57.617188 -12.31875) scale(0.7)"/>
+      <use xlink:href="#STIXGeneral-BoldItalic-68" transform="translate(0 0.09375)"/>
+      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(56.354131 -12.834375) scale(0.7)"/>
      </g>
     </g>
     <g id="patch_10">
-     <path d="M 346.7 43.12875 
-L 370.7 43.12875 
-L 370.7 34.72875 
-L 346.7 34.72875 
-L 346.7 43.12875 
+     <path d="M 346.82 43.12875 
+L 370.82 43.12875 
+L 370.82 34.72875 
+L 346.82 34.72875 
+L 346.82 43.12875 
 z
 " style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
     </g>
     <g id="text_8">
-     <!-- $\mathit{h}_3$ -->
-     <g style="fill: #1a1a1a" transform="translate(380.3 43.12875) scale(0.12 -0.12)">
+     <!-- $\mathbfit{h}_3$ -->
+     <g style="fill: #1a1a1a" transform="translate(380.42 43.12875) scale(0.12 -0.12)">
       <defs>
        <path id="LatinModernMath-Regular-33" d="M 2925 1094 
 C 2925 1619 2522 2118 1856 2253 
@@ -994,8 +979,8 @@ C 2342 -141 2925 442 2925 1094
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Cmmi10-68" transform="translate(0 0.609375)"/>
-      <use xlink:href="#LatinModernMath-Regular-33" transform="translate(57.617188 -12.31875) scale(0.7)"/>
+      <use xlink:href="#STIXGeneral-BoldItalic-68" transform="translate(0 0.09375)"/>
+      <use xlink:href="#LatinModernMath-Regular-33" transform="translate(56.354131 -12.834375) scale(0.7)"/>
      </g>
     </g>
    </g>
@@ -1671,8 +1656,8 @@ z
      </g>
     </g>
     <g id="text_17">
-     <!-- $\frac{\mathit{h}_2 - \mathit{h}_3}{\mathit{h}_2 + \mathit{h}_3}$ -->
-     <g style="fill: #1a1a1a" transform="translate(24.66 278.863953) rotate(-90) scale(0.18 -0.18)">
+     <!-- $\frac{\mathbfit{h}_2 - \mathbfit{h}_3}{\mathbfit{h}_2 + \mathbfit{h}_3}$ -->
+     <g style="fill: #1a1a1a" transform="translate(24.66 278.683953) rotate(-90) scale(0.18 -0.18)">
       <defs>
        <path id="LatinModernMath-Regular-2b" d="M 4621 1600 
 C 4621 1670 4563 1728 4493 1728 
@@ -1694,21 +1679,21 @@ C 4563 1472 4621 1530 4621 1600
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Cmmi10-68" transform="translate(0 48.426563) scale(0.7)"/>
-      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(40.332031 39.376875) scale(0.49)"/>
-      <use xlink:href="#LatinModernMath-Regular-2212" transform="translate(78.631321 48.426563) scale(0.7)"/>
-      <use xlink:href="#Cmmi10-68" transform="translate(145.382328 48.426563) scale(0.7)"/>
-      <use xlink:href="#LatinModernMath-Regular-33" transform="translate(185.714359 39.376875) scale(0.49)"/>
-      <use xlink:href="#Cmmi10-68" transform="translate(0 -41.526094) scale(0.7)"/>
-      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(40.332031 -50.575781) scale(0.49)"/>
-      <use xlink:href="#LatinModernMath-Regular-2b" transform="translate(78.631321 -41.526094) scale(0.7)"/>
-      <use xlink:href="#Cmmi10-68" transform="translate(145.382328 -41.526094) scale(0.7)"/>
-      <use xlink:href="#LatinModernMath-Regular-33" transform="translate(185.714359 -50.575781) scale(0.49)"/>
-      <path d="M 0 13.297344 
-L 0 19.547344 
-L 211.722633 19.547344 
-L 211.722633 13.297344 
-L 0 13.297344 
+      <use xlink:href="#STIXGeneral-BoldItalic-68" transform="translate(0 48.065625) scale(0.7)"/>
+      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(39.447892 39.015938) scale(0.49)"/>
+      <use xlink:href="#LatinModernMath-Regular-2212" transform="translate(77.747181 48.065625) scale(0.7)"/>
+      <use xlink:href="#STIXGeneral-BoldItalic-68" transform="translate(144.498189 48.065625) scale(0.7)"/>
+      <use xlink:href="#LatinModernMath-Regular-33" transform="translate(183.946081 39.015938) scale(0.49)"/>
+      <use xlink:href="#STIXGeneral-BoldItalic-68" transform="translate(0 -42.247969) scale(0.7)"/>
+      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(39.447892 -51.297656) scale(0.49)"/>
+      <use xlink:href="#LatinModernMath-Regular-2b" transform="translate(77.747181 -42.247969) scale(0.7)"/>
+      <use xlink:href="#STIXGeneral-BoldItalic-68" transform="translate(144.498189 -42.247969) scale(0.7)"/>
+      <use xlink:href="#LatinModernMath-Regular-33" transform="translate(183.946081 -51.297656) scale(0.49)"/>
+      <path d="M 0 12.936406 
+L 0 19.186406 
+L 209.954354 19.186406 
+L 209.954354 12.936406 
+L 0 12.936406 
 z
 "/>
      </g>
