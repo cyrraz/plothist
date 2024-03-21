@@ -82,7 +82,7 @@ The range has been updated for all the variables in ``variables_keys``. The ``ya
         bins: 50
         range:
         - -10.55227774892869    # min(df["variable_0"])
-        - 10.04658448558009     # max(df["variable_0"])
+        - 10.466969429141495     # max(df["variable_0"]) + bin_width
         label: variable_0
         log: false
         legend_location: best
@@ -126,7 +126,7 @@ This will add the new properties to the ``yaml`` file to all the variables in ``
         bins: 50
         range:
         - -10.55227774892869
-        - 10.04658448558009
+        - 10.466969429141495
         label: variable_0
         log: false
         legend_location: best
