@@ -1,7 +1,15 @@
 import boost_histogram as bh
 import numpy as np
-
 import warnings
+
+
+# Define a custom warning for range issues
+class RangeWarning(Warning):
+    pass
+
+
+# Always show the range warnings
+warnings.filterwarnings("always", category=RangeWarning)
 
 
 def create_axis(bins, range=None, data=np.array([])):
@@ -51,7 +59,11 @@ def create_axis(bins, range=None, data=np.array([])):
                 "Please supply a range or provide data."
             )
         x_min = min(data) if range[0] == "min" else range[0]
-        x_max = max(data)+((max(data)-min(data))/(bins-1)) if range[1] == "max" else range[1]
+        x_max = (
+            max(data) + ((max(data) - min(data)) / (bins - 1))
+            if range[1] == "max"
+            else range[1]
+        )
         if x_min > x_max:
             raise ValueError(
                 f"Range of [{x_min}, {x_max}] is not valid. Max must be larger than min."
@@ -62,7 +74,7 @@ def create_axis(bins, range=None, data=np.array([])):
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0, 1
     else:
-        x_min, x_max = min(data), max(data)+((max(data)-min(data))/(bins-1))
+        x_min, x_max = min(data), max(data) + ((max(data) - min(data)) / (bins - 1))
         if not (np.isfinite(x_min) and np.isfinite(x_max)):
             raise ValueError(f"Autodetected range of [{x_min}, {x_max}] is not finite.")
 
@@ -113,7 +125,9 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
         # Issue a warning in more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}). Note that the upper edge is exclusive."
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}). Note that the upper edge is exclusive.",
+                category=RangeWarning,
+                stacklevel=2,
             )
 
     return h
@@ -173,7 +187,9 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
         # Issue a warning in more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}), [{y_axis.edges[0]}, {y_axis.edges[-1]})). Note that the upper edges are exclusive."
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}), [{y_axis.edges[0]}, {y_axis.edges[-1]})). Note that the upper edges are exclusive.",
+                category=RangeWarning,
+                stacklevel=2,
             )
 
     return h
