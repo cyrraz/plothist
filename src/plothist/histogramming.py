@@ -21,7 +21,7 @@ def create_axis(bins, range=None, data=np.array([])):
     bins : int or array-like
         The number of bins or bin edges for the axis.
     range : None or tuple, optional
-        The range of the axis. If None, it will be determined based on the data.
+        The range of the axis. If None, it will return the interval [min(data), max(data)+bin_width] if bins > 1, otherwise [min(data), max(data)]. The additional bin width is added to the max value to avoid data points falling on the upper edge of the last bin, which is exclusive for boost-histogram.
     data : array-like, optional
         The input data for determining the axis range. Default is an empty array.
 
@@ -38,6 +38,8 @@ def create_axis(bins, range=None, data=np.array([])):
     ValueError
         If the range parameter is invalid or not finite.
     ValueError
+        If the number of bins is not positive.
+    ValueError
         If the range parameter contains "min" or "max" but the data is empty.
     """
 
@@ -51,6 +53,9 @@ def create_axis(bins, range=None, data=np.array([])):
             warnings.warn(f"Custom binning -> ignore supplied range ({range}).")
         return bh.axis.Variable(bins)
 
+    if bins <= 0:
+        raise ValueError(f"Number of bins must be positive, but got {bins}.")
+
     # Inspired from np.histograms
     if range is not None:
         if len(data) == 0 and (range[0] == "min" or range[1] == "max"):
@@ -59,11 +64,13 @@ def create_axis(bins, range=None, data=np.array([])):
                 "Please supply a range or provide data."
             )
         x_min = min(data) if range[0] == "min" else range[0]
-        x_max = (
-            max(data) + ((max(data) - min(data)) / (bins - 1))
-            if range[1] == "max"
-            else range[1]
-        )
+        if range[1] == "max":
+            if bins == 1:
+                x_max = max(data)
+            else:
+                x_max = max(data) + ((max(data) - min(data)) / (bins - 1))
+        else:
+            x_max = range[1]
         if x_min > x_max:
             raise ValueError(
                 f"Range of [{x_min}, {x_max}] is not valid. Max must be larger than min."
@@ -74,7 +81,11 @@ def create_axis(bins, range=None, data=np.array([])):
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0, 1
     else:
-        x_min, x_max = min(data), max(data) + ((max(data) - min(data)) / (bins - 1))
+        x_min = min(data)
+        if bins == 1:
+            x_max = max(data)
+        else:
+            x_max = max(data) + ((max(data) - min(data)) / (bins - 1))
         if not (np.isfinite(x_min) and np.isfinite(x_max)):
             raise ValueError(f"Autodetected range of [{x_min}, {x_max}] is not finite.")
 
