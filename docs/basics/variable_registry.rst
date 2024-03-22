@@ -65,7 +65,7 @@ Update the registry
 Ranges
 ------
 
-The :func:`update_variable_registry_ranges <plothist.variable_registry.update_variable_registry_ranges>` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
+The :func:`update_variable_registry_ranges <plothist.variable_registry.update_variable_registry_ranges>` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max+bin_width`` values of the variable in the dataset:
 
 .. code-block:: python
 

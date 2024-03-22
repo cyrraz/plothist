@@ -21,7 +21,7 @@ def create_axis(bins, range=None, data=np.array([])):
     bins : int or array-like
         The number of bins or bin edges for the axis.
     range : None or tuple, optional
-        The range of the axis. If None, it will return the interval [min(data), max(data)+bin_width] if bins > 1, otherwise [min(data), max(data)]. The additional bin width is added to the max value to avoid data points falling on the upper edge of the last bin, which is exclusive for boost-histogram.
+        The range of the axis. If None or ["min", "max"], it will return the interval [min(data), max(data)+bin_width] if bins > 1, otherwise [min(data), max(data)]. The additional bin width is added to the max value to avoid data points falling on the upper edge of the last bin, which is exclusive for boost-histogram.
     data : array-like, optional
         The input data for determining the axis range. Default is an empty array.
 
