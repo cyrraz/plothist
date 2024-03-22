@@ -212,7 +212,7 @@ Now, if you do not want to show nor take into account the model uncertainties, s
     To plot the uncertainty of the model as a hashed area, as done in :func:`plot_model() <plothist.plotters.plot_model>`, you can use the standalone function :func:`plot_hist_uncertainties() <plothist.plotters.plot_hist_uncertainties>`.
 
 .. note::
-    In the two examples above, the bin width is hardcoded in the `ylabel`. With boost-histogram, it is possible to get the bin width from the histogram using `h.axes[0].widths[0]`.
+    In the two examples above, the bin width is hardcoded in the `ylabel`. For a 1D histogram with a regular binning, it is possible to get the bin width from the ``boost_histogram.Histogram`` object using ``h.axes[0].widths[0]``.
 
 Comparison overview
 ===================
