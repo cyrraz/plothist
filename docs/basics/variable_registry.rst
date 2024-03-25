@@ -65,7 +65,7 @@ Update the registry
 Ranges
 ------
 
-The :func:`update_variable_registry_ranges <plothist.variable_registry.update_variable_registry_ranges>` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max+bin_width`` values of the variable in the dataset:
+The :func:`update_variable_registry_ranges <plothist.variable_registry.update_variable_registry_ranges>` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
 
 .. code-block:: python
 
@@ -82,7 +82,7 @@ The range has been updated for all the variables in ``variables_keys``. The ``ya
         bins: 50
         range:
         - -10.55227774892869    # min(df["variable_0"])
-        - 10.466969429141495     # max(df["variable_0"]) + bin_width
+        - 10.04658448558009     # max(df["variable_0"])
         label: variable_0
         log: false
         legend_location: best
@@ -126,7 +126,7 @@ This will add the new properties to the ``yaml`` file to all the variables in ``
         bins: 50
         range:
         - -10.55227774892869
-        - 10.466969429141495
+        - 10.04658448558009
         label: variable_0
         log: false
         legend_location: best
