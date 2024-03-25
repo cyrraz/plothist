@@ -12,7 +12,7 @@ class RangeWarning(Warning):
 warnings.filterwarnings("always", category=RangeWarning)
 
 
-def create_axis(bins, range=None, data=np.array([])):
+def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=False):
     """
     Create an axis object for histogram binning based on the input data and parameters.
 
@@ -24,6 +24,10 @@ def create_axis(bins, range=None, data=np.array([])):
         The range of the axis. If None or ["min", "max"], it will return the interval [min(data), max(data)+bin_width] if bins > 1, otherwise [min(data), max(data)]. The additional bin width is added to the max value to avoid data points falling on the upper edge of the last bin, which is exclusive for boost-histogram.
     data : array-like, optional
         The input data for determining the axis range. Default is an empty array.
+    overflow : bool, optional
+        Whether to include overflow bins. If False, the upper edge of the last bin is inclusive. Default is False.
+    underflow : bool, optional
+        Whether to include underflow bins. Default is False.
 
     Returns
     -------
@@ -51,7 +55,7 @@ def create_axis(bins, range=None, data=np.array([])):
     if N > 1:
         if range is not None:
             warnings.warn(f"Custom binning -> ignore supplied range ({range}).")
-        return bh.axis.Variable(bins)
+        return bh.axis.Variable(bins, overflow=overflow, underflow=underflow)
 
     if bins <= 0:
         raise ValueError(f"Number of bins must be positive, but got {bins}.")
@@ -64,13 +68,7 @@ def create_axis(bins, range=None, data=np.array([])):
                 "Please supply a range or provide data."
             )
         x_min = min(data) if range[0] == "min" else range[0]
-        if range[1] == "max":
-            if bins == 1:
-                x_max = max(data)
-            else:
-                x_max = max(data) + ((max(data) - min(data)) / (bins - 1))
-        else:
-            x_max = range[1]
+        x_max = max(data) if range[1] == "max" else range[1]
         if x_min > x_max:
             raise ValueError(
                 f"Range of [{x_min}, {x_max}] is not valid. Max must be larger than min."
@@ -82,10 +80,7 @@ def create_axis(bins, range=None, data=np.array([])):
         x_min, x_max = 0, 1
     else:
         x_min = min(data)
-        if bins == 1:
-            x_max = max(data)
-        else:
-            x_max = max(data) + ((max(data) - min(data)) / (bins - 1))
+        x_max = max(data)
         if not (np.isfinite(x_min) and np.isfinite(x_max)):
             raise ValueError(f"Autodetected range of [{x_min}, {x_max}] is not finite.")
 
@@ -94,7 +89,7 @@ def create_axis(bins, range=None, data=np.array([])):
         x_min = x_min - 0.5
         x_max = x_max + 0.5
 
-    return bh.axis.Regular(bins, x_min, x_max)
+    return bh.axis.Regular(bins, x_min, x_max, overflow=overflow, underflow=underflow)
 
 
 def make_hist(data=np.array([]), bins=50, range=None, weights=1):
@@ -122,6 +117,11 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     -------
     histogram : boost_histogram.Histogram
         The filled histogram object.
+
+    Warns
+    -----
+    RangeWarning
+        If more than 1% of the data is outside of the binning range.
     """
 
     axis = create_axis(bins, range, data)
@@ -131,12 +131,18 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     if len(data) > 0:
         h.fill(data, weight=weights, threads=0)
 
-        # Check what proportion of the data is in the underflow and overflow bins
-        range_coverage = h.values().sum() / h.values(flow=True).sum()
-        # Issue a warning in more than 1% of the data is outside of the binning range
+        # Check what proportion of the data outside of the binning range
+        if isinstance(weights, (int, float)):
+            n_data = len(data)*weights
+        else:
+            n_data = np.sum(np.array(weights))
+
+        range_coverage = np.sum(h.counts()) / n_data
+
+        # Issue a warning if more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}). Note that the upper edge is exclusive.",
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}].",
                 category=RangeWarning,
                 stacklevel=2,
             )
@@ -175,6 +181,11 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     ------
     ValueError
         If the data does not have two components or if the lengths of x and y are not equal.
+
+    Warns
+    -----
+    RangeWarning
+        If more than 1% of the data is outside of the binning range.
     """
     if len(data) != 2:
         raise ValueError("data should have two components, x and y")
@@ -193,12 +204,18 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     if len(data[0]) > 0:
         h.fill(*data, weight=weights, threads=0)
 
-        # Check what proportion of the data is in the underflow and overflow bins
-        range_coverage = h.values().sum() / h.values(flow=True).sum()
-        # Issue a warning in more than 1% of the data is outside of the binning range
+        # Check what proportion of the data outside of the binning range
+        if isinstance(weights, (int, float)):
+            n_data = len(data[0]) * weights
+        else:
+            n_data = np.sum(np.array(weights))
+
+        range_coverage = np.sum(h.counts()) / n_data
+
+        # Issue a warning if more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}), [{y_axis.edges[0]}, {y_axis.edges[-1]})). Note that the upper edges are exclusive.",
+                f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}], [{y_axis.edges[0]}, {y_axis.edges[-1]}]).",
                 category=RangeWarning,
                 stacklevel=2,
             )
