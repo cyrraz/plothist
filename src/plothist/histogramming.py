@@ -25,9 +25,9 @@ def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=F
     data : array-like, optional
         The input data for determining the axis range. Default is an empty array.
     overflow : bool, optional
-        Whether to include overflow bins. If False, the upper edge of the last bin is inclusive. Default is False.
+        Whether to include an overflow bin. If False, the upper edge of the last bin is inclusive. Default is False.
     underflow : bool, optional
-        Whether to include underflow bins. Default is False.
+        Whether to include an underflow bin. Default is False.
 
     Returns
     -------
@@ -54,8 +54,10 @@ def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=F
 
     if N > 1:
         if range is not None:
-            warnings.warn(f"Custom binning -> ignore supplied range ({range}).")
-        return bh.axis.Variable(bins, overflow=overflow, underflow=underflow)
+            warnings.warn(
+                f"Custom binning -> ignore supplied range ({range}).", stacklevel=2
+            )
+        return bh.axis.Variable(bins, underflow=underflow, overflow=overflow)
 
     if bins <= 0:
         raise ValueError(f"Number of bins must be positive, but got {bins}.")
@@ -89,7 +91,7 @@ def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=F
         x_min = x_min - 0.5
         x_max = x_max + 0.5
 
-    return bh.axis.Regular(bins, x_min, x_max, overflow=overflow, underflow=underflow)
+    return bh.axis.Regular(bins, x_min, x_max, underflow=underflow, overflow=overflow)
 
 
 def make_hist(data=np.array([]), bins=50, range=None, weights=1):
@@ -132,10 +134,11 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
         h.fill(data, weight=weights, threads=0)
 
         # Check what proportion of the data outside of the binning range
-        if isinstance(weights, (int, float)):
-            n_data = len(data) * weights
-        else:
-            n_data = np.sum(np.array(weights))
+        n_data = (
+            len(data) * weights
+            if isinstance(weights, (int, float))
+            else np.sum(np.as_array(weights))
+        )
 
         range_coverage = h.sum().value / n_data
 
@@ -205,10 +208,11 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
         h.fill(*data, weight=weights, threads=0)
 
         # Check what proportion of the data outside of the binning range
-        if isinstance(weights, (int, float)):
-            n_data = len(data[0]) * weights
-        else:
-            n_data = np.sum(np.array(weights))
+        n_data = (
+            len(data[0]) * weights
+            if isinstance(weights, (int, float))
+            else np.sum(np.as_array(weights))
+        )
 
         range_coverage = h.sum().value / n_data
 

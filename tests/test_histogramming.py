@@ -20,7 +20,7 @@ def test_make_hist():
 
 def test_upper_edge_inclusive():
     """
-    Check that upper egde of last bin is inclusive by default.
+    Check that upper edge of last bin is inclusive by default.
     This comes from the fact that make_hist() turns off the underflow and overflow bins by default.
     """
 
@@ -40,7 +40,7 @@ def test_upper_edge_inclusive():
 
 def test_upper_edge_exclusive():
     """
-    Check that upper egde of last bin is exclusive when overflow=True.
+    Check that upper edge of last bin is exclusive when overflow=True.
     """
 
     data = [0] * 3 + [1] * 4 + [2] * 5 + [3] * 6 + [4] * 7 + [5] * 8
