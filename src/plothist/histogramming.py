@@ -133,11 +133,11 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
 
         # Check what proportion of the data outside of the binning range
         if isinstance(weights, (int, float)):
-            n_data = len(data)*weights
+            n_data = len(data) * weights
         else:
             n_data = np.sum(np.array(weights))
 
-        range_coverage = np.sum(h.counts()) / n_data
+        range_coverage = h.sum().value / n_data
 
         # Issue a warning if more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
@@ -210,7 +210,7 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
         else:
             n_data = np.sum(np.array(weights))
 
-        range_coverage = np.sum(h.counts()) / n_data
+        range_coverage = h.sum().value / n_data
 
         # Issue a warning if more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
