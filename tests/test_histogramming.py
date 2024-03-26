@@ -32,10 +32,8 @@ def test_upper_edge_inclusive():
 
     expected = [6, 8, 10, 12, 30]
 
-    assert np.array_equal(h1.values(), expected)
-    assert np.array_equal(h2.values(), expected)
-    assert np.array_equal(h3.values(), expected)
-    assert np.array_equal(h4.values(), expected)
+    for h in [h1, h2, h3, h4]:
+        assert np.array_equal(h.values(), expected)
 
 
 def test_upper_edge_exclusive():
@@ -76,16 +74,8 @@ def test_upper_edge_exclusive():
 
     expected = [6, 8, 10, 12, 14]
 
-    assert np.array_equal(h1.values(), expected)
-    assert np.array_equal(h2.values(), expected)
-    assert np.array_equal(h3.values(), expected)
-    assert np.array_equal(h4.values(), expected)
-    assert np.array_equal(h5.values(), expected)
-    assert np.array_equal(h6.values(), expected)
-    assert np.array_equal(h7.values(), expected)
-    assert np.array_equal(h8.values(), expected)
-    assert np.array_equal(h9.values(), expected)
-    assert np.array_equal(h10.values(), expected)
+    for h in [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10]:
+        assert np.array_equal(h.values(), expected)
 
 
 def test_range_coverage_warning():
@@ -93,5 +83,13 @@ def test_range_coverage_warning():
     warn_message = r"Only 80.00% of data contained in the binning range [0.0, 5.0]."
 
     with warns(Warning) as warn_info:
-        h = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5))
+        _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5))
+    assert str(warn_info[0].message) == warn_message
+
+    with warns(Warning) as warn_info:
+        _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5), weights=2)
+    assert str(warn_info[0].message) == warn_message
+
+    with warns(Warning) as warn_info:
+        _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5), weights=[2] * 5)
     assert str(warn_info[0].message) == warn_message
