@@ -137,7 +137,7 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
         n_data = (
             len(data) * weights
             if isinstance(weights, (int, float))
-            else np.sum(np.as_array(weights))
+            else np.sum(np.asarray(weights))
         )
 
         range_coverage = h.sum().value / n_data
@@ -211,7 +211,7 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
         n_data = (
             len(data[0]) * weights
             if isinstance(weights, (int, float))
-            else np.sum(np.as_array(weights))
+            else np.sum(np.asarray(weights))
         )
 
         range_coverage = h.sum().value / n_data
