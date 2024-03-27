@@ -258,3 +258,32 @@ Note that most functions in ``plothist`` work only with counting histograms and 
 .. image:: ../img/1d_profile.svg
     :alt: Profile plot
     :width: 500
+
+Histogram with category axis
+============================
+
+The function :func:`make_hist() <plothist.histogramming.make_hist>` returns a a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/user-guide/histogram.html>`_ with a regular or a variable axis, but the ``boost_histogram`` package also supports categorical axes.
+
+The examples below show how to create a histogram with a category axis in ``boost_histogram`` and plot it with ``plothist``.
+
+Integer category
+----------------
+
+.. literalinclude:: ../examples/1d_hist/1d_int_category.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/1d_int_category.svg
+    :alt: Profile plot
+    :width: 500
+
+String category
+---------------
+
+.. literalinclude:: ../examples/1d_hist/1d_str_category.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/1d_str_category.svg
+    :alt: Profile plot
+    :width: 500
