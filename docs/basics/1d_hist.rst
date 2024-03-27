@@ -269,8 +269,8 @@ The examples below show how to create a histogram with a category axis in ``boos
 
 .. note::
     When we create the histograms in the examples below, we use the argument ``storage=bh.storage.Weight()``.
-    This is because functions in ``plothist`` assume histograms with a storage supporting weighted data in which the variance of each bin is tracked (more details `here <https://boost-histogram.readthedocs.io/en/latest/api/boost_histogram.html#boost_histogram._internal.hist.Histogram.variances>`_).
-    When creating histograms with regular or variable axes with the function :func:`make_hist() <plothist.histogramming.make_hist>`, as in most  of the above examples, the storage is automatically set to ``bh.storage.Weight()``, so the user does not have to worry about it.
+    This is because the functions in ``plothist`` assume histograms with a storage that supports weighted data, where the variance of each bin is tracked (more details `here < https://boost-histogram.readthedocs.io/en/latest/user-guide/storage.html#weight>`_ and `there <https://boost-histogram.readthedocs.io/en/latest/api/boost_histogram.html#boost_histogram._internal.hist.Histogram.variances>`_).
+    When creating histograms with regular or variable axes with the function :func:`make_hist() <plothist.histogramming.make_hist>`, as in most of the above examples, the storage is automatically set to ``bh.storage.Weight()``, so the user does not have to worry about it.
 
 
 Integer category
