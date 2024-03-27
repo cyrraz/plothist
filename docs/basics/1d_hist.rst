@@ -248,10 +248,47 @@ In this example, the data points and the error bars are the average value and th
 
 Note that most functions in ``plothist`` work only with counting histograms and will raise an error if you try to use them with a mean histogram.
 
+
 .. literalinclude:: ../examples/1d_hist/1d_profile.py
     :language: python
     :start-after: ###
 
 .. image:: ../img/1d_profile.svg
     :alt: Profile plot
+    :width: 500
+
+Histogram with category axis
+============================
+
+The function :func:`make_hist() <plothist.histogramming.make_hist>` returns a a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/user-guide/histogram.html>`_ with a regular or a variable axis, but the ``boost_histogram`` package also supports categorical axes.
+
+The examples below show how to create a histogram with a category axis in ``boost_histogram`` and plot it with ``plothist``.
+
+
+Integer category
+----------------
+
+.. literalinclude:: ../examples/1d_hist/1d_int_category.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/1d_int_category.svg
+    :alt: Integer category plot
+    :width: 500
+
+.. note::
+    When we create the histograms in this example, we use the argument ``storage=bh.storage.Weight()``.
+    This is because the functions in ``plothist`` assume histograms with a storage that supports weighted data, where the variance of each bin is tracked (more details `here <https://boost-histogram.readthedocs.io/en/latest/user-guide/storage.html#weight>`_ and `there <https://boost-histogram.readthedocs.io/en/latest/api/boost_histogram.html#boost_histogram._internal.hist.Histogram.variances>`_).
+    When creating histograms with regular or variable axes with the function :func:`make_hist() <plothist.histogramming.make_hist>`, as in most of the previous examples, the storage is automatically set to ``bh.storage.Weight()``, so the user does not have to worry about it.
+
+
+String category
+---------------
+
+.. literalinclude:: ../examples/1d_hist/1d_str_category.py
+    :language: python
+    :start-after: ###
+
+.. image:: ../img/1d_str_category.svg
+    :alt: String category plot
     :width: 500
