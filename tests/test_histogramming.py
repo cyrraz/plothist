@@ -1,6 +1,6 @@
 import boost_histogram as bh
 import numpy as np
-from plothist import make_hist
+from plothist import make_hist, make_2d_hist
 from plothist import create_axis
 from pytest import warns
 
@@ -93,3 +93,33 @@ def test_range_coverage_warning():
     with warns(Warning) as warn_info:
         _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5), weights=[2] * 5)
     assert str(warn_info[0].message) == warn_message
+
+    warn_message_2d = (
+        r"Only 80.00% of data contained in the binning range ([0.0, 5.0], [0.0, 5.0])."
+    )
+
+    with warns(Warning) as warn_info:
+        _ = make_2d_hist(
+            data=[[0, 1, 2, 3, 10], [0, 1, 2, 3, 10]],
+            bins=(5, 5),
+            range=((0, 5), (0, 5)),
+        )
+    assert str(warn_info[0].message) == warn_message_2d
+
+    with warns(Warning) as warn_info:
+        _ = make_2d_hist(
+            data=[[0, 1, 2, 3, 10], [0, 1, 2, 3, 10]],
+            bins=(5, 5),
+            range=((0, 5), (0, 5)),
+            weights=2,
+        )
+    assert str(warn_info[0].message) == warn_message_2d
+
+    with warns(Warning) as warn_info:
+        _ = make_2d_hist(
+            data=[[0, 1, 2, 3, 10], [0, 1, 2, 3, 10]],
+            bins=(5, 5),
+            range=((0, 5), (0, 5)),
+            weights=[2] * 5,
+        )
+    assert str(warn_info[0].message) == warn_message_2d
