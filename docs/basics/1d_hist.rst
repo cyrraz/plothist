@@ -251,6 +251,7 @@ In this example, the data points and the error bars are the average value and th
 
 Note that most functions in ``plothist`` work only with counting histograms and will raise an error if you try to use them with a mean histogram.
 
+
 .. literalinclude:: ../examples/1d_hist/1d_profile.py
     :language: python
     :start-after: ###
@@ -265,6 +266,12 @@ Histogram with category axis
 The function :func:`make_hist() <plothist.histogramming.make_hist>` returns a a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/user-guide/histogram.html>`_ with a regular or a variable axis, but the ``boost_histogram`` package also supports categorical axes.
 
 The examples below show how to create a histogram with a category axis in ``boost_histogram`` and plot it with ``plothist``.
+
+.. note::
+    When we create the histograms in the examples below, we use the argument ``storage=bh.storage.Weight()``.
+    This is because functions in ``plothist`` assume histograms with a storage supporting weighted data in which the variance of each bin is tracked.
+    When creating histograms with regular or variable axes with the function :func:`make_hist() <plothist.histogramming.make_hist>`, as in most  of the above examples, the storage is automatically set to ``bh.storage.Weight()``, so the user does not have to worry about it.
+
 
 Integer category
 ----------------
