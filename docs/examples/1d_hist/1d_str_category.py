@@ -29,6 +29,7 @@ fig, ax = plt.subplots()
 
 plot_hist(h, ax=ax)
 
+# Set the x-ticks to the middle of the bins and label them
 ax.set_xticks([i + 0.5 for i in range(len(str_categories))])
 ax.set_xticklabels(str_categories)
 ax.minorticks_off()
