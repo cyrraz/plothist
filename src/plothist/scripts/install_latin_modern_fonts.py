@@ -3,6 +3,24 @@ import os
 import platform
 from pathlib import PosixPath
 import time
+import re
+
+
+def _get_wget_version():
+    try:
+        version_string = subprocess.check_output(
+            ["wget", "--version"], universal_newlines=True
+        )
+        version_match = re.search(r"(\d+\.\d+\.\d+)", version_string)
+        if not version_match:
+            version_match = re.search(r"(\d+\.\d+)", version_string)
+        if version_match:
+            version = version_match.group(1)
+            return tuple(map(int, version.split(".")))
+        else:
+            raise RuntimeError("Could not determine wget version.")
+    except Exception as e:
+        return str(e)
 
 
 def _get_install_command(url, font_directory):
@@ -24,7 +42,9 @@ def _get_install_command(url, font_directory):
     return [
         "wget",
         "--retry-connrefused",  # retry refused connections and similar fatal errors
-        "--retry-on-host-error",  # retry on host errors such as 404 "Not Found"
+        *(
+            ["--retry-on-host-error"] if _get_wget_version() >= (1, 20, 0) else []
+        ),  # retry on host errors such as 404 "Not Found"
         "--waitretry=1",  # wait 1 second before next retry
         "--read-timeout=20",  # wait a maximum of 20 seconds in case no data is received and then try again
         "--timeout=15",  # wait max 15 seconds before the initial connection times out
