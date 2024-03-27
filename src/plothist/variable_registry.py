@@ -233,7 +233,8 @@ def remove_variable_registry_parameters(
                 _ = variable_registry[variable_key].pop(parameter)
             else:
                 warnings.warn(
-                    f"{parameter} parameter not present in the registry {path} for {variable_key}, skipping."
+                    f"{parameter} parameter not present in the registry {path} for {variable_key}, skipping.",
+                    stacklevel=2,
                 )
 
     _save_variable_registry(variable_registry, path=path)

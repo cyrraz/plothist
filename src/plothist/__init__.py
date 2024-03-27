@@ -1,6 +1,6 @@
 """Plot histograms in a scalable way and a beautiful style."""
 
-__version__ = "1.1.2"
+__version__ = "1.2.0"
 
 from .plotters import (
     create_comparison_figure,
@@ -116,3 +116,11 @@ for font_type in ["Math", "Sans", "Roman"]:
             stacklevel=3,
         )
         break
+
+# Check version of boost_histogram
+import boost_histogram as bh
+
+if tuple(int(part) for part in bh.__version__.split(".")) < (1, 4, 0):
+    raise ImportError(
+        "The version of boost_histogram is lower than 1.4.0. Please update to the latest version to avoid issues (pip install --upgrade boost_histogram).",
+    )
