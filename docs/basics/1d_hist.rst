@@ -274,7 +274,7 @@ Integer category
     :start-after: ###
 
 .. image:: ../img/1d_int_category.svg
-    :alt: Profile plot
+    :alt: Integer category plot
     :width: 500
 
 String category
@@ -285,5 +285,5 @@ String category
     :start-after: ###
 
 .. image:: ../img/1d_str_category.svg
-    :alt: Profile plot
+    :alt: String category plot
     :width: 500
