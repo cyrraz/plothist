@@ -153,25 +153,42 @@ def install_latin_modern_fonts():
 
     # Install Latin Modern Roman and Latin Modern Sans
     for lm in ["roman", "sans"]:
-        _download_font(
-            f"https://www.1001fonts.com/download/latin-modern-{lm}.zip",
-            font_directory,
-            f"Latin Modern {lm}",
-        )
-        print(f"Unzipping Latin Modern {lm}...")
+        attempt = 0
+        max_attempt = 10
+        success = False
 
-        subprocess.run(
-            [
-                "unzip",
-                "-o",
-                (font_directory / f"latin-modern-{lm}.zip"),
-                "-d",
-                (font_directory / f"latin-modern-{lm}"),
-            ]
-        )
-        subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
+        while not success and attempt < max_attempt:
+            _download_font(
+                f"https://www.1001fonts.com/download/latin-modern-{lm}.zip",
+                font_directory,
+                f"Latin Modern {lm}",
+            )
+            print(f"Unzipping Latin Modern {lm}...")
+
+            result = subprocess.run(
+                [
+                    "unzip",
+                    "-o",
+                    (font_directory / f"latin-modern-{lm}.zip"),
+                    "-d",
+                    (font_directory / f"latin-modern-{lm}"),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            success = result.returncode == 0
+            if not success:
+                # Print the output to the terminal
+                print("Try", attempt + 1, "of", max_attempt)
+                print("STDOUT:", result.stdout)
+                print("STDERR:", result.stderr)
+                # Increment attempt counter and wait before the next attempt
+                attempt += 1
+                time.sleep(1)
+                subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
 
         print(f"Latin Modern {lm} installed successfully.\n")
+        subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
 
     # Remove font cache
     try:
