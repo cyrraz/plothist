@@ -2,7 +2,6 @@ import os
 import yaml
 import subprocess
 import plothist
-from pytest import fail
 import hashlib
 import warnings
 import sys
@@ -112,6 +111,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
     svg_metadata = "metadata=" + str(svg_metadata)
 
     if check_svg:
+        from pytest import fail
         img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
@@ -150,7 +150,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 capture_output=True,
                 text=True,
             )
-            if result.returncode != 0:
+            if result.returncode != 0 and check_svg:
                 fail(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
 
     # Move the svg files to the img folder

@@ -3,6 +3,36 @@ import os
 import platform
 from pathlib import PosixPath
 import time
+import re
+
+
+def _get_wget_version():
+    """
+    Get the version of wget.
+
+    Returns
+    -------
+    tuple or str
+        The version of wget as a tuple of integers.
+
+    Raises
+    ------
+    RuntimeError
+        If the version of wget could not be determined.
+    """
+    version_string = subprocess.check_output(
+        ["wget", "--version"], universal_newlines=True
+    )
+    # Try to find the version number in the format "XX.XX.XX"
+    version_match = re.search(r"(\d+\.\d+\.\d+)", version_string)
+    if not version_match:
+        # Try to find the version number in the format "XX.XX"
+        version_match = re.search(r"(\d+\.\d+)", version_string)
+    if version_match:
+        version = version_match.group(1)
+        return tuple(map(int, version.split(".")))
+    else:
+        raise RuntimeError("Could not determine wget version.")
 
 
 def _get_install_command(url, font_directory):
@@ -24,7 +54,9 @@ def _get_install_command(url, font_directory):
     return [
         "wget",
         "--retry-connrefused",  # retry refused connections and similar fatal errors
-        "--retry-on-host-error",  # retry on host errors such as 404 "Not Found"
+        *(
+            ["--retry-on-host-error"] if _get_wget_version() >= (1, 20, 0) else []
+        ),  # retry on host errors such as 404 "Not Found"
         "--waitretry=1",  # wait 1 second before next retry
         "--read-timeout=20",  # wait a maximum of 20 seconds in case no data is received and then try again
         "--timeout=15",  # wait max 15 seconds before the initial connection times out
@@ -121,25 +153,42 @@ def install_latin_modern_fonts():
 
     # Install Latin Modern Roman and Latin Modern Sans
     for lm in ["roman", "sans"]:
-        _download_font(
-            f"https://www.1001fonts.com/download/latin-modern-{lm}.zip",
-            font_directory,
-            f"Latin Modern {lm}",
-        )
-        print(f"Unzipping Latin Modern {lm}...")
+        attempt = 0
+        max_attempt = 10
+        success = False
 
-        subprocess.run(
-            [
-                "unzip",
-                "-o",
-                (font_directory / f"latin-modern-{lm}.zip"),
-                "-d",
-                (font_directory / f"latin-modern-{lm}"),
-            ]
-        )
-        subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
+        while not success and attempt < max_attempt:
+            _download_font(
+                f"https://www.1001fonts.com/download/latin-modern-{lm}.zip",
+                font_directory,
+                f"Latin Modern {lm}",
+            )
+            print(f"Unzipping Latin Modern {lm}...")
+
+            result = subprocess.run(
+                [
+                    "unzip",
+                    "-o",
+                    (font_directory / f"latin-modern-{lm}.zip"),
+                    "-d",
+                    (font_directory / f"latin-modern-{lm}"),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            success = result.returncode == 0
+            if not success:
+                # Print the output to the terminal
+                print("Try", attempt + 1, "of", max_attempt)
+                print("STDOUT:", result.stdout)
+                print("STDERR:", result.stderr)
+                # Increment attempt counter and wait before the next attempt
+                attempt += 1
+                time.sleep(1)
+                subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
 
         print(f"Latin Modern {lm} installed successfully.\n")
+        subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
 
     # Remove font cache
     try:
