@@ -23,10 +23,10 @@ def _get_wget_version():
     version_string = subprocess.check_output(
         ["wget", "--version"], universal_newlines=True
     )
-    # Try to find the version number in the format "1.XX.XX"
+    # Try to find the version number in the format "XX.XX.XX"
     version_match = re.search(r"(\d+\.\d+\.\d+)", version_string)
     if not version_match:
-        # Try to find the version number in the format "1.XX"
+        # Try to find the version number in the format "XX.XX"
         version_match = re.search(r"(\d+\.\d+)", version_string)
     if version_match:
         version = version_match.group(1)
