@@ -7,12 +7,27 @@ import re
 
 
 def _get_wget_version():
+    """
+    Get the version of wget.
+
+    Returns
+    -------
+    tuple or str
+        The version of wget as a tuple of integers.
+
+    Raises
+    ------
+    RuntimeError
+        If the version of wget could not be determined.
+    """
     try:
         version_string = subprocess.check_output(
             ["wget", "--version"], universal_newlines=True
         )
+        # Try to find the version number in the format "1.XX.XX"
         version_match = re.search(r"(\d+\.\d+\.\d+)", version_string)
         if not version_match:
+            # Try to find the version number in the format "1.XX"
             version_match = re.search(r"(\d+\.\d+)", version_string)
         if version_match:
             version = version_match.group(1)
