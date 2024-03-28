@@ -34,9 +34,6 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         )
         return 1
 
-    if check_svg:
-        from pytest import fail
-
     plothist_folder = (
         plothist.__path__[0]
         if os.environ.get("PLOTHIST_PATH") is None
@@ -119,6 +116,9 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             if file.endswith(".svg"):
                 with open(os.path.join(img_folder, file), "r") as f:
                     img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
+
+    if check_svg:
+        from pytest import fail
 
     # Iterate through all subfolders and files in the source folder
     for root, dirs, files in os.walk(example_folder):
