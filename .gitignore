@@ -12,3 +12,4 @@ sg_execution_times.rst
 docs/examples/*/*.svg
 example_gallery/
 .svg_metadata.yaml
+tests/*.yaml
