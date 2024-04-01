@@ -7,7 +7,7 @@ from plothist import (
     remove_variable_registry_parameters,
 )
 from pytest import fail, warns, raises
-from pyaml import yaml
+import yaml
 import os
 
 registry_path = "registry.yaml"
