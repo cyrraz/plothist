@@ -98,10 +98,10 @@ Then, you may manually modify the ``yaml`` to get a more suitable range to displ
 Calling this function again on the same variable keys will not overwrite their ``range`` parameter, unless the ``overwrite`` parameter is set to ``True``.
 
 
-Add variable properties
------------------------
+Add or modify variable properties
+---------------------------------
 
-You can also add new plotting properties to the variable by using the :func:`update_variable_registry <plothist.variable_registry.update_variable_registry>` and a custom dictionary:
+You can also add new plotting properties or modify the existing one to the variable by using the :func:`update_variable_registry <plothist.variable_registry.update_variable_registry>` and a custom dictionary:
 
 .. code-block:: python
 
@@ -146,6 +146,8 @@ This will add the new properties to the ``yaml`` file to all the variables in ``
         ...
 
 The same :func:`get_variable_from_registry <plothist.variable_registry.get_variable_from_registry>` function can be used to get the new properties.
+
+To modify extisting properties, you have to call :func:`update_variable_registry <plothist.variable_registry.update_variable_registry>` with the new properties and the ``overwrite`` parameter set to ``True``. It will overwrite the existing properties values with the new ones.
 
 
 Remove parameters
