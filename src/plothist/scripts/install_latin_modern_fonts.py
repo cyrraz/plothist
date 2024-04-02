@@ -185,7 +185,9 @@ def install_latin_modern_fonts():
                 # Increment attempt counter and wait before the next attempt
                 attempt += 1
                 time.sleep(1)
-                subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
+                subprocess.run(
+                    ["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")]
+                )
 
         print(f"Latin Modern {lm} installed successfully.\n")
         subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])

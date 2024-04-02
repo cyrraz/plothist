@@ -23,9 +23,7 @@ def test_variable_registry_warning():
 
     with raises(RuntimeError) as err:
         get_variable_from_registry("variable_0")
-    assert (
-        str(err.value) == "Did you forgot to run create_variable_registry()?"
-    )
+    assert str(err.value) == "Did you forgot to run create_variable_registry()?"
 
 
 def test_variable_registry_creation():
@@ -181,7 +179,7 @@ def test_update_variable_registry_ranges():
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert registry["range"] == [-1, 1]
 
-    # Range values should't be updated as overwrite=False
+    # Range values shouldn't be updated as overwrite=False
     update_variable_registry_ranges(df, ["variable_0"], path=registry_path)
 
     registry = get_variable_from_registry("variable_0", path=registry_path)
