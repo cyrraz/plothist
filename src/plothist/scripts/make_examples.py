@@ -112,6 +112,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     if check_svg:
         from pytest import fail
+
         img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
