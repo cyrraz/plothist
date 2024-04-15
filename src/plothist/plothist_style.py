@@ -293,7 +293,7 @@ def add_luminosity(
 
     Parameters
     ----------
-    collaboration : str, optional
+    collaboration : str
         Collaboration name.
     x : float, optional
         Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0.
