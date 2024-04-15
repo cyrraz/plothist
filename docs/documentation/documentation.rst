@@ -23,8 +23,8 @@ Comparison functions
 .. automodule:: plothist.comparison
    :members:
 
-Variable registry
------------------
+Variable registry functions
+---------------------------
 
 .. automodule:: plothist.variable_registry
    :members:
