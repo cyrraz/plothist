@@ -1031,7 +1031,7 @@ def plot_data_model_comparison(
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
     model_sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
-        Has no effect if all the model components are stacked.
+        Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is {"show": True, "label": "Sum", "color": "navy"}.
     model_uncertainty : bool, optional
