@@ -1121,8 +1121,11 @@ def plot_data_model_comparison(
                 model_hist.values(), np.zeros_like(model_hist.values())
             ]
     else:
+        def sum_components(x):
+            return sum(f(x) for f in model_components)
+
         model_hist = _make_hist_from_function(
-            lambda x: sum(f(x) for f in model_components), data_hist
+            sum_components, data_hist
         )
 
     if comparison_kwargs["comparison"] == "pull" and (
