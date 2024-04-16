@@ -145,8 +145,8 @@ def get_color_palette(cmap, N):
     --------
     cubehelix_palette : Make a sequential palette from the cubehelix system.
     """
-    if N < 2:
-        raise ValueError("The number of colors asked should be >1.")
+    if N < 1:
+        raise ValueError("The number of colors asked should be >0.")
 
     if cmap == "ggplot":
         if N > 7:
@@ -154,16 +154,18 @@ def get_color_palette(cmap, N):
                 f"Only 7 colors are available in the default style cycle ({N} asked).",
             )
         prop_cycle = plt.rcParams["axes.prop_cycle"]
-        colors = [mcolors.hex2color(prop["color"]) for prop in prop_cycle][:N]
+        return [mcolors.hex2color(prop["color"]) for prop in prop_cycle][:N]
 
     elif cmap == "cubehelix":
-        colors = cubehelix_palette(N)
+        return cubehelix_palette(N)
 
-    else:
-        plt_cmap = plt.get_cmap(cmap)
-        colors = plt_cmap(np.linspace(0, 1, N))
+    if N < 2:
+        raise ValueError(
+            "The number of colors asked should be >1 to sequence matplotlib palettes."
+        )
 
-    return colors
+    plt_cmap = plt.get_cmap(cmap)
+    return plt_cmap(np.linspace(0, 1, N))
 
 
 def set_fitting_ylabel_fontsize(ax):
