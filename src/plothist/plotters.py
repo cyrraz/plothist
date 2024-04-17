@@ -815,7 +815,7 @@ def plot_model(
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
     model_sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
-        Has no effect if all the model components are stacked.
+        Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is {"show": True, "label": "Model", "color": "navy"}.
     function_range : tuple, optional (mandatory if the model is made of functions)
@@ -1031,7 +1031,7 @@ def plot_data_model_comparison(
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
     model_sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
-        Has no effect if all the model components are stacked.
+        Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is {"show": True, "label": "Sum", "color": "navy"}.
     model_uncertainty : bool, optional
@@ -1121,9 +1121,11 @@ def plot_data_model_comparison(
                 model_hist.values(), np.zeros_like(model_hist.values())
             ]
     else:
-        model_hist = _make_hist_from_function(
-            lambda x: sum(f(x) for f in model_components), data_hist
-        )
+
+        def sum_components(x):
+            return sum(f(x) for f in model_components)
+
+        model_hist = _make_hist_from_function(sum_components, data_hist)
 
     if comparison_kwargs["comparison"] == "pull" and (
         model_type == "functions" or not model_uncertainty

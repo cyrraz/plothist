@@ -99,8 +99,11 @@ plot_comparison(
     comparison_ylim=(-1, 1),
 )
 
+
 # Define the asymmetry of the 2 functions
-asymmetry = lambda x: (f1(x) - f2(x)) / (f1(x) + f2(x))
+def asymmetry(x):
+    return (f1(x) - f2(x)) / (f1(x) + f2(x))
+
 
 # Plot the asymmetry of the 2 functions
 plot_function(asymmetry, x_range, ax_comparison, color="black")

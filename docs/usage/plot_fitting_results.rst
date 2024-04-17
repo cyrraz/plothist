@@ -228,6 +228,9 @@ A ``pdf_func`` you get from a scipy function or from the saved pickle file for `
 
        return renormalized_pdf
 
+.. note::
+   The renormalize function could also be done with a ``lambda x:`` function, but it should be use with precautions, see `here <https://docs.python.org/3/faq/programming.html#why-do-lambdas-defined-in-a-loop-with-different-values-all-return-the-same-result>`_.
+
 Then you can use :func:`plot_model() <plothist.plotters.plot_model>` or :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` (see :ref:`advanced-asymmetry-label`) to plot the PDF and do all sort of comparisons with the ``plothist`` interface:
 
 .. image:: ../img/asymmetry_comparison_advanced.svg

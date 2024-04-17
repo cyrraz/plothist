@@ -5,32 +5,32 @@ Package references
 ==================
 
 
-histogramming.py
------------
+Histogramming functions
+-----------------------
 
 .. automodule:: plothist.histogramming
    :members:
 
-plotters.py
------------
+Plotting functions
+------------------
 
 .. automodule:: plothist.plotters
    :members:
 
-comparison.py
----------------
+Comparison functions
+--------------------
 
 .. automodule:: plothist.comparison
    :members:
 
-variable_registry.py
------------
+Variable registry functions
+---------------------------
 
 .. automodule:: plothist.variable_registry
    :members:
 
-plothist_style.py
----------------
+Plotting style functions
+------------------------
 
 .. automodule:: plothist.plothist_style
    :members:
