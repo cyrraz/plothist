@@ -19,7 +19,7 @@ plothist
    :width: 320
 
 
-|GitHub Project| |PyPI version| |Docs from latest| |Docs from main| |Code style: black|
+|GitHub Project| |PyPI version| |Docs from main| |DOI| |Code style: black|
 
 
 **Advantages of the package**: scalability, style and user-friendly way of managing variables and a stunning `image gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
