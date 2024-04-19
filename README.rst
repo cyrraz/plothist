@@ -45,9 +45,9 @@ plothist
    :target: https://github.com/cyrraz/plothist
 .. |PyPI version| image:: https://badge.fury.io/py/plothist.svg
    :target: https://badge.fury.io/py/plothist
-.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/psf/black
-.. |Docs from latest| image:: https://img.shields.io/badge/docs-v1.2.2-blue.svg
-   :target: https://plothist.readthedocs.io/en/latest/
 .. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg
    :target: https://plothist.readthedocs.io/en/main/
+.. |DOI| image:: https://zenodo.org/badge/647069945.svg
+  :target: https://zenodo.org/doi/10.5281/zenodo.10995667
+.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
