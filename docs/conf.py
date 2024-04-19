@@ -12,24 +12,14 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
 import sys
-
-# sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
 import subprocess
 
-subprocess.check_call(["pip", "install", "sphinx-gallery"])
-subprocess.check_call(["pip", "install", "flit"])
-subprocess.check_call(["pip", "install", "matplotlib"])
-subprocess.check_call(["pip", "install", "boost_histogram"])
-subprocess.check_call(["pip", "install", "PyYAML"])
-subprocess.check_call(["pip", "install", "sphinx_rtd_theme"])
 subprocess.check_call(["flit", "install", "-s"], cwd="../")
-from sphinx_gallery.sorting import FileNameSortKey
 
 project = "plothist"
 copyright = "2023-2024, Cyrille Praz, Tristan Fillinger"
@@ -75,7 +65,7 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -213,8 +203,6 @@ sphinx_gallery_conf = {
         ]
     ),
     "nested_sections": False,
-    # specify that examples should be ordered according to filename
-    # 'within_subsection_order': FileNameSortKey,
     "inspect_global_variables": False,
     # 'thumbnail_size': (600, 400),
     "reset_modules": (reset_mpl),
