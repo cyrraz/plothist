@@ -1,6 +1,6 @@
-sphinx-gallery
-matplotlib
 boost_histogram
-PyYAML
-sphinx_rtd_theme
 flit
+matplotlib
+PyYAML
+sphinx-gallery
+sphinx_rtd_theme
