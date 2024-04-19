@@ -19,7 +19,7 @@ plothist
    :width: 320
 
 
-|GitHub Project| |PyPI version| |Docs from main| |DOI| |Code style: black|
+|GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Code style: black|
 
 
 **Advantages of the package**: scalability, style and user-friendly way of managing variables and a stunning `image gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
@@ -47,7 +47,9 @@ plothist
    :target: https://badge.fury.io/py/plothist
 .. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg
    :target: https://plothist.readthedocs.io/en/main/
+.. |Discussion| image:: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
+   :target: https://github.com/cyrraz/plothist/discussions
 .. |DOI| image:: https://zenodo.org/badge/647069945.svg
-  :target: https://zenodo.org/doi/10.5281/zenodo.10995667
+   :target: https://zenodo.org/doi/10.5281/zenodo.10995667
 .. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
