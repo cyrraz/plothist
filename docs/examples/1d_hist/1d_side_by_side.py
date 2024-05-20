@@ -15,16 +15,18 @@ import plothist  # For the style
 np.random.seed(8311311)
 
 # Integer categories
-int_categories = [-5, 10, 137]
+categories = ["A", "B", "C"]
+## Work also with integers
+# categories = [-5, 10, 137]
 
-# Xis with the 3 bins
-axis = bh.axis.IntCategory(categories=int_categories)
+# Axis with the 3 bins
+axis = bh.axis.StrCategory(categories=categories)
 
 # Generate data for 3 histograms
 data = [
-    np.random.choice(int_categories, 15),
-    np.random.choice(int_categories, 15),
-    np.random.choice(int_categories, 15),
+    np.random.choice(categories, 15),
+    np.random.choice(categories, 15),
+    np.random.choice(categories, 15),
 ]
 
 # Create and fill the histograms
