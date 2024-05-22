@@ -10,7 +10,7 @@ Plot multiple 1d histogram with categories side by side.
 import boost_histogram as bh
 import numpy as np
 import matplotlib.pyplot as plt
-import plothist  # For the style
+import plothist
 
 rng = np.random.default_rng(8311311)
 

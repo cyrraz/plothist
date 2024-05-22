@@ -56,3 +56,19 @@ Compare data and stacked histogram for a flatten 2D variable:
 .. literalinclude:: ../examples/advanced/model_examples_flatten2D.py
     :language: python
     :start-after: ###
+
+
+
+Side-by-side categorical histograms
+===================================
+
+Here is an example to put three histograms side by side with a categorical axis and boost-histogram:
+
+.. image:: ../img/1d_side_by_side.svg
+    :alt: Side by side histograms
+    :width: 500
+
+.. literalinclude:: ../examples/advanced/1d_side_by_side.py
+    :language: python
+    :start-after: ###
+

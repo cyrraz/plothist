@@ -292,17 +292,3 @@ String category
 .. image:: ../img/1d_str_category.svg
     :alt: String category plot
     :width: 500
-
-
-Side-by-side histograms
------------------------
-
-Here is an example to put three histograms side by side with a categorical axis and boost-histogram:
-
-.. literalinclude:: ../examples/1d_hist/1d_side_by_side.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/1d_side_by_side.svg
-    :alt: Side by side histograms
-    :width: 500
