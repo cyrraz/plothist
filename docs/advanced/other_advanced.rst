@@ -71,4 +71,3 @@ Here is an example to put three histograms side by side with a categorical axis 
 .. literalinclude:: ../examples/advanced/1d_side_by_side.py
     :language: python
     :start-after: ###
-
