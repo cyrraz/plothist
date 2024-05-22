@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plothist  # For the style
 
-np.random.seed(8311311)
+rng = np.random.default_rng(8311311)
 
 # Integer categories
 categories = ["A", "B", "C"]
@@ -24,9 +24,9 @@ axis = bh.axis.StrCategory(categories=categories)
 
 # Generate data for 3 histograms
 data = [
-    np.random.choice(categories, 15),
-    np.random.choice(categories, 15),
-    np.random.choice(categories, 15),
+    rng.choice(categories, 20),
+    rng.choice(categories, 30),
+    rng.choice(categories, 40),
 ]
 
 # Create and fill the histograms

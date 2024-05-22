@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="391.18625pt" height="285.084219pt" viewBox="0 0 391.18625 285.084219" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="402.88625pt" height="279.87875pt" viewBox="0 0 402.88625 279.87875" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -18,112 +18,112 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 285.084219 
-L 391.18625 285.084219 
-L 391.18625 0 
+   <path d="M 0 279.87875 
+L 402.88625 279.87875 
+L 402.88625 0 
 L 0 0 
 z
 " style="fill: #ffffff"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 49.18625 234.165469 
-L 383.98625 234.165469 
-L 383.98625 12.405469 
-L 49.18625 12.405469 
+    <path d="M 60.88625 228.96 
+L 395.68625 228.96 
+L 395.68625 7.2 
+L 60.88625 7.2 
 z
 " style="fill: #ffffff"/>
    </g>
    <g id="patch_3">
-    <path d="M 64.404432 234.165469 
-L 90.707462 234.165469 
-L 90.707462 49.365469 
-L 64.404432 49.365469 
+    <path d="M 76.104432 228.96 
+L 102.407462 228.96 
+L 102.407462 124.602353 
+L 76.104432 124.602353 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #348abd"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #348abd"/>
    </g>
    <g id="patch_4">
-    <path d="M 177.131705 234.165469 
-L 203.434735 234.165469 
-L 203.434735 160.245469 
-L 177.131705 160.245469 
+    <path d="M 188.831705 228.96 
+L 215.134735 228.96 
+L 215.134735 176.781176 
+L 188.831705 176.781176 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #348abd"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #348abd"/>
    </g>
    <g id="patch_5">
-    <path d="M 289.858977 234.165469 
-L 316.162008 234.165469 
-L 316.162008 215.685469 
-L 289.858977 215.685469 
+    <path d="M 301.558977 228.96 
+L 327.862008 228.96 
+L 327.862008 124.602353 
+L 301.558977 124.602353 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #348abd"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #348abd"/>
    </g>
    <g id="patch_6">
-    <path d="M 90.707462 234.165469 
-L 117.010492 234.165469 
-L 117.010492 86.325469 
-L 90.707462 86.325469 
+    <path d="M 102.407462 228.96 
+L 128.710492 228.96 
+L 128.710492 98.512941 
+L 102.407462 98.512941 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #e24a33"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #e24a33"/>
    </g>
    <g id="patch_7">
-    <path d="M 203.434735 234.165469 
-L 229.737765 234.165469 
-L 229.737765 178.725469 
-L 203.434735 178.725469 
+    <path d="M 215.134735 228.96 
+L 241.437765 228.96 
+L 241.437765 124.602353 
+L 215.134735 124.602353 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #e24a33"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #e24a33"/>
    </g>
    <g id="patch_8">
-    <path d="M 316.162008 234.165469 
-L 342.465038 234.165469 
-L 342.465038 160.245469 
-L 316.162008 160.245469 
+    <path d="M 327.862008 228.96 
+L 354.165038 228.96 
+L 354.165038 72.423529 
+L 327.862008 72.423529 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #e24a33"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #e24a33"/>
    </g>
    <g id="patch_9">
-    <path d="M 117.010492 234.165469 
-L 143.313523 234.165469 
-L 143.313523 178.725469 
-L 117.010492 178.725469 
+    <path d="M 128.710492 228.96 
+L 155.013523 228.96 
+L 155.013523 33.289412 
+L 128.710492 33.289412 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #988ed5"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #988ed5"/>
    </g>
    <g id="patch_10">
-    <path d="M 229.737765 234.165469 
-L 256.040795 234.165469 
-L 256.040795 104.805469 
-L 229.737765 104.805469 
+    <path d="M 241.437765 228.96 
+L 267.740795 228.96 
+L 267.740795 46.334118 
+L 241.437765 46.334118 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #988ed5"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #988ed5"/>
    </g>
    <g id="patch_11">
-    <path d="M 342.465038 234.165469 
-L 368.768068 234.165469 
-L 368.768068 141.765469 
-L 342.465038 141.765469 
+    <path d="M 354.165038 228.96 
+L 380.468068 228.96 
+L 380.468068 85.468235 
+L 354.165038 85.468235 
 z
-" clip-path="url(#pf3c2539b5e)" style="fill: #988ed5"/>
+" clip-path="url(#pb52587ab1a)" style="fill: #988ed5"/>
    </g>
    <g id="patch_12">
-    <path d="M 49.18625 234.165469 
-L 49.18625 12.405469 
+    <path d="M 60.88625 228.96 
+L 60.88625 7.2 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_13">
-    <path d="M 383.98625 234.165469 
-L 383.98625 12.405469 
+    <path d="M 395.68625 228.96 
+L 395.68625 7.2 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_14">
-    <path d="M 49.18625 234.165469 
-L 383.98625 234.165469 
+    <path d="M 60.88625 228.96 
+L 395.68625 228.96 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_15">
-    <path d="M 49.18625 12.405469 
-L 383.98625 12.405469 
+    <path d="M 60.88625 7.2 
+L 395.68625 7.2 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_1">
@@ -135,12 +135,12 @@ L 0 -6
 " style="stroke: #1a1a1a; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m8dec1b3d1d" x="103.858977" y="234.165469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#m8dec1b3d1d" x="115.558977" y="228.96" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
       <!-- A -->
-      <g style="fill: #1a1a1a" transform="translate(98.233977 252.576406) scale(0.15 -0.15)">
+      <g style="fill: #1a1a1a" transform="translate(109.933977 247.370937) scale(0.15 -0.15)">
        <defs>
         <path id="LatinModernMath-Regular-41" d="M 4589 0 
 L 4589 198 
@@ -180,12 +180,12 @@ z
     <g id="xtick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#m8dec1b3d1d" x="216.58625" y="234.165469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#m8dec1b3d1d" x="228.28625" y="228.96" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
       <!-- B -->
-      <g style="fill: #1a1a1a" transform="translate(211.276484 252.576406) scale(0.15 -0.15)">
+      <g style="fill: #1a1a1a" transform="translate(222.976484 247.370937) scale(0.15 -0.15)">
        <defs>
         <path id="LatinModernMath-Regular-42" d="M 4166 1171 
 C 4166 1728 3642 2208 2931 2285 
@@ -227,12 +227,12 @@ z
     <g id="xtick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#m8dec1b3d1d" x="329.313523" y="234.165469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#m8dec1b3d1d" x="341.013523" y="228.96" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
       <!-- C -->
-      <g style="fill: #1a1a1a" transform="translate(323.898288 252.576406) scale(0.15 -0.15)">
+      <g style="fill: #1a1a1a" transform="translate(335.598288 247.370937) scale(0.15 -0.15)">
        <defs>
         <path id="LatinModernMath-Regular-43" d="M 4256 1491 
 C 4256 1555 4256 1600 4173 1600 
@@ -260,7 +260,7 @@ z
     </g>
     <g id="text_4">
      <!-- Categories -->
-     <g style="fill: #1a1a1a" transform="translate(175.516719 274.177344) scale(0.18 -0.18)">
+     <g style="fill: #1a1a1a" transform="translate(187.216719 268.971875) scale(0.18 -0.18)">
       <defs>
        <path id="LatinModernMath-Regular-61" d="M 3091 570 
 L 3091 928 
@@ -484,12 +484,12 @@ L 6 0
 " style="stroke: #1a1a1a; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#mc947610920" x="49.18625" y="234.165469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#mc947610920" x="60.88625" y="228.96" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
-      <!-- $\mathdefault{0}$ -->
-      <g style="fill: #1a1a1a" transform="translate(36.68625 239.370937) scale(0.15 -0.15)">
+      <!-- $\mathdefault{0.0}$ -->
+      <g style="fill: #1a1a1a" transform="translate(36.68625 234.165469) scale(0.15 -0.15)">
        <defs>
         <path id="LatinModernMath-Regular-30" d="M 2944 2048 
 C 2944 2560 2912 3072 2688 3546 
@@ -512,20 +512,29 @@ C 1805 4122 2227 4006 2349 3373
 C 2413 3014 2413 2528 2413 2125 
 z
 " transform="scale(0.015625)"/>
+        <path id="LatinModernMath-Regular-2e" d="M 1229 339 
+C 1229 525 1075 678 890 678 
+C 704 678 550 525 550 339 
+C 550 154 704 0 890 0 
+C 1075 0 1229 154 1229 339 
+z
+" transform="scale(0.015625)"/>
        </defs>
        <use xlink:href="#LatinModernMath-Regular-30" transform="translate(0 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-2e" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-30" transform="translate(77.799973 0.40625)"/>
       </g>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#mc947610920" x="49.18625" y="197.205469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#mc947610920" x="60.88625" y="196.348235" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
-      <!-- $\mathdefault{2}$ -->
-      <g style="fill: #1a1a1a" transform="translate(36.68625 202.410937) scale(0.15 -0.15)">
+      <!-- $\mathdefault{2.5}$ -->
+      <g style="fill: #1a1a1a" transform="translate(36.68625 201.553704) scale(0.15 -0.15)">
        <defs>
         <path id="LatinModernMath-Regular-32" d="M 2874 1114 
 L 2714 1114 
@@ -549,143 +558,103 @@ L 2694 0
 L 2874 1114 
 z
 " transform="scale(0.015625)"/>
+        <path id="LatinModernMath-Regular-35" d="M 2874 1286 
+C 2874 2048 2349 2688 1658 2688 
+C 1350 2688 1075 2586 845 2362 
+L 845 3610 
+C 973 3571 1184 3526 1389 3526 
+C 2176 3526 2624 4109 2624 4192 
+C 2624 4230 2605 4262 2560 4262 
+C 2560 4262 2541 4262 2509 4243 
+C 2381 4186 2067 4058 1638 4058 
+C 1382 4058 1088 4102 787 4237 
+C 736 4256 710 4256 710 4256 
+C 646 4256 646 4205 646 4102 
+L 646 2208 
+C 646 2093 646 2042 736 2042 
+C 781 2042 794 2061 819 2099 
+C 890 2202 1126 2547 1645 2547 
+C 1978 2547 2138 2253 2189 2138 
+C 2291 1901 2304 1651 2304 1331 
+C 2304 1107 2304 723 2150 454 
+C 1997 205 1760 38 1466 38 
+C 998 38 634 378 525 755 
+C 544 749 563 742 634 742 
+C 845 742 954 902 954 1056 
+C 954 1210 845 1370 634 1370 
+C 544 1370 320 1325 320 1030 
+C 320 480 762 -141 1478 -141 
+C 2221 -141 2874 474 2874 1286 
+z
+" transform="scale(0.015625)"/>
        </defs>
        <use xlink:href="#LatinModernMath-Regular-32" transform="translate(0 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-2e" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-35" transform="translate(77.799973 0.40625)"/>
       </g>
      </g>
     </g>
     <g id="ytick_3">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#mc947610920" x="49.18625" y="160.245469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#mc947610920" x="60.88625" y="163.736471" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
-      <!-- $\mathdefault{4}$ -->
-      <g style="fill: #1a1a1a" transform="translate(36.68625 165.450937) scale(0.15 -0.15)">
-       <defs>
-        <path id="LatinModernMath-Regular-34" d="M 3014 1056 
-L 3014 1254 
-L 2374 1254 
-L 2374 4166 
-C 2374 4294 2374 4333 2272 4333 
-C 2214 4333 2195 4333 2144 4256 
-L 179 1254 
-L 179 1056 
-L 1882 1056 
-L 1882 499 
-C 1882 269 1869 198 1395 198 
-L 1261 198 
-L 1261 0 
-C 1523 19 1856 19 2125 19 
-C 2394 19 2733 19 2995 0 
-L 2995 198 
-L 2861 198 
-C 2387 198 2374 269 2374 499 
-L 2374 1056 
-L 3014 1056 
-z
-M 1920 1254 
-L 358 1254 
-L 1920 3642 
-L 1920 1254 
-z
-" transform="scale(0.015625)"/>
-       </defs>
-       <use xlink:href="#LatinModernMath-Regular-34" transform="translate(0 0.296875)"/>
+      <!-- $\mathdefault{5.0}$ -->
+      <g style="fill: #1a1a1a" transform="translate(36.68625 168.941939) scale(0.15 -0.15)">
+       <use xlink:href="#LatinModernMath-Regular-35" transform="translate(0 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-2e" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-30" transform="translate(77.799973 0.40625)"/>
       </g>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_7">
       <g>
-       <use xlink:href="#mc947610920" x="49.18625" y="123.285469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#mc947610920" x="60.88625" y="131.124706" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_8">
-      <!-- $\mathdefault{6}$ -->
-      <g style="fill: #1a1a1a" transform="translate(36.68625 128.490937) scale(0.15 -0.15)">
+      <!-- $\mathdefault{7.5}$ -->
+      <g style="fill: #1a1a1a" transform="translate(36.68625 136.330175) scale(0.15 -0.15)">
        <defs>
-        <path id="LatinModernMath-Regular-36" d="M 2925 1306 
-C 2925 2118 2355 2733 1645 2733 
-C 1210 2733 973 2406 845 2099 
-L 845 2253 
-C 845 3872 1638 4102 1965 4102 
-C 2118 4102 2387 4064 2528 3846 
-C 2432 3846 2176 3846 2176 3558 
-C 2176 3360 2330 3264 2470 3264 
-C 2573 3264 2765 3322 2765 3571 
-C 2765 3955 2483 4262 1952 4262 
-C 1133 4262 269 3437 269 2022 
-C 269 314 1011 -141 1606 -141 
-C 2317 -141 2925 461 2925 1306 
-z
-M 2349 1312 
-C 2349 1005 2349 685 2240 454 
-C 2048 70 1754 38 1606 38 
-C 1203 38 1011 422 973 518 
-C 858 819 858 1331 858 1446 
-C 858 1946 1062 2586 1638 2586 
-C 1741 2586 2035 2586 2234 2189 
-C 2349 1952 2349 1626 2349 1312 
+        <path id="LatinModernMath-Regular-37" d="M 3104 4122 
+L 1549 4122 
+C 768 4122 755 4205 730 4326 
+L 570 4326 
+L 358 3008 
+L 518 3008 
+C 538 3110 595 3514 678 3590 
+C 723 3629 1222 3629 1306 3629 
+L 2630 3629 
+L 1914 2618 
+C 1338 1754 1126 864 1126 211 
+C 1126 147 1126 -141 1421 -141 
+C 1715 -141 1715 147 1715 211 
+L 1715 538 
+C 1715 890 1734 1242 1786 1587 
+C 1811 1734 1901 2285 2182 2682 
+L 3046 3898 
+C 3104 3974 3104 3987 3104 4122 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#LatinModernMath-Regular-36" transform="translate(0 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-37" transform="translate(0 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-2e" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-35" transform="translate(77.799973 0.40625)"/>
       </g>
      </g>
     </g>
     <g id="ytick_5">
      <g id="line2d_8">
       <g>
-       <use xlink:href="#mc947610920" x="49.18625" y="86.325469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#mc947610920" x="60.88625" y="98.512941" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
-      <!-- $\mathdefault{8}$ -->
-      <g style="fill: #1a1a1a" transform="translate(36.68625 91.530937) scale(0.15 -0.15)">
-       <defs>
-        <path id="LatinModernMath-Regular-38" d="M 2925 1075 
-C 2925 1306 2854 1594 2611 1862 
-C 2490 1997 2387 2061 1978 2317 
-C 2438 2554 2752 2886 2752 3309 
-C 2752 3898 2182 4262 1600 4262 
-C 960 4262 442 3789 442 3194 
-C 442 3078 454 2790 723 2490 
-C 794 2413 1030 2253 1190 2144 
-C 819 1958 269 1600 269 966 
-C 269 288 922 -141 1594 -141 
-C 2317 -141 2925 390 2925 1075 
-z
-M 2470 3309 
-C 2470 2944 2221 2637 1837 2413 
-L 1043 2925 
-C 749 3117 723 3334 723 3443 
-C 723 3834 1139 4102 1594 4102 
-C 2061 4102 2470 3770 2470 3309 
-z
-M 2605 845 
-C 2605 371 2125 38 1600 38 
-C 1050 38 589 435 589 966 
-C 589 1338 794 1747 1338 2048 
-L 2125 1549 
-C 2304 1427 2605 1235 2605 845 
-z
-" transform="scale(0.015625)"/>
-       </defs>
-       <use xlink:href="#LatinModernMath-Regular-38" transform="translate(0 0.40625)"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_6">
-     <g id="line2d_9">
-      <g>
-       <use xlink:href="#mc947610920" x="49.18625" y="49.365469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="text_10">
-      <!-- $\mathdefault{10}$ -->
-      <g style="fill: #1a1a1a" transform="translate(29.18625 54.570937) scale(0.15 -0.15)">
+      <!-- $\mathdefault{10.0}$ -->
+      <g style="fill: #1a1a1a" transform="translate(29.18625 103.71841) scale(0.15 -0.15)">
        <defs>
         <path id="LatinModernMath-Regular-31" d="M 2682 0 
 L 2682 198 
@@ -707,26 +676,46 @@ z
        </defs>
        <use xlink:href="#LatinModernMath-Regular-31" transform="translate(0 0.40625)"/>
        <use xlink:href="#LatinModernMath-Regular-30" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-2e" transform="translate(99.999969 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-30" transform="translate(127.799957 0.40625)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#mc947610920" x="60.88625" y="65.901176" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <!-- $\mathdefault{12.5}$ -->
+      <g style="fill: #1a1a1a" transform="translate(29.18625 71.106645) scale(0.15 -0.15)">
+       <use xlink:href="#LatinModernMath-Regular-31" transform="translate(0 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-32" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-2e" transform="translate(99.999969 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-35" transform="translate(127.799957 0.40625)"/>
       </g>
      </g>
     </g>
     <g id="ytick_7">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#mc947610920" x="49.18625" y="12.405469" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+       <use xlink:href="#mc947610920" x="60.88625" y="33.289412" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
-      <!-- $\mathdefault{12}$ -->
-      <g style="fill: #1a1a1a" transform="translate(29.18625 17.610937) scale(0.15 -0.15)">
+      <!-- $\mathdefault{15.0}$ -->
+      <g style="fill: #1a1a1a" transform="translate(29.18625 38.494881) scale(0.15 -0.15)">
        <use xlink:href="#LatinModernMath-Regular-31" transform="translate(0 0.40625)"/>
-       <use xlink:href="#LatinModernMath-Regular-32" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-35" transform="translate(49.999985 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-2e" transform="translate(99.999969 0.40625)"/>
+       <use xlink:href="#LatinModernMath-Regular-30" transform="translate(127.799957 0.40625)"/>
       </g>
      </g>
     </g>
     <g id="text_12">
      <!-- Entries -->
-     <g style="fill: #1a1a1a" transform="translate(19.693125 151.492031) rotate(-90) scale(0.18 -0.18)">
+     <g style="fill: #1a1a1a" transform="translate(19.693125 146.286562) rotate(-90) scale(0.18 -0.18)">
       <defs>
        <path id="LatinModernMath-Regular-45" d="M 4173 1651 
 L 4013 1651 
@@ -799,153 +788,134 @@ z
     </g>
    </g>
    <g id="text_13">
-    <!-- 10 -->
-    <g style="fill: #1a1a1a" transform="translate(70.055947 44.606531) scale(0.15 -0.15)">
-     <use xlink:href="#LatinModernMath-Regular-31"/>
-     <use xlink:href="#LatinModernMath-Regular-30" x="49.999985"/>
+    <!-- 8 -->
+    <g style="fill: #1a1a1a" transform="translate(85.505947 120.386945) scale(0.15 -0.15)">
+     <defs>
+      <path id="LatinModernMath-Regular-38" d="M 2925 1075 
+C 2925 1306 2854 1594 2611 1862 
+C 2490 1997 2387 2061 1978 2317 
+C 2438 2554 2752 2886 2752 3309 
+C 2752 3898 2182 4262 1600 4262 
+C 960 4262 442 3789 442 3194 
+C 442 3078 454 2790 723 2490 
+C 794 2413 1030 2253 1190 2144 
+C 819 1958 269 1600 269 966 
+C 269 288 922 -141 1594 -141 
+C 2317 -141 2925 390 2925 1075 
+z
+M 2470 3309 
+C 2470 2944 2221 2637 1837 2413 
+L 1043 2925 
+C 749 3117 723 3334 723 3443 
+C 723 3834 1139 4102 1594 4102 
+C 2061 4102 2470 3770 2470 3309 
+z
+M 2605 845 
+C 2605 371 2125 38 1600 38 
+C 1050 38 589 435 589 966 
+C 589 1338 794 1747 1338 2048 
+L 2125 1549 
+C 2304 1427 2605 1235 2605 845 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#LatinModernMath-Regular-38"/>
     </g>
    </g>
    <g id="text_14">
     <!-- 4 -->
-    <g style="fill: #1a1a1a" transform="translate(186.53322 155.486531) scale(0.15 -0.15)">
+    <g style="fill: #1a1a1a" transform="translate(198.23322 172.565768) scale(0.15 -0.15)">
+     <defs>
+      <path id="LatinModernMath-Regular-34" d="M 3014 1056 
+L 3014 1254 
+L 2374 1254 
+L 2374 4166 
+C 2374 4294 2374 4333 2272 4333 
+C 2214 4333 2195 4333 2144 4256 
+L 179 1254 
+L 179 1056 
+L 1882 1056 
+L 1882 499 
+C 1882 269 1869 198 1395 198 
+L 1261 198 
+L 1261 0 
+C 1523 19 1856 19 2125 19 
+C 2394 19 2733 19 2995 0 
+L 2995 198 
+L 2861 198 
+C 2387 198 2374 269 2374 499 
+L 2374 1056 
+L 3014 1056 
+z
+M 1920 1254 
+L 358 1254 
+L 1920 3642 
+L 1920 1254 
+z
+" transform="scale(0.015625)"/>
+     </defs>
      <use xlink:href="#LatinModernMath-Regular-34"/>
     </g>
    </g>
    <g id="text_15">
-    <!-- 1 -->
-    <g style="fill: #1a1a1a" transform="translate(299.260492 210.926531) scale(0.15 -0.15)">
-     <use xlink:href="#LatinModernMath-Regular-31"/>
-    </g>
-   </g>
-   <g id="text_16">
     <!-- 8 -->
-    <g style="fill: #1a1a1a" transform="translate(100.108977 81.566531) scale(0.15 -0.15)">
+    <g style="fill: #1a1a1a" transform="translate(310.960492 120.386945) scale(0.15 -0.15)">
      <use xlink:href="#LatinModernMath-Regular-38"/>
     </g>
    </g>
+   <g id="text_16">
+    <!-- 10 -->
+    <g style="fill: #1a1a1a" transform="translate(108.058977 94.297533) scale(0.15 -0.15)">
+     <use xlink:href="#LatinModernMath-Regular-31"/>
+     <use xlink:href="#LatinModernMath-Regular-30" x="49.999985"/>
+    </g>
+   </g>
    <g id="text_17">
-    <!-- 3 -->
-    <g style="fill: #1a1a1a" transform="translate(212.83625 173.966531) scale(0.15 -0.15)">
-     <defs>
-      <path id="LatinModernMath-Regular-33" d="M 2925 1094 
-C 2925 1619 2522 2118 1856 2253 
-C 2381 2426 2752 2874 2752 3379 
-C 2752 3904 2189 4262 1574 4262 
-C 928 4262 442 3878 442 3392 
-C 442 3181 582 3059 768 3059 
-C 966 3059 1094 3200 1094 3386 
-C 1094 3706 794 3706 698 3706 
-C 896 4019 1318 4102 1549 4102 
-C 1811 4102 2163 3962 2163 3386 
-C 2163 3309 2150 2938 1984 2656 
-C 1792 2349 1574 2330 1414 2323 
-C 1363 2317 1210 2304 1165 2304 
-C 1114 2298 1069 2291 1069 2227 
-C 1069 2157 1114 2157 1222 2157 
-L 1504 2157 
-C 2029 2157 2266 1722 2266 1094 
-C 2266 224 1824 38 1542 38 
-C 1267 38 787 147 563 525 
-C 787 493 986 634 986 877 
-C 986 1107 813 1235 627 1235 
-C 474 1235 269 1146 269 864 
-C 269 282 864 -141 1562 -141 
-C 2342 -141 2925 442 2925 1094 
-z
-" transform="scale(0.015625)"/>
-     </defs>
-     <use xlink:href="#LatinModernMath-Regular-33"/>
+    <!-- 8 -->
+    <g style="fill: #1a1a1a" transform="translate(224.53625 120.386945) scale(0.15 -0.15)">
+     <use xlink:href="#LatinModernMath-Regular-38"/>
     </g>
    </g>
    <g id="text_18">
-    <!-- 4 -->
-    <g style="fill: #1a1a1a" transform="translate(325.563523 155.486531) scale(0.15 -0.15)">
-     <use xlink:href="#LatinModernMath-Regular-34"/>
+    <!-- 12 -->
+    <g style="fill: #1a1a1a" transform="translate(333.513523 68.208121) scale(0.15 -0.15)">
+     <use xlink:href="#LatinModernMath-Regular-31"/>
+     <use xlink:href="#LatinModernMath-Regular-32" x="49.999985"/>
     </g>
    </g>
    <g id="text_19">
-    <!-- 3 -->
-    <g style="fill: #1a1a1a" transform="translate(126.412008 173.966531) scale(0.15 -0.15)">
-     <use xlink:href="#LatinModernMath-Regular-33"/>
+    <!-- 15 -->
+    <g style="fill: #1a1a1a" transform="translate(134.362008 29.074004) scale(0.15 -0.15)">
+     <use xlink:href="#LatinModernMath-Regular-31"/>
+     <use xlink:href="#LatinModernMath-Regular-35" x="49.999985"/>
     </g>
    </g>
    <g id="text_20">
-    <!-- 7 -->
-    <g style="fill: #1a1a1a" transform="translate(239.13928 100.046531) scale(0.15 -0.15)">
-     <defs>
-      <path id="LatinModernMath-Regular-37" d="M 3104 4122 
-L 1549 4122 
-C 768 4122 755 4205 730 4326 
-L 570 4326 
-L 358 3008 
-L 518 3008 
-C 538 3110 595 3514 678 3590 
-C 723 3629 1222 3629 1306 3629 
-L 2630 3629 
-L 1914 2618 
-C 1338 1754 1126 864 1126 211 
-C 1126 147 1126 -141 1421 -141 
-C 1715 -141 1715 147 1715 211 
-L 1715 538 
-C 1715 890 1734 1242 1786 1587 
-C 1811 1734 1901 2285 2182 2682 
-L 3046 3898 
-C 3104 3974 3104 3987 3104 4122 
-z
-" transform="scale(0.015625)"/>
-     </defs>
-     <use xlink:href="#LatinModernMath-Regular-37"/>
+    <!-- 14 -->
+    <g style="fill: #1a1a1a" transform="translate(247.08928 42.11871) scale(0.15 -0.15)">
+     <use xlink:href="#LatinModernMath-Regular-31"/>
+     <use xlink:href="#LatinModernMath-Regular-34" x="49.999985"/>
     </g>
    </g>
    <g id="text_21">
-    <!-- 5 -->
-    <g style="fill: #1a1a1a" transform="translate(351.866553 137.006531) scale(0.15 -0.15)">
-     <defs>
-      <path id="LatinModernMath-Regular-35" d="M 2874 1286 
-C 2874 2048 2349 2688 1658 2688 
-C 1350 2688 1075 2586 845 2362 
-L 845 3610 
-C 973 3571 1184 3526 1389 3526 
-C 2176 3526 2624 4109 2624 4192 
-C 2624 4230 2605 4262 2560 4262 
-C 2560 4262 2541 4262 2509 4243 
-C 2381 4186 2067 4058 1638 4058 
-C 1382 4058 1088 4102 787 4237 
-C 736 4256 710 4256 710 4256 
-C 646 4256 646 4205 646 4102 
-L 646 2208 
-C 646 2093 646 2042 736 2042 
-C 781 2042 794 2061 819 2099 
-C 890 2202 1126 2547 1645 2547 
-C 1978 2547 2138 2253 2189 2138 
-C 2291 1901 2304 1651 2304 1331 
-C 2304 1107 2304 723 2150 454 
-C 1997 205 1760 38 1466 38 
-C 998 38 634 378 525 755 
-C 544 749 563 742 634 742 
-C 845 742 954 902 954 1056 
-C 954 1210 845 1370 634 1370 
-C 544 1370 320 1325 320 1030 
-C 320 480 762 -141 1478 -141 
-C 2221 -141 2874 474 2874 1286 
-z
-" transform="scale(0.015625)"/>
-     </defs>
-     <use xlink:href="#LatinModernMath-Regular-35"/>
+    <!-- 11 -->
+    <g style="fill: #1a1a1a" transform="translate(359.816553 81.252827) scale(0.15 -0.15)">
+     <use xlink:href="#LatinModernMath-Regular-31"/>
+     <use xlink:href="#LatinModernMath-Regular-31" x="49.999985"/>
     </g>
    </g>
    <g id="legend_1">
     <g id="patch_16">
-     <path d="M 327.70625 31.605469 
-L 351.70625 31.605469 
-L 351.70625 23.205469 
-L 327.70625 23.205469 
+     <path d="M 339.40625 26.4 
+L 363.40625 26.4 
+L 363.40625 18 
+L 339.40625 18 
 z
 " style="fill: #348abd"/>
     </g>
     <g id="text_22">
      <!-- $\mathit{h_0}$ -->
-     <g style="fill: #1a1a1a" transform="translate(361.30625 31.605469) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(373.00625 26.4) scale(0.12 -0.12)">
       <defs>
        <path id="Cmmi10-68" d="M 341 116 
 Q 341 153 347 172 
@@ -1032,16 +1002,16 @@ z
      </g>
     </g>
     <g id="patch_17">
-     <path d="M 327.70625 48.334219 
-L 351.70625 48.334219 
-L 351.70625 39.934219 
-L 327.70625 39.934219 
+     <path d="M 339.40625 43.12875 
+L 363.40625 43.12875 
+L 363.40625 34.72875 
+L 339.40625 34.72875 
 z
 " style="fill: #e24a33"/>
     </g>
     <g id="text_23">
      <!-- $\mathit{h_1}$ -->
-     <g style="fill: #1a1a1a" transform="translate(361.30625 48.334219) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(373.00625 43.12875) scale(0.12 -0.12)">
       <defs>
        <path id="Cmr10-31" d="M 594 0 
 L 594 225 
@@ -1065,16 +1035,16 @@ z
      </g>
     </g>
     <g id="patch_18">
-     <path d="M 327.70625 65.062969 
-L 351.70625 65.062969 
-L 351.70625 56.662969 
-L 327.70625 56.662969 
+     <path d="M 339.40625 59.8575 
+L 363.40625 59.8575 
+L 363.40625 51.4575 
+L 339.40625 51.4575 
 z
 " style="fill: #988ed5"/>
     </g>
     <g id="text_24">
      <!-- $\mathit{h_2}$ -->
-     <g style="fill: #1a1a1a" transform="translate(361.30625 65.062969) scale(0.12 -0.12)">
+     <g style="fill: #1a1a1a" transform="translate(373.00625 59.8575) scale(0.12 -0.12)">
       <defs>
        <path id="Cmr10-32" d="M 319 0 
 L 319 172 
@@ -1126,8 +1096,8 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pf3c2539b5e">
-   <rect x="49.18625" y="12.405469" width="334.8" height="221.76"/>
+  <clipPath id="pb52587ab1a">
+   <rect x="60.88625" y="7.2" width="334.8" height="221.76"/>
   </clipPath>
  </defs>
 </svg>
