@@ -311,9 +311,9 @@ def add_luminosity(
     collaboration : str
         Collaboration name.
     x : float, optional
-        Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0.
+        Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0. Can take other aliases such as "left", "left_in", "right_in", "right_out".
     y : float, optional
-        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01.
+        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01. Can take other aliases such as "top_in", "bottom_in", "top_out"="top", "bottom_out"="bottom".
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
