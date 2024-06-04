@@ -242,7 +242,9 @@ def add_text(
     None
     """
     kwargs.setdefault("ha", "right" if x in ["right", "right_in"] else "left")
-    kwargs.setdefault("va", "top" if y in ["top_in", "bottom", "bottom_out"] else "bottom")
+    kwargs.setdefault(
+        "va", "top" if y in ["top_in", "bottom", "bottom_out"] else "bottom"
+    )
 
     if ax is None:
         ax = plt.gca()

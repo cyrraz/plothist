@@ -4,6 +4,7 @@ add_text Example
 
 Multiple examples of combinations of x and y aliases for the add_text function.
 """
+
 ###
 from plothist import add_text
 import matplotlib.pyplot as plt
