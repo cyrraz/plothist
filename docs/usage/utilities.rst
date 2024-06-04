@@ -9,6 +9,69 @@ Add text
 
 :func:`add_text() <plothist.plothist_style.add_text>` is a useful function to add text to a plot. It allows you to easily position a text either to the left or right and at the top or bottom of your plot, thanks to aliases on the x and y parameters. Using them will ensure that your text stays aligned to the left or right of the sub-plot (= ax) you specify. The function is a wrapper around ``plt.text()``, so you can pass any parameter to it that you would pass to ``plt.text()`` like ``fontsize``, ``color``, ``fontweight``, etc.
 
+Here are the ``x`` and ``y`` aliases you can use, with their corresponding positions and alignement:
+
+X Values
+--------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Position
+     - Value
+     - Default ha
+   * - left
+     - 0.0
+     - left
+   * - right
+     - 1.0
+     - right
+   * - left_in
+     - 0.04
+     - left
+   * - right_in
+     - 0.97
+     - right
+   * - right_out
+     - 1.02
+     - right
+
+Y Values
+--------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Position
+     - Value
+     - Default va
+   * - top
+     - 1.01
+     - bottom
+   * - bottom
+     - -0.11
+     - top
+   * - top_out
+     - 1.01
+     - bottom
+   * - bottom_out
+     - -0.11
+     - top
+   * - top_in
+     - 0.96
+     - bottom
+   * - bottom_in
+     - 0.04
+     - top
+
+Here is an example of good combination of aliases to add text to a plot:
+
+.. image:: ../img/add_text_example.svg
+   :alt: Example of add_text
+   :width: 500
+
+By default, the text also fit between the sub-plots by specifying the different axes, as shown in the example below:
+
 .. code-block:: python
 
     from plothist import add_text

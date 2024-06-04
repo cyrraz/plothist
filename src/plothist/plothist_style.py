@@ -224,9 +224,9 @@ def add_text(
     text : str
         The text to add.
     x : float, optional
-        Horizontal position of the text in unit of the normalized x-axis length. The default is value "left", which is an alias for 0.0. The other alias "right" corresponds to 1.0.
+        Horizontal position of the text in unit of the normalized x-axis length. The default is value "left", which is an alias for 0.0. Other aliases are "right", "left_in", "right_in", "right_out".
     y : float, optional
-        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01. The other alias "bottom" corresponds to 0.0.
+        Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01. Other aliases are "top_in", "bottom_in", "top_out"="top", "bottom_out"="bottom".
     fontsize : int, optional
         Font size, by default 12.
     white_background : bool, optional
@@ -235,32 +235,45 @@ def add_text(
         Figure axis, by default None.
     kwargs : dict
         Keyword arguments to be passed to the ax.text() function.
-        In particular, the keyword arguments ha and va, which are set to "left" (or "right" if x="right") and "bottom" by default, can be used to change the text alignment.
+        In particular, the keyword arguments ha and va, which are set by default to accommodate to the x and y aliases, can be used to change the text alignment.
 
     Returns
     -------
     None
     """
-    kwargs.setdefault("ha", "right" if x == "right" else "left")
-    kwargs.setdefault("va", "bottom")
+    kwargs.setdefault("ha", "right" if x in ["right", "right_in"] else "left")
+    kwargs.setdefault("va", "top" if y in ["top_in", "bottom", "bottom_out"] else "bottom")
 
     if ax is None:
         ax = plt.gca()
     transform = ax.transAxes
 
-    if x == "left":
-        x = 0.0
-    elif x == "right":
-        x = 1.0
-    elif type(x) not in [float, int]:
-        raise ValueError(f"x should be a float or 'left'/'right' ({x} given))")
+    x_values = {
+        "left": 0.0,
+        "right": 1.0,
+        "left_in": 0.04,
+        "right_in": 0.97,
+        "right_out": 1.02,
+    }
 
-    if y == "top":
-        y = 1.01
-    elif y == "bottom":
-        y = 0.0
-    elif type(y) not in [float, int]:
-        raise ValueError(f"y should be a float or 'top'/'bottom' ({y} given)")
+    y_values = {
+        "top": 1.01,
+        "bottom": -0.11,
+        "top_out": 1.01,
+        "bottom_out": -0.11,
+        "top_in": 0.96,
+        "bottom_in": 0.04,
+    }
+
+    if isinstance(x, str):
+        x = x_values.get(x)
+        if x is None:
+            raise ValueError(f"{x} not a float or a valid position")
+
+    if isinstance(y, str):
+        y = y_values.get(y)
+        if y is None:
+            raise ValueError(f"{y} not a float or a valid position")
 
     t = ax.text(
         x,
