@@ -1042,7 +1042,7 @@ def plot_data_model_comparison(
     data_uncertainty_type : str, optional
         What kind of bin uncertainty to use for data_hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "asymmetrical".
     plot_only : str, optional
-        If "ax_main" or "ax_comparison", only the main ax or the comparison ax is plotted n the figure respectively. Both axes are plotted if None, which is the default value.
+        If "ax_main" or "ax_comparison", only the main or comparison axis is plotted on the figure. Both axes are plotted if None is specified, which is the default.
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
