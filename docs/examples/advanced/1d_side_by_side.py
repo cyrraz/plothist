@@ -14,7 +14,7 @@ import plothist
 
 rng = np.random.default_rng(8311311)
 
-# Integer categories
+# String categories
 categories = ["A", "B", "C"]
 ## Works also with integers
 # categories = [-5, 10, 137]
