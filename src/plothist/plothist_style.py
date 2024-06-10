@@ -237,6 +237,11 @@ def add_text(
         Keyword arguments to be passed to the ax.text() function.
         In particular, the keyword arguments ha and va, which are set by default to accommodate to the x and y aliases, can be used to change the text alignment.
 
+    Raises
+    ------
+    ValueError
+        If the x or y position is not a float or a valid position.
+
     Returns
     -------
     None

@@ -28,7 +28,17 @@ for x, y in positions:
     x_label = x.replace("_", "\_")
     y_label = y.replace("_", "\_")
     add_text(
-        f"$\\mathtt{{add\\_text()}}$\n$\\mathtt{{x = {x_label}}}$\n$\\mathtt{{y = {y_label}}}$",
+        "$\mathtt{add\_text()}$"
+        + "\n"
+        + "$\mathtt{x = }$"
+        + '"$\mathtt{'
+        + x_label
+        + '}$"'
+        + "\n"
+        + "$\mathtt{y = }$"
+        + '"$\mathtt{'
+        + y_label
+        + '}$"',
         x=x,
         y=y,
     )
