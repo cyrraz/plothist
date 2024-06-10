@@ -995,10 +995,10 @@ def plot_data_model_comparison(
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
     data_uncertainty_type="asymmetrical",
-    plot_only=None,
     fig=None,
     ax_main=None,
     ax_comparison=None,
+    plot_only=None,
     **comparison_kwargs,
 ):
     """
@@ -1041,14 +1041,14 @@ def plot_data_model_comparison(
         The label for the model uncertainties. Default is "Model stat. unc.".
     data_uncertainty_type : str, optional
         What kind of bin uncertainty to use for data_hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "asymmetrical".
-    plot_only : str, optional
-        If "ax_main" or "ax_comparison", only the main or comparison axis is plotted on the figure. Both axes are plotted if None is specified, which is the default.
     fig : matplotlib.figure.Figure or None, optional
         The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes or None, optional
         The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    plot_only : str, optional
+        If "ax_main" or "ax_comparison", only the main or comparison axis is plotted on the figure. Both axes are plotted if None is specified, which is the default. This can only be used when fig, ax_main and ax_comparison are not provided by the user.
     **comparison_kwargs : optional
         Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="split_ratio".
 
@@ -1087,10 +1087,10 @@ def plot_data_model_comparison(
             fig, (ax_main, ax_comparison) = create_comparison_figure()
         elif plot_only == "ax_main":
             fig, ax_main = plt.subplots()
-            fig_temp, ax_comparison = plt.subplots()
+            _, ax_comparison = plt.subplots()
         elif plot_only == "ax_comparison":
             fig, ax_comparison = plt.subplots()
-            fig_temp, ax_main = plt.subplots()
+            _, ax_main = plt.subplots()
         else:
             raise ValueError("plot_only must be 'ax_main', 'ax_comparison' or None.")
     elif fig is None or ax_main is None or ax_comparison is None:
