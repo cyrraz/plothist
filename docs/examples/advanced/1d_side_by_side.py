@@ -66,7 +66,9 @@ for i, histo in enumerate(histos):
         ax.text(
             bar.get_x() + bar.get_width() / 2,
             height,
-            int(height), # If weighted, f"{height:.1f}" can be used as a better representation of the bin content
+            int(
+                height
+            ),  # If weighted, f"{height:.1f}" can be used as a better representation of the bin content
             ha="center",
             va="bottom",
         )
