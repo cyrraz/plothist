@@ -998,6 +998,7 @@ def plot_data_model_comparison(
     fig=None,
     ax_main=None,
     ax_comparison=None,
+    plot_only=None,
     **comparison_kwargs,
 ):
     """
@@ -1046,6 +1047,8 @@ def plot_data_model_comparison(
         The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes or None, optional
         The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    plot_only : str, optional
+        If "ax_main" or "ax_comparison", only the main or comparison axis is plotted on the figure. Both axes are plotted if None is specified, which is the default. This can only be used when fig, ax_main and ax_comparison are not provided by the user.
     **comparison_kwargs : optional
         Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="split_ratio".
 
@@ -1080,11 +1083,25 @@ def plot_data_model_comparison(
             _check_counting_histogram(component)
 
     if fig is None and ax_main is None and ax_comparison is None:
-        fig, (ax_main, ax_comparison) = create_comparison_figure()
+        if plot_only is None:
+            fig, (ax_main, ax_comparison) = create_comparison_figure()
+        elif plot_only == "ax_main":
+            fig, ax_main = plt.subplots()
+            _, ax_comparison = plt.subplots()
+        elif plot_only == "ax_comparison":
+            fig, ax_comparison = plt.subplots()
+            _, ax_main = plt.subplots()
+        else:
+            raise ValueError("plot_only must be 'ax_main', 'ax_comparison' or None.")
     elif fig is None or ax_main is None or ax_comparison is None:
         raise ValueError(
             "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
+    else:
+        if plot_only is not None:
+            raise ValueError(
+                "Cannot provide fig, ax_main or ax_comparison with plot_only."
+            )
 
     plot_model(
         stacked_components=stacked_components,
@@ -1112,7 +1129,10 @@ def plot_data_model_comparison(
         label=data_label,
     )
 
-    _ = ax_main.xaxis.set_ticklabels([])
+    if plot_only == "ax_main":
+        ax_main.set_xlabel(xlabel)
+    else:
+        _ = ax_main.xaxis.set_ticklabels([])
 
     if model_type == "histograms":
         model_hist = sum(model_components)
