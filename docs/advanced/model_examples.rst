@@ -132,7 +132,7 @@ An example with stacked histograms:
    :width: 500
 
 .. note::
-    The function :func:`add_luminosity() <plothist.plothist_style.add_luminosity>` is used here to add information on the luminosity used for the data. This is common practice in high energy physics, and this function is provided to make it easy to add this information to the plot.
+    The function :func:`add_luminosity() <plothist.plothist_style.add_luminosity>` is used here to add information on the `integrated luminosity <https://en.wikipedia.org/wiki/Luminosity_(scattering_theory)>`_ used for the data. This is common practice in high energy physics, and this function is provided to make it easy to add this information to the plot. It is a wrapper around :func:`add_text() <plothist.plothist_style.add_text>`.
 
 
 Unstacked histograms
