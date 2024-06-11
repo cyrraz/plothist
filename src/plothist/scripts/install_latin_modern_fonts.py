@@ -143,16 +143,23 @@ def install_latin_modern_fonts():
             f"This script is only implemented for Linux and MacOS. If you manage to make it work on {platform.system()}, please submit a pull request."
         )
 
-    # Install Latin Modern Math
-    _download_font(
-        "http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf",
-        font_directory,
-        "Latin Modern Math",
-    )
-    print("Latin Modern Math installed successfully.\n")
+    if not PosixPath(font_directory/"latinmodern-math.otf").exists():
+        # Install Latin Modern Math
+        _download_font(
+            "http://mirrors.ctan.org/fonts/lm-math/opentype/latinmodern-math.otf",
+            font_directory,
+            "Latin Modern Math",
+        )
+        print("Latin Modern Math installed successfully.\n")
+    else:
+        print("Latin Modern Math already installed.\n")
 
     # Install Latin Modern Roman and Latin Modern Sans
     for lm in ["roman", "sans"]:
+        if PosixPath(font_directory / f"latin-modern-{lm}").exists():
+            print(f"Latin Modern {lm} already installed.\n")
+            continue
+
         attempt = 0
         max_attempt = 10
         success = False
