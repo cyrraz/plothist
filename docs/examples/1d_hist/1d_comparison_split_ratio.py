@@ -1,8 +1,8 @@
 """
-Ratio comparison, split errors
-==============================
+Ratio, split errors
+===================
 
-Compare two 1D histograms using the ratio [h1/h2] method and split their errors.
+Compare two 1D histograms using the ratio [h1/h2] method and split the errors.
 """
 
 from plothist import get_dummy_data

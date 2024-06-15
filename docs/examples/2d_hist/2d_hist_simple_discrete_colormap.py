@@ -1,8 +1,8 @@
 """
-2d Simple hist discrete colormap
-================================
+2D histogram, discrete colormap
+===============================
 
-Plot a 2d histogram with ``plot_2d_hist`` with a discrete colormap.
+Plot a 2D histogram with ``plot_2d_hist()`` with a discrete colormap.
 """
 
 from plothist import get_dummy_data

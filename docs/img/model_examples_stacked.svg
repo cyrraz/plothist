@@ -2053,126 +2053,169 @@ z
     </g>
    </g>
    <g id="text_7">
-    <!-- $\mathrm{\mathbf{Beast\,\,III}\,\,preliminary}$ $\int\,\mathcal{L}\,\mathrm{d}\mathit{t}=200\,fb^{-1}$ -->
-    <g style="fill: #1a1a1a" transform="translate(198.56 16.92) scale(0.12 -0.12)">
+    <!-- $\mathrm{\mathbf{Plothist}\,\,preliminary}$ $\int\,\mathcal{L}\,\mathrm{d}\mathit{t}=200\,fb^{-1}$ -->
+    <g style="fill: #1a1a1a" transform="translate(204.08 16.92) scale(0.12 -0.12)">
      <defs>
-      <path id="Cmb10-42" d="M 219 0 
+      <path id="Cmb10-50" d="M 219 0 
 L 219 325 
 L 819 325 
 L 819 4063 
 L 219 4063 
 L 219 4391 
-L 2631 4391 
-Q 2991 4391 3306 4270 
-Q 3622 4150 3817 3898 
-Q 4013 3647 4013 3278 
-Q 4013 2888 3752 2636 
-Q 3491 2384 3078 2297 
-Q 3559 2238 3871 1952 
-Q 4184 1666 4184 1197 
-Q 4184 625 3789 312 
-Q 3394 0 2809 0 
+L 2503 4391 
+Q 2909 4391 3251 4252 
+Q 3594 4113 3800 3828 
+Q 4006 3544 4006 3128 
+Q 4006 2722 3797 2447 
+Q 3588 2172 3244 2039 
+Q 2900 1906 2503 1906 
+L 1753 1906 
+L 1753 325 
+L 2356 325 
+L 2356 0 
 L 219 0 
 z
-M 1684 325 
-L 2631 325 
-Q 2838 325 2970 459 
-Q 3103 594 3161 794 
-Q 3219 994 3219 1197 
-Q 3219 1384 3178 1606 
-Q 3138 1828 3025 1992 
-Q 2913 2156 2719 2156 
-L 1684 2156 
-L 1684 325 
-z
-M 1684 2413 
-L 2450 2413 
-Q 2766 2413 2922 2677 
-Q 3078 2941 3078 3278 
-Q 3078 3569 2978 3816 
-Q 2878 4063 2631 4063 
-L 1684 4063 
-L 1684 2413 
+M 1716 2194 
+L 2253 2194 
+Q 2513 2194 2669 2251 
+Q 2825 2309 2897 2425 
+Q 2969 2541 2986 2692 
+Q 3003 2844 3003 3128 
+Q 3003 3488 2962 3675 
+Q 2922 3863 2764 3963 
+Q 2606 4063 2253 4063 
+L 1716 4063 
+L 1716 2194 
 z
 " transform="scale(0.015625)"/>
-      <path id="Cmb10-65" d="M 178 1441 
-Q 178 1856 350 2189 
-Q 522 2522 842 2711 
-Q 1163 2900 1581 2900 
-Q 2003 2900 2275 2726 
-Q 2547 2553 2675 2242 
-Q 2803 1931 2803 1522 
-Q 2803 1428 2700 1394 
-L 1025 1394 
-Q 1025 1078 1070 829 
-Q 1116 581 1275 412 
-Q 1434 244 1741 244 
-Q 2000 244 2208 394 
-Q 2416 544 2484 788 
-Q 2519 847 2578 863 
-L 2700 863 
-Q 2803 841 2803 750 
-Q 2803 744 2797 709 
-Q 2722 475 2553 308 
-Q 2384 141 2150 51 
-Q 1916 -38 1672 -38 
-Q 1347 -38 1072 67 
-Q 797 172 597 367 
-Q 397 563 287 836 
-Q 178 1109 178 1441 
-z
-M 1025 1631 
-L 2169 1631 
-Q 2169 1869 2120 2095 
-Q 2072 2322 1940 2483 
-Q 1809 2644 1581 2644 
-Q 1250 2644 1137 2341 
-Q 1025 2038 1025 1631 
+      <path id="Cmb10-6c" d="M 153 0 
+L 153 325 
+L 594 325 
+L 594 3884 
+Q 594 4003 469 4033 
+Q 344 4063 153 4063 
+L 153 4391 
+L 1313 4441 
+L 1313 325 
+L 1753 325 
+L 1753 0 
+L 153 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="Cmb10-61" d="M 178 716 
-Q 178 1081 468 1304 
-Q 759 1528 1157 1618 
-Q 1556 1709 1925 1709 
-L 1925 1947 
-Q 1925 2228 1803 2436 
-Q 1681 2644 1416 2644 
-Q 1244 2644 1050 2613 
-Q 1184 2488 1184 2297 
-Q 1184 2119 1068 2000 
-Q 953 1881 775 1881 
-Q 597 1881 478 2000 
-Q 359 2119 359 2297 
-Q 359 2541 529 2675 
-Q 700 2809 937 2854 
-Q 1175 2900 1422 2900 
-Q 1731 2900 2018 2804 
-Q 2306 2709 2493 2498 
-Q 2681 2288 2681 1966 
-L 2681 453 
-Q 2709 325 3003 325 
-Q 3084 306 3103 225 
-L 3103 103 
-Q 3084 19 3003 0 
-L 2559 0 
-Q 2366 0 2200 100 
-Q 2034 200 2034 384 
-L 2034 434 
-Q 1922 219 1709 90 
-Q 1497 -38 1253 -38 
-Q 850 -38 514 153 
-Q 178 344 178 716 
+      <path id="Cmb10-6f" d="M 1600 -38 
+Q 1172 -38 851 140 
+Q 531 319 354 647 
+Q 178 975 178 1394 
+Q 178 1713 273 1991 
+Q 369 2269 553 2472 
+Q 738 2675 1006 2787 
+Q 1275 2900 1600 2900 
+Q 1928 2900 2195 2787 
+Q 2463 2675 2644 2472 
+Q 2825 2269 2920 1997 
+Q 3016 1725 3016 1394 
+Q 3016 975 2841 647 
+Q 2666 319 2344 140 
+Q 2022 -38 1600 -38 
 z
-M 1331 219 
-Q 1497 219 1633 305 
-Q 1769 391 1847 533 
-Q 1925 675 1925 838 
-L 1925 1478 
-Q 1697 1478 1472 1389 
-Q 1247 1300 1100 1125 
-Q 953 950 953 716 
-Q 953 534 1058 376 
-Q 1163 219 1331 219 
+M 1600 244 
+Q 1859 244 1986 441 
+Q 2113 638 2141 891 
+Q 2169 1144 2169 1478 
+Q 2169 1719 2156 1901 
+Q 2144 2084 2092 2253 
+Q 2041 2422 1922 2533 
+Q 1803 2644 1600 2644 
+Q 1338 2644 1209 2459 
+Q 1081 2275 1053 2039 
+Q 1025 1803 1025 1478 
+Q 1025 1144 1053 892 
+Q 1081 641 1209 442 
+Q 1338 244 1600 244 
+z
+" transform="scale(0.015625)"/>
+      <path id="Cmb10-74" d="M 513 750 
+L 513 2516 
+L 122 2516 
+L 122 2772 
+Q 416 2772 600 2976 
+Q 784 3181 862 3482 
+Q 941 3784 941 4063 
+L 1269 4063 
+L 1269 2841 
+L 2028 2841 
+L 2028 2516 
+L 1269 2516 
+L 1269 769 
+Q 1269 553 1320 398 
+Q 1372 244 1538 244 
+Q 1688 244 1747 409 
+Q 1806 575 1806 769 
+L 1806 1131 
+L 2131 1131 
+L 2131 750 
+Q 2131 563 2051 378 
+Q 1972 194 1822 78 
+Q 1672 -38 1472 -38 
+Q 1047 -38 780 151 
+Q 513 341 513 750 
+z
+" transform="scale(0.015625)"/>
+      <path id="Cmb10-68" d="M 141 0 
+L 141 325 
+L 581 325 
+L 581 3884 
+Q 581 4003 456 4033 
+Q 331 4063 141 4063 
+L 141 4391 
+L 1300 4441 
+L 1300 2316 
+Q 1450 2575 1694 2728 
+Q 1938 2881 2228 2881 
+Q 2541 2881 2733 2782 
+Q 2925 2684 3017 2482 
+Q 3109 2281 3109 1966 
+L 3109 325 
+L 3553 325 
+L 3553 0 
+L 1966 0 
+L 1966 325 
+L 2356 325 
+L 2356 1947 
+L 2356 1966 
+Q 2356 2625 2150 2625 
+Q 1969 2625 1817 2545 
+Q 1666 2466 1558 2327 
+Q 1450 2188 1394 2020 
+Q 1338 1853 1338 1672 
+L 1338 325 
+L 1778 325 
+L 1778 0 
+L 141 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="Cmb10-69" d="M 153 0 
+L 153 325 
+L 594 325 
+L 594 2322 
+Q 594 2444 478 2473 
+Q 363 2503 172 2503 
+L 172 2828 
+L 1313 2881 
+L 1313 325 
+L 1716 325 
+L 1716 0 
+L 153 0 
+z
+M 353 3938 
+Q 353 4153 500 4300 
+Q 647 4447 863 4447 
+Q 1081 4447 1228 4300 
+Q 1375 4153 1375 3938 
+Q 1375 3725 1228 3575 
+Q 1081 3425 863 3425 
+Q 647 3425 500 3575 
+Q 353 3725 353 3938 
 z
 " transform="scale(0.015625)"/>
       <path id="Cmb10-73" d="M 213 44 
@@ -2218,48 +2261,6 @@ L 391 -31
 L 366 -38 
 L 294 -38 
 Q 228 -22 213 44 
-z
-" transform="scale(0.015625)"/>
-      <path id="Cmb10-74" d="M 513 750 
-L 513 2516 
-L 122 2516 
-L 122 2772 
-Q 416 2772 600 2976 
-Q 784 3181 862 3482 
-Q 941 3784 941 4063 
-L 1269 4063 
-L 1269 2841 
-L 2028 2841 
-L 2028 2516 
-L 1269 2516 
-L 1269 769 
-Q 1269 553 1320 398 
-Q 1372 244 1538 244 
-Q 1688 244 1747 409 
-Q 1806 575 1806 769 
-L 1806 1131 
-L 2131 1131 
-L 2131 750 
-Q 2131 563 2051 378 
-Q 1972 194 1822 78 
-Q 1672 -38 1472 -38 
-Q 1047 -38 780 151 
-Q 513 341 513 750 
-z
-" transform="scale(0.015625)"/>
-      <path id="Cmb10-49" d="M 166 0 
-L 166 325 
-L 800 325 
-L 800 4063 
-L 166 4063 
-L 166 4391 
-L 2369 4391 
-L 2369 4063 
-L 1734 4063 
-L 1734 325 
-L 2369 325 
-L 2369 0 
-L 166 0 
 z
 " transform="scale(0.015625)"/>
       <path id="Cmr10-70" d="M 166 -1241 
@@ -2841,38 +2842,38 @@ C 1901 19 2458 19 2682 0
 z
 " transform="scale(0.015625)"/>
      </defs>
-     <use xlink:href="#Cmb10-42" transform="translate(0 0.5)"/>
-     <use xlink:href="#Cmb10-65" transform="translate(71.09375 0.5)"/>
-     <use xlink:href="#Cmb10-61" transform="translate(117.675781 0.5)"/>
-     <use xlink:href="#Cmb10-73" transform="translate(166.259766 0.5)"/>
-     <use xlink:href="#Cmb10-74" transform="translate(205.664062 0.5)"/>
-     <use xlink:href="#Cmb10-49" transform="translate(273.942643 0.5)"/>
-     <use xlink:href="#Cmb10-49" transform="translate(313.639908 0.5)"/>
-     <use xlink:href="#Cmb10-49" transform="translate(353.337174 0.5)"/>
-     <use xlink:href="#Cmr10-70" transform="translate(422.299348 0.5)"/>
-     <use xlink:href="#Cmr10-72" transform="translate(477.816926 0.5)"/>
-     <use xlink:href="#Cmr10-65" transform="translate(516.928254 0.5)"/>
-     <use xlink:href="#Cmr10-6c" transform="translate(561.31302 0.5)"/>
-     <use xlink:href="#Cmr10-69" transform="translate(588.998566 0.5)"/>
-     <use xlink:href="#Cmr10-6d" transform="translate(616.684113 0.5)"/>
-     <use xlink:href="#Cmr10-69" transform="translate(699.984895 0.5)"/>
-     <use xlink:href="#Cmr10-6e" transform="translate(727.670441 0.5)"/>
-     <use xlink:href="#Cmr10-61" transform="translate(783.18802 0.5)"/>
-     <use xlink:href="#Cmr10-72" transform="translate(833.18802 0.5)"/>
-     <use xlink:href="#Cmr10-79" transform="translate(872.299348 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-20" transform="translate(924.984895 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-222b" transform="translate(958.184891 0.5)"/>
-     <use xlink:href="#Cmsy10-4c" transform="translate(1039.31733 0.5)"/>
-     <use xlink:href="#Cmr10-64" transform="translate(1122.846269 0.5)"/>
-     <use xlink:href="#Cmmi10-74" transform="translate(1178.363847 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-3d" transform="translate(1232.006425 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-32" transform="translate(1327.365007 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-30" transform="translate(1377.364991 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-30" transform="translate(1427.364976 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-66" transform="translate(1491.997415 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-62" transform="translate(1522.597406 0.5)"/>
-     <use xlink:href="#LatinModernMath-Regular-2212" transform="translate(1578.951537 30.665625) scale(0.7)"/>
-     <use xlink:href="#LatinModernMath-Regular-31" transform="translate(1633.411529 30.665625) scale(0.7)"/>
+     <use xlink:href="#Cmb10-50" transform="translate(0 0.5)"/>
+     <use xlink:href="#Cmb10-6c" transform="translate(68.310547 0.5)"/>
+     <use xlink:href="#Cmb10-6f" transform="translate(95.996094 0.5)"/>
+     <use xlink:href="#Cmb10-74" transform="translate(145.996094 0.5)"/>
+     <use xlink:href="#Cmb10-68" transform="translate(185.009766 0.5)"/>
+     <use xlink:href="#Cmb10-69" transform="translate(240.527344 0.5)"/>
+     <use xlink:href="#Cmb10-73" transform="translate(268.212891 0.5)"/>
+     <use xlink:href="#Cmb10-74" transform="translate(307.617188 0.5)"/>
+     <use xlink:href="#Cmr10-70" transform="translate(375.895768 0.5)"/>
+     <use xlink:href="#Cmr10-72" transform="translate(431.413346 0.5)"/>
+     <use xlink:href="#Cmr10-65" transform="translate(470.524674 0.5)"/>
+     <use xlink:href="#Cmr10-6c" transform="translate(514.909439 0.5)"/>
+     <use xlink:href="#Cmr10-69" transform="translate(542.594986 0.5)"/>
+     <use xlink:href="#Cmr10-6d" transform="translate(570.280533 0.5)"/>
+     <use xlink:href="#Cmr10-69" transform="translate(653.581314 0.5)"/>
+     <use xlink:href="#Cmr10-6e" transform="translate(681.266861 0.5)"/>
+     <use xlink:href="#Cmr10-61" transform="translate(736.784439 0.5)"/>
+     <use xlink:href="#Cmr10-72" transform="translate(786.784439 0.5)"/>
+     <use xlink:href="#Cmr10-79" transform="translate(825.895768 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-20" transform="translate(878.581314 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-222b" transform="translate(911.781311 0.5)"/>
+     <use xlink:href="#Cmsy10-4c" transform="translate(992.91375 0.5)"/>
+     <use xlink:href="#Cmr10-64" transform="translate(1076.442689 0.5)"/>
+     <use xlink:href="#Cmmi10-74" transform="translate(1131.960267 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-3d" transform="translate(1185.602845 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-32" transform="translate(1280.961427 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-30" transform="translate(1330.961411 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-30" transform="translate(1380.961396 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-66" transform="translate(1445.593835 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-62" transform="translate(1476.193826 0.5)"/>
+     <use xlink:href="#LatinModernMath-Regular-2212" transform="translate(1532.547957 30.665625) scale(0.7)"/>
+     <use xlink:href="#LatinModernMath-Regular-31" transform="translate(1587.007949 30.665625) scale(0.7)"/>
     </g>
    </g>
    <g id="legend_1">

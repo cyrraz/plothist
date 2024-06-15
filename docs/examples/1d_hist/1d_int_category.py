@@ -1,9 +1,8 @@
 """
-1d integer category
-===================
+Integer categories
+==================
 
-Plot a 1d histogram with integer categories.
-
+Plot a 1D histogram with integer categories.
 """
 
 ###

@@ -1,8 +1,8 @@
 """
-1d Stacked hists
+Stack histograms
 ================
 
-Stack two 1d histograms with ``plot_hist`` function.
+Stack two 1D histograms with ``plot_hist()``.
 """
 
 from plothist import get_dummy_data

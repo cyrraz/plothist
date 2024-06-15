@@ -1,8 +1,8 @@
 """
-Only the comparison plot
-========================
+Comparison
+==========
 
-Example that shows how to only plot the comparison. Here, we compare the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2.
+Plot the comparison between two 1D histograms.
 """
 
 from plothist import get_dummy_data

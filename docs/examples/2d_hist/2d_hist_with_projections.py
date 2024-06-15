@@ -1,8 +1,8 @@
 """
-2d hist with projections
-========================
+2D histogram with projections
+==============================
 
-Plot a 2d histogram with the two projections of the 1d distributions.
+Plot a 2D histogram with the two 1D projections.
 """
 
 from plothist import get_dummy_data
