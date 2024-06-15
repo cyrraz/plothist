@@ -67,6 +67,8 @@ plot_hist(
 
 ax_main.legend()
 
-add_luminosity(collaboration="Plothist", ax=ax_main, lumi=200, preliminary=True)
+add_luminosity(
+    collaboration="Plothist", ax=ax_main, lumi=3, lumi_unit="zb", preliminary=True
+)
 
 fig.savefig("model_examples_stacked.svg", bbox_inches="tight")
