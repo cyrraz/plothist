@@ -1,8 +1,8 @@
 """
-Model with data, stacked
-========================
+Data vs model with stacked components
+=====================================
 
-Plot a model with stacked components and data.
+Plot data and a model with stacked components.
 """
 
 from plothist import get_dummy_data

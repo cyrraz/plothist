@@ -1,8 +1,8 @@
 """
-All data/model comparisons
-==========================
+Data/model comparisons
+======================
 
-This example shows every possible comparison between data and model.
+Multiple comparisons between data and model.
 """
 
 from plothist import get_dummy_data

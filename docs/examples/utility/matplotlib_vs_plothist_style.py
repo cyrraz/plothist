@@ -1,8 +1,8 @@
 """
-Matplotlib vs plothist style
-============================
+Default style: matplotlib vs plothist
+=====================================
 
-This example shows the difference between matplotlib and plothist default style.
+Illustration of the difference between matplotlib and plothist default styles.
 """
 
 import matplotlib.pyplot as plt

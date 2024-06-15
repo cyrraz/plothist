@@ -1,8 +1,8 @@
 """
-Model with data, unstacked
-==========================
+Data vs model with unstacked components
+=====================================
 
-Plot a model with unstacked components and data.
+Plot data and a model with unstacked components.
 """
 
 from plothist import get_dummy_data

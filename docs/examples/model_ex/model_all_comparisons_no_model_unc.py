@@ -1,8 +1,8 @@
 """
-All data/model comparisons, no model uncertainty
-================================================
+Data/model comparisons, no model uncertainty
+============================================
 
-This example shows every possible comparison between data and model, without model uncertainty.
+Multiple comparisons between data and model, without model uncertainty.
 """
 
 from plothist import get_dummy_data

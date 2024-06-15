@@ -1,8 +1,8 @@
 """
-Model with data, stacked and unstacked functions
-================================================
+Compare data and functional model
+=================================
 
-Plot a model with stacked + unstacked functions and data.
+Compare data and model with stacked and unstacked functional components.
 """
 
 from plothist import get_dummy_data
