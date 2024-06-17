@@ -1,6 +1,6 @@
 """
-1D stacked functions
-====================
+Stacked functions
+=================
 
 Plot stacked functions using ``plot_function()``.
 """

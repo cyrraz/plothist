@@ -1,6 +1,6 @@
 """
-1D profile
-==========
+Mean histogram (profile)
+========================
 
 Plot a 1D mean histogram (profile).
 """

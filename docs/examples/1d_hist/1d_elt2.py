@@ -1,6 +1,6 @@
 """
-1D error histogram
-==================
+Histogram with uncertainties
+============================
 
 Plot a 1D histogram with error bars using ``plot_error_hist()``.
 """

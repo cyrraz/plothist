@@ -1,6 +1,6 @@
 """
-1D function
-===========
+Function
+========
 
 Plot a 1D function with ``plot_function()``.
 """

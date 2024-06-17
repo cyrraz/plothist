@@ -1,8 +1,8 @@
 """
-Data vs model with stacked and unstacked functional components
-==============================================================
+Model with stacked and unstacked functional components
+======================================================
 
-Plot data and a model with stacked and unstacked functional components.
+Plot a model with stacked and unstacked functional components.
 """
 
 from plothist import get_dummy_data

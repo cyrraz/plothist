@@ -1,6 +1,6 @@
 """
-1D histogram
-============
+Histogram
+=========
 
 Plot a 1D histogram with ``plot_hist()``.
 """

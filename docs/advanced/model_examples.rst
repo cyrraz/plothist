@@ -1,8 +1,8 @@
 .. _advanced-model_examples-label:
 
-=======================
-Plotting model and data
-=======================
+===============================
+Plot and compare model and data
+===============================
 
 The examples below make use of a numpy ndarray ``df`` containing dummy data (you may also use a pandas dataframe), that can be loaded with:
 

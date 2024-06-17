@@ -1,6 +1,6 @@
 """
-1D histograms
-=============
+Multiple histograms
+===================
 
 Plot multiple histograms on the same plot using ``plot_hist()``.
 """
