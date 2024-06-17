@@ -6,7 +6,7 @@ plothist
 **Visualize and compare data in a scalable way and a beautiful style.**
 
 * Installation and documentation: `https://plothist.readthedocs.io/ <https://plothist.readthedocs.io/>`_
-* Image gallery: `https://plothist.readthedocs.io/en/latest/example_gallery/ <https://plothist.readthedocs.io/en/latest/example_gallery/>`_
+* Example gallery: `https://plothist.readthedocs.io/en/latest/example_gallery/ <https://plothist.readthedocs.io/en/latest/example_gallery/>`_
 
 |img1| |img2|
 
@@ -22,7 +22,7 @@ plothist
 |GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Code style: black|
 
 
-**Advantages of the package**: scalability, style and user-friendly way of managing variables and a stunning `image gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
+**Advantages of the package**: scalability, style and user-friendly way of managing variables and a stunning `example gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
 
 1. **First idea**: default style is already presentation-ready and/or publication-ready (with no effort).
 
@@ -30,7 +30,7 @@ plothist
 
 3. **Third idea**: visualize a lot of variables easily with a variable manager. Really easy to modify the plotting information and make multiple plots of the same variable with different settings.
 
-4. **Fourth idea**: detailed and user-friendly documentation including a marvelous `gallery of examples <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
+4. **Fourth idea**: detailed and user-friendly documentation including a marvelous `example gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
 
 
 

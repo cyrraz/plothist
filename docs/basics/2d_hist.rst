@@ -14,7 +14,7 @@ The examples below make use of a numpy ndarray ``df`` containing dummy data (you
 
 .. note::
    This page presents functions of ``plothist`` step by step and gives information about how to use them.
-   To reproduce the examples, please visit the `plot gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_, because it contains a standalone script for each example, that you can run directly.
+   To reproduce the examples, please visit the `example gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_, because it contains a standalone script for each example, that you can run directly.
 
 
 Simple plot
