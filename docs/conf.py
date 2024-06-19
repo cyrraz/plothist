@@ -197,6 +197,7 @@ sphinx_gallery_conf = {
         [
             "examples/1d_hist",
             "examples/2d_hist",
+            "examples/1d_func",
             "examples/model_ex",
             "examples/advanced",
             "examples/utility",

@@ -74,29 +74,6 @@ To perform a simple histogram with error bars, use the :func:`plot_error_hist() 
 The function can also take what kind of bin uncertainty to use for hist with the argument ``uncertainty_type``: ``"symmetrical"`` for the Poisson standard deviation derived from the variance stored in the histogram object, ``"asymmetrical"`` for asymmetrical uncertainties based on a Poisson confidence interval. Default is ``"symmetrical"``.
 
 
-Plotting functions
-==================
-
-Everything presented for the histogram is also true to plot functions using the :func:`plot_function() <plothist.plotters.plot_function>` function:
-
-.. literalinclude:: ../examples/1d_hist/1d_fct.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/1d_fct.svg
-    :alt: Simple function
-    :width: 500
-
-In particular, you can stack functions:
-
-.. literalinclude:: ../examples/1d_hist/1d_fct_stacked.py
-    :language: python
-    :start-after: ###
-
-.. image:: ../img/1d_fct_stacked.svg
-    :alt: Simple stacked function
-    :width: 500
-
 .. _basics-1d_hist_comparison-label:
 Comparing two histograms
 ========================
@@ -199,14 +176,6 @@ This example shows how to plot the ratio between two histograms h1 and h2 when t
 .. image:: ../img/1d_comparison_efficiency.svg
    :alt: Simple efficiency comparison
    :width: 500
-
-
-Comparison with functions
-=========================
-
-To compare one histogram with one or multiple functions, see :ref:`advanced-model-functions-comparison-label`.
-
-To compare two functions together, see :ref:`advanced-asymmetry-label`.
 
 
 To only plot the comparison
