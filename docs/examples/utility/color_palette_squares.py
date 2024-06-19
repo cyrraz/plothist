@@ -1,8 +1,8 @@
 """
-Color palette squares
-=====================
+Color palettes
+==============
 
-Create a plot of a color palette with squares representing the color gradient of the palette.
+Examples of color palettes.
 """
 
 import matplotlib.pyplot as plt

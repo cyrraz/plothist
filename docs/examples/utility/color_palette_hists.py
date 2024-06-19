@@ -1,8 +1,8 @@
 """
-Color palette presentation
-==========================
+Color palettes in stacked histograms
+====================================
 
-Create a plot with 4 color palettes displayed.
+Examples of color palettes in stacked histograms.
 """
 
 from plothist import get_dummy_data

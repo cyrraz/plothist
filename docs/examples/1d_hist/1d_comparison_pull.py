@@ -1,6 +1,6 @@
 """
-Pull comparison
-===============
+Pull
+====
 
 Compare two 1D histograms using the pull method.
 """

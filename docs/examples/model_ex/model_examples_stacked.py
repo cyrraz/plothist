@@ -1,8 +1,8 @@
 """
-Model with data, stacked
-========================
+Data vs model with stacked components
+=====================================
 
-Plot a model with stacked components and data.
+Plot data and a model with stacked components.
 """
 
 from plothist import get_dummy_data
@@ -67,6 +67,8 @@ plot_hist(
 
 ax_main.legend()
 
-add_luminosity(collaboration="Beast III", ax=ax_main, lumi=200, preliminary=True)
+add_luminosity(
+    collaboration="plothist", ax=ax_main, lumi=3, lumi_unit="zb", preliminary=True
+)
 
 fig.savefig("model_examples_stacked.svg", bbox_inches="tight")

@@ -1,8 +1,8 @@
 """
-Ratio comparison
-================
+Ratio
+=====
 
-Compare two 1D histograms using the ratio [h1/h2] method.
+Compare two 1D histograms using the ratio [h1/h2].
 """
 
 from plothist import get_dummy_data

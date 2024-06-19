@@ -1,6 +1,6 @@
 """
-Relative difference comparison
-==============================
+Relative difference
+===================
 
 Compare two 1D histograms using the relative difference [(h1-h2)/h2].
 """

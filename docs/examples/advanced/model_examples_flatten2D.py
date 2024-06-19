@@ -1,8 +1,8 @@
 """
 Flatten 2D histograms
-======================
+=====================
 
-This example shows how to flatten 2D histograms.
+This example shows how to flatten and display 2D histograms on one dimension.
 """
 
 from plothist import get_dummy_data

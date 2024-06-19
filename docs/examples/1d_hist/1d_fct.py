@@ -1,8 +1,8 @@
 """
-1d function
-===========
+Function
+========
 
-Plot a function with ``plot_function``.
+Plot a 1D function with ``plot_function()``.
 """
 
 ###

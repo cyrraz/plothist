@@ -1,8 +1,8 @@
 """
-2d Simple hist
-==============
+2D histogram
+============
 
-Plot a 2d histogram with ``plot_2d_hist``.
+Plot a 2D histogram with ``plot_2d_hist()``.
 """
 
 from plothist import get_dummy_data

@@ -1,8 +1,8 @@
 """
-Model with stacked and unstacked histograms components
-======================================================
+Model with stacked and unstacked components
+===========================================
 
-Plot a model made of stacked and unstacked histograms components.
+Plot a model with stacked and unstacked components.
 """
 
 from plothist import get_dummy_data

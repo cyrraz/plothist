@@ -1,5 +1,5 @@
-Image gallery
-=============
+Example gallery
+===============
 
 Gallery of images that are used in the doc.
 
