@@ -1,8 +1,8 @@
 """
-2d Uneven binning
-=================
+2D histogram, uneven binning
+============================
 
-Plot a 2d histogram with uneven binning.
+Plot a 2D histogram with uneven binning.
 """
 
 from plothist import get_dummy_data

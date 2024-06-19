@@ -1,8 +1,8 @@
 """
-1d Stacked functions
-====================
+Stacked functions
+=================
 
-Plot stacked functions using ``plot_function``.
+Plot stacked functions using ``plot_function()``.
 """
 
 from scipy.stats import norm

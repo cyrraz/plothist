@@ -1,6 +1,6 @@
 """
-Advanced example using asymmetry comparison
-===========================================
+Advanced asymmetry comparison
+=============================
 
 Plot the asymmetry between 2 histograms and 2 functions.
 """

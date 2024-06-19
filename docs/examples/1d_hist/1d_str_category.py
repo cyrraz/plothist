@@ -1,9 +1,8 @@
 """
-1d string category
-==================
+String categories
+=================
 
-Plot a 1d histogram with string categories.
-
+Plot a 1D histogram with string categories.
 """
 
 ###

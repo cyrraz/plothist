@@ -1,8 +1,8 @@
 """
-add_text Example
-================
+Add text
+========
 
-Multiple examples of combinations of x and y aliases for the add_text function.
+Examples of use of ``add_text()``.
 """
 
 ###

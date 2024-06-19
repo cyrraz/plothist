@@ -1,8 +1,8 @@
 """
-2d Multiple hists
-=================
+2D histograms
+=============
 
-Plot multiple 2d histograms easily with the variable registry.
+Plot multiple 2D histograms with the variable registry.
 """
 
 from plothist import get_dummy_data

@@ -1,9 +1,8 @@
 """
-1d side by side
-===============
+Side-by-side categories
+=======================
 
-Plot multiple 1d histograms with categories side by side.
-
+Plot multiple 1D histograms with categories side by side.
 """
 
 ###

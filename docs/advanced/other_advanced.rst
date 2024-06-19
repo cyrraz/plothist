@@ -1,8 +1,8 @@
 .. _advanced-label:
 
-======================
-Other complex examples
-======================
+=======================
+Other advanced examples
+=======================
 
 This section shows how to use the ``plothist`` package to make more complex plots. The examples below use a lot of the functionality of the package to produce the plots, but the code is still quite simple and easy to read.
 

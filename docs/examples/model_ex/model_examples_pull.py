@@ -2,7 +2,7 @@
 Pull plot
 =========
 
-Plot a pull plot with data/model comparison.
+Compare data and model with pulls.
 """
 
 from plothist import get_dummy_data

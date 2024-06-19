@@ -2,7 +2,7 @@
 Pull plot, no model uncertainty
 ===============================
 
-Plot a pull plot with data/model comparison without model uncertainty.
+Compare data and model with pulls, without model uncertainty.
 """
 
 from plothist import get_dummy_data
@@ -58,6 +58,6 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     model_uncertainty=False,  # <--
 )
 
-add_luminosity(collaboration="Beast III", ax=ax_main, is_data=False)
+add_luminosity(collaboration="plothist", ax=ax_main, is_data=False)
 
 fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches="tight")

@@ -1,6 +1,6 @@
 """
-Advanced example comparing 1D histograms
-========================================
+Multiple comparisons
+====================
 
 Compare two 1D histograms using the pull and ratio methods on the same plot.
 """

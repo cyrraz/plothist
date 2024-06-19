@@ -1,8 +1,8 @@
 """
-Difference comparison
-=====================
+Difference
+==========
 
-Compare two 1D histograms using the difference [h1-h2] method.
+Compare two 1D histograms using the difference [h1-h2].
 """
 
 from plothist import get_dummy_data
