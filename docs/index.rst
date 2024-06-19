@@ -15,6 +15,7 @@ Content
 
     basics/1d_hist
     basics/2d_hist
+    basics/1d_func
 
 .. toctree::
     :maxdepth: 2

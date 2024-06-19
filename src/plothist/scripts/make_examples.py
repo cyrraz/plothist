@@ -176,12 +176,13 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             if new_img_hashes[file] != file_hash:
                 changed_img.append(file)
         if changed_img:
+            changed_img.sort()
             fail(
-                f"The following images have changed: {', '.join(changed_img)}. Please check the changes in the svg files and commit them if they are correct."
+                f"The following images in the doc have changed [{len(changed_img)} out of {len(img_hashes)}]:\n{', '.join(changed_img)}.\nPlease run `plothist_make_examples`, check the new images and commit them if they are correct."
             )
         if len(new_img_hashes) != len(img_hashes):
             fail(
-                f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images: {set(new_img_hashes.keys()) - set(img_hashes.keys())}"
+                f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images:\n{set(new_img_hashes.keys()) - set(img_hashes.keys())}"
             )
 
 
