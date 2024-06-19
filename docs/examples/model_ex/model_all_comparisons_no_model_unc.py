@@ -2,7 +2,7 @@
 Data/model comparisons, no model uncertainty
 ============================================
 
-Multiple comparisons between data and model, without model uncertainty.
+All supported comparisons between data and model, without model uncertainty.
 """
 
 from plothist import get_dummy_data

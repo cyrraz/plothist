@@ -2,7 +2,7 @@
 Data/model comparisons
 ======================
 
-Multiple comparisons between data and model.
+All supported comparisons between data and model.
 """
 
 from plothist import get_dummy_data

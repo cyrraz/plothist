@@ -1,6 +1,6 @@
 """
-Compare data and functional model
-=================================
+Data vs functional model
+========================
 
 Compare data and model with stacked and unstacked functional components.
 """
