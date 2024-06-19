@@ -23,7 +23,7 @@ The examples below make use of a numpy ndarray ``df`` containing dummy data (you
 Simple function
 ===============
 
-Everything presented for the histogram is also true to plot functions using the :func:`plot_function() <plothist.plotters.plot_function>` function:
+Plothist supports plotting of functions using the :func:`plot_function() <plothist.plotters.plot_function>` function:
 
 .. literalinclude:: ../examples/1d_func/1d_fct.py
     :language: python
