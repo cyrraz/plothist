@@ -176,6 +176,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             if new_img_hashes[file] != file_hash:
                 changed_img.append(file)
         if changed_img:
+            changed_img.sort()
             fail(
                 f"The following images in the doc have changed [{len(changed_img)} out of {len(img_hashes)}]:\n{', '.join(changed_img)}.\nPlease run `plothist_make_examples`, check the new images and commit them if they are correct."
             )
