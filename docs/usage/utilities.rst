@@ -116,7 +116,7 @@ The function :func:`plot_reorder_legend(ax, order) <plothist.plothist_style.plot
 
 .. warning::
 
-   We recommend to not alter the order of the legend entries for stacked histograms. By default in ``plothist``, the legend entries are ordered in the same way as the plots are stacked, which improves readability.
+   We recommend to not alter the order of the legend entries for stacked histograms. By default in ``plothist``, the legend entries are ordered in the same way as the plots are stacked, top to bottom, which improves readability.
 
 Save figure
 ===========

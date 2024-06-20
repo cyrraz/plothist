@@ -82,7 +82,7 @@ You can also display the error as an asymmetrical uncertainties based on a Poiss
 Comparing two histograms
 ========================
 
-To compare two histograms, you can use the :func:`plot_comparison() <plothist.plotters.plot_two_hist_comparison>` function. The function takes two histograms as input and compares them using one of the seven comparison methods available: ``ratio``, ``split_ratio``, ``pull``, ``difference``, ``relative_difference``, ``asymmetry`` and ``efficiency``. The examples below are using the histograms defined above.
+To compare two histograms, you can use the :func:`plot_two_hist_comparison() <plothist.plotters.plot_two_hist_comparison>` function. The function takes two histograms as input and compares them using one of the seven comparison methods available: ``ratio``, ``split_ratio``, ``pull``, ``difference``, ``relative_difference``, ``asymmetry`` and ``efficiency``. The examples below are using the histograms defined above.
 
 Ratio
 -----

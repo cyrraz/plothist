@@ -24,7 +24,7 @@ Below is the code that generates the data and model histograms used in all the e
 
 The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of entries for a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model everything that is not the signal. We also define three functions that will be used as model components.
 
-We also show an example of how to scale the model to the data. We take advantage that the histograms are separated from the plotting functions to do this, so we can manipulate them as we want before plotting.
+We also show an example of how to scale the model to the data. We take advantage that the histograms are separated from the plotting functions to do this, so they can be manipulated.
 
 .. code-block:: python
 
@@ -83,7 +83,7 @@ We also show an example of how to scale the model to the data. We take advantage
 Simple model plots
 ==================
 
-If you want to plot only the model, use :func:`plot_model() <plothist.plotters.plot_model>`. It supports models made of functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
+To only plot the model, the function :func:`plot_model() <plothist.plotters.plot_model>` can be used. It supports models made of functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
 
 It can take a lot more arguments to customize the plot than shown in the examples below, see the :ref:`documentation-label` for more details.
 

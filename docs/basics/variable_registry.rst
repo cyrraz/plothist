@@ -9,7 +9,7 @@ The variable registry is a convenient tool to store and get easily any plotting 
 Create the registry
 ===================
 
-To create a variable registry, you just need to input the list of variable keys you want to store information for. It will automatically create a ``variable_registry.yaml`` with default information for each variable:
+To create a variable registry, you just need to input the list of variable keys you want to store information for. The function :func:`create_variable_registry() <plothist.variable_registry.create_variable_registry>` will automatically create a ``variable_registry.yaml`` with default information for each variable:
 
 .. code-block:: python
 
@@ -46,7 +46,7 @@ To add new variables to an already existing ``variable_registry.yaml`` file, you
 Getting the plotting information
 ================================
 
-To get the plotting information of a variable, you can use the :func:`get_variable_from_registry() <plothist.variable_registry.get_variable_from_registry>` function:
+To get the plotting information of a variable, you can use the :func:`get_variable_from_registry() <plothist.variable_registry.get_variable_from_registry>` function, which returns a dictionary with the plotting information:
 
 .. code-block:: python
 
