@@ -2038,7 +2038,7 @@ L 74.454393 228.671743
 L 74.149725 228.678504 
 L 73.845057 228.685119 
 z
-" clip-path="url(#p4e7312ee53)" style="fill: #e24a33"/>
+" clip-path="url(#p4deaa227dd)" style="fill: #e24a33"/>
    </g>
    <g id="PolyCollection_2">
     <path d="M 73.845057 228.721668 
@@ -4044,7 +4044,7 @@ L 74.454393 228.710293
 L 74.149725 228.716041 
 L 73.845057 228.721668 
 z
-" clip-path="url(#p4e7312ee53)" style="fill: #348abd"/>
+" clip-path="url(#p4deaa227dd)" style="fill: #348abd"/>
    </g>
    <g id="patch_3">
     <path d="M 58.626875 228.96 
@@ -4779,7 +4779,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="p4e7312ee53">
+  <clipPath id="p4deaa227dd">
    <rect x="58.626875" y="7.2" width="334.8" height="221.76"/>
   </clipPath>
  </defs>
