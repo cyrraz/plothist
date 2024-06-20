@@ -178,7 +178,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         if changed_img:
             changed_img.sort()
             fail(
-                f"The following images in the doc have changed [{len(changed_img)} out of {len(img_hashes)}]:\n{', '.join(changed_img)}.\nPlease run `plothist_make_examples`, check the new images and commit them if they are correct."
+                f"The following images in the doc have changed [{len(changed_img)} out of {len(img_hashes)}]:\n{', '.join(changed_img)}.\nPlease run `plothist_make_examples`, check the new images and commit them if they are correct.\n\nThe following images haven't changed:\n{', '.join(set(img_hashes.keys()) - set(changed_img))}\n\nHere is a print of the svg metadata:\n{svg_metadata}"
             )
         if len(new_img_hashes) != len(img_hashes):
             fail(
