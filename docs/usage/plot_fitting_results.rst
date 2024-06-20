@@ -76,7 +76,7 @@ First you need to convert your functions to scipy functions. This can be done us
 With RooFit
 -----------
 
-This should be called after you have fitted your model and you have a ``RooAbsPdf`` object.
+This should be called after you have fitted your model and you have a ``RooAbsPdf`` object. The idea is to evaluate the ``RooFit`` PDF at a large number of points and then interpolate it with a scipy function. This function can then be saved with pickle, or used directly in the following step.
 
 
 .. warning::
@@ -139,7 +139,7 @@ This should be called after you have fitted your model and you have a ``RooAbsPd
 With zfit
 ---------
 
-This should be called after you have fitted your model and you have a ``zfit.pdf.BasePDF`` object.
+This should be called after you have fitted your model and you have a ``zfit.pdf.BasePDF`` object. The idea is the same as for ``RooFit``: evaluate the PDF at a large number of points and then interpolate it with a scipy function. This function can then be saved with pickle, or used directly in the following step.
 
 .. code-block:: python
 
@@ -190,7 +190,7 @@ This should be called after you have fitted your model and you have a ``zfit.pdf
 Renormalize the PDF
 ===================
 
-A ``pdf_func`` you get from a scipy function or from the saved pickle file for ``RooFit`` or ``zfit`` has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and divide by the integral of the PDF in the range. This can be done easily using this small function:
+A ``pdf_func`` you get from a scipy function or from the saved pickle file for ``RooFit`` or ``zfit`` has an area of 1. When you want to plot it, you need to multiply it by the bin width of your histogram, the number of expected events in the range for this PDF and divide by the integral of the PDF in the range. The small function below performs this renormalization:
 
 .. code-block:: python
 
@@ -243,14 +243,15 @@ Then you can use :func:`plot_model() <plothist.plotters.plot_model>` or :func:`p
 Getting RooFit PDFs from the canvas
 ===================================
 
-Some PDFs normalization are not easy to get from the RooFit PDF object.
+Some PDFs normalization are not easy to get from the ``RooFit`` PDF object.
 If the two steps above did not work, you can use the canvas to get the PDF.
 This solution has the advantage of being already normalized to the data sample.
 The disadvantage is that the resulting PDF is bin dependent, so when plotting your data, you need to use the same bins as the ones used to create the canvas.
 
 To get the PDFs from the canvas, you first need plot the desired PDFs on a frame with ``plotOn()``.
 Then, you need to save the canvas as a root file with ``canvas.SaveAs("root_file.root")``.
-Then you can use the following function to get the PDF:
+
+The main idea is that when you do a ``plotOn()`` on a frame, the function is saved as a ``TGraph`` object. You can then get the ``x`` and ``y`` values of the graph and interpolate it to get a function. The function is then saved in a list with the name of the function. The PDF order in the list is the same as the order you used to plot them on the frame:
 
 .. code-block:: python
 
@@ -291,5 +292,3 @@ Then you can use the following function to get the PDF:
        print()
 
        return pdf_list
-
-The main idea is that when you do a ``plotOn()`` on a frame, the function is saved as a ``TGraph`` object. You can then get the x and y values of the graph and interpolate it to get a function. The function is then saved in a list with the name of the function. The PDF order in the list is the same as the order you used to plot them on the frame.
