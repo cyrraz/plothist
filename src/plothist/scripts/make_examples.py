@@ -7,6 +7,10 @@ import warnings
 import sys
 
 
+_matplotlib_version = "3.9.0"
+_numpy_version = "2.0.0"
+
+
 def make_examples(no_input=False, check_svg=False, print_code=False):
     """
     This function can redo automatically all the examples from the documentation. Only works with python 3.9 or higher.
@@ -35,17 +39,19 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         return 1
 
     import matplotlib
-    if matplotlib.__version__ < "3.9.0":
+
+    if matplotlib.__version__ < _matplotlib_version:
         warnings.warn(
-            "svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib 3.9.0 or higher. Skipping.",
+            f"svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib {_matplotlib_version} or higher. Skipping.",
             stacklevel=2,
         )
         return 1
 
     import numpy
-    if numpy.__version__ < "2.0.0":
+
+    if numpy.__version__ < _numpy_version:
         warnings.warn(
-            "svg behavior is not consistent across numpy versions. Please run this script with numpy 2.0.0 or higher. Skipping.",
+            f"svg behavior is not consistent across numpy versions. Please run this script with numpy {_numpy_version} or higher. Skipping.",
             stacklevel=2,
         )
         return 1
