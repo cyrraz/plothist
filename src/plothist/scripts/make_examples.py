@@ -34,6 +34,22 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         )
         return 1
 
+    import matplotlib
+    if matplotlib.__version__ < "3.9.0":
+        warnings.warn(
+            "svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib 3.9.0 or higher. Skipping.",
+            stacklevel=2,
+        )
+        return 1
+
+    import numpy
+    if numpy.__version__ < "2.0.0":
+        warnings.warn(
+            "svg behavior is not consistent across numpy versions. Please run this script with numpy 2.0.0 or higher. Skipping.",
+            stacklevel=2,
+        )
+        return 1
+
     plothist_folder = (
         plothist.__path__[0]
         if os.environ.get("PLOTHIST_PATH") is None
