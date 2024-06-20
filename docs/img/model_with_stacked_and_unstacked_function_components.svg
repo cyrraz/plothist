@@ -2041,7 +2041,7 @@ L 58.626875 -54.760455
 z
 " style="stroke: #000000; stroke-width: 0.5"/>
     </defs>
-    <g clip-path="url(#pcb1058fb93)">
+    <g clip-path="url(#pcefd5812ea)">
      <use xlink:href="#mff08c03d89" x="0" y="292.343225" style="fill: #e24a33; stroke: #000000; stroke-width: 0.5"/>
     </g>
    </g>
@@ -4052,7 +4052,7 @@ L 58.626875 -54.706006
 z
 " style="stroke: #000000; stroke-width: 0.5"/>
     </defs>
-    <g clip-path="url(#pcb1058fb93)">
+    <g clip-path="url(#pcefd5812ea)">
      <use xlink:href="#m9d8e5da685" x="0" y="292.343225" style="fill: #348abd; stroke: #000000; stroke-width: 0.5"/>
     </g>
    </g>
@@ -4103,7 +4103,7 @@ L 360.583632 241.605317
 L 379.016064 241.771653 
 L 393.426875 241.814182 
 L 393.426875 241.814182 
-" clip-path="url(#pcb1058fb93)" style="fill: none; stroke: #000000; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#pcefd5812ea)" style="fill: none; stroke: #000000; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 58.626875 237.367058 
@@ -4199,7 +4199,7 @@ L 374.324172 241.530744
 L 392.756605 241.728233 
 L 393.426875 241.732336 
 L 393.426875 241.732336 
-" clip-path="url(#pcb1058fb93)" style="fill: none; stroke: #000080; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#pcefd5812ea)" style="fill: none; stroke: #000080; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="patch_3">
     <path d="M 58.626875 241.8351 
@@ -5451,7 +5451,7 @@ L 340.686875 85.46385
   </g>
  </g>
  <defs>
-  <clipPath id="pcb1058fb93">
+  <clipPath id="pcefd5812ea">
    <rect x="58.626875" y="20.0751" width="334.8" height="221.76"/>
   </clipPath>
  </defs>
