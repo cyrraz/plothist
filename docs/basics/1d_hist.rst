@@ -22,7 +22,7 @@ The examples below make use of a numpy ndarray ``df`` containing dummy data (you
 Simple 1D histogram
 ===================
 
-To plot a simple 1d histogram:
+To plot a simple 1D histogram, you first need to create a histogram object with the :func:`make_hist() <plothist.histogramming.make_hist>` function that you can then plot with the :func:`plot_hist() <plothist.plotters.plot_hist>` function:
 
 .. literalinclude:: ../examples/1d_hist/1d_hist_simple.py
     :language: python
@@ -32,7 +32,12 @@ To plot a simple 1d histogram:
    :alt: Simple hist
    :width: 500
 
-It is really easy to add multiple histogram to the same figure:
+
+.. note::
+    The function :func:`make_hist() <plothist.histogramming.make_hist>` returns a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/>`_ object that supports potentially weighted data. You may call the :func:`make_hist() <plothist.histogramming.make_hist>` function without input data and fill the histogram object later in your code. An advantage of separating the histogramming from the plotting is that you can plot large datasets without having to load all the data into memory (see `this tutorial <https://github.com/cyrraz/visualise-large-dataset>`_).
+
+
+To add multiple histograms to the same plot, you can just call the :func:`make_hist() <plothist.histogramming.make_hist>` and :func:`plot_hist() <plothist.plotters.plot_hist>` functions multiple times:
 
 .. literalinclude:: ../examples/1d_hist/1d_elt1.py
     :language: python
@@ -43,7 +48,7 @@ It is really easy to add multiple histogram to the same figure:
    :width: 500
 
 
-or stack them:
+To stack them, use the argument ``stacked=True`` in the :func:`plot_hist() <plothist.plotters.plot_hist>` function:
 
 .. literalinclude:: ../examples/1d_hist/1d_elt1_stacked.py
     :language: python
@@ -54,13 +59,10 @@ or stack them:
    :width: 500
 
 
-.. note::
-    The function :func:`make_hist() <plothist.histogramming.make_hist>` returns a `boost_histogram.Histogram <https://boost-histogram.readthedocs.io/en/latest/>`_ object that supports potentially weighted data. You may call the :func:`make_hist() <plothist.histogramming.make_hist>` function without input data and fill the histogram object later in your code. An advantage of separating the histogramming from the plotting is that you can plot large datasets without having to load all the data into memory (see `this tutorial <https://github.com/cyrraz/visualise-large-dataset>`_).
-
 Histogram with error bars
 =========================
 
-To perform a simple histogram with error bars, use the :func:`plot_error_hist() <plothist.plotters.plot_error_hist>` function:
+To plot a simple histogram with error bars, use the :func:`plot_error_hist() <plothist.plotters.plot_error_hist>` function. The default error bars are the Poisson standard deviation derived from the variance stored in the histogram object.
 
 .. literalinclude:: ../examples/1d_hist/1d_elt2.py
     :language: python
@@ -70,15 +72,17 @@ To perform a simple histogram with error bars, use the :func:`plot_error_hist() 
    :alt: Simple error hist
    :width: 500
 
+You can also display the error as an asymmetrical uncertainties based on a Poisson confidence interval with the argument ``uncertainty_type="asymmetrical"``.
 
-The function can also take what kind of bin uncertainty to use for hist with the argument ``uncertainty_type``: ``"symmetrical"`` for the Poisson standard deviation derived from the variance stored in the histogram object, ``"asymmetrical"`` for asymmetrical uncertainties based on a Poisson confidence interval. Default is ``"symmetrical"``.
+.. note::
+    Asymmetrical uncertainties can only be computed for unweighted histograms, because the bin contents of a weighted histogram do not follow a Poisson distribution. More information in :ref:`documentation-statistics-label`.
 
 
 .. _basics-1d_hist_comparison-label:
 Comparing two histograms
 ========================
 
-To compare two histograms, seven comparison methods are available: ``ratio``, ``split_ratio``, ``pull``, ``difference``, ``relative_difference``, ``asymmetry`` and ``efficiency``. The examples below are using the histograms defined above.
+To compare two histograms, you can use the :func:`plot_two_hist_comparison() <plothist.plotters.plot_two_hist_comparison>` function. The function takes two histograms as input and compares them using one of the seven comparison methods available: ``ratio``, ``split_ratio``, ``pull``, ``difference``, ``relative_difference``, ``asymmetry`` and ``efficiency``. The examples below are using the histograms defined above.
 
 Ratio
 -----
@@ -97,7 +101,7 @@ Ratio is the default comparison method:
 Split ratio
 -----------
 
-When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents. The h2 adjusted uncertainties are shown separately as a hatched area. In practice, the ``split_ratio`` comparison option is used when h1 is filled with measured data and h2 is a model, see :ref:`advanced-model_comparison-label` for more details.
+When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents. The h2 adjusted uncertainties are shown separately as a hatched area. In practice, the ``split_ratio`` comparison option is used when h1 is filled with measured data and h2 is a model, see :ref:`advanced-model_comparison-label` section for more details.
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_split_ratio.py
     :language: python
@@ -111,7 +115,7 @@ When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are sc
 Pull
 ----
 
-To perform a pull comparison:
+To perform a pull comparison between two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_pull.py
     :language: python
@@ -125,7 +129,7 @@ To perform a pull comparison:
 Difference
 ----------
 
-To plot the difference between the two histograms:
+To plot the difference between two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_difference.py
     :language: python
@@ -139,7 +143,7 @@ To plot the difference between the two histograms:
 Relative difference
 -------------------
 
-To plot the relative difference between the two histograms:
+To plot the relative difference between two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_relative_difference.py
     :language: python
@@ -153,7 +157,7 @@ To plot the relative difference between the two histograms:
 Asymmetry
 ---------
 
-To plot the asymmetry between the two histograms:
+To plot the asymmetry between two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_asymmetry.py
     :language: python
@@ -181,7 +185,7 @@ This example shows how to plot the ratio between two histograms h1 and h2 when t
 To only plot the comparison
 ===========================
 
-With any of the examples above, you can use the :func:`plot_comparison() <plothist.plotters.plot_comparison>` function to only plot the comparison. Here is an example with the efficiency comparison of two histograms:
+With any of the comparison shown above, you can use the :func:`plot_comparison() <plothist.plotters.plot_comparison>` function to only plot the comparison. Here is an example with the efficiency comparison of two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_only_efficiency.py
     :language: python

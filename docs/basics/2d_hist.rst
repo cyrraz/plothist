@@ -20,7 +20,7 @@ The examples below make use of a numpy ndarray ``df`` containing dummy data (you
 Simple plot
 ===========
 
-To plot a simple 2d histogram:
+Plotting a simple 2D histogram is very similar to plotting a 1D histogram. The function :func:`make_2d_hist() <plothist.histogramming.make_2d_hist>` is used to create the 2D histogram, and the function :func:`plot_2d_hist() <plothist.plotters.plot_2d_hist>` is used to plot it.
 
 .. literalinclude:: ../examples/2d_hist/2d_hist_simple.py
     :language: python
@@ -47,12 +47,11 @@ Here is a more complex example on how to get a discrete colormap:
    :width: 500
 
 
+.. _basics-2d_hist-correlation-label:
 Correlations with variable registry
 ===================================
 
-See :ref:`basics-variable_registry-label` on how to use the variable registry.
-
-The variable registry is a really useful tool to manage and plot the correlation between multiple variables:
+The variable registry is a really useful tool to manage and plot the correlation between multiple variables (see :ref:`basics-variable_registry-label` on how to use it.)
 
 .. literalinclude:: ../examples/2d_hist/2d_hist_correlations.py
     :language: python
@@ -92,7 +91,7 @@ Instead of inputing a number of bins and a range in :func:`make_2d_hist() <ploth
 Display 1D distributions
 ========================
 
-To plot a 2d histogram with x and y projections:
+To plot a 2d histogram with x and y projections, the function :func:`plot_2d_hist_with_projections() <plothist.plotters.plot_2d_hist_with_projections>` can be used. The corresponding projections are displayed on the top and right of the 2D histogram, and the colorbar is clearly displayed and labeled.
 
 .. literalinclude:: ../examples/2d_hist/2d_hist_with_projections.py
     :language: python

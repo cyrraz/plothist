@@ -33,7 +33,7 @@ Plothist supports plotting of functions using the :func:`plot_function() <plothi
     :alt: Simple function
     :width: 500
 
-In particular, you can stack functions:
+In particular, you can stack functions using the ``stacked=True`` argument:
 
 .. literalinclude:: ../examples/1d_func/1d_fct_stacked.py
     :language: python
@@ -47,11 +47,11 @@ In particular, you can stack functions:
 Comparison with functions
 =========================
 
-To compare one histogram with a model made of one or multiple functions, see :ref:`advanced-model-functions-comparison-label`.
+To compare one histogram with a model made of one or multiple functions, see the :ref:`advanced-model-functions-comparison-label` section.
 
-To compare two functions together, see :ref:`advanced-asymmetry-label`.
+To compare two functions together, see the :ref:`advanced-asymmetry-label`.
 
 Utilities
 =========
 
-Example on how to convert a function from an external fitting package to an object that can be used by ``plothist`` can be found in :ref:`plot-fit-result-label`.
+Example on how to convert a function from an external fitting package to an object that can be used by ``plothist`` can be found in the :ref:`plot-fit-result-label` section.

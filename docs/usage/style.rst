@@ -36,7 +36,7 @@ When no colors are specified for a plot, the default palette of the ``plothist``
 .. image:: ../img/usage_style_cycle.svg
    :alt: Default ggplot palette
 
-To easily get this color palette, the function ``get_color_palette()`` can be used with ``ggplot`` as the argument:
+To get this color palette, the function :func:`get_color_palette() <plothist.plothist_style.get_color_palette>` can be used with ``ggplot`` as the argument:
 
 .. code-block:: python
 
@@ -63,7 +63,7 @@ We provide the cubehelix palette (adapted from `here <https://seaborn.pydata.org
 .. image:: ../img/usage_cubehelix.svg
    :alt: Cubehelix example
 
-You can also use the ``cubehelix_palette()`` function to tweak the colormap parameters.
+You can also use the :func:`cubehelix_palette() <plothist.plothist_style.cubehelix_palette>` function to tweak the colormap parameters.
 
 
 Matplotlib palettes

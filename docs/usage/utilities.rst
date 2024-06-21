@@ -114,6 +114,9 @@ The function :func:`plot_reorder_legend(ax, order) <plothist.plothist_style.plot
    # To reorder the legend so that 'Line 2' comes first, use:
    plot_reordered_legend(ax, [1, 0])
 
+.. warning::
+
+   We recommend to not alter the order of the legend entries for stacked histograms. By default in ``plothist``, the legend entries are ordered in the same way as the plots are stacked, top to bottom, which improves readability.
 
 Save figure
 ===========
