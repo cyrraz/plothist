@@ -4,9 +4,9 @@
 Other advanced examples
 =======================
 
-This section shows how to use the ``plothist`` package to make more complex plots. The examples below use a lot of the functionality of the package to produce the plots, but the code is still quite simple and easy to read.
+This section shows how to use the ``plothist`` package to make more complex plots. The examples below take advantage of the flexibility of the package to produce more advanced plots with ease. For each example, the code is commented to explain the logic and steps taken to produce the plots.
 
-They make use of a numpy ndarray ``df`` containing dummy data (you may also use a pandas dataframe), that can be loaded with:
+The examples use of a numpy ndarray ``df`` containing dummy data (you may also use a pandas dataframe), that can be loaded with:
 
 .. code-block:: python
 
@@ -17,9 +17,7 @@ They make use of a numpy ndarray ``df`` containing dummy data (you may also use 
 Advanced example comparing two histograms
 =========================================
 
-In this example, we will compare two tuples of histograms and use pull and ratio comparisons.
-
-First, we make the histograms and scale them. Then, we plot the histograms and the comparison plots on different axes:
+In this example, we will compare two tuples of histograms and use pull and ratio comparisons. First, we make the histograms and scale them. Then, we plot the histograms and the comparison plots on different axes:
 
 .. image:: ../img/1d_comparison_advanced.svg
    :alt: Advanced hist comparison

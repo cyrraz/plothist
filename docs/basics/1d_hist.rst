@@ -115,7 +115,7 @@ When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are sc
 Pull
 ----
 
-To perform a pull comparison:
+To perform a pull comparison between two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_pull.py
     :language: python
@@ -129,7 +129,7 @@ To perform a pull comparison:
 Difference
 ----------
 
-To plot the difference between the histograms:
+To plot the difference between two histograms:
 
 .. literalinclude:: ../examples/1d_hist/1d_comparison_difference.py
     :language: python

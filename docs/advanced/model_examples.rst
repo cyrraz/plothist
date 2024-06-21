@@ -22,9 +22,9 @@ Creating the data and model
 
 Below is the code that generates the data and model histograms used in all the examples of this section.
 
-The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of entries for a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model everything that is not the signal. We also define three functions that will be used as model components.
+The idea is to have a ``data_hist`` corresponding to any kind of data representing a count of entries for a variable, a ``signal_hist`` corresponding to the signal model, and a list of ``background_hists`` used to model everything that is not the signal. We also define 3 functions that will be used as model components.
 
-We also show an example of how to scale the model to the data. We take advantage that the histograms are separated from the plotting functions to do this, so they can be manipulated.
+We also show an example of how to scale the model to the data. We take advantage that the histograms are separated from the plotting functions to do this, so they can be manipulated before being plotted.
 
 .. code-block:: python
 
@@ -55,7 +55,7 @@ We also show an example of how to scale the model to the data. We take advantage
     signal_hist = make_hist(df[key][signal_mask], bins=50, range=range, weights=1)
 
     # Optional: scale to data
-    # boost_histogram.Histogram objects are really easy to manipulate. Here, we just multiply them by a scalar to scale them, and their variance is correctly scaled as well.
+    # boost_histogram.Histogram objects are easy to manipulate. Here, we multiply them by a scalar to scale them, and their variance is correctly scaled as well.
     background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
     background_hists = [background_scaling_factor * h for h in background_hists]
 
@@ -83,14 +83,14 @@ We also show an example of how to scale the model to the data. We take advantage
 Simple model plots
 ==================
 
-To only plot the model, the function :func:`plot_model() <plothist.plotters.plot_model>` can be used. It supports models made of functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
+To only plot the model, the function :func:`plot_model() <plothist.plotters.plot_model>` can be used. It supports models made of either functions or histograms. Stacked and unstacked components can be combined. The sum will always be the sum of all the components, stacked and unstacked.
 
 It can take a lot more arguments to customize the plot than shown in the examples below, see the :ref:`documentation-label` for more details.
 
 Histograms
 ----------
 
-Here is an example with a model made of 3 stacked and 1 unstacked histogram. The calculated sum is the sum of all 4 histograms.
+Here is an example with a model made of 3 stacked and 1 unstacked histograms. The calculated sum is the sum of all 4 histograms.
 
 .. literalinclude:: ../examples/model_ex/model_with_stacked_and_unstacked_histograms_components.py
     :language: python
@@ -100,10 +100,13 @@ Here is an example with a model made of 3 stacked and 1 unstacked histogram. The
    :alt: Plot of a model with stacked and unstacked histograms components
    :width: 500
 
+.. note::
+    To plot the uncertainty of any histogram as a hashed area, as done automatically in :func:`plot_model() <plothist.plotters.plot_model>` for the model, you can use the standalone function :func:`plot_hist_uncertainties() <plothist.plotters.plot_hist_uncertainties>`.
+
 Functions
 ---------
 
-Here is an example with a model made of 2 stacked and 1 unstacked function:
+Here is an example with a model made of 2 stacked and 1 unstacked functions:
 
 .. literalinclude:: ../examples/model_ex/model_with_stacked_and_unstacked_function_components.py
     :language: python
@@ -120,9 +123,9 @@ Compare data and model
 
 A data histogram can be added to the plot with :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>`. It will then compare the sum of the components to the data, with the comparison of your choice. The default comparison is the ratio between the model and the data. It can take any comparison method available in :func:`plot_comparison() <plothist.plotters.plot_comparison>`.
 
-The :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` is basically a combination of :func:`plot_error_hist() <plothist.plotters.plot_error_hist>` for the data, :func:`plot_model() <plothist.plotters.plot_model>` for the model, and :func:`plot_comparison() <plothist.plotters.plot_comparison>` for the comparison.
+The :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` is internally a combination of :func:`plot_error_hist() <plothist.plotters.plot_error_hist>` for the data, :func:`plot_model() <plothist.plotters.plot_model>` for the model, and :func:`plot_comparison() <plothist.plotters.plot_comparison>` for the comparison.
 
-It can take a lot more arguments to customize the plot than shown in the examples below, see the :ref:`documentation-label` for more details.
+:func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` can take a lot more arguments to customize the plot than shown in the examples below, see the :ref:`documentation-label` for more details.
 
 Stacked histograms
 ------------------
@@ -175,7 +178,7 @@ Stacked and unstacked histograms can be combined. The sum of the model component
 Models made of functions
 ------------------------
 
-The function :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` can also be used to compare data and a model made of functions. The model below is composed of 2 stacked and 1 unstacked functions. All the functions are added to the model, and the sum of the model components is the sum of all the components, stacked and unstacked:
+The function :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` can also be used to compare data and a model made of functions. The model below is composed of 2 stacked and 1 unstacked functions. All the functions contribute to the model. The sum of the model components is the sum of all the components, stacked and unstacked:
 
 .. literalinclude:: ../examples/model_ex/ratio_data_vs_model_with_stacked_and_unstacked_function_components.py
     :language: python
@@ -213,13 +216,10 @@ Now, if you do not want to show nor take into account the model uncertainties, s
    :alt: Data/model comparison with pull, no model stat. unc., stacked plot
    :width: 500
 
-The model uncertainties can be removed for every comparison method.
+The model uncertainties can be removed for every comparison method. Any argument that can be passed to :func:`plot_comparison() <plothist.plotters.plot_comparison>` can be passed to :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>`.
 
 .. note::
-    To plot the uncertainty of the model as a hashed area, as done in :func:`plot_model() <plothist.plotters.plot_model>`, you can use the standalone function :func:`plot_hist_uncertainties() <plothist.plotters.plot_hist_uncertainties>`.
-
-.. note::
-    In the two examples above, the bin width is hardcoded in the `ylabel`. For a 1D histogram with a regular binning, it is possible to get the bin width from the ``boost_histogram.Histogram`` object using ``hist.axes[0].widths[0]``.
+    In the two examples above, the bin width is hardcoded in the ``ylabel``. For a 1D histogram with a regular binning, it is possible to get the bin width from the ``boost_histogram.Histogram`` object using ``hist.axes[0].widths[0]``.
 
 Comparison overview
 ===================
