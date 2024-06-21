@@ -29,19 +29,30 @@ If a font is not correctly installed, you can try to install it manually. You ca
 - `Latin Modern Roman <https://www.1001fonts.com/download/latin-modern-roman.zip>`_
 - `Latin Modern Sans <https://www.1001fonts.com/download/latin-modern-sans.zip>`_
 
-After downloading the fonts, they should be placed in the folder ``~/.fonts/``. If the folder doesn't exist, you can create it by running in a terminal:
+After downloading the fonts, they should be placed in the folder ``~/.fonts/`` for Linux system and ``/Users/your_login_username/Library/Fonts`` for MacOS. If the folder doesn't exist, you can create it by running in a terminal:
 
 .. code-block:: bash
 
-   mkdir ~/.fonts
+   mkdir ~/.fonts # for Linux
+   mkdir /Users/your_login_username/Library/Fonts # for MacOS
 
 Then you can move the downloaded fonts to the folder by running in a terminal:
+
+For Linux:
 
 .. code-block:: bash
 
    mv path/to/latinmodern-math.otf ~/.fonts/
    unzip -o path/to/latin-modern-roman.zip -d ~/.fonts/latin-modern-roman
    unzip -o path/to/latin-modern-sans.zip -d ~/.fonts/latin-modern-sans
+
+For MacOS:
+
+.. code-block:: bash
+
+   mv path/to/latinmodern-math.otf /Users/your_login_username/Library/Fonts/
+   unzip -o path/to/latin-modern-roman.zip -d /Users/your_login_username/Library/Fonts/latin-modern-roman
+   unzip -o path/to/latin-modern-sans.zip -d /Users/your_login_username/Library/Fonts/latin-modern-sans
 
 The last step is to delete the cache of matplotlib by running in a python console:
 
