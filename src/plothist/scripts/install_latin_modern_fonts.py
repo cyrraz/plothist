@@ -4,6 +4,7 @@ import platform
 from pathlib import PosixPath
 import time
 import re
+import matplotlib
 
 
 def _get_wget_version():
@@ -130,14 +131,8 @@ def install_latin_modern_fonts():
     if platform.system() == "Linux":  # Linux
         font_directory = PosixPath("~/.fonts/").expanduser()
         font_directory.mkdir(parents=True, exist_ok=True)
-        matplotlib_font_cache = PosixPath(
-            "~/.cache/matplotlib/fontlist-v330.json"
-        ).expanduser()
     elif platform.system() == "Darwin":  # MacOS
         font_directory = PosixPath(f"/Users/{os.getlogin()}/Library/Fonts").expanduser()
-        matplotlib_font_cache = PosixPath(
-            "~/.matplotlib/fontlist-v330.json"
-        ).expanduser()
     else:
         raise NotImplementedError(
             f"This script is only implemented for Linux and MacOS. If you manage to make it work on {platform.system()}, please submit a pull request."
@@ -199,21 +194,25 @@ def install_latin_modern_fonts():
         print(f"Latin Modern {lm} installed successfully.\n")
         subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
 
-    # Remove font cache
-    try:
-        subprocess.run(
-            ["rm", "-v", matplotlib_font_cache],
-            check=True,
-        )
-    except subprocess.CalledProcessError:
-        print(
-            f"""
-            Error while trying to remove {matplotlib_font_cache}, but maybe this is not needed.
-            Check whether the Latin Modern fonts are now available in your matplotlib.
-            If they are not, find the correct fontlist-XXX.json file in your matplotlib cache and remove it manually.
-            If it still does not work, please check the documentation at https://plothist.readthedocs.io/en/latest/usage/font_installation.html
-            """
-        )
+    # Remove font cache files
+    matplotlib_font_cache_files = PosixPath(matplotlib.get_cachedir()).glob(
+        "fontlist-v???.json"
+    )
+    for matplotlib_font_cache in matplotlib_font_cache_files:
+        try:
+            subprocess.run(
+                ["rm", "-v", matplotlib_font_cache],
+                check=True,
+            )
+        except subprocess.CalledProcessError:
+            print(
+                f"""
+                Error while trying to remove {matplotlib_font_cache}, but maybe this is not needed.
+                Check whether the Latin Modern fonts are now available in your matplotlib.
+                If they are not, find the correct fontlist-XXX.json file in your matplotlib cache and remove it manually.
+                If it still does not work, please check the documentation at https://plothist.readthedocs.io/en/latest/usage/font_installation.html
+                """
+            )
 
 
 if __name__ == "__main__":
