@@ -56,16 +56,15 @@ Compare data and stacked histogram for a flatten 2D variable:
     :start-after: ###
 
 
+Multiple histograms, side by side, with numbers on top
+======================================================
 
-Side-by-side categorical histograms
-===================================
+This example shows how to plot multiple 1D histograms side by side, with numbers on top of each bars. The code is similar to the one used in the :ref:`basics-1d_hist_side_by_side-label` section.
 
-Here is an example to put three histograms side by side with a categorical axis and boost-histogram:
+.. image:: ../img/1d_side_by_side_with_numbers.svg
+   :alt: Multiple histograms side by side
+   :width: 500
 
-.. image:: ../img/1d_side_by_side.svg
-    :alt: Side by side histograms
-    :width: 500
-
-.. literalinclude:: ../examples/advanced/1d_side_by_side.py
-    :language: python
-    :start-after: ###
+.. literalinclude:: ../examples/advanced/1d_side_by_side_with_numbers.py
+   :language: python
+   :start-after: ###

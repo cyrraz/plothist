@@ -207,7 +207,7 @@ To easily get the values and the uncertainties of the comparison, the :func:`get
 
     values, lower_uncertainties, upper_uncertainties = get_comparison(h1, h2, comparison="ratio")
 
-.. _1d-profile-plot-label:
+.. _basics-1d_hist_profile_plot-label:
 Mean histogram (profile plot)
 =============================
 
@@ -263,3 +263,18 @@ String category
 .. image:: ../img/1d_str_category.svg
     :alt: String category plot
     :width: 500
+
+
+.. _basics-1d_hist_side_by_side-label:
+Using multiple histograms
+-------------------------
+
+With multiple histograms, the :func:`plot_hist() <plothist.plotters.plot_hist>` function will correctly put them side by side, because it is a wrapper around the ``hist()`` function from ``matplotlib`` that provides this functionality.
+
+.. image:: ../img/1d_side_by_side.svg
+    :alt: Side by side histograms
+    :width: 500
+
+.. literalinclude:: ../examples/1d_hist/1d_side_by_side.py
+    :language: python
+    :start-after: ###
