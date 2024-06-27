@@ -265,3 +265,46 @@ String category
 .. image:: ../img/1d_str_category.svg
     :alt: String category plot
     :width: 500
+
+
+Using multiple histograms
+-------------------------
+
+With multiple histograms, the :func:`plot_hist() <plothist.plotters.plot_hist>` function will correctly put them side by side:
+
+.. image:: ../img/1d_side_by_side.svg
+    :alt: Side by side histograms
+    :width: 500
+
+.. literalinclude:: ../examples/1d_hist/1d_side_by_side.py
+    :language: python
+    :start-after: ###
+
+To also add the number of entries on top of each bar, you can use the following code:
+
+.. code-block:: python
+
+    # Get the correct shift in x-axis for each bar
+    def calculate_shifts(width, n_bars):
+        half_width = width / 2
+        shift = np.linspace(-half_width, half_width, n_bars, endpoint=False)
+        shift += width / (2 * n_bars)
+        return shift
+
+
+    bin_width = 0.8
+    shift = calculate_shifts(bin_width, len(histos))
+
+    # Loop over the histograms, add on top of each bar the number of entries
+    for i, histo in enumerate(histos):
+        for j, value in enumerate(histo.values()):
+            ax.text(
+                j + 0.5 + shift[i],
+                value,
+                int(
+                    value
+                ),  # If weighted, f"{height:.1f}" can be used as a better representation of the bin content
+                color="black",
+                ha="center",
+                va="bottom",
+            )
