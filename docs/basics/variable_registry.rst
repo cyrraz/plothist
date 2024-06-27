@@ -160,9 +160,7 @@ To remove a parameter from the plotting information, you can use the :func:`remo
 
     from plothist import remove_variable_registry_parameters
 
-    remove_variable_registry_parameters(
-        ["range", "log", "legend_ncols", "new_property"], variable_keys
-    )
+    remove_variable_registry_parameters(["range", "log", "legend_ncols", "new_property"], variable_keys)
 
 The ``yaml`` file is updated:
 

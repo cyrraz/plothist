@@ -3,6 +3,7 @@ repos:
     rev: "1.16.0"
     hooks:
       - id: blacken-docs
+        args: ["--line-length", "120"]
         additional_dependencies:
         - black==24.2.0
 

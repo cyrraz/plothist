@@ -80,9 +80,7 @@ We recommend using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
 
     # From model examples
     ...
-    background_categories_colors = get_color_palette(
-        "Any cmap name", len(background_categories)
-    )
+    background_categories_colors = get_color_palette("Any cmap name", len(background_categories))
     ...
 
 .. image:: ../img/usage_colorpalette_examples.svg
