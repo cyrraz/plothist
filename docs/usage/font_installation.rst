@@ -60,9 +60,11 @@ The last step is to delete the cache of matplotlib by running in a python consol
 
    import matplotlib
    import subprocess
+   from pathlib import PosixPath
 
-   cache_dir = matplotlib.get_cachedir()
-   subprocess.run(["rm", "-rv", cache_dir])
+   cache_files = PosixPath(matplotlib.get_cachedir()).glob("fontlist-v???.json")
+   for cache_file in cache_files:
+       subprocess.run(["rm", "-v", cache_file])
 
 
 Command not found
