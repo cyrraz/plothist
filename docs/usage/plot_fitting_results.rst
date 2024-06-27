@@ -22,7 +22,9 @@ Here is an example of a fit with ``pyhf``, whose result is then shown using ``pl
    # Define model
    data_yield = [100, 50]
    model = pyhf.simplemodels.uncorrelated_background(
-       signal=[20, 0.0], bkg=[75.0, 50.0], bkg_uncertainty=[np.sqrt(75.0), np.sqrt(50.0)]
+       signal=[20, 0.0],
+       bkg=[75.0, 50.0],
+       bkg_uncertainty=[np.sqrt(75.0), np.sqrt(50.0)],
    )
    data = data_yield + model.config.auxdata
    # Maximum likelihood fit

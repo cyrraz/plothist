@@ -40,22 +40,18 @@ We also show an example of how to scale the model to the data. We take advantage
 
     background_categories = [0, 1, 2]
     background_categories_labels = [f"c{i}" for i in background_categories]
-    background_categories_colors = get_color_palette(
-        "cubehelix", len(background_categories)
-    )
+    background_categories_colors = get_color_palette("cubehelix", len(background_categories))
 
     background_masks = [df[category] == p for p in background_categories]
 
     # Create the histograms using the masks defined above
     data_hist = make_hist(df[key][data_mask], bins=50, range=range, weights=1)
-    background_hists = [
-        make_hist(df[key][mask], bins=50, range=range, weights=1)
-        for mask in background_masks
-    ]
+    background_hists = [make_hist(df[key][mask], bins=50, range=range, weights=1) for mask in background_masks]
     signal_hist = make_hist(df[key][signal_mask], bins=50, range=range, weights=1)
 
     # Optional: scale to data
-    # boost_histogram.Histogram objects are easy to manipulate. Here, we multiply them by a scalar to scale them, and their variance is correctly scaled as well.
+    # boost_histogram.Histogram objects are easy to manipulate.
+    # Here, we multiply them by a scalar to scale them, and their variance is correctly scaled as well.
     background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
     background_hists = [background_scaling_factor * h for h in background_hists]
 

@@ -205,9 +205,7 @@ To easily get the values and the uncertainties of the comparison, the :func:`get
 
     from plothist import get_comparison
 
-    values, lower_uncertainties, upper_uncertainties = get_comparison(
-        h1, h2, comparison="ratio"
-    )
+    values, lower_uncertainties, upper_uncertainties = get_comparison(h1, h2, comparison="ratio")
 
 .. _1d-profile-plot-label:
 Mean histogram (profile plot)
