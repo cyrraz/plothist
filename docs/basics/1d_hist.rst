@@ -209,6 +209,7 @@ To easily get the values and the uncertainties of the comparison, the :func:`get
         h1, h2, comparison="ratio"
     )
 
+.. _basics-1d_hist_profil_plot-label:
 Mean histogram (profile plot)
 =============================
 
