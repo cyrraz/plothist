@@ -209,7 +209,7 @@ To easily get the values and the uncertainties of the comparison, the :func:`get
         h1, h2, comparison="ratio"
     )
 
-.. _basics-1d_hist_profil_plot-label:
+.. _basics-1d_hist_profile_plot-label:
 Mean histogram (profile plot)
 =============================
 
@@ -271,7 +271,7 @@ String category
 Using multiple histograms
 -------------------------
 
-With multiple histograms, the :func:`plot_hist() <plothist.plotters.plot_hist>` function will correctly put them side by side:
+With multiple histograms, the :func:`plot_hist() <plothist.plotters.plot_hist>` function will correctly put them side by side, because it is a wrapper around the ``hist()`` function from ``matplotlib`` that provides this functionality.
 
 .. image:: ../img/1d_side_by_side.svg
     :alt: Side by side histograms

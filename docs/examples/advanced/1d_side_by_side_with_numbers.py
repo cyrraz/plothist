@@ -1,8 +1,8 @@
 """
-Side-by-side categories
-=======================
+Side-by-side categories, with numbers on top
+============================================
 
-Plot multiple 1D histograms with categories side by side.
+Plot multiple 1D histograms with categories side by side, and add the number of entries on top of each bar.
 """
 
 ###
