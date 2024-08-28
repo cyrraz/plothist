@@ -7,6 +7,7 @@ import matplotlib
 import requests
 from zipfile import ZipFile
 
+
 def _download_font(url, font_directory, font_name):
     """
     Download a font from a URL and save it in a directory.
@@ -31,7 +32,7 @@ def _download_font(url, font_directory, font_name):
     while not success and attempt < max_attempt:
         try:
             r = requests.get(url)
-            open(f"{font_directory}/{url.split('/')[-1]}" , 'wb').write(r.content)
+            open(f"{font_directory}/{url.split('/')[-1]}", "wb").write(r.content)
             success = True
         except Exception as e:
             # Print the output to the terminal
@@ -102,7 +103,7 @@ def install_latin_modern_fonts():
             print(f"Unzipping Latin Modern {lm}...")
 
             try:
-                with ZipFile(font_directory / f"latin-modern-{lm}.zip", 'r') as zip_ref:
+                with ZipFile(font_directory / f"latin-modern-{lm}.zip", "r") as zip_ref:
                     zip_ref.extractall(font_directory / f"latin-modern-{lm}")
                     success = True
             except Exception as e:
