@@ -32,7 +32,7 @@ def _download_font(url, font_directory, font_name):
     while not success and attempt < max_attempt:
         try:
             r = requests.get(url)
-            with (font_directory / url.split('/')[-1]).open("wb") as f:
+            with (font_directory / url.split("/")[-1]).open("wb") as f:
                 f.write(r.content)
             success = True
         except Exception as e:
