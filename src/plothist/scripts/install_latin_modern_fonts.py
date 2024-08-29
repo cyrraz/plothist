@@ -3,70 +3,9 @@ import os
 import platform
 from pathlib import PosixPath
 import time
-import re
 import matplotlib
-
-
-def _get_wget_version():
-    """
-    Get the version of wget.
-
-    Returns
-    -------
-    tuple or str
-        The version of wget as a tuple of integers.
-
-    Raises
-    ------
-    RuntimeError
-        If the version of wget could not be determined.
-    """
-    version_string = subprocess.check_output(
-        ["wget", "--version"], universal_newlines=True
-    )
-    # Try to find the version number in the format "XX.XX.XX"
-    version_match = re.search(r"(\d+\.\d+\.\d+)", version_string)
-    if not version_match:
-        # Try to find the version number in the format "XX.XX"
-        version_match = re.search(r"(\d+\.\d+)", version_string)
-    if version_match:
-        version = version_match.group(1)
-        return tuple(map(int, version.split(".")))
-    else:
-        raise RuntimeError("Could not determine wget version.")
-
-
-def _get_install_command(url, font_directory):
-    """
-    Get the command to install a font.
-
-    Parameters
-    ----------
-    url : str
-        The URL of the font.
-    font_directory : PosixPath
-        The directory where the font should be installed.
-
-    Returns
-    -------
-    list
-        The command to run in a subprocess to install the font.
-    """
-    return [
-        "wget",
-        "--retry-connrefused",  # retry refused connections and similar fatal errors
-        *(
-            ["--retry-on-host-error"] if _get_wget_version() >= (1, 20, 0) else []
-        ),  # retry on host errors such as 404 "Not Found"
-        "--waitretry=1",  # wait 1 second before next retry
-        "--read-timeout=20",  # wait a maximum of 20 seconds in case no data is received and then try again
-        "--timeout=15",  # wait max 15 seconds before the initial connection times out
-        "-t",
-        "10",  # retry 10 times
-        "-P",
-        font_directory,
-        url,
-    ]
+import requests
+from zipfile import ZipFile
 
 
 def _download_font(url, font_directory, font_name):
@@ -91,20 +30,17 @@ def _download_font(url, font_directory, font_name):
     success = False
 
     while not success and attempt < max_attempt:
-        result = subprocess.run(
-            _get_install_command(url, font_directory),
-            capture_output=True,
-            text=True,
-        )
-        success = result.returncode == 0
-        if not success:
+        try:
+            r = requests.get(url)
+            with (font_directory / url.split("/")[-1]).open("wb") as f:
+                f.write(r.content)
+            success = True
+        except Exception as e:
             # Print the output to the terminal
-            print("Try", attempt + 1, "of", max_attempt)
-            print("STDOUT:", result.stdout)
-            print("STDERR:", result.stderr)
+            print(f"Error: {e}\nTry {attempt + 1} of {max_attempt}")
             # Increment attempt counter and wait before the next attempt
             attempt += 1
-            time.sleep(5)
+            time.sleep(attempt)
 
     if not success:
         raise RuntimeError(
@@ -167,26 +103,16 @@ def install_latin_modern_fonts():
             )
             print(f"Unzipping Latin Modern {lm}...")
 
-            result = subprocess.run(
-                [
-                    "unzip",
-                    "-o",
-                    (font_directory / f"latin-modern-{lm}.zip"),
-                    "-d",
-                    (font_directory / f"latin-modern-{lm}"),
-                ],
-                capture_output=True,
-                text=True,
-            )
-            success = result.returncode == 0
-            if not success:
+            try:
+                with ZipFile(font_directory / f"latin-modern-{lm}.zip", "r") as zip_ref:
+                    zip_ref.extractall(font_directory / f"latin-modern-{lm}")
+                    success = True
+            except Exception as e:
                 # Print the output to the terminal
-                print("Try", attempt + 1, "of", max_attempt)
-                print("STDOUT:", result.stdout)
-                print("STDERR:", result.stderr)
+                print(f"Error: {e}\nTry {attempt + 1} of {max_attempt}")
                 # Increment attempt counter and wait before the next attempt
                 attempt += 1
-                time.sleep(1)
+                time.sleep(attempt)
                 subprocess.run(
                     ["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")]
                 )
