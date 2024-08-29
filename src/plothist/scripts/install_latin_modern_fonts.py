@@ -32,11 +32,12 @@ def _download_font(url, font_directory, font_name):
     while not success and attempt < max_attempt:
         try:
             r = requests.get(url)
-            open(f"{font_directory}/{url.split('/')[-1]}", "wb").write(r.content)
+            with (font_directory / url.split('/')[-1]).open("wb") as f:
+                f.write(r.content)
             success = True
         except Exception as e:
             # Print the output to the terminal
-            print(f"Try {attempt + 1} of {max_attempt}\n {e}")
+            print(f"Error: {e}\nTry {attempt + 1} of {max_attempt}")
             # Increment attempt counter and wait before the next attempt
             attempt += 1
             time.sleep(attempt)
@@ -108,7 +109,7 @@ def install_latin_modern_fonts():
                     success = True
             except Exception as e:
                 # Print the output to the terminal
-                print(f"Try {attempt + 1} of {max_attempt}\n {e}")
+                print(f"Error: {e}\nTry {attempt + 1} of {max_attempt}")
                 # Increment attempt counter and wait before the next attempt
                 attempt += 1
                 time.sleep(attempt)
