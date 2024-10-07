@@ -93,8 +93,11 @@ def create_comparison_figure(
 #             **kwargs,
 #         )
 import mplhep
+
+
 def plot_hist(hist, ax, **kwargs):
     mplhep.histplot(hist, ax=ax, **kwargs)
+
 
 def plot_2d_hist(
     hist,
