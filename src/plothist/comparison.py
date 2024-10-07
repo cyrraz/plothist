@@ -95,12 +95,13 @@ def _check_binning_consistency(hist_list):
         If the histograms do not share the same dimensionality or if their bins are not equal.
 
     """
-    for h in hist_list:
-        if not len(h.axes) == len(hist_list[0].axes):
-            raise ValueError("Histograms must have same dimensionality.")
-        for i in range(len(h.axes)):
-            if not h.axes[i] == hist_list[0].axes[i]:
-                raise ValueError("The bins of the histograms must be equal.")
+    pass
+    # for h in hist_list:
+    #     if not len(h.axes) == len(hist_list[0].axes):
+    #         raise ValueError("Histograms must have same dimensionality.")
+    #     for i in range(len(h.axes)):
+    #         if not h.axes[i] == hist_list[0].axes[i]:
+    #             raise ValueError("The bins of the histograms must be equal.")
 
 
 def get_ratio_variances(h1, h2):

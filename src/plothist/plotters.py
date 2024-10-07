@@ -60,39 +60,41 @@ def create_comparison_figure(
     return fig, axes
 
 
+# def plot_hist(hist, ax, **kwargs):
+#     """
+#     Plot a histogram or a list of histograms from boost_histogram.
+
+#     Parameters
+#     ----------
+#     hist : boost_histogram.Histogram or list of boost_histogram.Histogram
+#         The histogram(s) to plot.
+#     ax : matplotlib.axes.Axes
+#         The Axes instance for plotting.
+#     **kwargs
+#         Additional keyword arguments forwarded to ax.hist(), such as density, color, label, histtype...
+#     """
+#     if not isinstance(hist, list):
+#         # Single histogram
+#         # Create a dummy data sample x made of the bin centers of the input histogram
+#         # Each dummy data point is weighed according to the bin content
+#         ax.hist(
+#             x=hist.axes[0].centers,
+#             bins=hist.axes[0].edges,
+#             weights=np.nan_to_num(hist.values(), 0),
+#             **kwargs,
+#         )
+#     else:
+#         # Multiple histograms
+#         _check_binning_consistency(hist)
+#         ax.hist(
+#             x=[h.axes[0].centers for h in hist],
+#             bins=hist[0].axes[0].edges,
+#             weights=[np.nan_to_num(h.values(), 0) for h in hist],
+#             **kwargs,
+#         )
+import mplhep
 def plot_hist(hist, ax, **kwargs):
-    """
-    Plot a histogram or a list of histograms from boost_histogram.
-
-    Parameters
-    ----------
-    hist : boost_histogram.Histogram or list of boost_histogram.Histogram
-        The histogram(s) to plot.
-    ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    **kwargs
-        Additional keyword arguments forwarded to ax.hist(), such as density, color, label, histtype...
-    """
-    if not isinstance(hist, list):
-        # Single histogram
-        # Create a dummy data sample x made of the bin centers of the input histogram
-        # Each dummy data point is weighed according to the bin content
-        ax.hist(
-            x=hist.axes[0].centers,
-            bins=hist.axes[0].edges,
-            weights=np.nan_to_num(hist.values(), 0),
-            **kwargs,
-        )
-    else:
-        # Multiple histograms
-        _check_binning_consistency(hist)
-        ax.hist(
-            x=[h.axes[0].centers for h in hist],
-            bins=hist[0].axes[0].edges,
-            weights=[np.nan_to_num(h.values(), 0) for h in hist],
-            **kwargs,
-        )
-
+    mplhep.histplot(hist, ax=ax, **kwargs)
 
 def plot_2d_hist(
     hist,
@@ -173,7 +175,7 @@ def _invert_collection_order(ax, n=0):
         ax.add_collection(collection)
 
 
-def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
+def plot_function(func, range, ax, stack=False, npoints=1000, **kwargs):
     """
     Plot a 1D function on a given range.
 
@@ -191,11 +193,11 @@ def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
     npoints : int, optional
         The number of points to use for plotting. Default is 1000.
     **kwargs
-        Additional keyword arguments forwarded to ax.plot() (in case stacked=False) or ax.stackplot() (in case stacked=True).
+        Additional keyword arguments forwarded to ax.plot() (in case stack=False) or ax.stackplot() (in case stack=True).
     """
     x = np.linspace(range[0], range[1], npoints)
 
-    if not stacked:
+    if not stack:
         if not isinstance(func, list):
             ax.plot(x, func(x), **kwargs)
         else:
@@ -281,7 +283,7 @@ def plot_2d_hist_with_projections(
     plot_hist_kwargs = plot_hist_kwargs.copy()
 
     colorbar_kwargs.setdefault("label", colorbar_label)
-    plot_hist_kwargs.setdefault("histtype", "stepfilled")
+    plot_hist_kwargs.setdefault("histtype", "fill")
 
     gridspec_w = [figsize[0], 0.75, 1.5]
     gridspec_h = [1.5, 0.75, figsize[1]]
@@ -351,6 +353,7 @@ def plot_2d_hist_with_projections(
     return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
+#### `mplhep.histplot(... histtype='errorbar', w2method='poisson'<or fcn>)`
 def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **kwargs):
     """
     Create an errorbar plot from a boost histogram.
@@ -394,6 +397,7 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **k
     )
 
 
+#### `mplhep.histplot(... histtype='band'...)`
 def plot_hist_uncertainties(hist, ax, **kwargs):
     """
     Plot the symmetrical uncertainty, which is the Poisson standard deviation derived from the variance stored in the histogram, as a hatched area.
@@ -489,11 +493,11 @@ def plot_two_hist_comparison(
             "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
 
-    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
+    # xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
 
     plot_hist(h1, ax=ax_main, label=h1_label, histtype="step")
     plot_hist(h2, ax=ax_main, label=h2_label, histtype="step")
-    ax_main.set_xlim(xlim)
+    # ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
     ax_main.legend()
     _ = ax_main.xaxis.set_ticklabels([])
@@ -587,7 +591,7 @@ def plot_comparison(
         hist_comparison[:] = np.c_[comparison_values, np.zeros_like(comparison_values)]
 
     if comparison == "pull":
-        plot_hist_kwargs.setdefault("histtype", "stepfilled")
+        plot_hist_kwargs.setdefault("histtype", "fill")
         plot_hist_kwargs.setdefault("color", "darkgrey")
         plot_hist(hist_comparison, ax=ax, **plot_hist_kwargs)
     else:
@@ -875,11 +879,11 @@ def plot_model(
         stacked_kwargs.setdefault("edgecolor", "black")
         stacked_kwargs.setdefault("linewidth", 0.5)
         if model_type == "histograms":
-            stacked_kwargs.setdefault("histtype", "stepfilled")
+            stacked_kwargs.setdefault("histtype", "fill")
             plot_hist(
                 stacked_components,
                 ax=ax,
-                stacked=True,
+                stack=True,
                 color=stacked_colors,
                 label=stacked_labels,
                 **stacked_kwargs,
@@ -892,7 +896,7 @@ def plot_model(
             plot_function(
                 stacked_components,
                 ax=ax,
-                stacked=True,
+                stack=True,
                 colors=stacked_colors,
                 labels=stacked_labels,
                 range=xlim,
@@ -918,7 +922,7 @@ def plot_model(
                 plot_hist(
                     component,
                     ax=ax,
-                    stacked=False,
+                    stack=False,
                     color=color,
                     label=label,
                     **unstacked_kwargs,
@@ -927,7 +931,7 @@ def plot_model(
                 plot_function(
                     component,
                     ax=ax,
-                    stacked=False,
+                    stack=False,
                     color=color,
                     label=label,
                     range=xlim,
