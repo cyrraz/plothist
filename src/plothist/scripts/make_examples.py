@@ -5,6 +5,7 @@ import plothist
 import hashlib
 import warnings
 import sys
+import argparse
 
 
 _matplotlib_version = "3.9.0"
@@ -143,7 +144,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     # Iterate through all subfolders and files in the source folder
     for root, dirs, files in os.walk(example_folder):
-        for file in files:
+        for i_file, file in enumerate(files, 1):
             if file not in plots_to_redo:
                 continue
 
@@ -173,7 +174,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 capture_output=True,
                 text=True,
             )
-            if result.returncode != 0 and check_svg:
+            if result.returncode != 0:
                 fail(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
 
     # Move the svg files to the img folder
@@ -209,4 +210,15 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
 
 if __name__ == "__main__":
-    make_examples()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--no_input",
+        action="store_true",
+        help="If True, the function will not ask for any input and will relaunch all the python files.",
+    )
+    parser.add_argument(
+        "--check_svg",
+        action="store_true",
+        help="If True, the function will check that the svg files have not changed after the relaunch.",
+    )
+    make_examples(**vars(parser.parse_args()))
