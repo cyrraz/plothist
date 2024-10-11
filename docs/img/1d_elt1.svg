@@ -1058,14 +1058,10 @@ z
     </g>
    </g>
    <g id="legend_1">
-    <g id="patch_9">
-     <path d="M 335.7575 26.4 
-L 359.7575 26.4 
-L 359.7575 18 
-L 335.7575 18 
-L 335.7575 26.4 
-z
-" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linejoin: miter"/>
+    <g id="line2d_37">
+     <path d="M 335.7575 22.2 
+L 359.7575 22.2 
+" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linecap: round"/>
     </g>
     <g id="text_11">
      <!-- c1 -->
@@ -1092,14 +1088,10 @@ z
       <use xlink:href="#LatinModernMath-Regular-31" x="44.399994"/>
      </g>
     </g>
-    <g id="patch_10">
-     <path d="M 335.7575 43.12875 
-L 359.7575 43.12875 
-L 359.7575 34.72875 
-L 335.7575 34.72875 
-L 335.7575 43.12875 
-z
-" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linejoin: miter"/>
+    <g id="line2d_38">
+     <path d="M 335.7575 38.92875 
+L 359.7575 38.92875 
+" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linecap: round"/>
     </g>
     <g id="text_12">
      <!-- c2 -->
