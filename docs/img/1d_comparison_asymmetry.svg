@@ -137,7 +137,7 @@ L 380.834545 213.488372
 L 380.834545 212.993498 
 L 386.921818 212.993498 
 L 386.921818 213.488372 
-" clip-path="url(#pc81043a0d9)" style="fill: none; stroke: #348abd; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#pc81043a0d9)" style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 82.558182 213.488372 
@@ -242,7 +242,7 @@ L 380.834545 213.488372
 L 380.834545 213.488372 
 L 386.921818 213.488372 
 L 386.921818 213.488372 
-" clip-path="url(#pc81043a0d9)" style="fill: none; stroke: #e24a33; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#pc81043a0d9)" style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 67.34 213.488372 
@@ -904,7 +904,7 @@ z
     <g id="line2d_38">
      <path d="M 346.46 22.2 
 L 370.46 22.2 
-" style="fill: none; stroke: #348abd; stroke-width: 1.5; stroke-linecap: round"/>
+" style="fill: none; stroke: #348abd; stroke-linecap: round"/>
     </g>
     <g id="text_7">
      <!-- $\mathbfit{h}_1$ -->
@@ -969,7 +969,7 @@ z
     <g id="line2d_39">
      <path d="M 346.46 38.92875 
 L 370.46 38.92875 
-" style="fill: none; stroke: #e24a33; stroke-width: 1.5; stroke-linecap: round"/>
+" style="fill: none; stroke: #e24a33; stroke-linecap: round"/>
     </g>
     <g id="text_8">
      <!-- $\mathbfit{h}_2$ -->
