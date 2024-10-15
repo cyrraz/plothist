@@ -174,7 +174,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 capture_output=True,
                 text=True,
             )
-            if result.returncode != 0:
+            if result.returncode != 0 and check_svg:
                 fail(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
 
     # Move the svg files to the img folder

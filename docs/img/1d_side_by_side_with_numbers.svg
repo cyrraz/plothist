@@ -43,7 +43,7 @@ L 272.38625 145.461469
 L 272.38625 86.325469 
 L 383.98625 86.325469 
 L 383.98625 234.165469 
-" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
+" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 49.18625 234.165469 
@@ -54,7 +54,7 @@ L 272.38625 189.813469
 L 272.38625 175.029469 
 L 383.98625 175.029469 
 L 383.98625 234.165469 
-" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
+" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 49.18625 234.165469 
@@ -65,7 +65,7 @@ L 272.38625 138.069469
 L 272.38625 145.461469 
 L 383.98625 145.461469 
 L 383.98625 234.165469 
-" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #988ed5; stroke-linejoin: miter"/>
+" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #988ed5; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 49.18625 234.165469 
@@ -76,7 +76,7 @@ L 272.38625 189.813469
 L 272.38625 123.285469 
 L 383.98625 123.285469 
 L 383.98625 234.165469 
-" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #fbc15e; stroke-linejoin: miter"/>
+" clip-path="url(#p1857f18e37)" style="fill: none; stroke: #fbc15e; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 49.18625 234.165469 
@@ -931,10 +931,14 @@ z
     </g>
    </g>
    <g id="legend_1">
-    <g id="line2d_11">
-     <path d="M 194.14625 27.405469 
-L 218.14625 27.405469 
-" style="fill: none; stroke: #348abd; stroke-linecap: round"/>
+    <g id="patch_11">
+     <path d="M 194.14625 31.605469 
+L 218.14625 31.605469 
+L 218.14625 23.205469 
+L 194.14625 23.205469 
+L 194.14625 31.605469 
+z
+" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linejoin: miter"/>
     </g>
     <g id="text_25">
      <!-- $h_{0}$ -->
@@ -974,10 +978,14 @@ z
       <use xlink:href="#LatinModernMath-Regular-30" transform="translate(56.354131 -12.334375) scale(0.7)"/>
      </g>
     </g>
-    <g id="line2d_12">
-     <path d="M 194.14625 44.134219 
-L 218.14625 44.134219 
-" style="fill: none; stroke: #e24a33; stroke-linecap: round"/>
+    <g id="patch_12">
+     <path d="M 194.14625 48.334219 
+L 218.14625 48.334219 
+L 218.14625 39.934219 
+L 194.14625 39.934219 
+L 194.14625 48.334219 
+z
+" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linejoin: miter"/>
     </g>
     <g id="text_26">
      <!-- $h_{1}$ -->
@@ -986,10 +994,14 @@ L 218.14625 44.134219
       <use xlink:href="#LatinModernMath-Regular-31" transform="translate(56.354131 -12.334375) scale(0.7)"/>
      </g>
     </g>
-    <g id="line2d_13">
-     <path d="M 194.14625 60.862969 
-L 218.14625 60.862969 
-" style="fill: none; stroke: #988ed5; stroke-linecap: round"/>
+    <g id="patch_13">
+     <path d="M 194.14625 65.062969 
+L 218.14625 65.062969 
+L 218.14625 56.662969 
+L 194.14625 56.662969 
+L 194.14625 65.062969 
+z
+" style="fill: none; stroke: #988ed5; stroke-width: 1.2; stroke-linejoin: miter"/>
     </g>
     <g id="text_27">
      <!-- $h_{2}$ -->
@@ -998,10 +1010,14 @@ L 218.14625 60.862969
       <use xlink:href="#LatinModernMath-Regular-32" transform="translate(56.354131 -12.334375) scale(0.7)"/>
      </g>
     </g>
-    <g id="line2d_14">
-     <path d="M 194.14625 77.591719 
-L 218.14625 77.591719 
-" style="fill: none; stroke: #fbc15e; stroke-linecap: round"/>
+    <g id="patch_14">
+     <path d="M 194.14625 81.791719 
+L 218.14625 81.791719 
+L 218.14625 73.391719 
+L 194.14625 73.391719 
+L 194.14625 81.791719 
+z
+" style="fill: none; stroke: #fbc15e; stroke-width: 1.2; stroke-linejoin: miter"/>
     </g>
     <g id="text_28">
      <!-- $h_{3}$ -->

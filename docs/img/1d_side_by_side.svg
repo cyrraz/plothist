@@ -43,7 +43,7 @@ L 272.38625 188.64
 L 272.38625 148.32 
 L 383.98625 148.32 
 L 383.98625 228.96 
-" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
+" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 49.18625 228.96 
@@ -54,7 +54,7 @@ L 272.38625 148.32
 L 272.38625 108 
 L 383.98625 108 
 L 383.98625 228.96 
-" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
+" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 49.18625 228.96 
@@ -65,7 +65,7 @@ L 272.38625 87.84
 L 272.38625 118.08 
 L 383.98625 118.08 
 L 383.98625 228.96 
-" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #988ed5; stroke-linejoin: miter"/>
+" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #988ed5; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 49.18625 228.96 
@@ -709,10 +709,14 @@ z
     </g>
    </g>
    <g id="legend_1">
-    <g id="line2d_9">
-     <path d="M 328.30625 22.2 
-L 352.30625 22.2 
-" style="fill: none; stroke: #348abd; stroke-linecap: round"/>
+    <g id="patch_10">
+     <path d="M 328.30625 26.4 
+L 352.30625 26.4 
+L 352.30625 18 
+L 328.30625 18 
+L 328.30625 26.4 
+z
+" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linejoin: miter"/>
     </g>
     <g id="text_11">
      <!-- $h_{0}$ -->
@@ -752,10 +756,14 @@ z
       <use xlink:href="#LatinModernMath-Regular-30" transform="translate(56.354131 -12.334375) scale(0.7)"/>
      </g>
     </g>
-    <g id="line2d_10">
-     <path d="M 328.30625 38.92875 
-L 352.30625 38.92875 
-" style="fill: none; stroke: #e24a33; stroke-linecap: round"/>
+    <g id="patch_11">
+     <path d="M 328.30625 43.12875 
+L 352.30625 43.12875 
+L 352.30625 34.72875 
+L 328.30625 34.72875 
+L 328.30625 43.12875 
+z
+" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linejoin: miter"/>
     </g>
     <g id="text_12">
      <!-- $h_{1}$ -->
@@ -764,10 +772,14 @@ L 352.30625 38.92875
       <use xlink:href="#LatinModernMath-Regular-31" transform="translate(56.354131 -12.334375) scale(0.7)"/>
      </g>
     </g>
-    <g id="line2d_11">
-     <path d="M 328.30625 55.6575 
-L 352.30625 55.6575 
-" style="fill: none; stroke: #988ed5; stroke-linecap: round"/>
+    <g id="patch_12">
+     <path d="M 328.30625 59.8575 
+L 352.30625 59.8575 
+L 352.30625 51.4575 
+L 328.30625 51.4575 
+L 328.30625 59.8575 
+z
+" style="fill: none; stroke: #988ed5; stroke-width: 1.2; stroke-linejoin: miter"/>
     </g>
     <g id="text_13">
      <!-- $h_{2}$ -->
