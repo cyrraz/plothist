@@ -758,7 +758,7 @@ L 392.29025 242.10885
 L 392.29025 242.10885 
 L 398.98625 242.10885 
 L 398.98625 242.10885 
-" clip-path="url(#p543c3fde6b)" style="fill: none; stroke-dasharray: 1.2,1.98; stroke-dashoffset: 0; stroke: #000000; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p543c3fde6b)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #000000; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 64.18625 242.10885 
@@ -863,7 +863,7 @@ L 392.29025 242.10885
 L 392.29025 242.10885 
 L 398.98625 242.10885 
 L 398.98625 242.10885 
-" clip-path="url(#p543c3fde6b)" style="fill: none; stroke: #000080; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p543c3fde6b)" style="fill: none; stroke: #000080; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 64.18625 242.10885 
@@ -2498,7 +2498,7 @@ L 327.250625 81.3951
 L 303.250625 81.3951 
 L 303.250625 89.7951 
 z
-" style="fill: none; stroke-dasharray: 1.2,1.98; stroke-dashoffset: 0; stroke: #000000; stroke-width: 1.2; stroke-linejoin: miter"/>
+" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #000000; stroke-linejoin: miter"/>
     </g>
     <g id="text_17">
      <!-- Signal -->
@@ -2551,7 +2551,7 @@ L 327.250625 98.26635
 L 303.250625 98.26635 
 L 303.250625 106.66635 
 z
-" style="fill: none; stroke: #000080; stroke-width: 1.2; stroke-linejoin: miter"/>
+" style="fill: none; stroke: #000080; stroke-linejoin: miter"/>
     </g>
     <g id="text_18">
      <!-- Model -->

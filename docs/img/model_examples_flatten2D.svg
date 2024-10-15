@@ -390,7 +390,7 @@ L 353.93 198.289754
 L 353.93 216.682973 
 L 395.78 216.682973 
 L 395.78 226.89931 
-" clip-path="url(#p0fea6b7162)" style="fill: none; stroke: #ff0000; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p0fea6b7162)" style="fill: none; stroke: #ff0000; stroke-linejoin: miter"/>
    </g>
    <g id="LineCollection_1">
     <path d="M 81.905 225.923558 
@@ -1328,7 +1328,7 @@ L 204.86125 29.660937
 L 184.86125 29.660937 
 L 184.86125 36.660937 
 z
-" style="fill: none; stroke: #ff0000; stroke-width: 1.2; stroke-linejoin: miter"/>
+" style="fill: none; stroke: #ff0000; stroke-linejoin: miter"/>
     </g>
     <g id="text_15">
      <!-- Signal -->

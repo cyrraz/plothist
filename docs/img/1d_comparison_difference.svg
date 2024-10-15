@@ -137,7 +137,7 @@ L 381.880795 226.340006
 L 381.880795 225.845131 
 L 387.968068 225.845131 
 L 387.968068 226.340006 
-" clip-path="url(#p3bd1dfd82c)" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p3bd1dfd82c)" style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 83.604432 226.340006 
@@ -242,7 +242,7 @@ L 381.880795 226.340006
 L 381.880795 226.340006 
 L 387.968068 226.340006 
 L 387.968068 226.340006 
-" clip-path="url(#p3bd1dfd82c)" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p3bd1dfd82c)" style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 68.38625 226.340006 
@@ -1243,7 +1243,7 @@ L 368.02625 30.851634
 L 344.02625 30.851634 
 L 344.02625 39.251634 
 z
-" style="fill: none; stroke: #348abd; stroke-width: 1.2; stroke-linejoin: miter"/>
+" style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
     </g>
     <g id="text_8">
      <!-- $\mathcal{H}_{1}$ -->
@@ -1345,7 +1345,7 @@ L 368.02625 47.580384
 L 344.02625 47.580384 
 L 344.02625 55.980384 
 z
-" style="fill: none; stroke: #e24a33; stroke-width: 1.2; stroke-linejoin: miter"/>
+" style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
     </g>
     <g id="text_9">
      <!-- $\mathcal{H}_{2}$ -->
