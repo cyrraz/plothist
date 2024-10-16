@@ -357,31 +357,53 @@ def plot_2d_hist_with_projections(
 
 
 #### `mplhep.histplot(... histtype='errorbar', w2method='poisson'<or fcn>)`
-def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **kwargs):
-    """
-    Create an errorbar plot from a boost histogram.
+# def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **kwargs):
+#     """
+#     Create an errorbar plot from a boost histogram.
 
-    Parameters
-    ----------
-    hist : boost_histogram.Histogram
-        The histogram to plot.
-    ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    uncertainty_type : str, optional
-        What kind of bin uncertainty to use for hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
-        Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
-        More information in :ref:`documentation-statistics-label`.
-        The uncertainties are overwritten if the keyword argument yerr is provided.
-        In the case of a mean histogram, only symmetrical uncertainties are supported and correspond to the standard deviation of the sample and not to a Poisson standard deviation (see :ref:`basics-1d_hist_profile_plot-label`).
+#     Parameters
+#     ----------
+#     hist : boost_histogram.Histogram
+#         The histogram to plot.
+#     ax : matplotlib.axes.Axes
+#         The Axes instance for plotting.
+#     uncertainty_type : str, optional
+#         What kind of bin uncertainty to use for hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
+#         Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
+#         More information in :ref:`documentation-statistics-label`.
+#         The uncertainties are overwritten if the keyword argument yerr is provided.
+#         In the case of a mean histogram, only symmetrical uncertainties are supported and correspond to the standard deviation of the sample and not to a Poisson standard deviation (see :ref:`basics-1d_hist_profile_plot-label`).
 
-    density : bool, optional
-        Whether to normalize the histogram to unit area. Default is False.
-    **kwargs
-        Additional keyword arguments forwarded to ax.errorbar().
-    """
-    _check_uncertainty_type(uncertainty_type)
+#     density : bool, optional
+#         Whether to normalize the histogram to unit area. Default is False.
+#     **kwargs
+#         Additional keyword arguments forwarded to ax.errorbar().
+#     """
+#     _check_uncertainty_type(uncertainty_type)
 
-    if density:
+#     if density:
+#         hist = hist.copy()
+#         hist *= 1 / (hist.values() * hist.axes[0].widths).sum()
+
+#     if uncertainty_type == "symmetrical":
+#         kwargs.setdefault("yerr", np.sqrt(hist.variances()))
+#     else:
+#         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist)
+#         kwargs.setdefault("yerr", [uncertainties_low, uncertainties_high])
+
+#     kwargs.setdefault("fmt", ".")
+
+#     ax.errorbar(
+#         x=hist.axes[0].centers,
+#         y=hist.values(),
+#         **kwargs,
+#     )
+
+
+def plot_error_hist(
+    hist, ax, uncertainty_type="symmetrical", w2method="poisson", **kwargs
+):
+    if kwargs.get("density", False):
         hist = hist.copy()
         hist *= 1 / (hist.values() * hist.axes[0].widths).sum()
 
@@ -391,12 +413,8 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **k
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist)
         kwargs.setdefault("yerr", [uncertainties_low, uncertainties_high])
 
-    kwargs.setdefault("fmt", ".")
-
-    ax.errorbar(
-        x=hist.axes[0].centers,
-        y=hist.values(),
-        **kwargs,
+    return mplhep.histplot(
+        hist, ax=ax, histtype="errorbar", w2method=w2method, **kwargs
     )
 
 
@@ -496,11 +514,11 @@ def plot_two_hist_comparison(
             "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
 
-    # xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
+    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
 
     plot_hist(h1, ax=ax_main, label=h1_label, histtype="step")
     plot_hist(h2, ax=ax_main, label=h2_label, histtype="step")
-    # ax_main.set_xlim(xlim)
+    ax_main.set_xlim(xlim)
     ax_main.set_ylabel(ylabel)
     ax_main.legend()
     _ = ax_main.xaxis.set_ticklabels([])
