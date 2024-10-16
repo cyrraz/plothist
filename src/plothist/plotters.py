@@ -419,35 +419,38 @@ def plot_error_hist(
 
 
 #### `mplhep.histplot(... histtype='band'...)`
+# def plot_hist_uncertainties(hist, ax, **kwargs):
+#     """
+#     Plot the symmetrical uncertainty, which is the Poisson standard deviation derived from the variance stored in the histogram, as a hatched area.
+
+#     Parameters
+#     ----------
+#     hist : boost_histogram.Histogram
+#         The histogram from which we want to plot the uncertainties.
+#     ax : matplotlib.axes.Axes
+#         The Axes instance for plotting.
+#     **kwargs
+#         Additional keyword arguments forwarded to ax.bar().
+#     """
+#     _check_counting_histogram(hist)
+
+#     uncertainty = np.sqrt(hist.variances())
+
+#     kwargs.setdefault("edgecolor", "dimgrey")
+#     kwargs.setdefault("hatch", "////")
+#     kwargs.setdefault("fill", False)
+#     kwargs.setdefault("lw", 0)
+
+#     ax.bar(
+#         x=hist.axes[0].centers,
+#         bottom=hist.values() - uncertainty,
+#         height=2 * uncertainty,
+#         width=hist.axes[0].widths,
+#         **kwargs,
+#     )
+
 def plot_hist_uncertainties(hist, ax, **kwargs):
-    """
-    Plot the symmetrical uncertainty, which is the Poisson standard deviation derived from the variance stored in the histogram, as a hatched area.
-
-    Parameters
-    ----------
-    hist : boost_histogram.Histogram
-        The histogram from which we want to plot the uncertainties.
-    ax : matplotlib.axes.Axes
-        The Axes instance for plotting.
-    **kwargs
-        Additional keyword arguments forwarded to ax.bar().
-    """
-    _check_counting_histogram(hist)
-
-    uncertainty = np.sqrt(hist.variances())
-
-    kwargs.setdefault("edgecolor", "dimgrey")
-    kwargs.setdefault("hatch", "////")
-    kwargs.setdefault("fill", False)
-    kwargs.setdefault("lw", 0)
-
-    ax.bar(
-        x=hist.axes[0].centers,
-        bottom=hist.values() - uncertainty,
-        height=2 * uncertainty,
-        width=hist.axes[0].widths,
-        **kwargs,
-    )
+    return mplhep.histplot(hist, ax=ax, histtype="band", **kwargs)
 
 
 def plot_two_hist_comparison(
