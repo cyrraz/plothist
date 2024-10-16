@@ -449,6 +449,7 @@ def plot_error_hist(
 #         **kwargs,
 #     )
 
+
 def plot_hist_uncertainties(hist, ax, **kwargs):
     return mplhep.histplot(hist, ax=ax, histtype="band", **kwargs)
 
