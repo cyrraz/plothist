@@ -39,7 +39,10 @@ fig, ax = plt.subplots()
 bin_width = 0.8
 
 # Use a specificity of matplotlib: when a list of histograms is given, it will plot them side by side unless stacked=True or histtype is a "step" type.
-plot_hist(histos, ax=ax, histtype="side", label=labels, color=colors, bin_width=bin_width)
+plot_hist(
+    histos, ax=ax, histtype="side", label=labels, color=colors, bin_width=bin_width
+)
+
 
 # Add the number of entries on top of each bar
 # Get the correct shift in x-axis for each bar
@@ -48,6 +51,7 @@ def calculate_shifts(width, n_bars):
     shift = np.linspace(-half_width, half_width, n_bars, endpoint=False)
     shift += width / (2 * n_bars)
     return shift
+
 
 shift = calculate_shifts(bin_width, len(histos))
 
