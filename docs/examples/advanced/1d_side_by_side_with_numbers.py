@@ -36,9 +36,10 @@ colors = colors[:3] + [colors[4]]
 # Plot the histogram
 fig, ax = plt.subplots()
 
-# Use a specificity of matplotlib: when a list of histograms is given, it will plot them side by side unless stacked=True or histtype is a "step" type.
-plot_hist(histos, ax=ax, label=labels, color=colors)
+bin_width = 0.8
 
+# Use a specificity of matplotlib: when a list of histograms is given, it will plot them side by side unless stacked=True or histtype is a "step" type.
+plot_hist(histos, ax=ax, histtype="side", label=labels, color=colors, bin_width=bin_width)
 
 # Add the number of entries on top of each bar
 # Get the correct shift in x-axis for each bar
@@ -48,8 +49,6 @@ def calculate_shifts(width, n_bars):
     shift += width / (2 * n_bars)
     return shift
 
-
-bin_width = 0.8
 shift = calculate_shifts(bin_width, len(histos))
 
 # Loop over the histograms, add on top of each bar the number of entries

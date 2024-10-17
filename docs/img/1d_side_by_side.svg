@@ -35,54 +35,93 @@ z
 " style="fill: #ffffff"/>
    </g>
    <g id="patch_3">
-    <path d="M 49.18625 228.96 
-L 49.18625 148.32 
-L 160.78625 148.32 
-L 160.78625 188.64 
-L 272.38625 188.64 
-L 272.38625 148.32 
-L 383.98625 148.32 
-L 383.98625 228.96 
-" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
+    <path d="M 60.34625 228.96 
+L 90.10625 228.96 
+L 90.10625 148.32 
+L 60.34625 148.32 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #348abd"/>
    </g>
    <g id="patch_4">
-    <path d="M 49.18625 228.96 
-L 49.18625 128.16 
-L 160.78625 128.16 
-L 160.78625 148.32 
-L 272.38625 148.32 
-L 272.38625 108 
-L 383.98625 108 
-L 383.98625 228.96 
-" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
+    <path d="M 171.94625 228.96 
+L 201.70625 228.96 
+L 201.70625 188.64 
+L 171.94625 188.64 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #348abd"/>
    </g>
    <g id="patch_5">
-    <path d="M 49.18625 228.96 
-L 49.18625 77.76 
-L 160.78625 77.76 
-L 160.78625 87.84 
-L 272.38625 87.84 
-L 272.38625 118.08 
-L 383.98625 118.08 
-L 383.98625 228.96 
-" clip-path="url(#pe55f541f38)" style="fill: none; stroke: #988ed5; stroke-linejoin: miter"/>
+    <path d="M 283.54625 228.96 
+L 313.30625 228.96 
+L 313.30625 148.32 
+L 283.54625 148.32 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #348abd"/>
    </g>
    <g id="patch_6">
+    <path d="M 90.10625 228.96 
+L 119.86625 228.96 
+L 119.86625 128.16 
+L 90.10625 128.16 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #e24a33"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 201.70625 228.96 
+L 231.46625 228.96 
+L 231.46625 148.32 
+L 201.70625 148.32 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #e24a33"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 313.30625 228.96 
+L 343.06625 228.96 
+L 343.06625 108 
+L 313.30625 108 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #e24a33"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 119.86625 228.96 
+L 149.62625 228.96 
+L 149.62625 77.76 
+L 119.86625 77.76 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #988ed5"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 231.46625 228.96 
+L 261.22625 228.96 
+L 261.22625 87.84 
+L 231.46625 87.84 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #988ed5"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 343.06625 228.96 
+L 372.82625 228.96 
+L 372.82625 118.08 
+L 343.06625 118.08 
+z
+" clip-path="url(#pe55f541f38)" style="fill: #988ed5"/>
+   </g>
+   <g id="patch_12">
     <path d="M 49.18625 228.96 
 L 49.18625 7.2 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
-   <g id="patch_7">
+   <g id="patch_13">
     <path d="M 383.98625 228.96 
 L 383.98625 7.2 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
-   <g id="patch_8">
+   <g id="patch_14">
     <path d="M 49.18625 228.96 
 L 383.98625 228.96 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
-   <g id="patch_9">
+   <g id="patch_15">
     <path d="M 49.18625 7.2 
 L 383.98625 7.2 
 " style="fill: none; stroke: #000000; stroke-linejoin: miter; stroke-linecap: square"/>
@@ -709,14 +748,13 @@ z
     </g>
    </g>
    <g id="legend_1">
-    <g id="patch_10">
+    <g id="patch_16">
      <path d="M 328.30625 26.4 
 L 352.30625 26.4 
 L 352.30625 18 
 L 328.30625 18 
-L 328.30625 26.4 
 z
-" style="fill: none; stroke: #348abd; stroke-linejoin: miter"/>
+" style="fill: #348abd"/>
     </g>
     <g id="text_11">
      <!-- $h_{0}$ -->
@@ -756,14 +794,13 @@ z
       <use xlink:href="#LatinModernMath-Regular-30" transform="translate(56.354131 -12.334375) scale(0.7)"/>
      </g>
     </g>
-    <g id="patch_11">
+    <g id="patch_17">
      <path d="M 328.30625 43.12875 
 L 352.30625 43.12875 
 L 352.30625 34.72875 
 L 328.30625 34.72875 
-L 328.30625 43.12875 
 z
-" style="fill: none; stroke: #e24a33; stroke-linejoin: miter"/>
+" style="fill: #e24a33"/>
     </g>
     <g id="text_12">
      <!-- $h_{1}$ -->
@@ -772,14 +809,13 @@ z
       <use xlink:href="#LatinModernMath-Regular-31" transform="translate(56.354131 -12.334375) scale(0.7)"/>
      </g>
     </g>
-    <g id="patch_12">
+    <g id="patch_18">
      <path d="M 328.30625 59.8575 
 L 352.30625 59.8575 
 L 352.30625 51.4575 
 L 328.30625 51.4575 
-L 328.30625 59.8575 
 z
-" style="fill: none; stroke: #988ed5; stroke-linejoin: miter"/>
+" style="fill: #988ed5"/>
     </g>
     <g id="text_13">
      <!-- $h_{2}$ -->

@@ -40,7 +40,7 @@ labels = [f"$h_{{{i}}}$" for i in range(len(histos))]
 fig, ax = plt.subplots()
 
 # Use a specificity of matplotlib: when a list of histograms is given, it will plot them side by side unless stacked=True or histtype is a "step" type.
-plot_hist(histos, ax=ax, label=labels)
+plot_hist(histos, ax=ax, histtype="side", label=labels, yerr=True)
 
 # Set the x-ticks to the middle of the bins and label them
 ax.set_xlim(0, len(categories))
