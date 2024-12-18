@@ -32,8 +32,8 @@ plot_hist(
     ax=ax2,
     edgecolor="black",
     linewidth=0.5,
-    histtype="stepfilled",
-    stacked=True,
+    histtype="fill",
+    stack=True,
 )
 
 ax2.set_xlabel(name)

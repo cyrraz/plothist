@@ -55,7 +55,7 @@ marker_1 = {
     "markeredgecolor": "tab:red",
     "ls": "None",
     "fmt": "o",
-    "markersize": 5,
+    "markersize": 10,
     "label": "$Data_1$",
 }
 
@@ -65,7 +65,7 @@ marker_2 = {
     "markeredgecolor": "tab:blue",
     "ls": "None",
     "fmt": "o",
-    "markersize": 5,
+    "markersize": 10,
     "label": "$Data_2$",
 }
 
