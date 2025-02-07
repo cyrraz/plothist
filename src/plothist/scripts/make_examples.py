@@ -40,7 +40,9 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import matplotlib
 
-    if matplotlib.__version__ < _matplotlib_version:
+    if tuple(map(int, matplotlib.__version__.split("."))) < tuple(
+        map(int, _matplotlib_version.split("."))
+    ):
         warnings.warn(
             f"svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib {_matplotlib_version} or higher. Skipping.",
             stacklevel=2,
@@ -49,7 +51,9 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import numpy
 
-    if numpy.__version__ < _numpy_version:
+    if tuple(map(int, numpy.__version__.split("."))) < tuple(
+        map(int, _numpy_version.split("."))
+    ):
         warnings.warn(
             f"svg behavior is not consistent across numpy versions. Please run this script with numpy {_numpy_version} or higher. Skipping.",
             stacklevel=2,
