@@ -7,7 +7,7 @@ import warnings
 import sys
 
 
-_matplotlib_version = "3.9.0"
+_matplotlib_version = "3.10.0"
 _numpy_version = "2.0.0"
 
 

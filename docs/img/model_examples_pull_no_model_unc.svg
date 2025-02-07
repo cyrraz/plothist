@@ -2403,7 +2403,7 @@ z
      <!-- c2 -->
      <g style="fill: #1a1a1a" transform="translate(353.8665 39.262884) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-63"/>
-      <use xlink:href="#LatinModernMath-Regular-32" x="44.399994"/>
+      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(44.399994 0)"/>
      </g>
     </g>
     <g id="patch_11">
@@ -2418,7 +2418,7 @@ z
      <!-- c1 -->
      <g style="fill: #1a1a1a" transform="translate(353.8665 55.991634) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-63"/>
-      <use xlink:href="#LatinModernMath-Regular-31" x="44.399994"/>
+      <use xlink:href="#LatinModernMath-Regular-31" transform="translate(44.399994 0)"/>
      </g>
     </g>
     <g id="patch_12">
@@ -2433,7 +2433,7 @@ z
      <!-- c0 -->
      <g style="fill: #1a1a1a" transform="translate(353.8665 72.720384) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-63"/>
-      <use xlink:href="#LatinModernMath-Regular-30" x="44.399994"/>
+      <use xlink:href="#LatinModernMath-Regular-30" transform="translate(44.399994 0)"/>
      </g>
     </g>
     <g id="LineCollection_2">
@@ -2508,9 +2508,9 @@ z
 " transform="scale(0.015625)"/>
       </defs>
       <use xlink:href="#LatinModernMath-Regular-44"/>
-      <use xlink:href="#LatinModernMath-Regular-61" x="76.399994"/>
-      <use xlink:href="#LatinModernMath-Regular-74" x="126.399979"/>
-      <use xlink:href="#LatinModernMath-Regular-61" x="165.299973"/>
+      <use xlink:href="#LatinModernMath-Regular-61" transform="translate(76.399994 0)"/>
+      <use xlink:href="#LatinModernMath-Regular-74" transform="translate(126.399979 0)"/>
+      <use xlink:href="#LatinModernMath-Regular-61" transform="translate(165.299973 0)"/>
      </g>
     </g>
    </g>
