@@ -30,14 +30,6 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         If the example or img folder does not exist, the function will raise a FileNotFoundError.
     """
 
-    # If python version is lower than 3.9, return a warning
-    if sys.version_info < (3, 9):
-        warnings.warn(
-            "svg behavior is not consistent across python versions. Please run this script with python 3.9 or higher. Skipping.",
-            stacklevel=2,
-        )
-        return 1
-
     import matplotlib
 
     if tuple(map(int, matplotlib.__version__.split("."))) < tuple(
