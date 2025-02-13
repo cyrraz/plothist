@@ -846,9 +846,9 @@ z
 " transform="scale(0.015625)"/>
       </defs>
       <use xlink:href="#LatinModernMath-Regular-66"/>
-      <use xlink:href="#LatinModernMath-Regular-28" x="30.599991"/>
-      <use xlink:href="#LatinModernMath-Regular-78" x="69.499985"/>
-      <use xlink:href="#LatinModernMath-Regular-29" x="122.299973"/>
+      <use xlink:href="#LatinModernMath-Regular-28" transform="translate(30.599991 0)"/>
+      <use xlink:href="#LatinModernMath-Regular-78" transform="translate(69.499985 0)"/>
+      <use xlink:href="#LatinModernMath-Regular-29" transform="translate(122.299973 0)"/>
      </g>
     </g>
    </g>

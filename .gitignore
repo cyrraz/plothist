@@ -5,6 +5,7 @@ _build/
 test/
 metadata.yaml
 temp_img/
+.venv
 
 # Ignore local readthedocs build
 html/

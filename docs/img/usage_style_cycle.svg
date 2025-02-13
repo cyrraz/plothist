@@ -304,12 +304,12 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#LatinModernMath-Regular-23"/>
-     <use xlink:href="#LatinModernMath-Regular-33" x="83.299988"/>
-     <use xlink:href="#LatinModernMath-Regular-34" x="133.299973"/>
-     <use xlink:href="#LatinModernMath-Regular-38" x="183.299957"/>
-     <use xlink:href="#LatinModernMath-Regular-41" x="233.299942"/>
-     <use xlink:href="#LatinModernMath-Regular-42" x="308.299927"/>
-     <use xlink:href="#LatinModernMath-Regular-44" x="379.099915"/>
+     <use xlink:href="#LatinModernMath-Regular-33" transform="translate(83.299988 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-34" transform="translate(133.299973 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-38" transform="translate(183.299957 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-41" transform="translate(233.299942 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-42" transform="translate(308.299927 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-44" transform="translate(379.099915 0)"/>
     </g>
    </g>
    <g id="text_2">
@@ -371,12 +371,12 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#LatinModernMath-Regular-23"/>
-     <use xlink:href="#LatinModernMath-Regular-45" x="83.299988"/>
-     <use xlink:href="#LatinModernMath-Regular-32" x="151.399979"/>
-     <use xlink:href="#LatinModernMath-Regular-34" x="201.399963"/>
-     <use xlink:href="#LatinModernMath-Regular-41" x="251.399948"/>
-     <use xlink:href="#LatinModernMath-Regular-33" x="326.399933"/>
-     <use xlink:href="#LatinModernMath-Regular-33" x="376.399918"/>
+     <use xlink:href="#LatinModernMath-Regular-45" transform="translate(83.299988 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-32" transform="translate(151.399979 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-34" transform="translate(201.399963 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-41" transform="translate(251.399948 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-33" transform="translate(326.399933 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-33" transform="translate(376.399918 0)"/>
     </g>
    </g>
    <g id="text_3">
@@ -439,12 +439,12 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#LatinModernMath-Regular-23"/>
-     <use xlink:href="#LatinModernMath-Regular-39" x="83.299988"/>
-     <use xlink:href="#LatinModernMath-Regular-38" x="133.299973"/>
-     <use xlink:href="#LatinModernMath-Regular-38" x="183.299957"/>
-     <use xlink:href="#LatinModernMath-Regular-45" x="233.299942"/>
-     <use xlink:href="#LatinModernMath-Regular-44" x="301.399933"/>
-     <use xlink:href="#LatinModernMath-Regular-35" x="377.799927"/>
+     <use xlink:href="#LatinModernMath-Regular-39" transform="translate(83.299988 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-38" transform="translate(133.299973 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-38" transform="translate(183.299957 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-45" transform="translate(233.299942 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-44" transform="translate(301.399933 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-35" transform="translate(377.799927 0)"/>
     </g>
    </g>
    <g id="text_4">
@@ -473,12 +473,12 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#LatinModernMath-Regular-23"/>
-     <use xlink:href="#LatinModernMath-Regular-37" x="83.299988"/>
-     <use xlink:href="#LatinModernMath-Regular-37" x="133.299973"/>
-     <use xlink:href="#LatinModernMath-Regular-37" x="183.299957"/>
-     <use xlink:href="#LatinModernMath-Regular-37" x="233.299942"/>
-     <use xlink:href="#LatinModernMath-Regular-37" x="283.299927"/>
-     <use xlink:href="#LatinModernMath-Regular-37" x="333.299911"/>
+     <use xlink:href="#LatinModernMath-Regular-37" transform="translate(83.299988 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-37" transform="translate(133.299973 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-37" transform="translate(183.299957 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-37" transform="translate(233.299942 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-37" transform="translate(283.299927 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-37" transform="translate(333.299911 0)"/>
     </g>
    </g>
    <g id="text_5">
@@ -553,36 +553,36 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#LatinModernMath-Regular-23"/>
-     <use xlink:href="#LatinModernMath-Regular-46" x="83.299988"/>
-     <use xlink:href="#LatinModernMath-Regular-42" x="148.599976"/>
-     <use xlink:href="#LatinModernMath-Regular-43" x="219.399963"/>
-     <use xlink:href="#LatinModernMath-Regular-31" x="291.599945"/>
-     <use xlink:href="#LatinModernMath-Regular-35" x="341.59993"/>
-     <use xlink:href="#LatinModernMath-Regular-45" x="391.599915"/>
+     <use xlink:href="#LatinModernMath-Regular-46" transform="translate(83.299988 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-42" transform="translate(148.599976 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-43" transform="translate(219.399963 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-31" transform="translate(291.599945 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-35" transform="translate(341.59993 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-45" transform="translate(391.599915 0)"/>
     </g>
    </g>
    <g id="text_6">
     <!-- #8EBA42 -->
     <g style="fill: #1a1a1a" transform="translate(348.407476 72.6192) scale(0.1 -0.1)">
      <use xlink:href="#LatinModernMath-Regular-23"/>
-     <use xlink:href="#LatinModernMath-Regular-38" x="83.299988"/>
-     <use xlink:href="#LatinModernMath-Regular-45" x="133.299973"/>
-     <use xlink:href="#LatinModernMath-Regular-42" x="201.399963"/>
-     <use xlink:href="#LatinModernMath-Regular-41" x="272.199951"/>
-     <use xlink:href="#LatinModernMath-Regular-34" x="347.199936"/>
-     <use xlink:href="#LatinModernMath-Regular-32" x="397.199921"/>
+     <use xlink:href="#LatinModernMath-Regular-38" transform="translate(83.299988 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-45" transform="translate(133.299973 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-42" transform="translate(201.399963 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-41" transform="translate(272.199951 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-34" transform="translate(347.199936 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-32" transform="translate(397.199921 0)"/>
     </g>
    </g>
    <g id="text_7">
     <!-- #FFB5B8 -->
     <g style="fill: #1a1a1a" transform="translate(409.592632 72.6192) scale(0.1 -0.1)">
      <use xlink:href="#LatinModernMath-Regular-23"/>
-     <use xlink:href="#LatinModernMath-Regular-46" x="83.299988"/>
-     <use xlink:href="#LatinModernMath-Regular-46" x="148.599976"/>
-     <use xlink:href="#LatinModernMath-Regular-42" x="213.899963"/>
-     <use xlink:href="#LatinModernMath-Regular-35" x="284.699951"/>
-     <use xlink:href="#LatinModernMath-Regular-42" x="334.699936"/>
-     <use xlink:href="#LatinModernMath-Regular-38" x="405.499924"/>
+     <use xlink:href="#LatinModernMath-Regular-46" transform="translate(83.299988 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-46" transform="translate(148.599976 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-42" transform="translate(213.899963 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-35" transform="translate(284.699951 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-42" transform="translate(334.699936 0)"/>
+     <use xlink:href="#LatinModernMath-Regular-38" transform="translate(405.499924 0)"/>
     </g>
    </g>
   </g>
