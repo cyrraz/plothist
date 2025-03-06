@@ -37,32 +37,32 @@ z
    <g id="LineCollection_1">
     <path d="M 112.48625 218.88 
 L 112.48625 17.28 
-" clip-path="url(#p84dd827483)" style="fill: none; stroke: #348abd; stroke-width: 1.5"/>
+" clip-path="url(#p84dd827483)" style="fill: none; stroke: #348abd"/>
     <path d="M 224.08625 138.24 
 L 224.08625 97.92 
-" clip-path="url(#p84dd827483)" style="fill: none; stroke: #348abd; stroke-width: 1.5"/>
+" clip-path="url(#p84dd827483)" style="fill: none; stroke: #348abd"/>
     <path d="M 335.68625 218.88 
 L 335.68625 178.56 
-" clip-path="url(#p84dd827483)" style="fill: none; stroke: #348abd; stroke-width: 1.5"/>
+" clip-path="url(#p84dd827483)" style="fill: none; stroke: #348abd"/>
    </g>
    <g id="line2d_1">
     <defs>
-     <path id="m95205c6608" d="M 0 1.5 
-C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
-C 1.341951 0.77937 1.5 0.397805 1.5 0 
-C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
-C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
-C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
-C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
-C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
-C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+     <path id="m2727e3309c" d="M 0 2.5 
+C 0.663008 2.5 1.29895 2.236584 1.767767 1.767767 
+C 2.236584 1.29895 2.5 0.663008 2.5 0 
+C 2.5 -0.663008 2.236584 -1.29895 1.767767 -1.767767 
+C 1.29895 -2.236584 0.663008 -2.5 0 -2.5 
+C -0.663008 -2.5 -1.29895 -2.236584 -1.767767 -1.767767 
+C -2.236584 -1.29895 -2.5 -0.663008 -2.5 0 
+C -2.5 0.663008 -2.236584 1.29895 -1.767767 1.767767 
+C -1.29895 2.236584 -0.663008 2.5 0 2.5 
 z
 " style="stroke: #348abd"/>
     </defs>
     <g clip-path="url(#p84dd827483)">
-     <use xlink:href="#m95205c6608" x="112.48625" y="118.08" style="fill: #348abd; stroke: #348abd"/>
-     <use xlink:href="#m95205c6608" x="224.08625" y="118.08" style="fill: #348abd; stroke: #348abd"/>
-     <use xlink:href="#m95205c6608" x="335.68625" y="198.72" style="fill: #348abd; stroke: #348abd"/>
+     <use xlink:href="#m2727e3309c" x="112.48625" y="118.08" style="fill: #348abd; stroke: #348abd"/>
+     <use xlink:href="#m2727e3309c" x="224.08625" y="118.08" style="fill: #348abd; stroke: #348abd"/>
+     <use xlink:href="#m2727e3309c" x="335.68625" y="198.72" style="fill: #348abd; stroke: #348abd"/>
     </g>
    </g>
    <g id="patch_3">

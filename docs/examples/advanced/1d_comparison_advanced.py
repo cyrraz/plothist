@@ -49,12 +49,8 @@ colors = get_color_palette("ggplot", 2)
 plot_hist(h1, label="Train A", ax=ax_main, histtype="step", linewidth=1.2, density=True)
 plot_hist(h3, label="Train B", ax=ax_main, histtype="step", linewidth=1.2, density=True)
 # And then, to make the plot easier to read, we redraw them with stepfilled, which add color below the line
-plot_hist(
-    h1, ax=ax_main, histtype="stepfilled", color=colors[0], alpha=0.2, density=True
-)
-plot_hist(
-    h3, ax=ax_main, histtype="stepfilled", color=colors[1], alpha=0.2, density=True
-)
+plot_hist(h1, ax=ax_main, histtype="fill", color=colors[0], alpha=0.2, density=True)
+plot_hist(h3, ax=ax_main, histtype="fill", color=colors[1], alpha=0.2, density=True)
 
 # We plot 2 additional histograms with point style
 plot_error_hist(h2, label="Test A", ax=ax_main, color="blue", density=True)

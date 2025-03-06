@@ -31,7 +31,7 @@ plot_function(
     range=[-10, 10],
     ax=ax,
     labels=["f1", "f2"],
-    stacked=True,
+    stack=True,
 )
 
 ax.set_xlabel("x")

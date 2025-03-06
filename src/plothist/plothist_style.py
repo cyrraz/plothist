@@ -117,7 +117,7 @@ def cubehelix_palette(
     pal = cmap(x)[:, :3].tolist()
     if reverse:
         pal = pal[::-1]
-    return pal
+    return [tuple(p) for p in pal]
 
 
 def get_color_palette(cmap, N):
