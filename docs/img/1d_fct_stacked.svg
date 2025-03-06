@@ -34,7 +34,7 @@ L 58.626875 7.2
 z
 " style="fill: #ffffff"/>
    </g>
-   <g id="PolyCollection_1">
+   <g id="FillBetweenPolyCollection_1">
     <path d="M 73.845057 228.685119 
 L 73.845057 228.721668 
 L 74.149725 228.716041 
@@ -2040,7 +2040,7 @@ L 73.845057 228.685119
 z
 " clip-path="url(#p4deaa227dd)" style="fill: #e24a33"/>
    </g>
-   <g id="PolyCollection_2">
+   <g id="FillBetweenPolyCollection_2">
     <path d="M 73.845057 228.721668 
 L 73.845057 228.96 
 L 74.149725 228.96 
@@ -4738,9 +4738,9 @@ z
 " transform="scale(0.015625)"/>
       </defs>
       <use xlink:href="#LatinModernMath-Regular-66"/>
-      <use xlink:href="#LatinModernMath-Regular-28" x="30.599991"/>
-      <use xlink:href="#LatinModernMath-Regular-78" x="69.499985"/>
-      <use xlink:href="#LatinModernMath-Regular-29" x="122.299973"/>
+      <use xlink:href="#LatinModernMath-Regular-28" transform="translate(30.599991 0)"/>
+      <use xlink:href="#LatinModernMath-Regular-78" transform="translate(69.499985 0)"/>
+      <use xlink:href="#LatinModernMath-Regular-29" transform="translate(122.299973 0)"/>
      </g>
     </g>
    </g>
@@ -4757,7 +4757,7 @@ z
      <!-- f2 -->
      <g style="fill: #1a1a1a" transform="translate(372.955625 26.4) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-66"/>
-      <use xlink:href="#LatinModernMath-Regular-32" x="30.599991"/>
+      <use xlink:href="#LatinModernMath-Regular-32" transform="translate(30.599991 0)"/>
      </g>
     </g>
     <g id="patch_8">
@@ -4772,7 +4772,7 @@ z
      <!-- f1 -->
      <g style="fill: #1a1a1a" transform="translate(372.955625 43.12875) scale(0.12 -0.12)">
       <use xlink:href="#LatinModernMath-Regular-66"/>
-      <use xlink:href="#LatinModernMath-Regular-31" x="30.599991"/>
+      <use xlink:href="#LatinModernMath-Regular-31" transform="translate(30.599991 0)"/>
      </g>
     </g>
    </g>

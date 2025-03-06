@@ -8,7 +8,7 @@ import sys
 import argparse
 
 
-_matplotlib_version = "3.9.0"
+_matplotlib_version = "3.10.0"
 _numpy_version = "2.0.0"
 
 
@@ -31,17 +31,11 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         If the example or img folder does not exist, the function will raise a FileNotFoundError.
     """
 
-    # If python version is lower than 3.9, return a warning
-    if sys.version_info < (3, 9):
-        warnings.warn(
-            "svg behavior is not consistent across python versions. Please run this script with python 3.9 or higher. Skipping.",
-            stacklevel=2,
-        )
-        return 1
-
     import matplotlib
 
-    if matplotlib.__version__ < _matplotlib_version:
+    if tuple(map(int, matplotlib.__version__.split("."))) < tuple(
+        map(int, _matplotlib_version.split("."))
+    ):
         warnings.warn(
             f"svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib {_matplotlib_version} or higher. Skipping.",
             stacklevel=2,
@@ -50,7 +44,9 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import numpy
 
-    if numpy.__version__ < _numpy_version:
+    if tuple(map(int, numpy.__version__.split("."))) < tuple(
+        map(int, _numpy_version.split("."))
+    ):
         warnings.warn(
             f"svg behavior is not consistent across numpy versions. Please run this script with numpy {_numpy_version} or higher. Skipping.",
             stacklevel=2,

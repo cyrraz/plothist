@@ -26,9 +26,9 @@ copyright = "2023-2024, Cyrille Praz, Tristan Fillinger"
 author = "Cyrille Praz, Tristan Fillinger"
 
 # The short X.Y version
-version = "1.2.6"
+version = "1.3.0"
 # The full version, including alpha/beta/rc tags
-release = "1.2.6"
+release = "1.3.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -44,6 +44,7 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
     "sphinx_gallery.gen_gallery",
     "sphinx.ext.intersphinx",
 ]

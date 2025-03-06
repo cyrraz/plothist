@@ -178,7 +178,7 @@ def update_variable_registry(
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
-        If True, the keys will be overwrite by the provided value in the dictonnary (default is False).
+        If True, the keys will be overwrite by the provided value in the dictionary (default is False).
 
     Returns
     -------

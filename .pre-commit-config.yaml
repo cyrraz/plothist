@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/adamchainz/blacken-docs
-    rev: "1.16.0"
+    rev: "1.19.1"
     hooks:
       - id: blacken-docs
         args: ["--line-length", "120"]
@@ -8,7 +8,7 @@ repos:
         - black==24.2.0
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -24,12 +24,12 @@ repos:
         exclude: '.*\.svg$'
 
   - repo: https://github.com/psf/black
-    rev: "24.2.0"
+    rev: "25.1.0"
     hooks:
       - id: black
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.4
+    rev: v2.4.1
     hooks:
     - id: codespell
       additional_dependencies:
