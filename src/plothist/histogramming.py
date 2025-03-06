@@ -242,12 +242,11 @@ def _check_counting_histogram(hist):
         If the histogram is not a counting histogram.
 
     """
-    pass
-    # if hist.kind != bh.Kind.COUNT:
-    #     raise ValueError(
-    #         f"The histogram must be a counting histogram, but the input histogram has kind {hist.kind}."
-    #     )
-    # return
+    if hist.kind != bh.Kind.COUNT:
+        raise ValueError(
+            f"The histogram must be a counting histogram, but the input histogram has kind {hist.kind}."
+        )
+    return
 
 
 def _make_hist_from_function(func, ref_hist):
