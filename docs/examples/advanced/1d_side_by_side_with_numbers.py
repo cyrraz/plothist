@@ -40,7 +40,7 @@ bin_width = 0.8
 
 # Use a specificity of matplotlib: when a list of histograms is given, it will plot them side by side unless stacked=True or histtype is a "step" type.
 plot_hist(
-    histos, ax=ax, histtype="side", label=labels, color=colors, bin_width=bin_width
+    histos, ax=ax, histtype="bar", label=labels, color=colors, bin_width=bin_width
 )
 
 
