@@ -95,13 +95,11 @@ __all__ = [
 
 
 # Get style file and use it
-# Deprecated since 3.11 function to access style file, to be updated
-# https://docs.python.org/3/library/importlib.resources.html
 import matplotlib.pyplot as plt
-from importlib.resources import path as resources_path
+from importlib.resources import files
 
-with resources_path("plothist", "default_style.mplstyle") as style_file:
-    plt.style.use(style_file.as_posix())
+style_file = files("plothist").joinpath("default_style.mplstyle")
+plt.style.use(style_file)
 
 # Check the fonts
 from matplotlib.font_manager import findfont

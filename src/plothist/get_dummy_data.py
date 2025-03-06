@@ -1,4 +1,4 @@
-from importlib.resources import path as resources_path
+from importlib.resources import files
 import numpy as np
 
 
@@ -11,7 +11,7 @@ def get_dummy_data():
     data : numpy ndarray
         Dummy data.
     """
-    with resources_path("plothist", "dummy_data.csv") as dummy_data:
-        with open(dummy_data, "r") as f:
-            data = np.genfromtxt(f, delimiter=",", names=True)
+    dummy_data_file = files("plothist").joinpath("dummy_data.csv")
+    with open(dummy_data_file, "r") as f:
+        data = np.genfromtxt(f, delimiter=",", names=True)
     return data
