@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
 import matplotlib.colors as mcolors
-from importlib.resources import path as resources_path
+from importlib.resources import files
 
 
 def set_style(style="default"):
@@ -33,8 +33,8 @@ def set_style(style="default"):
     available_styles = ["default"]
 
     if style in available_styles:
-        with resources_path("plothist", f"{style}_style.mplstyle") as style_file:
-            plt.style.use(style_file.as_posix())
+        style_file = files("plothist").joinpath(f"{style}_style.mplstyle")
+        plt.style.use(style_file)
     else:
         raise ValueError(f"{style} not in the available styles: {available_styles}")
 
@@ -352,7 +352,7 @@ def add_luminosity(
 
     text = (
         r"$\mathrm{\mathbf{"
-        + collaboration.replace(" ", "\,\,")
+        + collaboration.replace(" ", r"\,\,")
         + "}"
         + (r"\,\,preliminary}$" if preliminary else "}$")
     )
