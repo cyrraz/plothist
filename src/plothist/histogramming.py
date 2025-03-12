@@ -1,4 +1,5 @@
 import boost_histogram as bh
+from uhi.numpy_plottable import NumPyPlottableHistogram
 import numpy as np
 import warnings
 
@@ -117,7 +118,7 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
 
     Returns
     -------
-    histogram : boost_histogram.Histogram
+    histogram : uhi.numpy_plottable.PlottableHistogram
         The filled histogram object.
 
     Warns
@@ -126,31 +127,30 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
         If more than 1% of the data is outside of the binning range.
     """
 
-    axis = create_axis(bins, range, data)
+    if weights is None:
+        weights = 1
+    if isinstance(weights, (int, float)):
+        weights = np.full_like(data, weights)
 
-    h = bh.Histogram(axis, storage=bh.storage.Weight())
+    hist, edges = np.histogram(data, bins=bins, range=range, weights=weights)
 
-    if len(data) > 0:
-        h.fill(data, weight=weights, threads=0)
+    # Check what proportion of the data is outside of the binning range
+    range_coverage = np.sum(hist) / np.sum(np.asarray(weights))
 
-        # Check what proportion of the data outside of the binning range
-        n_data = (
-            len(data) * weights
-            if isinstance(weights, (int, float))
-            else np.sum(np.asarray(weights))
+    # Issue a warning if more than 1% of the data is outside of the binning range
+    if range_coverage < 0.99:
+        warnings.warn(
+            f"Only {100*range_coverage:.2f}% of data contained in the binning range [{edges[0]}, {edges[-1]}].",
+            category=RangeWarning,
+            stacklevel=2,
         )
 
-        range_coverage = h.sum().value / n_data
+    # compute variances
+    variances = np.histogram(
+        data, bins=bins, range=range, weights=np.array(weights) ** 2
+    )[0]
 
-        # Issue a warning if more than 1% of the data is outside of the binning range
-        if range_coverage < 0.99:
-            warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}].",
-                category=RangeWarning,
-                stacklevel=2,
-            )
-
-    return h
+    return NumPyPlottableHistogram(hist, edges, variances=variances)
 
 
 def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), weights=1):

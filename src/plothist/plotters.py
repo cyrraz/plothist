@@ -17,6 +17,8 @@ from plothist.comparison import (
 from plothist.histogramming import _make_hist_from_function, _check_counting_histogram
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 import mplhep
+from copy import deepcopy
+from uhi.numpy_plottable import NumPyPlottableHistogram
 
 
 def create_comparison_figure(
@@ -75,7 +77,7 @@ def plot_error_hist(
     _check_uncertainty_type(uncertainty_type)
 
     if kwargs.get("density", False):
-        hist = hist.copy()
+        hist = deepcopy(hist)
         hist *= 1 / (hist.values() * hist.axes[0].widths).sum()
 
     if uncertainty_type == "symmetrical":
@@ -408,7 +410,7 @@ def plot_two_hist_comparison(
             "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
 
-    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
+    xlim = (h1.axes[0].edges[0][0], h1.axes[0].edges[-1][-1])
 
     plot_hist(h1, ax=ax_main, label=h1_label, histtype="step")
     plot_hist(h2, ax=ax_main, label=h2_label, histtype="step")
@@ -498,12 +500,14 @@ def plot_comparison(
     )
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
-        hist_comparison = bh.Histogram(h2.axes[0], storage=bh.storage.Weight())
-        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
+        hist_comparison = NumPyPlottableHistogram(
+            h2.values(), h2.axes[0].edges, variances=lower_uncertainties**2
+        )
     else:
         plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
-        hist_comparison = bh.Histogram(h2.axes[0], storage=bh.storage.Weight())
-        hist_comparison[:] = np.c_[comparison_values, np.zeros_like(comparison_values)]
+        hist_comparison = NumPyPlottableHistogram(
+            h2.values(), h2.axes[0].edges, variances=np.zeros_like(comparison_values)
+        )
 
     if comparison == "pull":
         plot_hist_kwargs.setdefault("histtype", "fill")
@@ -1055,10 +1059,15 @@ def plot_data_model_comparison(
 
     if model_type == "histograms":
         model_hist = sum(model_components)
+        model_hist = NumPyPlottableHistogram(
+            sum(h.values() for h in model_components),
+            model_components.axes[0].edges,
+            variances=sum(h.variances() for h in model_components),
+        )
+
         if not model_uncertainty:
-            model_hist[:] = np.c_[
-                model_hist.values(), np.zeros_like(model_hist.values())
-            ]
+            model_hist._variances = np.zeros_like(model_hist.variances())
+
     else:
 
         def sum_components(x):
