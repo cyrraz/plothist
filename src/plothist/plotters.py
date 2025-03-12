@@ -320,8 +320,8 @@ def plot_2d_hist_with_projections(
     _ = ax_x_projection.xaxis.set_ticklabels([])
     _ = ax_y_projection.yaxis.set_ticklabels([])
 
-    xlim = (hist.axes[0].edges[0], hist.axes[0].edges[-1])
-    ylim = (hist.axes[1].edges[0], hist.axes[1].edges[-1])
+    xlim = (hist.axes[0].edges[0][0], hist.axes[0].edges[-1][-1])
+    xlim = (hist.axes[1].edges[0][0], hist.axes[1].edges[-1][-1])
     ax_2d.set_xlim(xlim)
     ax_x_projection.set_xlim(xlim)
     ax_2d.set_ylim(ylim)
@@ -544,7 +544,7 @@ def plot_comparison(
             )
             np.seterr(divide="warn", invalid="warn")
             ax.bar(
-                x=h2.axes[0].centers,
+                x=np.mean(h2.axes[0].edges, axis=1),
                 bottom=np.nan_to_num(
                     bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
@@ -552,7 +552,7 @@ def plot_comparison(
                     2 * h2_scaled_uncertainties,
                     nan=comparison_ylim[-1] - comparison_ylim[0],
                 ),
-                width=h2.axes[0].widths,
+                width=np.diff(h2.axes[0].edges, axis=1),
                 edgecolor="dimgrey",
                 hatch="////",
                 fill=False,
@@ -582,7 +582,7 @@ def plot_comparison(
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(rf"$\frac{{{h1_label} - {h2_label}}}{{{h1_label} + {h2_label}}}$")
 
-    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
+    xlim = (h1.axes[0].edges[0][0], h1.axes[0].edges[-1][-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
     if comparison_ylim is not None:
@@ -685,7 +685,7 @@ def _get_model_type(components):
     ValueError
         If the model components are not all histograms or all functions.
     """
-    if all(isinstance(x, bh.Histogram) for x in components):
+    if all(isinstance(x, NumPyPlottableHistogram) for x in components):
         return "histograms"
     elif all(callable(x) for x in components):
         return "functions"
@@ -785,7 +785,8 @@ def plot_model(
         raise ValueError("Need to provide both fig and ax (or none).")
 
     if model_type == "histograms":
-        xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
+        xlim = (components[0].axes[0].edges[0][0], components[0].axes[0].edges[-1][-1])
+
     else:
         if function_range is None:
             raise ValueError(
@@ -809,7 +810,13 @@ def plot_model(
             )
             if model_uncertainty and len(unstacked_components) == 0:
                 plot_hist_uncertainties(
-                    sum(stacked_components), ax=ax, label=model_uncertainty_label
+                    NumPyPlottableHistogram(
+                        sum(h.values() for h in stacked_components),
+                        stacked_components[0].axes[0].edges,
+                        variances=sum(h.variances() for h in stacked_components),
+                    ),
+                    ax=ax,
+                    label=model_uncertainty_label,
                 )
         else:
             plot_function(
@@ -1058,10 +1065,9 @@ def plot_data_model_comparison(
         _ = ax_main.xaxis.set_ticklabels([])
 
     if model_type == "histograms":
-        model_hist = sum(model_components)
         model_hist = NumPyPlottableHistogram(
             sum(h.values() for h in model_components),
-            model_components.axes[0].edges,
+            model_components[0].axes[0].edges,
             variances=sum(h.variances() for h in model_components),
         )
 

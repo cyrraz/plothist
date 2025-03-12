@@ -47,6 +47,7 @@ scripts = [
     "docs/examples/utility/matplotlib_vs_plothist_style.py",
 ]
 
+
 @pytest.mark.parametrize("script", scripts)
 def test_examples(script):
     original_directory = os.getcwd()
@@ -56,4 +57,6 @@ def test_examples(script):
         os.system(f"cp {original_directory}/{script} {script_name}")
         result = subprocess.run(["python", script_name], capture_output=True, text=True)
         os.chdir(original_directory)
-        assert result.returncode == 0, f"Script {script} failed with error: {result.stderr}"
+        assert (
+            result.returncode == 0
+        ), f"Script {script} failed with error: {result.stderr}"

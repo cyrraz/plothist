@@ -29,6 +29,8 @@ We also show an example of how to scale the model to the data. We take advantage
 .. code-block:: python
 
     from plothist import make_hist, get_color_palette
+    from uhi.mport NumPyPlottableHistogram
+
 
     key = "variable_1"
     range = [-9, 12]
@@ -50,13 +52,24 @@ We also show an example of how to scale the model to the data. We take advantage
     signal_hist = make_hist(df[key][signal_mask], bins=50, range=range, weights=1)
 
     # Optional: scale to data
-    # boost_histogram.Histogram objects are easy to manipulate.
-    # Here, we multiply them by a scalar to scale them, and their variance is correctly scaled as well.
-    background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
-    background_hists = [background_scaling_factor * h for h in background_hists]
+    background_scaling_factor = data_hist.values().sum() / sum(
+        h.values().sum() for h in background_hists
+    )
+    background_hists = [
+        NumPyPlottableHistogram(
+            h.values() * background_scaling_factor,
+            h.axes[0].edges,
+            variances=h.variances() * background_scaling_factor**2,
+        )
+        for h in background_hists
+    ]
 
-    signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
-    signal_hist *= signal_scaling_factor
+    signal_scaling_factor = data_hist.values().sum() / signal_hist.values().sum()
+    signal_hist = NumPyPlottableHistogram(
+        signal_hist.values() * signal_scaling_factor,
+        signal_hist.axes[0].edges,
+        variances=signal_hist.variances() * signal_scaling_factor**2,
+    )
 
 
     # Define some random functions that will be used as model components with functions

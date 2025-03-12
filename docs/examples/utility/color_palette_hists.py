@@ -11,6 +11,7 @@ df = get_dummy_data()
 
 import matplotlib.pyplot as plt
 from plothist import make_hist, get_color_palette, add_text, plot_model, plot_error_hist
+from uhi.numpy_plottable import NumPyPlottableHistogram
 
 # Define the histograms
 key = "variable_1"
@@ -34,11 +35,24 @@ background_hists = [
 signal_hist = make_hist(df[key][signal_mask], bins=50, range=xrange, weights=1)
 
 # Optional: scale to data
-background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
-background_hists = [background_scaling_factor * h for h in background_hists]
+background_scaling_factor = data_hist.values().sum() / sum(
+    h.values().sum() for h in background_hists
+)
+background_hists = [
+    NumPyPlottableHistogram(
+        h.values() * background_scaling_factor,
+        h.axes[0].edges,
+        variances=h.variances() * background_scaling_factor**2,
+    )
+    for h in background_hists
+]
 
-signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
-signal_hist *= signal_scaling_factor
+signal_scaling_factor = data_hist.values().sum() / signal_hist.values().sum()
+signal_hist = NumPyPlottableHistogram(
+    signal_hist.values() * signal_scaling_factor,
+    signal_hist.axes[0].edges,
+    variances=signal_hist.variances() * signal_scaling_factor**2,
+)
 
 
 # Plotting section
