@@ -1,6 +1,43 @@
 import boost_histogram as bh
+from uhi.numpy_plottable import NumPyPlottableHistogram, Kind
 import numpy as np
 import warnings
+
+
+class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
+    def __init__(self, hist, *bins, variances=None, kind=Kind.COUNT):
+        super().__init__(hist, *bins, variances=variances, kind=kind)
+
+    def __add__(self, other):
+        if not isinstance(other, EnhancedNumPyPlottableHistogram):
+            raise TypeError(
+                "Can only add EnhancedNumPyPlottableHistogram to EnhancedNumPyPlottableHistogram"
+            )
+        if self.axes != other.axes:
+            raise ValueError("Histograms must have the same axes to be added")
+        added_values = self.values() + other.values()
+        added_variances = None
+        if self._variances is not None and other._variances is not None:
+            added_variances = self._variances + other._variances
+        return EnhancedNumPyPlottableHistogram(
+            added_values, *self.axes, variances=added_variances, kind=self.kind
+        )
+
+    def __rad__(self, other):
+        if other == 0:
+            return self
+        return self.__add__(other)
+
+    def __mul__(self, factor):
+        if not isinstance(factor, (int, float)):
+            raise TypeError("Factor must be a scalar (int or float)")
+        scaled_values = self.values() * factor
+        scaled_variances = None
+        if self._variances is not None:
+            scaled_variances = self._variances * factor**2
+        return EnhancedNumPyPlottableHistogram(
+            scaled_values, *self.axes, variances=scaled_variances, kind=self.kind
+        )
 
 
 # Define a custom warning for range issues
@@ -117,7 +154,7 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
 
     Returns
     -------
-    histogram : boost_histogram.Histogram
+    histogram : uhi.numpy_plottable.PlottableHistogram
         The filled histogram object.
 
     Warns
@@ -126,31 +163,30 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
         If more than 1% of the data is outside of the binning range.
     """
 
-    axis = create_axis(bins, range, data)
+    if weights is None:
+        weights = 1
+    if isinstance(weights, (int, float)):
+        weights = np.full_like(data, weights)
 
-    h = bh.Histogram(axis, storage=bh.storage.Weight())
+    hist, edges = np.histogram(data, bins=bins, range=range, weights=weights)
 
-    if len(data) > 0:
-        h.fill(data, weight=weights, threads=0)
+    # Check what proportion of the data is outside of the binning range
+    range_coverage = np.sum(hist) / np.sum(np.asarray(weights))
 
-        # Check what proportion of the data outside of the binning range
-        n_data = (
-            len(data) * weights
-            if isinstance(weights, (int, float))
-            else np.sum(np.asarray(weights))
+    # Issue a warning if more than 1% of the data is outside of the binning range
+    if range_coverage < 0.99:
+        warnings.warn(
+            f"Only {100*range_coverage:.2f}% of data contained in the binning range [{edges[0]}, {edges[-1]}].",
+            category=RangeWarning,
+            stacklevel=2,
         )
 
-        range_coverage = h.sum().value / n_data
+    # compute variances
+    variances = np.histogram(
+        data, bins=bins, range=range, weights=np.array(weights) ** 2
+    )[0]
 
-        # Issue a warning if more than 1% of the data is outside of the binning range
-        if range_coverage < 0.99:
-            warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}].",
-                category=RangeWarning,
-                stacklevel=2,
-            )
-
-    return h
+    return EnhancedNumPyPlottableHistogram(hist, edges, variances=variances)
 
 
 def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), weights=1):
@@ -214,7 +250,7 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
             else np.sum(np.asarray(weights))
         )
 
-        range_coverage = h.sum().value / n_data
+        range_coverage = h.values().sum() / n_data
 
         # Issue a warning if more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
