@@ -1681,16 +1681,7 @@ L 395.78 258.613953
 " clip-path="url(#p3b2ecd078a)" style="fill: none; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #000000"/>
    </g>
    <g id="line2d_46">
-    <g clip-path="url(#p3b2ecd078a)">
-     <use xlink:href="#mb27cb91d61" x="81.905" y="284.4" style="stroke: #000000"/>
-     <use xlink:href="#mb27cb91d61" x="123.755" y="284.4" style="stroke: #000000"/>
-     <use xlink:href="#mb27cb91d61" x="165.605" y="284.4" style="stroke: #000000"/>
-     <use xlink:href="#mb27cb91d61" x="207.455" y="284.4" style="stroke: #000000"/>
-     <use xlink:href="#mb27cb91d61" x="249.305" y="284.4" style="stroke: #000000"/>
-     <use xlink:href="#mb27cb91d61" x="291.155" y="284.4" style="stroke: #000000"/>
-     <use xlink:href="#mb27cb91d61" x="333.005" y="284.4" style="stroke: #000000"/>
-     <use xlink:href="#mb27cb91d61" x="374.855" y="284.4" style="stroke: #000000"/>
-    </g>
+    <g clip-path="url(#p3b2ecd078a)"/>
    </g>
    <g id="patch_33">
     <path d="M 60.98 284.4 

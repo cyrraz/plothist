@@ -504,12 +504,14 @@ def plot_comparison(
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
         hist_comparison = EnhancedNumPyPlottableHistogram(
-            h2.values(), h2.axes[0].edges, variances=lower_uncertainties**2
+            comparison_values, h2.axes[0].edges, variances=lower_uncertainties**2
         )
     else:
         plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
         hist_comparison = EnhancedNumPyPlottableHistogram(
-            h2.values(), h2.axes[0].edges, variances=np.zeros_like(comparison_values)
+            comparison_values,
+            h2.axes[0].edges,
+            variances=np.zeros_like(comparison_values),
         )
     if comparison == "pull":
         plot_hist_kwargs.setdefault("histtype", "fill")
