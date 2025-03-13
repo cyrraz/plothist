@@ -14,7 +14,11 @@ from plothist.comparison import (
     _check_binning_consistency,
     _check_uncertainty_type,
 )
-from plothist.histogramming import _make_hist_from_function, _check_counting_histogram
+from plothist.histogramming import (
+    _make_hist_from_function,
+    _check_counting_histogram,
+    EnhancedNumPyPlottableHistogram,
+)
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 import mplhep
 
@@ -498,13 +502,14 @@ def plot_comparison(
     )
 
     if np.allclose(lower_uncertainties, upper_uncertainties, equal_nan=True):
-        hist_comparison = bh.Histogram(h2.axes[0], storage=bh.storage.Weight())
-        hist_comparison[:] = np.c_[comparison_values, lower_uncertainties**2]
+        hist_comparison = EnhancedNumPyPlottableHistogram(
+            h2.values(), h2.axes[0].edges, variances=lower_uncertainties**2
+        )
     else:
         plot_hist_kwargs.setdefault("yerr", [lower_uncertainties, upper_uncertainties])
-        hist_comparison = bh.Histogram(h2.axes[0], storage=bh.storage.Weight())
-        hist_comparison[:] = np.c_[comparison_values, np.zeros_like(comparison_values)]
-
+        hist_comparison = EnhancedNumPyPlottableHistogram(
+            h2.values(), h2.axes[0].edges, variances=np.zeros_like(comparison_values)
+        )
     if comparison == "pull":
         plot_hist_kwargs.setdefault("histtype", "fill")
         plot_hist_kwargs.setdefault("color", "darkgrey")
@@ -540,7 +545,7 @@ def plot_comparison(
             )
             np.seterr(divide="warn", invalid="warn")
             ax.bar(
-                x=h2.axes[0].centers,
+                x=np.mean(h2.axes[0].edges, axis=1),
                 bottom=np.nan_to_num(
                     bottom_shift - h2_scaled_uncertainties, nan=comparison_ylim[0]
                 ),
@@ -548,7 +553,7 @@ def plot_comparison(
                     2 * h2_scaled_uncertainties,
                     nan=comparison_ylim[-1] - comparison_ylim[0],
                 ),
-                width=h2.axes[0].widths,
+                width=np.diff(h2.axes[0].edges, axis=1),
                 edgecolor="dimgrey",
                 hatch="////",
                 fill=False,
@@ -681,7 +686,7 @@ def _get_model_type(components):
     ValueError
         If the model components are not all histograms or all functions.
     """
-    if all(isinstance(x, bh.Histogram) for x in components):
+    if all(isinstance(x, EnhancedNumPyPlottableHistogram) for x in components):
         return "histograms"
     elif all(callable(x) for x in components):
         return "functions"
@@ -781,7 +786,7 @@ def plot_model(
         raise ValueError("Need to provide both fig and ax (or none).")
 
     if model_type == "histograms":
-        xlim = (components[0].axes[0].edges[0], components[0].axes[0].edges[-1])
+        xlim = (components[0].axes[0].edges[0][0], components[0].axes[0].edges[-1][-1])
     else:
         if function_range is None:
             raise ValueError(
@@ -1056,9 +1061,7 @@ def plot_data_model_comparison(
     if model_type == "histograms":
         model_hist = sum(model_components)
         if not model_uncertainty:
-            model_hist[:] = np.c_[
-                model_hist.values(), np.zeros_like(model_hist.values())
-            ]
+            model_hist._variances = np.zeros_like(model_hist.variances())
     else:
 
         def sum_components(x):

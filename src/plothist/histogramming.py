@@ -20,10 +20,10 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
         if self._variances is not None and other._variances is not None:
             added_variances = self._variances + other._variances
         return EnhancedNumPyPlottableHistogram(
-            added_values, *self.axes, variances=added_variances, kind=self.kind
+            added_values, self.axes[0].edges, variances=added_variances, kind=self.kind
         )
 
-    def __rad__(self, other):
+    def __radd__(self, other):
         if other == 0:
             return self
         return self.__add__(other)
@@ -36,8 +36,14 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
         if self._variances is not None:
             scaled_variances = self._variances * factor**2
         return EnhancedNumPyPlottableHistogram(
-            scaled_values, *self.axes, variances=scaled_variances, kind=self.kind
+            scaled_values,
+            self.axes[0].edges,
+            variances=scaled_variances,
+            kind=self.kind,
         )
+
+    def __rmul__(self, factor):
+        return self.__mul__(factor)
 
 
 # Define a custom warning for range issues
@@ -311,10 +317,12 @@ def _make_hist_from_function(func, ref_hist):
     if len(ref_hist.axes) != 1:
         raise ValueError("The reference histogram must be 1D.")
 
-    hist = bh.Histogram(ref_hist.axes[0], storage=bh.storage.Weight())
-    hist[:] = np.c_[
-        func(ref_hist.axes[0].centers), np.zeros_like(ref_hist.axes[0].centers)
-    ]
+    hist = EnhancedNumPyPlottableHistogram(
+        func(np.mean(ref_hist.axes[0].edges, axis=1)),
+        ref_hist.axes[0].edges,
+        variances=np.zeros_like(ref_hist.values()),
+    )
+
     return hist
 
 
