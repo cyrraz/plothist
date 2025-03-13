@@ -408,7 +408,7 @@ def plot_two_hist_comparison(
             "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
 
-    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
+    xlim = (h1.axes[0].edges[0][0], h1.axes[0].edges[-1][-1])
 
     plot_hist(h1, ax=ax_main, label=h1_label, histtype="step")
     plot_hist(h2, ax=ax_main, label=h2_label, histtype="step")
@@ -578,7 +578,7 @@ def plot_comparison(
         ax.axhline(0, ls="--", lw=1.0, color="black")
         ax.set_ylabel(rf"$\frac{{{h1_label} - {h2_label}}}{{{h1_label} + {h2_label}}}$")
 
-    xlim = (h1.axes[0].edges[0], h1.axes[0].edges[-1])
+    xlim = (h1.axes[0].edges[0][0], h1.axes[0].edges[-1][-1])
     ax.set_xlim(xlim)
     ax.set_xlabel(xlabel)
     if comparison_ylim is not None:
