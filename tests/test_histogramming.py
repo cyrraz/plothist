@@ -3,6 +3,8 @@ import numpy as np
 from plothist import make_hist, make_2d_hist
 from plothist import create_axis
 from pytest import warns
+from plothist.histogramming import EnhancedNumPyPlottableHistogram
+from uhi.numpy_plottable import NumPyPlottableAxis
 
 
 def test_make_hist():
@@ -10,12 +12,12 @@ def test_make_hist():
     Test make_hist() function.
     """
     h = make_hist(data=[0, 1, 2, 3, 4], bins=5, range=(0, 5))
-    assert isinstance(h, bh.Histogram)
-    assert isinstance(h.axes[0], bh.axis.Regular)
+    assert isinstance(h, EnhancedNumPyPlottableHistogram)
+    assert isinstance(h.axes[0], NumPyPlottableAxis)
     assert h.values().sum() == 5
-    assert h.sum().variance == 5
-    assert h[0].value == 1
-    assert h[-1].value == 1
+    assert h.variances().sum() == 5
+    assert h.values()[0] == 1
+    assert h.values()[0] == 1
 
 
 def test_upper_edge_inclusive():

@@ -21,6 +21,7 @@ from plothist.histogramming import (
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 import mplhep
+import copy
 
 
 def create_comparison_figure(
@@ -79,8 +80,8 @@ def plot_error_hist(
     _check_uncertainty_type(uncertainty_type)
 
     if kwargs.get("density", False):
-        hist = hist.copy()
-        hist *= 1 / (hist.values() * hist.axes[0].widths).sum()
+        hist = copy.deepcopy(hist)
+        hist *= 1 / (hist.values() * np.diff(hist.axes[0].edges, axis=1)).sum()
 
     if uncertainty_type == "symmetrical":
         kwargs.setdefault("yerr", np.sqrt(hist.variances()))
@@ -553,7 +554,7 @@ def plot_comparison(
                     2 * h2_scaled_uncertainties,
                     nan=comparison_ylim[-1] - comparison_ylim[0],
                 ),
-                width=np.diff(h2.axes[0].edges, axis=1),
+                width=np.diff(h2.axes[0].edges, axis=1).reshape(-1),
                 edgecolor="dimgrey",
                 hatch="////",
                 fill=False,
@@ -686,7 +687,10 @@ def _get_model_type(components):
     ValueError
         If the model components are not all histograms or all functions.
     """
-    if all(isinstance(x, EnhancedNumPyPlottableHistogram) for x in components):
+    if all(
+        isinstance(x, EnhancedNumPyPlottableHistogram) or isinstance(x, bh.Histogram)
+        for x in components
+    ):
         return "histograms"
     elif all(callable(x) for x in components):
         return "functions"
@@ -1038,7 +1042,7 @@ def plot_data_model_comparison(
         stacked_kwargs=stacked_kwargs,
         unstacked_kwargs_list=unstacked_kwargs_list,
         model_sum_kwargs=model_sum_kwargs,
-        function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
+        function_range=[data_hist.axes[0].edges[0][0], data_hist.axes[0].edges[-1][-1]],
         model_uncertainty=model_uncertainty,
         model_uncertainty_label=model_uncertainty_label,
         fig=fig,
