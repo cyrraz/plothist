@@ -4,7 +4,6 @@ Collection of functions to plot histograms
 """
 
 import numpy as np
-import boost_histogram as bh
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Bbox
 import re
@@ -138,7 +137,14 @@ def plot_2d_hist(
         ax.set_box_aspect(1)
         fig.subplots_adjust(wspace=0, hspace=0)
 
-    im = ax.pcolormesh(*hist.axes.edges.T, hist.values().T, **pcolormesh_kwargs)
+    # Extract x and y edges from your histogram
+    x_edges = np.array([edge[0] for edge in hist.axes[0].edges])
+    x_edges = np.append(x_edges, hist.axes[0].edges[-1][1])  # Add the last upper edge
+
+    y_edges = np.array([edge[0] for edge in hist.axes[1].edges])
+    y_edges = np.append(y_edges, hist.axes[1].edges[-1][1])  # Add the last upper edge
+
+    im = ax.pcolormesh(x_edges, y_edges, hist.values().T, **pcolormesh_kwargs)
     ax.get_figure().colorbar(im, cax=ax_colorbar, **colorbar_kwargs)
 
     return fig, ax, ax_colorbar
@@ -312,9 +318,30 @@ def plot_2d_hist_with_projections(
         colorbar_kwargs=colorbar_kwargs,
         square_ax=False,
     )
-    plot_hist(hist[:, :: bh.sum], ax=ax_x_projection, **plot_hist_kwargs)
+
+    # Create X projection (sum along y-axis)
+    x_values = np.sum(hist.values(), axis=1)
+    x_variances = (
+        np.sum(hist.variances(), axis=1) if hist.variances() is not None else None
+    )
+    x_edges = hist.axes[0].edges  # Keep the original x edges
+    x_projection = EnhancedNumPyPlottableHistogram(
+        x_values, x_edges, variances=x_variances
+    )
+
+    # Create Y projection (sum along x-axis)
+    y_values = np.sum(hist.values(), axis=0)
+    y_variances = (
+        np.sum(hist.variances(), axis=0) if hist.variances() is not None else None
+    )
+    y_edges = hist.axes[1].edges  # Keep the original y edges
+    y_projection = EnhancedNumPyPlottableHistogram(
+        y_values, y_edges, variances=y_variances
+    )
+
+    plot_hist(x_projection, ax=ax_x_projection, **plot_hist_kwargs)
     plot_hist(
-        hist[:: bh.sum, :],
+        y_projection,
         ax=ax_y_projection,
         orientation="horizontal",
         **plot_hist_kwargs,
@@ -323,8 +350,9 @@ def plot_2d_hist_with_projections(
     _ = ax_x_projection.xaxis.set_ticklabels([])
     _ = ax_y_projection.yaxis.set_ticklabels([])
 
-    xlim = (hist.axes[0].edges[0], hist.axes[0].edges[-1])
-    ylim = (hist.axes[1].edges[0], hist.axes[1].edges[-1])
+    xlim = (hist.axes[0].edges[0][0], hist.axes[0].edges[-1][-1])
+    ylim = (hist.axes[1].edges[0][0], hist.axes[1].edges[-1][-1])
+
     ax_2d.set_xlim(xlim)
     ax_x_projection.set_xlim(xlim)
     ax_2d.set_ylim(ylim)
@@ -689,10 +717,7 @@ def _get_model_type(components):
     ValueError
         If the model components are not all histograms or all functions.
     """
-    if all(
-        isinstance(x, EnhancedNumPyPlottableHistogram) or isinstance(x, bh.Histogram)
-        for x in components
-    ):
+    if all(isinstance(x, EnhancedNumPyPlottableHistogram) for x in components):
         return "histograms"
     elif all(callable(x) for x in components):
         return "functions"

@@ -5,6 +5,21 @@ import warnings
 
 
 class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
+    """
+    A class that extends the NumPyPlottableHistogram class to allow for arithmetic operations between histograms.
+
+    Parameters
+    ----------
+    hist : array-like
+        The histogram values.
+    bins : array-like
+        The bin edges of the histogram.
+    variances : array-like, optional
+        The variances of the histogram values. Default is None.
+    kind : Kind, optional
+        The kind of histogram. Default is Kind.COUNT.
+    """
+
     def __init__(self, hist, *bins, variances=None, kind=Kind.COUNT):
         super().__init__(hist, *bins, variances=variances, kind=kind)
 
@@ -12,6 +27,10 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
         if not isinstance(other, EnhancedNumPyPlottableHistogram):
             raise TypeError(
                 "Can only add EnhancedNumPyPlottableHistogram to EnhancedNumPyPlottableHistogram"
+            )
+        if len(self.axes) > 1:
+            raise NotImplementedError(
+                "Addition of multi-dimensional histograms is not supported"
             )
         if self.axes != other.axes:
             raise ValueError("Histograms must have the same axes to be added")
@@ -31,6 +50,10 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
     def __mul__(self, factor):
         if not isinstance(factor, (int, float)):
             raise TypeError("Factor must be a scalar (int or float)")
+        if len(self.axes) > 1:
+            raise NotImplementedError(
+                "Scaling of multi-dimensional histograms is not supported"
+            )
         scaled_values = self.values() * factor
         scaled_variances = None
         if self._variances is not None:
@@ -219,7 +242,7 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
 
     Returns
     -------
-    histogram : boost_histogram.Histogram
+    histogram : EnhancedNumPyPlottableHistogram
         The filled 2D histogram object.
 
     Raises
@@ -237,36 +260,32 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     if len(data[0]) != len(data[1]):
         raise ValueError("x and y must have the same length.")
 
-    x_axis = create_axis(bins[0], range[0], data[0])
-    y_axis = create_axis(bins[1], range[1], data[1])
+    if weights is None:
+        weights = 1
+    if isinstance(weights, (int, float)):
+        weights = np.full_like(data[0], weights)
 
-    h = bh.Histogram(
-        x_axis,
-        y_axis,
-        storage=bh.storage.Weight(),
+    hist, x_edges, y_edges = np.histogram2d(
+        data[0], data[1], bins=bins, range=range, weights=weights
     )
 
-    if len(data[0]) > 0:
-        h.fill(*data, weight=weights, threads=0)
+    # Check what proportion of the data is outside of the binning range
+    range_coverage = np.sum(hist) / np.sum(np.asarray(weights))
 
-        # Check what proportion of the data outside of the binning range
-        n_data = (
-            len(data[0]) * weights
-            if isinstance(weights, (int, float))
-            else np.sum(np.asarray(weights))
+    # Issue a warning if more than 1% of the data is outside of the binning range
+    if range_coverage < 0.99:
+        warnings.warn(
+            f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_edges[0]}, {x_edges[-1]}], [{y_edges[0]}, {y_edges[-1]}]).",
+            category=RangeWarning,
+            stacklevel=2,
         )
 
-        range_coverage = h.values().sum() / n_data
+    # compute variances
+    variances = np.histogram2d(
+        data[0], data[1], bins=bins, range=range, weights=np.array(weights) ** 2
+    )[0]
 
-        # Issue a warning if more than 1% of the data is outside of the binning range
-        if range_coverage < 0.99:
-            warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}], [{y_axis.edges[0]}, {y_axis.edges[-1]}]).",
-                category=RangeWarning,
-                stacklevel=2,
-            )
-
-    return h
+    return EnhancedNumPyPlottableHistogram(hist, x_edges, y_edges, variances=variances)
 
 
 def _check_counting_histogram(hist):
@@ -284,7 +303,7 @@ def _check_counting_histogram(hist):
         If the histogram is not a counting histogram.
 
     """
-    if hist.kind != bh.Kind.COUNT:
+    if hist.kind != Kind.COUNT:
         raise ValueError(
             f"The histogram must be a counting histogram, but the input histogram has kind {hist.kind}."
         )
@@ -349,13 +368,9 @@ def flatten_2d_hist(hist):
 
     if len(hist.axes) != 2:
         raise ValueError("The input histogram must be 2D.")
-    n_bins = hist.axes[0].size * hist.axes[1].size
-    flatten_hist = bh.Histogram(
-        bh.axis.Regular(n_bins, 0, n_bins), storage=bh.storage.Weight()
-    )
+
     flatten_hist = EnhancedNumPyPlottableHistogram(
         hist.values().flatten(),
-        flatten_hist.axes[0].edges,
         variances=hist.variances().flatten(),
     )
     return flatten_hist
