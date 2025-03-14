@@ -354,8 +354,8 @@ def flatten_2d_hist(hist):
         bh.axis.Regular(n_bins, 0, n_bins), storage=bh.storage.Weight()
     )
     flatten_hist = EnhancedNumPyPlottableHistogram(
-        flatten_hist.values(),
+        hist.values().flatten(),
         flatten_hist.axes[0].edges,
-        variances=flatten_hist.variances(),
+        variances=hist.variances().flatten(),
     )
     return flatten_hist
