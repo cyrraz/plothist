@@ -52,10 +52,10 @@ We also show an example of how to scale the model to the data. We take advantage
     # Optional: scale to data
     # boost_histogram.Histogram objects are easy to manipulate.
     # Here, we multiply them by a scalar to scale them, and their variance is correctly scaled as well.
-    background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
+    background_scaling_factor = data_hist.values().sum() / sum(background_hists).values().sum()
     background_hists = [background_scaling_factor * h for h in background_hists]
 
-    signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
+    signal_scaling_factor = data_hist.values().sum() / signal_hist.values().sum()
     signal_hist *= signal_scaling_factor
 
 

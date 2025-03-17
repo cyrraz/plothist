@@ -10,6 +10,7 @@ from plothist import get_dummy_data
 df = get_dummy_data()
 
 from plothist import make_hist, get_color_palette
+from plothist.histogramming import EnhancedNumPyPlottableHistogram
 
 # Define the histograms
 
@@ -38,10 +39,12 @@ background_hists = [
 signal_hist = make_hist(df[key][signal_mask], bins=50, range=range, weights=1)
 
 # Optional: scale to data
-background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
+background_scaling_factor = (
+    data_hist.values().sum() / sum(background_hists).values().sum()
+)
 background_hists = [background_scaling_factor * h for h in background_hists]
 
-signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
+signal_scaling_factor = data_hist.values().sum() / signal_hist.values().sum()
 signal_hist *= signal_scaling_factor
 
 ###
@@ -89,10 +92,11 @@ for k_comp, comparison in enumerate(
     ax_comparison = axes[k_comp]
 
     # Copy the original histogram and set the uncertainties of the copy to 0.
-    background_sum_copy = background_sum.copy()
-    background_sum_copy[:] = np.c_[
-        background_sum_copy.values(), np.zeros_like(background_sum_copy.values())
-    ]
+    background_sum_copy = EnhancedNumPyPlottableHistogram(
+        background_sum.values(),
+        background_sum.axes[0].edges,
+        variances=np.zeros_like(background_sum.variances()),
+    )
 
     plot_comparison(
         data_hist,
