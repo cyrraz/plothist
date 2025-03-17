@@ -18,7 +18,6 @@ from .plotters import (
 )
 
 from .histogramming import (
-    create_axis,
     make_hist,
     make_2d_hist,
     flatten_2d_hist,
@@ -61,7 +60,6 @@ __all__ = [
     "remove_variable_registry_parameters",
     "update_variable_registry_ranges",
     "create_comparison_figure",
-    "create_axis",
     "make_hist",
     "make_2d_hist",
     "plot_hist",
