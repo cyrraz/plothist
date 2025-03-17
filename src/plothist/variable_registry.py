@@ -5,8 +5,6 @@ Collection of functions to manage the variable registry
 import yaml
 import os
 import warnings
-import boost_histogram as bh
-from plothist.histogramming import create_axis
 
 
 def _check_if_variable_registry_exists(path):
@@ -286,10 +284,14 @@ def update_variable_registry_ranges(
         range = ["min", "max"] if overwrite else variable["range"]
 
         if range == ["min", "max"]:
-            axis = create_axis(variable["bins"], range, data[variable["name"]])
-            if isinstance(axis, bh.axis.Regular):
+            if not isinstance(variable["bins"], list):
                 update_variable_registry(
-                    {"range": [float(axis.edges[0]), float(axis.edges[-1])]},
+                    {
+                        "range": [
+                            float(min(data[variable["name"]])),
+                            float(max(data[variable["name"]])),
+                        ]
+                    },
                     [variable_key],
                     path=path,
                     overwrite=True,

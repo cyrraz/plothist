@@ -1,8 +1,9 @@
 import boost_histogram as bh
 import numpy as np
 from plothist import make_hist, make_2d_hist
-from plothist import create_axis
 from pytest import warns
+from plothist.histogramming import EnhancedNumPyPlottableHistogram
+from uhi.numpy_plottable import NumPyPlottableAxis
 
 
 def test_make_hist():
@@ -10,12 +11,12 @@ def test_make_hist():
     Test make_hist() function.
     """
     h = make_hist(data=[0, 1, 2, 3, 4], bins=5, range=(0, 5))
-    assert isinstance(h, bh.Histogram)
-    assert isinstance(h.axes[0], bh.axis.Regular)
-    assert h.sum().value == 5
-    assert h.sum().variance == 5
-    assert h[0].value == 1
-    assert h[-1].value == 1
+    assert isinstance(h, EnhancedNumPyPlottableHistogram)
+    assert isinstance(h.axes[0], NumPyPlottableAxis)
+    assert h.values().sum() == 5
+    assert h.variances().sum() == 5
+    assert h.values()[0] == 1
+    assert h.values()[0] == 1
 
 
 def test_upper_edge_inclusive():
@@ -43,9 +44,9 @@ def test_upper_edge_exclusive():
 
     data = [0] * 3 + [1] * 4 + [2] * 5 + [3] * 6 + [4] * 7 + [5] * 8
 
-    a1 = create_axis(5, (0, 5), overflow=True)
-    a2 = create_axis([0, 1, 2, 3, 4, 5], overflow=True)
-    a3 = create_axis(5, data=data, overflow=True)
+    a1 = bh.axis.Regular(5, 0, 5, overflow=True)
+    a2 = bh.axis.Variable([0, 1, 2, 3, 4, 5], overflow=True)
+    a3 = bh.axis.Regular(5, min(data), max(data), overflow=True)
     # For a integer axis, the last bin is always exclusive, no matter the overflow setting.
     int_a1 = bh.axis.Integer(0, 5, overflow=False)
     int_a2 = bh.axis.Integer(0, 5, overflow=True)
@@ -76,6 +77,30 @@ def test_upper_edge_exclusive():
 
     for h in [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10]:
         assert np.array_equal(h.values(), expected)
+
+
+def test_histogram_addition():
+    """
+    Test adding two histograms.
+    """
+    h1 = make_hist(data=[0, 1, 2, 3, 4], bins=5, range=(0, 5))
+    h2 = make_hist(data=[0, 1, 2, 3, 4], bins=5, range=(0, 5))
+    h3 = h1 + h2
+    assert np.array_equal((h1 + h2).values(), [2, 2, 2, 2, 2])
+    assert np.array_equal(sum([h1, h2, h3]).values(), [4, 4, 4, 4, 4])
+
+
+def test_histogram_multiplication():
+    """
+    Test multiplying a histogram by a scalar.
+    """
+    h1 = make_hist(data=[0, 1, 2, 3, 4], bins=5, range=(0, 5), weights=2)
+    h2 = 2 * h1
+    h3 = h1 * 2
+    assert np.array_equal(h2.values(), [4, 4, 4, 4, 4])
+    assert np.array_equal(h2.variances(), [16, 16, 16, 16, 16])
+    assert np.array_equal(h3.values(), [4, 4, 4, 4, 4])
+    assert np.array_equal(h3.variances(), [16, 16, 16, 16, 16])
 
 
 def test_range_coverage_warning():
