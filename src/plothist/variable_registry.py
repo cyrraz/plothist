@@ -287,10 +287,10 @@ def update_variable_registry_ranges(
             if not isinstance(variable["bins"], list):
                 update_variable_registry(
                     {
-                        "range": (
-                            min(data[variable["name"]]),
-                            max(data[variable["name"]]),
-                        )
+                        "range": [
+                            float(min(data[variable["name"]])),
+                            float(max(data[variable["name"]])),
+                        ]
                     },
                     [variable_key],
                     path=path,
