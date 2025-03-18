@@ -41,6 +41,11 @@ jobs:
           export PLOTHIST_PATH=$(pwd)
           echo "PLOTHIST_PATH is set to $PLOTHIST_PATH"
 
+      - name: Set PLOTHIST_PATH for running the test that makes the figures
+        run: |
+          echo $PLOTHIST_PATH
+          echo $PLOTHIST_PATH/docs/examples
+
       - name: echo LD_LIBRARY_PATH
         run: |
           echo $LD_LIBRARY_PATH
@@ -50,6 +55,11 @@ jobs:
 
       - name: Print site-packages folder structure
         run: tree $LD_LIBRARY_PATH
+
+      - name: Set PLOTHIST_PATH for running the test that makes the figures
+        run: |
+          echo $PLOTHIST_PATH
+          echo $PLOTHIST_PATH/docs/examples
 
       - name: Test with pytest
         run: |
