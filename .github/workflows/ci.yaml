@@ -36,6 +36,11 @@ jobs:
         run: |
           uv run pre-commit run --all-files
 
+      - name: Set PLOTHIST_PATH for running the test that makes the figures
+        run: |
+          export PLOTHIST_PATH=$(pwd)
+          echo "PLOTHIST_PATH is set to $PLOTHIST_PATH"
+
       - name: Test with pytest
         run: |
           uv run python -m pytest
