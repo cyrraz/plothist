@@ -58,8 +58,8 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         else os.environ.get("PLOTHIST_PATH")
     )
 
-    example_folder = plothist_folder + "/docs/examples"
-    img_folder = plothist_folder + "/docs/img"
+    example_folder = plothist_folder + "../../docs/examples"
+    img_folder = plothist_folder + "../../docs/img"
 
     if not os.path.exists(example_folder) or not os.path.exists(img_folder):
         raise FileNotFoundError(
