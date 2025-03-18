@@ -998,7 +998,7 @@ dependencies = [
     { name = "scipy", version = "1.15.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
 
-[package.dev-dependencies]
+[package.optional-dependencies]
 dev = [
     { name = "pre-commit" },
 ]
@@ -1011,14 +1011,13 @@ requires-dist = [
     { name = "boost-histogram", specifier = ">=1.4.0" },
     { name = "matplotlib", specifier = ">=3.0" },
     { name = "numpy", specifier = ">=1.14.5" },
+    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.1.0" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=8.3.5" },
     { name = "pyyaml", specifier = ">=5.3.1" },
     { name = "requests", specifier = ">=2.25.0" },
     { name = "scipy", specifier = ">=1.6.0" },
 ]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pre-commit", specifier = ">=4.1.0" }]
-test = [{ name = "pytest", specifier = ">=8.3.5" }]
+provides-extras = ["dev", "test"]
 
 [[package]]
 name = "pluggy"
