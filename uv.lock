@@ -999,7 +999,7 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
-lint = [
+dev = [
     { name = "pre-commit" },
 ]
 test = [
@@ -1017,7 +1017,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-lint = [{ name = "pre-commit", specifier = ">=4.1.0" }]
+dev = [{ name = "pre-commit", specifier = ">=4.1.0" }]
 test = [{ name = "pytest", specifier = ">=8.3.5" }]
 
 [[package]]
