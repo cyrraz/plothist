@@ -41,6 +41,14 @@ jobs:
           export PLOTHIST_PATH=$(pwd)
           echo "PLOTHIST_PATH is set to $PLOTHIST_PATH"
 
+      - name: echo LD_LIBRARY_PATH
+        run: |
+          echo $LD_LIBRARY_PATH
+
+      - name: Copy docs to site-packages
+        run: |
+          cp -r docs $LD_LIBRARY_PATH/python${{ matrix.python-version }}/site-packages/plothist/docs
+
       - name: Test with pytest
         run: |
           uv run python -m pytest
