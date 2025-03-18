@@ -30,7 +30,7 @@ jobs:
 
       - name: Install package
         run: |
-          uv pip install -G dev,test
+          uv pip install -e ".[test,dev]"
 
       - name: Run pre-commit
         run: |
