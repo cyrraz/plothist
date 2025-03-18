@@ -48,6 +48,9 @@ jobs:
       - name: Print folder structure
         run: tree -a
 
+      - name: Print site-packages folder structure
+        run: tree $LD_LIBRARY_PATH
+
       - name: Copy docs to site-packages
         run: |
           cp -r docs $LD_LIBRARY_PATH/python${{ matrix.python-version }}/site-packages/plothist/docs
