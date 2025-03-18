@@ -63,7 +63,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     if not os.path.exists(example_folder) or not os.path.exists(img_folder):
         raise FileNotFoundError(
-            f"Could not find the example or img folder for the documentation.\nIf you installed plothist from source using flit, please run `export PLOTHIST_PATH=path/to/plothist` before launching the script."
+            f"Could not find the example {example_folder} or img {img_folder} folder for the documentation.\nIf you installed plothist from source using flit, please run `export PLOTHIST_PATH=path/to/plothist` before launching the script."
         )
 
     temp_img_folder = plothist_folder + "/docs/temp_img"
