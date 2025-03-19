@@ -77,7 +77,7 @@ Option 1 (recommended) - Using ``uv``
 
 2. Install ``uv`` following the instructions in the `uv documentation <https://docs.astral.sh/uv/getting-started/installation/>`_.
 
-3. Run the following command to install the package in editable mode with the development and test dependencies:
+3. Run the following command to install the package:
 
     .. code-block:: bash
 
