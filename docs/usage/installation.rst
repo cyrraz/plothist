@@ -34,14 +34,14 @@ Install ``plothist``
 
    .. code-block:: bash
 
-      python3 -m pip install plothist
+       python3 -m pip install plothist
 
 
    b.  If this fails because you do not have write access to where your virtual environment lives, you can also install ``plothist`` locally:
 
    .. code-block:: bash
 
-      python3 -m pip install --user plothist
+       python3 -m pip install --user plothist
 
 This will automatically also install ``plothist`` into your current environment.
 Please make sure to always setup your environment correctly before using ``plothist``.
@@ -58,7 +58,7 @@ To update ``plothist`` to its latest stable version, follow the instructions abo
 
 .. code-block:: bash
 
-   python3 -m pip install --upgrade [--user] plothist
+    python3 -m pip install --upgrade [--user] plothist
 
 
 Install the development version
@@ -68,9 +68,9 @@ Install the development version
 
     .. code-block:: bash
 
-      git clone git@github.com:cyrraz/plothist.git
+       git clone git@github.com:cyrraz/plothist.git
 
-      cd plothist
+       cd plothist
 
 Option 1 (recommended) - Using ``uv``
 -------------------------------------
@@ -81,7 +81,7 @@ Option 1 (recommended) - Using ``uv``
 
     .. code-block:: bash
 
-      uv pip install --editable ".[dev,test]"
+       uv pip install --editable ".[dev,test]"
 
 The previous command automatically creates a virtual environment ``.venv`` and installs the package in editable mode with the development and test dependencies.
 
@@ -92,18 +92,18 @@ Option 2 - Not using ``uv``
 
     .. code-block:: bash
 
-      python3 -m venv .venv
+       python3 -m venv .venv
 
-      source .venv/bin/activate
+       source .venv/bin/activate
 
 3. Run the following command to install the package in editable mode with the development and test dependencies:
 
     .. code-block:: bash
 
-      python3 -m pip install --editable ".[dev,test]"
+       python3 -m pip install --editable ".[dev,test]"
 
 To update ``plothist`` to its latest development version, go to the package folder and run:
 
 .. code-block:: bash
 
-   git pull
+    git pull
