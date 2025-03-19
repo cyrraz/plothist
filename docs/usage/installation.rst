@@ -7,7 +7,7 @@ Installation and update
 Prerequisite
 ============
 
-You need version 3.7 (or a more recent version) of Python 3. You can check your version of Python 3 with:
+You need version 3.9 (or a more recent version) of Python 3. You can check your version of Python 3 with:
 
 .. code-block:: bash
 
@@ -19,13 +19,13 @@ Using PyPI (stable version)
 Install ``plothist``
 --------------------
 
-1.  (Optional) If you use a local environment, activate it.
-
-    For example, run:
+2.  (Optional) Setup and activate a virtual environment:
 
     .. code-block:: bash
 
-       source venv/bin/activate
+       python3 -m venv .venv
+
+       source .venv/bin/activate
 
 
 2. Install ``plothist`` from ``PyPI`` into your environment.
@@ -34,14 +34,14 @@ Install ``plothist``
 
    .. code-block:: bash
 
-      pip3 install plothist
+      python3 -m pip install plothist
 
 
    b.  If this fails because you do not have write access to where your virtual environment lives, you can also install ``plothist`` locally:
 
    .. code-block:: bash
 
-      pip3 install --user plothist
+      python3 -m pip install --user plothist
 
 This will automatically also install ``plothist`` into your current environment.
 Please make sure to always setup your environment correctly before using ``plothist``.
@@ -58,46 +58,52 @@ To update ``plothist`` to its latest stable version, follow the instructions abo
 
 .. code-block:: bash
 
-   pip3 install --upgrade [--user] plothist
+   python3 -m pip install --upgrade [--user] plothist
 
 
-Using Flit (development version)
-================================
+Install the development version
+===============================
 
-1.  (Optional) If you use a local environment, activate it.
-
-    For example, run:
+1. Clone the plothist repository and go to the package folder:
 
     .. code-block:: bash
 
-       source venv/bin/activate
+      git clone git@github.com:cyrraz/plothist.git
 
-2.  Install flit:
+      cd plothist
 
-    .. code-block:: bash
+Option 1 (recommended) - Using ``uv``
+-------------------------------------
 
-       pip3 install flit
+2. Install ``uv`` following the instructions in the `uv documentation <https://docs.astral.sh/uv/getting-started/installation/>`_.
 
-3. Clone the plothist repository:
-
-    .. code-block:: bash
-
-       git clone git@github.com:cyrraz/plothist.git
-
-4. Go inside the plothist folder and run:
+3. Run the following command to install the package in editable mode with the development and test dependencies:
 
     .. code-block:: bash
 
-        flit install --symlink
+      uv pip install --editable ".[dev,test]"
 
-   if it doesn't work, do:
+The previous command automatically creates a virtual environment ``.venv`` and installs the package in editable mode with the development and test dependencies.
+
+Option 2 - Not using ``uv``
+---------------------------
+
+2.  Setup and activate a virtual environment:
 
     .. code-block:: bash
 
-       python3 -m flit install --symlink
+      python3 -m venv .venv
+
+      source .venv/bin/activate
+
+3. Run the following command to install the package in editable mode with the development and test dependencies:
+
+    .. code-block:: bash
+
+      python3 -m pip install --editable ".[dev,test]"
 
 To update ``plothist`` to its latest development version, go to the package folder and run:
 
 .. code-block:: bash
 
-    git pull
+   git pull
