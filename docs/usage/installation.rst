@@ -19,7 +19,7 @@ Using PyPI (stable version)
 Install ``plothist``
 --------------------
 
-2.  (Optional) Setup and activate a virtual environment:
+1.  (Optional) Setup and activate a virtual environment:
 
     .. code-block:: bash
 
@@ -77,13 +77,21 @@ Option 1 (recommended) - Using ``uv``
 
 2. Install ``uv`` following the instructions in the `uv documentation <https://docs.astral.sh/uv/getting-started/installation/>`_.
 
-3. Run the following command to install the package:
+3. Run the following commands to setup a virtual environment and install the package:
 
     .. code-block:: bash
 
+       uv venv
+
        uv pip install --editable ".[dev,test]"
 
-The previous command automatically creates a virtual environment ``.venv`` and installs the package in editable mode with the development and test dependencies.
+The previous commands create a virtual environment ``.venv`` and install the package in editable mode with the development and test dependencies.
+
+4. To activate the virtual environment, run:
+
+    .. code-block:: bash
+
+       source .venv/bin/activate
 
 Option 2 - Not using ``uv``
 ---------------------------
