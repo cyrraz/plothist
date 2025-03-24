@@ -153,7 +153,15 @@ def get_color_palette(cmap, N):
             raise ValueError(
                 f"Only 7 colors are available in the ggplot style cycle ({N} asked).",
             )
-        return ['#348ABD','#E24A33', '#988ED5', '#777777', '#FBC15E', '#8EBA42', '#FFB5B8']
+        return [
+            "#348ABD",
+            "#E24A33",
+            "#988ED5",
+            "#777777",
+            "#FBC15E",
+            "#8EBA42",
+            "#FFB5B8",
+        ]
 
     elif cmap == "cubehelix":
         return cubehelix_palette(N)
