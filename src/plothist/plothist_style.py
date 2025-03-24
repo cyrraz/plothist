@@ -127,7 +127,7 @@ def get_color_palette(cmap, N):
     Parameters
     ----------
     cmap : str
-        The name of the colormap to use. Use "ggplot" get the cycle of the default style. Use "cubehelix" to get the cubehelix palette with default settings. Can also be any colormap from matplotlib (we recommend "viridis", "coolwarm" or "YlGnBu_r").
+        The name of the colormap to use. Use "ggplot" get the cycle of the plothist style. Use "cubehelix" to get the cubehelix palette with default settings. Can also be any colormap from matplotlib (we recommend "viridis", "coolwarm" or "YlGnBu_r").
     N : int
         The number of colors to sample.
 
@@ -151,10 +151,9 @@ def get_color_palette(cmap, N):
     if cmap == "ggplot":
         if N > 7:
             raise ValueError(
-                f"Only 7 colors are available in the default style cycle ({N} asked).",
+                f"Only 7 colors are available in the ggplot style cycle ({N} asked).",
             )
-        prop_cycle = plt.rcParams["axes.prop_cycle"]
-        return [mcolors.hex2color(prop["color"]) for prop in prop_cycle][:N]
+        return ['#348ABD','#E24A33', '#988ED5', '#777777', '#FBC15E', '#8EBA42', '#FFB5B8']
 
     elif cmap == "cubehelix":
         return cubehelix_palette(N)

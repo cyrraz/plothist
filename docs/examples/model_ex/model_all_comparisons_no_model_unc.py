@@ -63,7 +63,7 @@ fig, axes = create_comparison_figure(
 )
 background_sum = sum(background_hists)
 
-fig, ax_main, ax_comparison = plot_data_model_comparison(
+plot_data_model_comparison(
     data_hist=data_hist,
     stacked_components=background_hists,
     stacked_labels=background_categories_labels,
@@ -79,9 +79,9 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
 
 add_text(
     "Multiple data-model comparisons, $\mathbf{without}$ model uncertainty",
-    ax=ax_main,
+    ax=axes[0],
 )
-add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=ax_comparison, fontsize=13)
+add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=axes[1], fontsize=13)
 
 for k_comp, comparison in enumerate(
     ["split_ratio", "pull", "relative_difference", "difference"], start=2
