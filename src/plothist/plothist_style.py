@@ -1,10 +1,6 @@
-# Set style
-# Deprecated since 3.11 function to access style file, to be updated
-# https://docs.python.org/3/library/importlib.resources.html
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
-import matplotlib.colors as mcolors
 from importlib.resources import files
 
 
