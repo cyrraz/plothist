@@ -1,26 +1,46 @@
-# Contributing
+.. _contributing:
 
-## Building from source
+Contributing
+============
 
-Follow the instructions in [Install the development version](docs/usage/installation.rst#install-the-development-version) to install the development version of `plothist`.
+Building from source
+--------------------
 
-## Setting up a development environment
+Follow the instructions in :ref:`install-dev-version` to install the development version of ``plothist``.
 
-### Nox
+Setting up a development environment
+------------------------------------
 
-The fastest way to start with development is to use `nox`.
+Nox
+~~~
 
-1.  If you don't have it already, install `pipx` following the instructions on their [website](https://pipx.pypa.io/stable/).
-2.  Install `nox` with `pipx`: `pipx install nox`.
+The fastest way to start with development is to use ``nox``.
 
-To use, run `nox`. This will lint and test using multiple Python versions.
+``Nox`` is an automation tool that helps manage and run development tasks such as testing and linting.
+It is especially useful for ensuring your code works across different Python versions and adheres to the project's quality standards.
+``Nox`` handles everything for you, including setting up a temporary virtual environment for each run.
+
+To set up ``nox``:
+
+1. If you don't have it already, install ``pipx`` by following the instructions on their `website <https://pipx.pypa.io/stable/>`_.
+2. Install ``nox`` using ``pipx``:
+
+   .. code-block:: console
+
+      pipx install nox
+
+To use ``nox``, simply run:
+
+.. code-block:: console
+
+   nox
+
+This will lint and test the project using multiple Python versions.
 
 You can also run specific jobs:
 
-```console
-$ nox -l # List all the defined sessions
-$ nox -s lint  # Lint only
-$ nox -s tests  # Tests only
-```
+.. code-block:: console
 
-`Nox` handles everything for you, including setting up a temporary virtual environment for each run.
+   nox -l        # List all the defined sessions
+   nox -s lint   # Run the linter only
+   nox -s tests  # Run the tests only
