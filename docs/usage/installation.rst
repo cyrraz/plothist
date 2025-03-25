@@ -61,6 +61,8 @@ To update ``plothist`` to its latest stable version, follow the instructions abo
     python3 -m pip install --upgrade [--user] plothist
 
 
+.. _install-dev-version:
+
 Install the development version
 ===============================
 

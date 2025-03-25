@@ -8,6 +8,7 @@ Content
 
     usage/installation
     usage/font_installation
+    CONTRIBUTING
 
 .. toctree::
     :maxdepth: 2
