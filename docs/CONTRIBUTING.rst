@@ -1,18 +1,19 @@
 .. _contributing:
 
+============
 Contributing
 ============
 
 Building from source
---------------------
+====================
 
 Follow the instructions in :ref:`install-dev-version` to install the development version of ``plothist``.
 
 Setting up a development environment
-------------------------------------
+====================================
 
 Nox
-~~~
+---
 
 The fastest way to start with development is to use ``nox``.
 
