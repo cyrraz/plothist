@@ -104,7 +104,7 @@ import warnings
 for font_type in ["Math", "Sans", "Roman"]:
     try:
         findfont(f"Latin Modern {font_type}", fallback_to_default=False)
-    except:
+    except Exception:
         warnings.warn(
             "The recommended fonts to use plothist were not found. You can install them by typing 'install_latin_modern_fonts' in your terminal. If it still does not work, please check the documentation at https://plothist.readthedocs.io/en/latest/usage/font_installation.html",
             stacklevel=3,

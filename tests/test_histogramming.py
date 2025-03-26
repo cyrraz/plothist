@@ -79,7 +79,6 @@ def test_upper_edge_exclusive():
 
 
 def test_range_coverage_warning():
-
     warn_message = r"Only 80.00% of data contained in the binning range [0.0, 5.0]."
 
     with warns(Warning) as warn_info:

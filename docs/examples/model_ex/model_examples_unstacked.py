@@ -45,7 +45,7 @@ signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
 signal_hist *= signal_scaling_factor
 
 ###
-from plothist import plot_data_model_comparison, plot_hist
+from plothist import plot_data_model_comparison
 
 fig, ax_main, ax_comparison = plot_data_model_comparison(
     data_hist=data_hist,

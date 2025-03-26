@@ -424,8 +424,7 @@ def plot_reordered_legend(ax, order, **kwargs):
     # Check if order is valid
     if not all(i in range(len(labels)) for i in order) or len(set(order)) < len(order):
         raise ValueError(
-            "The order list should contain all integers from 0 to "
-            f"{len(labels) - 1}."
+            f"The order list should contain all integers from 0 to {len(labels) - 1}."
         )
 
     # Reorder handlers and labels
