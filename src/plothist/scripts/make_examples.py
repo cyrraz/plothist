@@ -4,7 +4,6 @@ import subprocess
 import plothist
 import hashlib
 import warnings
-import sys
 
 
 _matplotlib_version = "3.10.0"

@@ -17,7 +17,6 @@ from plothist import (
     update_variable_registry_ranges,
     get_variable_from_registry,
 )
-import matplotlib.pyplot as plt
 
 # No need to redo this step if the registry was already created before
 variable_keys = ["variable_0", "variable_1", "variable_2"]

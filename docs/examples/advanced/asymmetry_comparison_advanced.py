@@ -12,7 +12,6 @@ df = get_dummy_data()
 
 ###
 from scipy.stats import norm
-import numpy as np
 from plothist import (
     create_comparison_figure,
     make_hist,

@@ -1,6 +1,6 @@
 from plothist import make_hist, get_comparison
 import numpy as np
-from pytest import approx, raises
+from pytest import approx
 
 
 def test_asymmetry_simple_values():

@@ -9,7 +9,6 @@ from plothist import get_dummy_data
 
 df = get_dummy_data()
 
-from plothist import make_hist, get_color_palette
 
 # Define the histograms
 

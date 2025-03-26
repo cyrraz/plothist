@@ -6,7 +6,7 @@ from plothist import (
     update_variable_registry,
     remove_variable_registry_parameters,
 )
-from pytest import fail, warns, raises
+from pytest import fail, raises
 import yaml
 import os
 

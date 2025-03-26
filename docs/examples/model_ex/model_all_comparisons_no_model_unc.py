@@ -52,7 +52,6 @@ from plothist import (
     set_fitting_ylabel_fontsize,
     plot_comparison,
 )
-import matplotlib.pyplot as plt
 import numpy as np
 
 fig, axes = create_comparison_figure(
@@ -81,7 +80,7 @@ add_text(
     "Multiple data-model comparisons, $\mathbf{without}$ model uncertainty",
     ax=axes[0],
 )
-add_text(f'  $\mathbf{{→}}$ comparison = "ratio"', ax=axes[1], fontsize=13)
+add_text('  $\mathbf{→}$ comparison = "ratio"', ax=axes[1], fontsize=13)
 
 for k_comp, comparison in enumerate(
     ["split_ratio", "pull", "relative_difference", "difference"], start=2

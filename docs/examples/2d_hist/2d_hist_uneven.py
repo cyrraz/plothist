@@ -10,7 +10,6 @@ from plothist import get_dummy_data
 df = get_dummy_data()
 
 ###
-import matplotlib.pyplot as plt
 from plothist import make_2d_hist, plot_2d_hist
 
 name_x = "variable_0"

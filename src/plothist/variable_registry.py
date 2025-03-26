@@ -2,6 +2,7 @@
 """
 Collection of functions to manage the variable registry
 """
+
 import yaml
 import os
 import warnings

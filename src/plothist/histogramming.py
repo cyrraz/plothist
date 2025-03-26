@@ -145,7 +145,7 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
         # Issue a warning if more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}].",
+                f"Only {100 * range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}].",
                 category=RangeWarning,
                 stacklevel=2,
             )
@@ -219,7 +219,7 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
         # Issue a warning if more than 1% of the data is outside of the binning range
         if range_coverage < 0.99:
             warnings.warn(
-                f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}], [{y_axis.edges[0]}, {y_axis.edges[-1]}]).",
+                f"Only {100 * range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}], [{y_axis.edges[0]}, {y_axis.edges[-1]}]).",
                 category=RangeWarning,
                 stacklevel=2,
             )
