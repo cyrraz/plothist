@@ -14,8 +14,9 @@ def f(x):
 
 
 ###
-from plothist import plot_function
 from matplotlib import pyplot as plt
+
+from plothist import plot_function
 
 
 # Another function

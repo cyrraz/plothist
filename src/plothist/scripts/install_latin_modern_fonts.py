@@ -1,11 +1,12 @@
-import subprocess
 import os
 import platform
-from pathlib import PosixPath
+import subprocess
 import time
+from pathlib import PosixPath
+from zipfile import ZipFile
+
 import matplotlib
 import requests
-from zipfile import ZipFile
 
 
 def _download_font(url, font_directory, font_name):

@@ -10,8 +10,9 @@ from plothist import get_dummy_data
 df = get_dummy_data()
 
 ###
-from plothist import make_hist, plot_hist
 import matplotlib.pyplot as plt
+
+from plothist import make_hist, plot_hist
 
 name = "variable_1"
 category = "category"

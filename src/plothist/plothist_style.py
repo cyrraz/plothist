@@ -1,7 +1,8 @@
+from importlib.resources import files
+
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-import matplotlib as mpl
-from importlib.resources import files
 
 
 def set_style(style="default"):

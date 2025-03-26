@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats as stats
+
 from plothist.histogramming import _check_counting_histogram
 
 

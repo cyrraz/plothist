@@ -6,9 +6,10 @@ Plot a 1D function with ``plot_function()``.
 """
 
 ###
-from plothist import plot_function
-from scipy.stats import norm
 from matplotlib import pyplot as plt
+from scipy.stats import norm
+
+from plothist import plot_function
 
 
 # Define the gaussian function of mean=0.5 and std_dev=3

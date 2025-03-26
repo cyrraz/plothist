@@ -3,18 +3,20 @@
 Collection of functions to plot histograms
 """
 
-import numpy as np
+import re
+
 import boost_histogram as bh
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.transforms import Bbox
-import re
+
 from plothist.comparison import (
-    get_comparison,
-    get_asymmetrical_uncertainties,
     _check_binning_consistency,
     _check_uncertainty_type,
+    get_asymmetrical_uncertainties,
+    get_comparison,
 )
-from plothist.histogramming import _make_hist_from_function, _check_counting_histogram
+from plothist.histogramming import _check_counting_histogram, _make_hist_from_function
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 

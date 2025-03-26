@@ -11,11 +11,13 @@ df = get_dummy_data()
 
 ###
 from itertools import combinations
-from plothist import make_2d_hist, plot_2d_hist
+
 from plothist import (
     create_variable_registry,
-    update_variable_registry_ranges,
     get_variable_from_registry,
+    make_2d_hist,
+    plot_2d_hist,
+    update_variable_registry_ranges,
 )
 
 # No need to redo this step if the registry was already created before

@@ -1,8 +1,8 @@
 import boost_histogram as bh
 import numpy as np
-from plothist import make_hist, make_2d_hist
-from plothist import create_axis
 from pytest import warns
+
+from plothist import create_axis, make_2d_hist, make_hist
 
 
 def test_make_hist():

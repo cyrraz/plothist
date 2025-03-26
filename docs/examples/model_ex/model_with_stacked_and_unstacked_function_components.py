@@ -36,7 +36,7 @@ def f_background2(x):
 
 
 ###
-from plothist import plot_model, add_text
+from plothist import add_text, plot_model
 
 fig, ax = plot_model(
     stacked_components=[f_background1, f_background2],
