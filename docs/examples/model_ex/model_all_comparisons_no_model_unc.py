@@ -9,7 +9,7 @@ from plothist import get_dummy_data
 
 df = get_dummy_data()
 
-from plothist import make_hist, get_color_palette
+from plothist import get_color_palette, make_hist
 
 # Define the histograms
 
@@ -45,14 +45,15 @@ signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
 signal_hist *= signal_scaling_factor
 
 ###
-from plothist import (
-    create_comparison_figure,
-    plot_data_model_comparison,
-    add_text,
-    set_fitting_ylabel_fontsize,
-    plot_comparison,
-)
 import numpy as np
+
+from plothist import (
+    add_text,
+    create_comparison_figure,
+    plot_comparison,
+    plot_data_model_comparison,
+    set_fitting_ylabel_fontsize,
+)
 
 fig, axes = create_comparison_figure(
     figsize=(6, 13),

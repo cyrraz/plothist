@@ -1,14 +1,16 @@
-from plothist import (
-    get_dummy_data,
-    create_variable_registry,
-    get_variable_from_registry,
-    update_variable_registry_ranges,
-    update_variable_registry,
-    remove_variable_registry_parameters,
-)
-from pytest import fail, raises
-import yaml
 import os
+
+import yaml
+from pytest import fail, raises
+
+from plothist import (
+    create_variable_registry,
+    get_dummy_data,
+    get_variable_from_registry,
+    remove_variable_registry_parameters,
+    update_variable_registry,
+    update_variable_registry_ranges,
+)
 
 registry_path = "registry.yaml"
 variable_keys = ["variable_0", "variable_1", "variable_2"]

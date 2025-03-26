@@ -5,10 +5,11 @@ Color palettes
 Examples of color palettes.
 """
 
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-import numpy as np
 import matplotlib.colors as mcolors
+import matplotlib.patches as patches
+import matplotlib.pyplot as plt
+import numpy as np
+
 from plothist import get_color_palette
 
 

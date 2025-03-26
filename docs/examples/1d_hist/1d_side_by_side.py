@@ -7,8 +7,9 @@ Plot multiple 1D histograms with categories side by side.
 
 ###
 import boost_histogram as bh
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from plothist import plot_hist
 
 rng = np.random.default_rng(8311311)

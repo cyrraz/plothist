@@ -12,12 +12,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import sys
-
-
 # -- Project information -----------------------------------------------------
-
 import subprocess
+import sys
 
 subprocess.check_call(["flit", "install", "-s"], cwd="../")
 

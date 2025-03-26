@@ -1,6 +1,7 @@
+import warnings
+
 import boost_histogram as bh
 import numpy as np
-import warnings
 
 
 # Define a custom warning for range issues

@@ -3,10 +3,12 @@
 Collection of functions to manage the variable registry
 """
 
-import yaml
 import os
 import warnings
+
 import boost_histogram as bh
+import yaml
+
 from plothist.histogramming import create_axis
 
 

@@ -23,6 +23,7 @@ h_total = make_hist(x_total, bins=50, range=x_range)
 
 ###
 import matplotlib.pyplot as plt
+
 from plothist import plot_comparison
 
 fig, ax = plt.subplots()

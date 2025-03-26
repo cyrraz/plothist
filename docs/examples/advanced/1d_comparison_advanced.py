@@ -11,12 +11,12 @@ df = get_dummy_data()
 
 ###
 from plothist import (
-    make_hist,
-    plot_hist,
-    plot_error_hist,
-    plot_comparison,
     create_comparison_figure,
     get_color_palette,
+    make_hist,
+    plot_comparison,
+    plot_error_hist,
+    plot_hist,
 )
 
 name = "variable_1"

@@ -1,6 +1,7 @@
-from plothist import make_hist, get_comparison
 import numpy as np
 from pytest import approx, raises
+
+from plothist import get_comparison, make_hist
 
 
 def test_efficiency_subsample():

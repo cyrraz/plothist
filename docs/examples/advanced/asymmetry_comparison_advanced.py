@@ -12,14 +12,15 @@ df = get_dummy_data()
 
 ###
 from scipy.stats import norm
+
 from plothist import (
-    create_comparison_figure,
-    make_hist,
-    plot_error_hist,
-    plot_function,
-    plot_comparison,
     add_luminosity,
     add_text,
+    create_comparison_figure,
+    make_hist,
+    plot_comparison,
+    plot_error_hist,
+    plot_function,
 )
 
 

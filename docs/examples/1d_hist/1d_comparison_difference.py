@@ -22,7 +22,7 @@ h1 = make_hist(x1, bins=50, range=x_range)
 h2 = make_hist(x2, bins=50, range=x_range)
 
 ###
-from plothist import plot_two_hist_comparison, add_text
+from plothist import add_text, plot_two_hist_comparison
 
 fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h1,

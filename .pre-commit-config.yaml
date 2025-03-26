@@ -1,6 +1,7 @@
 ci:
   autoupdate_commit_msg: "chore: update pre-commit hooks"
   autofix_commit_msg: "style: pre-commit fixes"
+  autoupdate_schedule: monthly
 
 repos:
   - repo: https://github.com/adamchainz/blacken-docs
@@ -58,7 +59,21 @@ repos:
           - types-requests
           - types-pyyaml
 
-  - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.24.1
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: rst-backticks
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.32.1
+    hooks:
+      - id: check-readthedocs
+      - id: check-dependabot
+      - id: check-github-workflows
+
+  - repo: https://github.com/henryiii/validate-pyproject-schema-store
+    rev: 2025.02.24
     hooks:
       - id: validate-pyproject

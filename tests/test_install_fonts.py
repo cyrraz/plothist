@@ -1,4 +1,5 @@
 from pytest import fail
+
 from plothist.scripts import install_latin_modern_fonts
 
 

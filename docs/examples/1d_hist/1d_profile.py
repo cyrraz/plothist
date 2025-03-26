@@ -7,8 +7,9 @@ Plot a 1D mean histogram (profile).
 
 ###
 import boost_histogram as bh
-from plothist import plot_error_hist
 import matplotlib.pyplot as plt
+
+from plothist import plot_error_hist
 
 # Regular axis with 3 bins from -1 to 1
 axis = bh.axis.Regular(3, -1, 1)

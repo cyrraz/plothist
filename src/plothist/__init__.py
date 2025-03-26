@@ -1,53 +1,48 @@
-from .plotters import (
-    create_comparison_figure,
-    plot_hist,
-    plot_2d_hist,
-    plot_2d_hist_with_projections,
-    plot_error_hist,
-    plot_hist_uncertainties,
-    plot_two_hist_comparison,
-    plot_comparison,
-    savefig,
-    plot_data_model_comparison,
-    plot_model,
-    plot_function,
-)
-
-from .histogramming import (
-    create_axis,
-    make_hist,
-    make_2d_hist,
-    flatten_2d_hist,
-)
-
-from .variable_registry import (
-    create_variable_registry,
-    get_variable_from_registry,
-    update_variable_registry,
-    remove_variable_registry_parameters,
-    update_variable_registry_ranges,
-)
-
 from .comparison import (
     get_asymmetrical_uncertainties,
     get_comparison,
-    get_pull,
     get_difference,
+    get_pull,
     get_ratio,
     get_ratio_variances,
 )
-
+from .get_dummy_data import get_dummy_data
+from .histogramming import (
+    create_axis,
+    flatten_2d_hist,
+    make_2d_hist,
+    make_hist,
+)
 from .plothist_style import (
-    set_style,
+    add_luminosity,
+    add_text,
     cubehelix_palette,
     get_color_palette,
-    set_fitting_ylabel_fontsize,
-    add_text,
-    add_luminosity,
     plot_reordered_legend,
+    set_fitting_ylabel_fontsize,
+    set_style,
 )
-
-from .get_dummy_data import get_dummy_data
+from .plotters import (
+    create_comparison_figure,
+    plot_2d_hist,
+    plot_2d_hist_with_projections,
+    plot_comparison,
+    plot_data_model_comparison,
+    plot_error_hist,
+    plot_function,
+    plot_hist,
+    plot_hist_uncertainties,
+    plot_model,
+    plot_two_hist_comparison,
+    savefig,
+)
+from .variable_registry import (
+    create_variable_registry,
+    get_variable_from_registry,
+    remove_variable_registry_parameters,
+    update_variable_registry,
+    update_variable_registry_ranges,
+)
 
 __all__ = [
     "__version__",
@@ -91,15 +86,17 @@ __all__ = [
 
 
 # Get style file and use it
-import matplotlib.pyplot as plt
 from importlib.resources import files
+
+import matplotlib.pyplot as plt
 
 style_file = files("plothist").joinpath("default_style.mplstyle")
 plt.style.use(style_file)
 
 # Check the fonts
-from matplotlib.font_manager import findfont
 import warnings
+
+from matplotlib.font_manager import findfont
 
 for font_type in ["Math", "Sans", "Roman"]:
     try:

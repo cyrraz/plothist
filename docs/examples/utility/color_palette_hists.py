@@ -10,7 +10,8 @@ from plothist import get_dummy_data
 df = get_dummy_data()
 
 import matplotlib.pyplot as plt
-from plothist import make_hist, get_color_palette, add_text, plot_model, plot_error_hist
+
+from plothist import add_text, get_color_palette, make_hist, plot_error_hist, plot_model
 
 # Define the histograms
 key = "variable_1"

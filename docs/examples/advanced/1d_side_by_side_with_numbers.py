@@ -7,9 +7,10 @@ Plot multiple 1D histograms with categories side by side, and add the number of 
 
 ###
 import boost_histogram as bh
-import numpy as np
 import matplotlib.pyplot as plt
-from plothist import plot_hist, get_color_palette
+import numpy as np
+
+from plothist import get_color_palette, plot_hist
 
 rng = np.random.default_rng(83113111)
 
