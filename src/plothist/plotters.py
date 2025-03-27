@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Collection of functions to plot histograms
 """
@@ -1099,11 +1098,8 @@ def plot_data_model_comparison(
         raise ValueError(
             "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
-    else:
-        if plot_only is not None:
-            raise ValueError(
-                "Cannot provide fig, ax_main or ax_comparison with plot_only."
-            )
+    elif plot_only is not None:
+        raise ValueError("Cannot provide fig, ax_main or ax_comparison with plot_only.")
 
     plot_model(
         stacked_components=stacked_components,

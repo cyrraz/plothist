@@ -54,8 +54,21 @@ test = [
 
 [tool.ruff.lint]
 extend-select = [
+    "B",           # flake8-bugbear
     "I",           # isort
+    "C4",          # flake8-comprehensions
+    "ISC",         # flake8-implicit-str-concat
+    "G",           # flake8-logging-format
+    "PGH",         # pygrep-hooks
+    "PIE",         # flake8-pie
+    "RUF",         # Ruff-specific
+    "UP",          # pyupgrade
+    "YTT",         # flake8-2020
+    "EXE",         # flake8-executable
+    "NPY",         # NumPy specific rules
+    "TID251",      # flake8-tidy-imports
 ]
 ignore = [
     "E402",  # module level import not at top of file
+    "NPY002",  # Replace legacy `np.random` call with `np.random.Generator`
 ]

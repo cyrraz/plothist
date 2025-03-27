@@ -13,6 +13,6 @@ def get_dummy_data():
         Dummy data.
     """
     dummy_data_file = files("plothist").joinpath("dummy_data.csv")
-    with open(dummy_data_file, "r") as f:
+    with open(dummy_data_file) as f:
         data = np.genfromtxt(f, delimiter=",", names=True)
     return data

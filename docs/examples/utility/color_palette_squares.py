@@ -6,9 +6,9 @@ Examples of color palettes.
 """
 
 import matplotlib.colors as mcolors
-import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import patches
 
 from plothist import get_color_palette
 

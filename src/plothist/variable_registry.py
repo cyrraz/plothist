@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Collection of functions to manage the variable registry
 """
@@ -109,7 +108,7 @@ def create_variable_registry(
         with open(path, "w") as f:
             pass
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
         if variable_registry is None:
             variable_registry = {}
@@ -161,7 +160,7 @@ def get_variable_from_registry(variable_key, path="./variable_registry.yaml"):
 
     _check_if_variable_registry_exists(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
         return variable_registry[variable_key]
 
@@ -189,7 +188,7 @@ def update_variable_registry(
     """
     _check_if_variable_registry_exists(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
 
     if variable_keys is None:
@@ -224,7 +223,7 @@ def remove_variable_registry_parameters(
     """
     _check_if_variable_registry_exists(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
 
     if variable_keys is None:
@@ -275,7 +274,7 @@ def update_variable_registry_ranges(
     _check_if_variable_registry_exists(path)
 
     if variable_keys is None:
-        with open(path, "r") as f:
+        with open(path) as f:
             variable_registry = yaml.safe_load(f)
         variable_keys = list(variable_registry.keys())
 

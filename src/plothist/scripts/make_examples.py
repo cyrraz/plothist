@@ -120,10 +120,11 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 "-O",
                 plothist_folder + "/.svg_metadata.yaml",
                 "https://raw.githubusercontent.com/0ctagon/plothist-utils/dbf86375576fa2ca5c35ab3a35bba1ab7715a186/.svg_metadata.yaml",
-            ]
+            ],
+            check=False,
         )
 
-    with open(plothist_folder + "/.svg_metadata.yaml", "r") as f:
+    with open(plothist_folder + "/.svg_metadata.yaml") as f:
         svg_metadata = yaml.safe_load(f)
 
     svg_metadata = "metadata=" + str(svg_metadata)
@@ -134,7 +135,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
-                with open(os.path.join(img_folder, file), "r") as f:
+                with open(os.path.join(img_folder, file)) as f:
                     img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
 
     # Iterate through all subfolders and files in the source folder
@@ -147,7 +148,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             file_path = os.path.join(root, file)
             file_code = ""
 
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 for line in f:
                     if "savefig" in line:
                         if file == "matplotlib_vs_plothist_style.py":
@@ -168,6 +169,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 cwd=temp_img_folder,
                 capture_output=True,
                 text=True,
+                check=False,
             )
             if result.returncode != 0 and check_svg:
                 fail(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
@@ -177,17 +179,19 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
     # Move the svg files to the img folder
     for file in os.listdir(temp_img_folder):
         if file.endswith(".svg"):
-            subprocess.run(["mv", os.path.join(temp_img_folder, file), img_folder])
+            subprocess.run(
+                ["mv", os.path.join(temp_img_folder, file), img_folder], check=False
+            )
 
     # Remove the temp folder
-    subprocess.run(["rm", "-rf", temp_img_folder])
+    subprocess.run(["rm", "-rf", temp_img_folder], check=False)
 
     # Check that the svg files have not changed
     if check_svg:
         new_img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
-                with open(os.path.join(img_folder, file), "r") as f:
+                with open(os.path.join(img_folder, file)) as f:
                     new_img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
 
         # Check that the hashes are the same and print the ones that are different

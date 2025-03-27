@@ -115,11 +115,14 @@ def install_latin_modern_fonts():
                 attempt += 1
                 time.sleep(attempt)
                 subprocess.run(
-                    ["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")]
+                    ["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")],
+                    check=False,
                 )
 
         print(f"Latin Modern {lm} installed successfully.\n")
-        subprocess.run(["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")])
+        subprocess.run(
+            ["rm", "-f", (font_directory / f"latin-modern-{lm}.zip")], check=False
+        )
 
     # Remove font cache files
     matplotlib_font_cache_files = PosixPath(matplotlib.get_cachedir()).glob(
