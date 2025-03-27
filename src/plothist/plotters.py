@@ -213,7 +213,7 @@ def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
                 **kwargs,
             )
     else:
-        if kwargs.get("labels", None) is None:
+        if kwargs.get("labels") is None:
             kwargs["labels"] = []
 
         if not isinstance(func, list):
@@ -346,10 +346,7 @@ def plot_2d_hist_with_projections(
     ax_2d.set_ylim(ylim)
     ax_y_projection.set_ylim(ylim)
 
-    if offset_x_labels:
-        labelpad = 20
-    else:
-        labelpad = None
+    labelpad = 20 if offset_x_labels else None
 
     ax_2d.set_xlabel(xlabel, labelpad=labelpad)
     ax_2d.set_ylabel(ylabel)
@@ -752,8 +749,7 @@ def _get_math_text(text):
     match = re.search(r"\$(.*?)\$", text)
     if match:
         return match.group(1)
-    else:
-        return text
+    return text
 
 
 def _get_model_type(components):
@@ -778,10 +774,9 @@ def _get_model_type(components):
     """
     if all(isinstance(x, bh.Histogram) for x in components):
         return "histograms"
-    elif all(callable(x) for x in components):
+    if all(callable(x) for x in components):
         return "functions"
-    else:
-        raise ValueError("All model components must be either histograms or functions.")
+    raise ValueError("All model components must be either histograms or functions.")
 
 
 def plot_model(

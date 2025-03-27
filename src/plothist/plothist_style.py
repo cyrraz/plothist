@@ -160,7 +160,7 @@ def get_color_palette(cmap, N):
             "#FFB5B8",
         ][0:N]
 
-    elif cmap == "cubehelix":
+    if cmap == "cubehelix":
         return cubehelix_palette(N)
 
     if N < 2:

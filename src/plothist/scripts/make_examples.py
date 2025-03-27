@@ -94,7 +94,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         if k_plot == "all":
             plots_to_redo = python_files[:]
             break
-        elif k_plot in ["1d", "2d", "model", "color"]:
+        if k_plot in ["1d", "2d", "model", "color"]:
             plots_to_redo.extend(
                 [
                     python_file
@@ -205,6 +205,9 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             fail(
                 f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images:\n{set(new_img_hashes.keys()) - set(img_hashes.keys())}"
             )
+            return None
+        return None
+    return None
 
 
 if __name__ == "__main__":
