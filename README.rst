@@ -21,6 +21,7 @@ plothist
 
 |GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Code style: black|
 
+This package is a wrapper around ` ``matplotlib`` <https://matplotlib.org/>`_.
 
 **Advantages of the package**: scalability, style and user-friendly way of managing variables and a stunning `example gallery <https://plothist.readthedocs.io/en/latest/example_gallery/>`_.
 
