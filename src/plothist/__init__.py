@@ -54,7 +54,6 @@ __all__ = [
     "cubehelix_palette",
     "flatten_2d_hist",
     "get_asymmetrical_uncertainties",
-    "get_asymmetrical_uncertainties",
     "get_color_palette",
     "get_comparison",
     "get_difference",
