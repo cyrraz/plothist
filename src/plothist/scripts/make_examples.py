@@ -3,6 +3,7 @@ import os
 import subprocess
 import warnings
 
+import packaging.version as version
 import yaml
 
 import plothist
@@ -32,9 +33,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import matplotlib
 
-    if tuple(map(int, matplotlib.__version__.split("."))) < tuple(
-        map(int, _matplotlib_version.split("."))
-    ):
+    if version.parse(matplotlib.__version__) < version.parse(_matplotlib_version):
         warnings.warn(
             f"svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib {_matplotlib_version} or higher. Skipping.",
             stacklevel=2,
@@ -43,9 +42,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import numpy
 
-    if tuple(map(int, numpy.__version__.split("."))) < tuple(
-        map(int, _numpy_version.split("."))
-    ):
+    if version.parse(numpy.__version__) < version.parse(_numpy_version):
         warnings.warn(
             f"svg behavior is not consistent across numpy versions. Please run this script with numpy {_numpy_version} or higher. Skipping.",
             stacklevel=2,

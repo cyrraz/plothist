@@ -88,7 +88,7 @@ def cubehelix_palette(
         # Adapted from matplotlib
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
-            # or high intensity values (γ > 1)
+            # or high intensity values (gamma > 1)
             lambda_gamma = lambda_**gamma
 
             # Angle and amplitude for the deviation

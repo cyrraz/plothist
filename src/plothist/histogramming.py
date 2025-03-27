@@ -13,7 +13,7 @@ class RangeWarning(Warning):
 warnings.filterwarnings("always", category=RangeWarning)
 
 
-def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=False):
+def create_axis(bins, range=None, data=None, overflow=False, underflow=False):
     """
     Create an axis object for histogram binning based on the input data and parameters.
 
@@ -24,7 +24,7 @@ def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=F
     range : None or tuple, optional
         The range of the axis. If None, it will be determined based on the data.
     data : array-like, optional
-        The input data for determining the axis range. Default is an empty array.
+        The input data for determining the axis range. Default is None.
     overflow : bool, optional
         Whether to include an overflow bin. If False, the upper edge of the last bin is inclusive. Default is False.
     underflow : bool, optional
@@ -47,6 +47,8 @@ def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=F
     ValueError
         If the range parameter contains "min" or "max" but the data is empty.
     """
+    if data is None:
+        data = np.array([])
 
     try:
         N = len(bins)
@@ -95,15 +97,15 @@ def create_axis(bins, range=None, data=np.array([]), overflow=False, underflow=F
     return bh.axis.Regular(bins, x_min, x_max, underflow=underflow, overflow=overflow)
 
 
-def make_hist(data=np.array([]), bins=50, range=None, weights=1):
+def make_hist(data=None, bins=50, range=None, weights=1):
     """
     Create a histogram object and fill it with the provided data.
 
     Parameters
     ----------
     data : array-like, optional
-        1D array-like data used to fill the histogram (default is an empty array).
-        If an empty array, an empty histogram is returned.
+        1D array-like data used to fill the histogram (default is None).
+        If None is provided, an empty histogram is returned.
     bins : int or tuple, optional
         Binning specification for the histogram (default is 50).
         If an integer, it represents the number of bins.
@@ -126,6 +128,8 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     RangeWarning
         If more than 1% of the data is outside of the binning range.
     """
+    if data is None:
+        data = np.array([])
 
     axis = create_axis(bins, range, data)
 
@@ -154,15 +158,15 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     return h
 
 
-def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), weights=1):
+def make_2d_hist(data=None, bins=(10, 10), range=(None, None), weights=1):
     """
     Create a 2D histogram object and fill it with the provided data.
 
     Parameters
     ----------
     data : array-like, optional
-        2D array-like data used to fill the histogram (default is an empty array).
-        If an empty array, an empty histogram is returned.
+        2D array-like data used to fill the histogram (default is None).
+        If None is provided, an empty histogram is returned.
     bins : tuple, optional
         Binning specification for each dimension of the histogram (default is (10, 10)).
         Each element of the tuple represents the number of bins for the corresponding dimension.
@@ -191,6 +195,8 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     RangeWarning
         If more than 1% of the data is outside of the binning range.
     """
+    if data is None:
+        data = np.array([[], []])
     if len(data) != 2:
         raise ValueError("data should have two components, x and y")
     if len(data[0]) != len(data[1]):
