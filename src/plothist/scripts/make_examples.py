@@ -139,7 +139,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                     img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
 
     # Iterate through all subfolders and files in the source folder
-    for root, dirs, files in os.walk(example_folder):
+    for root, _dirs, files in os.walk(example_folder):
         for file in files:
             if file not in plots_to_redo:
                 continue

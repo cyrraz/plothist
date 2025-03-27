@@ -297,7 +297,7 @@ def add_text(
 
     # Add background
     if white_background:
-        t.set_bbox(dict(facecolor="white", edgecolor="white"))
+        t.set_bbox({"facecolor": "white", "edgecolor": "white"})
 
 
 def add_luminosity(
