@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 
 #
 # Configuration file for the Sphinx documentation builder.
@@ -9,10 +10,12 @@ import sys
 
 # -- Path setup --------------------------------------------------------------
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
+DIR = Path(__file__).parent.resolve()
+BASEDIR = DIR.parent
+
+sys.path.append(str(BASEDIR / "src"))
+
+
 # -- Project information -----------------------------------------------------
 
 project = "plothist"

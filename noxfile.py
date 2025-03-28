@@ -43,9 +43,7 @@ def docs(session: nox.Session) -> None:
     serve = args.builder == "html" and session.interactive
 
     extra_installs = ["sphinx-autobuild"] if serve else []
-    session.install(
-        ".", *nox.project.dependency_groups(pyproject, "docs"), *extra_installs
-    )
+    session.install(*nox.project.dependency_groups(pyproject, "docs"), *extra_installs)
 
     shared_args = (
         "-n",  # nitpicky mode
