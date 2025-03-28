@@ -128,11 +128,8 @@ def plot_2d_hist(
         colorbar_kwargs = {}
     if pcolormesh_kwargs is None:
         pcolormesh_kwargs = {}
+
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
-    if colorbar_kwargs is None:
-        colorbar_kwargs = {}
-    if pcolormesh_kwargs is None:
-        pcolormesh_kwargs = {}
     pcolormesh_kwargs = pcolormesh_kwargs.copy()
     colorbar_kwargs = colorbar_kwargs.copy()
 
@@ -818,16 +815,6 @@ def plot_model(
         stacked_components = []
 
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
-    if model_sum_kwargs is None:
-        model_sum_kwargs = {"show": True, "label": "Model", "color": "navy"}
-    if unstacked_kwargs_list is None:
-        unstacked_kwargs_list = []
-    if stacked_kwargs is None:
-        stacked_kwargs = {}
-    if unstacked_components is None:
-        unstacked_components = []
-    if stacked_components is None:
-        stacked_components = []
     stacked_kwargs = stacked_kwargs.copy()
     unstacked_kwargs_list = unstacked_kwargs_list.copy()
     model_sum_kwargs = model_sum_kwargs.copy()
