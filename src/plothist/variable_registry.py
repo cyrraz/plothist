@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Collection of functions to manage the variable registry
 """
@@ -30,9 +29,8 @@ def _check_if_variable_registry_exists(path):
     RuntimeError
         If the variable registry file does not exist.
     """
-    if not os.path.exists(path):
-        if path == "./variable_registry.yaml":
-            raise RuntimeError("Did you forgot to run create_variable_registry()?")
+    if not os.path.exists(path) and path == "./variable_registry.yaml":
+        raise RuntimeError("Did you forgot to run create_variable_registry()?")
 
 
 def _save_variable_registry(variable_registry, path="./variable_registry.yaml"):
@@ -109,13 +107,13 @@ def create_variable_registry(
         with open(path, "w") as f:
             pass
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
         if variable_registry is None:
             variable_registry = {}
 
         for variable_key in variable_keys:
-            if variable_key not in variable_registry.keys() or reset:
+            if variable_key not in variable_registry or reset:
                 if custom_dict is not None:
                     variable_registry.update({variable_key: custom_dict})
                 else:
@@ -161,7 +159,7 @@ def get_variable_from_registry(variable_key, path="./variable_registry.yaml"):
 
     _check_if_variable_registry_exists(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
         return variable_registry[variable_key]
 
@@ -189,7 +187,7 @@ def update_variable_registry(
     """
     _check_if_variable_registry_exists(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
 
     if variable_keys is None:
@@ -197,7 +195,7 @@ def update_variable_registry(
 
     for variable_key in variable_keys:
         for key, value in dictionary.items():
-            if key not in variable_registry[variable_key].keys() or overwrite:
+            if key not in variable_registry[variable_key] or overwrite:
                 variable_registry[variable_key].update({key: value})
 
     _save_variable_registry(variable_registry, path=path)
@@ -224,7 +222,7 @@ def remove_variable_registry_parameters(
     """
     _check_if_variable_registry_exists(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         variable_registry = yaml.safe_load(f)
 
     if variable_keys is None:
@@ -232,7 +230,7 @@ def remove_variable_registry_parameters(
 
     for variable_key in variable_keys:
         for parameter in parameters:
-            if parameter in variable_registry[variable_key].keys():
+            if parameter in variable_registry[variable_key]:
                 _ = variable_registry[variable_key].pop(parameter)
             else:
                 warnings.warn(
@@ -275,13 +273,13 @@ def update_variable_registry_ranges(
     _check_if_variable_registry_exists(path)
 
     if variable_keys is None:
-        with open(path, "r") as f:
+        with open(path) as f:
             variable_registry = yaml.safe_load(f)
         variable_keys = list(variable_registry.keys())
 
     for variable_key in variable_keys:
         variable = get_variable_from_registry(variable_key, path=path)
-        if not all(key in variable.keys() for key in ["bins", "range", "name"]):
+        if not all(key in variable for key in ["bins", "range", "name"]):
             raise RuntimeError(
                 f"Variable {variable_key} does not have a name, bins or range property in the registry {path}."
             )

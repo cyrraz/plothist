@@ -88,7 +88,7 @@ def cubehelix_palette(
         # Adapted from matplotlib
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
-            # or high intensity values (γ > 1)
+            # or high intensity values (gamma > 1)
             lambda_gamma = lambda_**gamma
 
             # Angle and amplitude for the deviation
@@ -160,7 +160,7 @@ def get_color_palette(cmap, N):
             "#FFB5B8",
         ][0:N]
 
-    elif cmap == "cubehelix":
+    if cmap == "cubehelix":
         return cubehelix_palette(N)
 
     if N < 2:
@@ -297,7 +297,7 @@ def add_text(
 
     # Add background
     if white_background:
-        t.set_bbox(dict(facecolor="white", edgecolor="white"))
+        t.set_bbox({"facecolor": "white", "edgecolor": "white"})
 
 
 def add_luminosity(

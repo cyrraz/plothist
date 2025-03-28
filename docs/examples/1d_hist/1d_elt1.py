@@ -20,7 +20,7 @@ category = "category"
 x1 = df[name][df[category] == 1]
 x2 = df[name][df[category] == 2]
 
-x_range = (min(min(x1), min(x2)), max(max(x1), max(x2)))
+x_range = (min(*x1, *x2), max(*x1, *x2))
 
 h1 = make_hist(x1, bins=50, range=x_range)
 h2 = make_hist(x2, bins=50, range=x_range)

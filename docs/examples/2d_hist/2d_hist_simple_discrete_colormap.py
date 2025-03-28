@@ -26,7 +26,7 @@ from plothist import get_color_palette
 
 # 0 entries will be white, the rest will have one color from the plasma colormap per entry value
 cmap = ListedColormap(
-    ["white"] + list(get_color_palette("plasma", int(h.values().max()) * 2 - 1))
+    ["white", *list(get_color_palette("plasma", int(h.values().max()) * 2 - 1))]
 )
 
 fig, ax, ax_colorbar = plot_2d_hist(

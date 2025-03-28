@@ -4,6 +4,7 @@ import subprocess
 import warnings
 
 import yaml
+from packaging import version
 
 import plothist
 
@@ -32,9 +33,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import matplotlib
 
-    if tuple(map(int, matplotlib.__version__.split("."))) < tuple(
-        map(int, _matplotlib_version.split("."))
-    ):
+    if version.parse(matplotlib.__version__) < version.parse(_matplotlib_version):
         warnings.warn(
             f"svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib {_matplotlib_version} or higher. Skipping.",
             stacklevel=2,
@@ -43,9 +42,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import numpy
 
-    if tuple(map(int, numpy.__version__.split("."))) < tuple(
-        map(int, _numpy_version.split("."))
-    ):
+    if version.parse(numpy.__version__) < version.parse(_numpy_version):
         warnings.warn(
             f"svg behavior is not consistent across numpy versions. Please run this script with numpy {_numpy_version} or higher. Skipping.",
             stacklevel=2,
@@ -97,7 +94,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         if k_plot == "all":
             plots_to_redo = python_files[:]
             break
-        elif k_plot in ["1d", "2d", "model", "color"]:
+        if k_plot in ["1d", "2d", "model", "color"]:
             plots_to_redo.extend(
                 [
                     python_file
@@ -120,10 +117,11 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 "-O",
                 plothist_folder + "/.svg_metadata.yaml",
                 "https://raw.githubusercontent.com/0ctagon/plothist-utils/dbf86375576fa2ca5c35ab3a35bba1ab7715a186/.svg_metadata.yaml",
-            ]
+            ],
+            check=False,
         )
 
-    with open(plothist_folder + "/.svg_metadata.yaml", "r") as f:
+    with open(plothist_folder + "/.svg_metadata.yaml") as f:
         svg_metadata = yaml.safe_load(f)
 
     svg_metadata = "metadata=" + str(svg_metadata)
@@ -134,11 +132,11 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
-                with open(os.path.join(img_folder, file), "r") as f:
+                with open(os.path.join(img_folder, file)) as f:
                     img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
 
     # Iterate through all subfolders and files in the source folder
-    for root, dirs, files in os.walk(example_folder):
+    for root, _dirs, files in os.walk(example_folder):
         for file in files:
             if file not in plots_to_redo:
                 continue
@@ -147,7 +145,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             file_path = os.path.join(root, file)
             file_code = ""
 
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 for line in f:
                     if "savefig" in line:
                         if file == "matplotlib_vs_plothist_style.py":
@@ -168,6 +166,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 cwd=temp_img_folder,
                 capture_output=True,
                 text=True,
+                check=False,
             )
             if result.returncode != 0 and check_svg:
                 fail(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
@@ -177,17 +176,19 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
     # Move the svg files to the img folder
     for file in os.listdir(temp_img_folder):
         if file.endswith(".svg"):
-            subprocess.run(["mv", os.path.join(temp_img_folder, file), img_folder])
+            subprocess.run(
+                ["mv", os.path.join(temp_img_folder, file), img_folder], check=False
+            )
 
     # Remove the temp folder
-    subprocess.run(["rm", "-rf", temp_img_folder])
+    subprocess.run(["rm", "-rf", temp_img_folder], check=False)
 
     # Check that the svg files have not changed
     if check_svg:
         new_img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
-                with open(os.path.join(img_folder, file), "r") as f:
+                with open(os.path.join(img_folder, file)) as f:
                     new_img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
 
         # Check that the hashes are the same and print the ones that are different
@@ -204,6 +205,9 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             fail(
                 f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images:\n{set(new_img_hashes.keys()) - set(img_hashes.keys())}"
             )
+            return None
+        return None
+    return None
 
 
 if __name__ == "__main__":
