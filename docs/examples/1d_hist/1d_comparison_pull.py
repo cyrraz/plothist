@@ -14,7 +14,7 @@ name = "variable_1"
 x1 = df[name][df["category"] == 2]
 x2 = df[name][df["category"] == 3]
 
-x_range = (min(min(x1), min(x2)), max(max(x1), max(x2)))
+x_range = (min(*x1, *x2), max(*x1, *x2))
 
 from plothist import make_hist
 

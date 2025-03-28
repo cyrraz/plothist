@@ -3,8 +3,8 @@ import os
 import subprocess
 import warnings
 
-import packaging.version as version
 import yaml
+from packaging import version
 
 import plothist
 
