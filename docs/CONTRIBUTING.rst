@@ -45,3 +45,6 @@ You can also run specific jobs:
    nox -l        # List all the defined sessions
    nox -s lint   # Run the linter only
    nox -s tests  # Run the tests only
+   nox -s docs   # Build the documentation and serve it locally
+   nox -s docs --non-interactive # Build the documentation without serving it
+   nox -s docs -- -b linkcheck # Check for broken links in the documentation

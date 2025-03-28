@@ -10,7 +10,7 @@ PYTHON_ALL_VERSIONS = ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
 
 @nox.session(reuse_venv=True)
-def lint(session):
+def lint(session: nox.Session) -> None:
     """
     Run the linter.
     """
@@ -19,7 +19,7 @@ def lint(session):
 
 
 @nox.session(python=PYTHON_ALL_VERSIONS)
-def tests(session):
+def tests(session: nox.Session) -> None:
     """
     Run the unit and regular tests.
     """
@@ -31,7 +31,7 @@ def tests(session):
 @nox.session(reuse_venv=True)
 def docs(session: nox.Session) -> None:
     """
-    Build the docs. Pass --non-interactive to avoid serving. Pass "-b linkcheck" to check links.
+    Build the docs. Pass --non-interactive to avoid serving. Pass "-- -b linkcheck" to check links.
     """
     pyproject = nox.project.load_toml("pyproject.toml")
 
@@ -43,7 +43,9 @@ def docs(session: nox.Session) -> None:
     serve = args.builder == "html" and session.interactive
 
     extra_installs = ["sphinx-autobuild"] if serve else []
-    session.install(*nox.project.dependency_groups(pyproject, "docs"), *extra_installs)
+    session.install(
+        ".", *nox.project.dependency_groups(pyproject, "docs"), *extra_installs
+    )
 
     shared_args = (
         "-n",  # nitpicky mode
