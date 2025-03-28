@@ -44,7 +44,7 @@ skip = '*.pdf,./test/*,*.svg,./docs/html/*'
 quiet-level = 3
 write-changes = true
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pre-commit>=4.1.0",
 ]

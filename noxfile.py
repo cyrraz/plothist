@@ -20,5 +20,7 @@ def tests(session):
     """
     Run the unit and regular tests.
     """
-    session.install("-e.[test]")
+    pyproject = nox.project.load_toml("pyproject.toml")
+    session.install(*nox.project.dependency_groups(pyproject, "test"))
+    session.install("-v", ".")
     session.run("pytest", *session.posargs)
