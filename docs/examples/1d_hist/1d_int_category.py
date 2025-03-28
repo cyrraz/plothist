@@ -7,8 +7,9 @@ Plot a 1D histogram with integer categories.
 
 ###
 import boost_histogram as bh
-from plothist import plot_hist
 import matplotlib.pyplot as plt
+
+from plothist import plot_hist
 
 # 3 integer categories
 int_categories = [-10, 5, 72]

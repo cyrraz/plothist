@@ -9,7 +9,6 @@ from plothist import get_dummy_data
 
 df = get_dummy_data()
 
-from plothist import make_hist, get_color_palette
 
 # Define the histograms
 
@@ -37,7 +36,7 @@ def f_background2(x):
 
 
 ###
-from plothist import plot_model, add_text
+from plothist import add_text, plot_model
 
 fig, ax = plot_model(
     stacked_components=[f_background1, f_background2],

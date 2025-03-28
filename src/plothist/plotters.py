@@ -1,32 +1,33 @@
-# -*- coding: utf-8 -*-
 """
 Collection of functions to plot histograms
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.transforms import Bbox
+import copy
 import re
+
+import matplotlib.pyplot as plt
+import mplhep
+import numpy as np
+from matplotlib.transforms import Bbox
+
 from plothist.comparison import (
-    get_comparison,
-    get_asymmetrical_uncertainties,
     _check_binning_consistency,
     _check_uncertainty_type,
+    get_asymmetrical_uncertainties,
+    get_comparison,
 )
 from plothist.histogramming import (
-    _make_hist_from_function,
-    _check_counting_histogram,
     EnhancedNumPyPlottableHistogram,
+    _check_counting_histogram,
+    _make_hist_from_function,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize
-import mplhep
-import copy
 
 
 def create_comparison_figure(
     figsize=(6, 5),
     nrows=2,
-    gridspec_kw={"height_ratios": [4, 1]},
+    gridspec_kw=None,
     hspace=0.15,
 ):
     """
@@ -52,6 +53,8 @@ def create_comparison_figure(
         Array of Axes objects representing the subplots.
 
     """
+    if gridspec_kw is None:
+        gridspec_kw = {"height_ratios": [4, 1]}
     if figsize is None:
         figsize = plt.rcParams["figure.figsize"]
 
@@ -96,8 +99,8 @@ def plot_2d_hist(
     fig=None,
     ax=None,
     ax_colorbar=None,
-    pcolormesh_kwargs={},
-    colorbar_kwargs={},
+    pcolormesh_kwargs=None,
+    colorbar_kwargs=None,
     square_ax=True,
 ):
     """
@@ -121,6 +124,10 @@ def plot_2d_hist(
         Whether to make the main ax square (default is True).
     """
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    if colorbar_kwargs is None:
+        colorbar_kwargs = {}
+    if pcolormesh_kwargs is None:
+        pcolormesh_kwargs = {}
     pcolormesh_kwargs = pcolormesh_kwargs.copy()
     colorbar_kwargs = colorbar_kwargs.copy()
 
@@ -209,7 +216,7 @@ def plot_function(func, range, ax, stack=False, npoints=1000, **kwargs):
                 **kwargs,
             )
     else:
-        if kwargs.get("labels", None) is None:
+        if kwargs.get("labels") is None:
             kwargs["labels"] = []
 
         if not isinstance(func, list):
@@ -232,9 +239,9 @@ def plot_2d_hist_with_projections(
     xlabel_y_projection=None,
     colorbar_label=None,
     offset_x_labels=False,
-    pcolormesh_kwargs={},
-    colorbar_kwargs={},
-    plot_hist_kwargs={},
+    pcolormesh_kwargs=None,
+    colorbar_kwargs=None,
+    plot_hist_kwargs=None,
     figsize=(6, 6),
 ):
     """Plot a 2D histogram with projections on the x and y axes.
@@ -277,6 +284,12 @@ def plot_2d_hist_with_projections(
     ax_colorbar : matplotlib.axes.Axes
         The axes for the colorbar.
     """
+    if plot_hist_kwargs is None:
+        plot_hist_kwargs = {}
+    if colorbar_kwargs is None:
+        colorbar_kwargs = {}
+    if pcolormesh_kwargs is None:
+        pcolormesh_kwargs = {}
     _check_counting_histogram(hist)
 
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
@@ -358,10 +371,7 @@ def plot_2d_hist_with_projections(
     ax_2d.set_ylim(ylim)
     ax_y_projection.set_ylim(ylim)
 
-    if offset_x_labels:
-        labelpad = 20
-    else:
-        labelpad = None
+    labelpad = 20 if offset_x_labels else None
 
     ax_2d.set_xlabel(xlabel, labelpad=labelpad)
     ax_2d.set_ylabel(ylabel)
@@ -693,8 +703,7 @@ def _get_math_text(text):
     match = re.search(r"\$(.*?)\$", text)
     if match:
         return match.group(1)
-    else:
-        return text
+    return text
 
 
 def _get_model_type(components):
@@ -719,24 +728,23 @@ def _get_model_type(components):
     """
     if all(isinstance(x, EnhancedNumPyPlottableHistogram) for x in components):
         return "histograms"
-    elif all(callable(x) for x in components):
+    if all(callable(x) for x in components):
         return "functions"
-    else:
-        raise ValueError("All model components must be either histograms or functions.")
+    raise ValueError("All model components must be either histograms or functions.")
 
 
 def plot_model(
-    stacked_components=[],
+    stacked_components=None,
     stacked_labels=None,
     stacked_colors=None,
-    unstacked_components=[],
+    unstacked_components=None,
     unstacked_labels=None,
     unstacked_colors=None,
     xlabel=None,
     ylabel=None,
-    stacked_kwargs={},
-    unstacked_kwargs_list=[],
-    model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+    stacked_kwargs=None,
+    unstacked_kwargs_list=None,
+    model_sum_kwargs=None,
     function_range=None,
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
@@ -795,6 +803,16 @@ def plot_model(
     """
 
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    if model_sum_kwargs is None:
+        model_sum_kwargs = {"show": True, "label": "Model", "color": "navy"}
+    if unstacked_kwargs_list is None:
+        unstacked_kwargs_list = []
+    if stacked_kwargs is None:
+        stacked_kwargs = {}
+    if unstacked_components is None:
+        unstacked_components = []
+    if stacked_components is None:
+        stacked_components = []
     stacked_kwargs = stacked_kwargs.copy()
     unstacked_kwargs_list = unstacked_kwargs_list.copy()
     model_sum_kwargs = model_sum_kwargs.copy()
@@ -935,18 +953,18 @@ def plot_model(
 
 def plot_data_model_comparison(
     data_hist,
-    stacked_components=[],
+    stacked_components=None,
     stacked_labels=None,
     stacked_colors=None,
-    unstacked_components=[],
+    unstacked_components=None,
     unstacked_labels=None,
     unstacked_colors=None,
     xlabel=None,
     ylabel=None,
     data_label="Data",
-    stacked_kwargs={},
-    unstacked_kwargs_list=[],
-    model_sum_kwargs={"show": True, "label": "Sum", "color": "navy"},
+    stacked_kwargs=None,
+    unstacked_kwargs_list=None,
+    model_sum_kwargs=None,
     model_uncertainty=True,
     model_uncertainty_label="Model stat. unc.",
     data_uncertainty_type="asymmetrical",
@@ -1021,6 +1039,16 @@ def plot_data_model_comparison(
     plot_comparison : Plot the comparison between two histograms.
 
     """
+    if model_sum_kwargs is None:
+        model_sum_kwargs = {"show": True, "label": "Sum", "color": "navy"}
+    if unstacked_kwargs_list is None:
+        unstacked_kwargs_list = []
+    if stacked_kwargs is None:
+        stacked_kwargs = {}
+    if unstacked_components is None:
+        unstacked_components = []
+    if stacked_components is None:
+        stacked_components = []
     comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "split_ratio")
@@ -1033,8 +1061,8 @@ def plot_data_model_comparison(
     model_type = _get_model_type(model_components)
 
     if model_type == "histograms":
-        _check_binning_consistency(model_components + [data_hist])
-        for component in model_components + [data_hist]:
+        _check_binning_consistency([*model_components, data_hist])
+        for component in [*model_components, data_hist]:
             _check_counting_histogram(component)
 
     if fig is None and ax_main is None and ax_comparison is None:

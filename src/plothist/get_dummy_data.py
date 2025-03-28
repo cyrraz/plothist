@@ -1,4 +1,5 @@
 from importlib.resources import path as resources_path
+
 import numpy as np
 
 
@@ -12,6 +13,6 @@ def get_dummy_data():
         Dummy data.
     """
     with resources_path("plothist", "dummy_data.csv") as dummy_data:
-        with open(dummy_data, "r") as f:
+        with open(dummy_data) as f:
             data = np.genfromtxt(f, delimiter=",", names=True)
     return data

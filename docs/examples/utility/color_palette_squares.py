@@ -5,10 +5,11 @@ Color palettes
 Examples of color palettes.
 """
 
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-import numpy as np
 import matplotlib.colors as mcolors
+import matplotlib.patches as patches
+import matplotlib.pyplot as plt
+import numpy as np
+
 from plothist import get_color_palette
 
 
@@ -80,10 +81,7 @@ def create_palette_plot(colors, fig_name, add_text=False, add_black_border=False
 
 ncolors = 7
 
-if ncolors > 7:
-    ncolors_ggplot = 7
-else:
-    ncolors_ggplot = ncolors
+ncolors_ggplot = 7 if ncolors > 7 else ncolors
 colors = get_color_palette("ggplot", ncolors_ggplot)
 create_palette_plot(colors, fig_name="usage_style_cycle.svg", add_text=True)
 

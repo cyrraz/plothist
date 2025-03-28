@@ -1,7 +1,7 @@
-import boost_histogram as bh
-from uhi.numpy_plottable import NumPyPlottableHistogram, Kind
-import numpy as np
 import warnings
+
+import numpy as np
+from uhi.numpy_plottable import Kind, NumPyPlottableHistogram
 
 
 class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
@@ -123,7 +123,7 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     # Issue a warning if more than 1% of the data is outside of the binning range
     if range_coverage < 0.99:
         warnings.warn(
-            f"Only {100*range_coverage:.2f}% of data contained in the binning range [{edges[0]}, {edges[-1]}].",
+            f"Only {100 * range_coverage:.2f}% of data contained in the binning range [{edges[0]}, {edges[-1]}].",
             category=RangeWarning,
             stacklevel=2,
         )
@@ -193,7 +193,7 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     # Issue a warning if more than 1% of the data is outside of the binning range
     if range_coverage < 0.99:
         warnings.warn(
-            f"Only {100*range_coverage:.2f}% of data contained in the binning range ([{x_edges[0]}, {x_edges[-1]}], [{y_edges[0]}, {y_edges[-1]}]).",
+            f"Only {100 * range_coverage:.2f}% of data contained in the binning range ([{x_edges[0]}, {x_edges[-1]}], [{y_edges[0]}, {y_edges[-1]}]).",
             category=RangeWarning,
             stacklevel=2,
         )
@@ -254,13 +254,11 @@ def _make_hist_from_function(func, ref_hist):
     if len(ref_hist.axes) != 1:
         raise ValueError("The reference histogram must be 1D.")
 
-    hist = EnhancedNumPyPlottableHistogram(
+    return EnhancedNumPyPlottableHistogram(
         func(np.mean(ref_hist.axes[0].edges, axis=1)),
         ref_hist.axes[0].edges,
         variances=np.zeros_like(ref_hist.values()),
     )
-
-    return hist
 
 
 def flatten_2d_hist(hist):
@@ -287,8 +285,7 @@ def flatten_2d_hist(hist):
     if len(hist.axes) != 2:
         raise ValueError("The input histogram must be 2D.")
 
-    flatten_hist = EnhancedNumPyPlottableHistogram(
+    return EnhancedNumPyPlottableHistogram(
         hist.values().flatten(),
         variances=hist.variances().flatten(),
     )
-    return flatten_hist

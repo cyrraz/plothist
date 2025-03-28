@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -12,12 +11,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import sys
-
-
 # -- Project information -----------------------------------------------------
-
 import subprocess
+import sys
 
 subprocess.check_call(["flit", "install", "-s"], cwd="../")
 
@@ -179,7 +175,7 @@ def reset_mpl(gallery_conf, fname):
 from sphinx_gallery.scrapers import matplotlib_scraper
 
 
-class matplotlib_svg_scraper(object):
+class matplotlib_svg_scraper:
     def __repr__(self):
         return self.__class__.__name__
 
@@ -213,6 +209,6 @@ sphinx_gallery_conf = {
 
 # configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
+    "python": (f"https://docs.python.org/{sys.version_info.major}", None),
     "matplotlib": ("https://matplotlib.org/", None),
 }

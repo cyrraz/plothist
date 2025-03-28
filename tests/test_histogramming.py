@@ -1,9 +1,10 @@
 import boost_histogram as bh
 import numpy as np
-from plothist import make_hist, make_2d_hist
 from pytest import warns
-from plothist.histogramming import EnhancedNumPyPlottableHistogram
 from uhi.numpy_plottable import NumPyPlottableAxis
+
+from plothist import make_2d_hist, make_hist
+from plothist.histogramming import EnhancedNumPyPlottableHistogram
 
 
 def test_make_hist():
@@ -104,7 +105,6 @@ def test_histogram_multiplication():
 
 
 def test_range_coverage_warning():
-
     warn_message = r"Only 80.00% of data contained in the binning range [0.0, 5.0]."
 
     with warns(Warning) as warn_info:

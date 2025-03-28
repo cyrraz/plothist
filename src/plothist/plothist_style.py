@@ -1,11 +1,12 @@
 # Set style
 # Deprecated since 3.11 function to access style file, to be updated
 # https://docs.python.org/3/library/importlib.resources.html
-import matplotlib.pyplot as plt
-import numpy as np
+from importlib.resources import path as resources_path
+
 import matplotlib as mpl
 import matplotlib.colors as mcolors
-from importlib.resources import path as resources_path
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def set_style(style="default"):
@@ -156,7 +157,7 @@ def get_color_palette(cmap, N):
         prop_cycle = plt.rcParams["axes.prop_cycle"]
         return [mcolors.hex2color(prop["color"]) for prop in prop_cycle][:N]
 
-    elif cmap == "cubehelix":
+    if cmap == "cubehelix":
         return cubehelix_palette(N)
 
     if N < 2:
@@ -293,7 +294,7 @@ def add_text(
 
     # Add background
     if white_background:
-        t.set_bbox(dict(facecolor="white", edgecolor="white"))
+        t.set_bbox({"facecolor": "white", "edgecolor": "white"})
 
 
 def add_luminosity(
@@ -421,8 +422,7 @@ def plot_reordered_legend(ax, order, **kwargs):
     # Check if order is valid
     if not all(i in range(len(labels)) for i in order) or len(set(order)) < len(order):
         raise ValueError(
-            "The order list should contain all integers from 0 to "
-            f"{len(labels) - 1}."
+            f"The order list should contain all integers from 0 to {len(labels) - 1}."
         )
 
     # Reorder handlers and labels

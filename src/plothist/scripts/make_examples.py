@@ -1,12 +1,12 @@
-import os
-import yaml
-import subprocess
-import plothist
-import hashlib
-import warnings
-import sys
 import argparse
+import hashlib
+import os
+import subprocess
+import warnings
 
+import yaml
+
+import plothist
 
 _matplotlib_version = "3.10.0"
 _numpy_version = "2.0.0"
@@ -64,7 +64,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     if not os.path.exists(example_folder) or not os.path.exists(img_folder):
         raise FileNotFoundError(
-            f"Could not find the example or img folder for the documentation.\nIf you installed plothist from source using flit, please run `export PLOTHIST_PATH=path/to/plothist` before launching the script."
+            "Could not find the example or img folder for the documentation.\nIf you installed plothist from source using flit, please run `export PLOTHIST_PATH=path/to/plothist` before launching the script."
         )
 
     temp_img_folder = plothist_folder + "/docs/temp_img"
@@ -98,7 +98,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         if k_plot == "all":
             plots_to_redo = python_files[:]
             break
-        elif k_plot in ["1d", "2d", "model", "color"]:
+        if k_plot in ["1d", "2d", "model", "color"]:
             plots_to_redo.extend(
                 [
                     python_file
@@ -124,7 +124,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             ]
         )
 
-    with open(plothist_folder + "/.svg_metadata.yaml", "r") as f:
+    with open(plothist_folder + "/.svg_metadata.yaml") as f:
         svg_metadata = yaml.safe_load(f)
 
     svg_metadata = "metadata=" + str(svg_metadata)
@@ -135,12 +135,12 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
-                with open(os.path.join(img_folder, file), "r") as f:
+                with open(os.path.join(img_folder, file)) as f:
                     img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
 
     # Iterate through all subfolders and files in the source folder
-    for root, dirs, files in os.walk(example_folder):
-        for i_file, file in enumerate(files, 1):
+    for root, _dirs, files in os.walk(example_folder):
+        for _i_file, file in enumerate(files, 1):
             if file not in plots_to_redo:
                 continue
 
@@ -148,7 +148,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             file_path = os.path.join(root, file)
             file_code = ""
 
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 for line in f:
                     if "savefig" in line:
                         if file == "matplotlib_vs_plothist_style.py":
@@ -186,7 +186,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         new_img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
-                with open(os.path.join(img_folder, file), "r") as f:
+                with open(os.path.join(img_folder, file)) as f:
                     new_img_hashes[file] = hashlib.sha256(f.read().encode()).hexdigest()
 
         # Check that the hashes are the same and print the ones that are different
@@ -203,6 +203,9 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
             fail(
                 f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images:\n{set(new_img_hashes.keys()) - set(img_hashes.keys())}"
             )
+            return None
+        return None
+    return None
 
 
 if __name__ == "__main__":

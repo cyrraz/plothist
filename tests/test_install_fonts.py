@@ -1,4 +1,5 @@
 from pytest import fail
+
 from plothist.scripts import install_latin_modern_fonts
 
 
@@ -25,4 +26,4 @@ def test_install_latin_modern_fonts():
             installation_failed = True
 
     if installation_failed:
-        fail(f"At least one of the Latin Modern fonts was not installed correctly.")
+        fail("At least one of the Latin Modern fonts was not installed correctly.")
