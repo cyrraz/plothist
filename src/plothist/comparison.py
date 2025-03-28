@@ -1,7 +1,10 @@
 import numpy as np
-from scipy import stats
+import scipy.stats as stats
 
-from plothist.histogramming import _check_counting_histogram
+from plothist.histogramming import (
+    EnhancedNumPyPlottableHistogram,
+    _check_counting_histogram,
+)
 
 
 def _check_uncertainty_type(uncertainty_type):
@@ -175,8 +178,9 @@ def get_pull(h1, h2, h1_uncertainty_type="symmetrical"):
             uncertainties_low**2,
             uncertainties_high**2,
         )
-        h1 = h1.copy()
-        h1[:] = np.c_[h1.values(), h1_variances]
+        h1 = EnhancedNumPyPlottableHistogram(
+            h1.values(), h1.axes[0].edges, variances=h1_variances
+        )
 
     pull_values = np.where(
         h1.variances() + h2.variances() != 0,
@@ -385,10 +389,12 @@ def get_ratio(
 
     if ratio_uncertainty_type == "uncorrelated":
         if h1_uncertainty_type == "asymmetrical":
-            h1_high = h1.copy()
-            h1_high[:] = np.c_[h1_high.values(), uncertainties_high**2]
-            h1_low = h1.copy()
-            h1_low[:] = np.c_[h1_low.values(), uncertainties_low**2]
+            h1_high = EnhancedNumPyPlottableHistogram(
+                h1.values(), h1.axes[0].edges, variances=uncertainties_high**2
+            )
+            h1_low = EnhancedNumPyPlottableHistogram(
+                h1.values(), h1.axes[0].edges, variances=uncertainties_low**2
+            )
             ratio_uncertainties_low = np.sqrt(get_ratio_variances(h1_low, h2))
             ratio_uncertainties_high = np.sqrt(get_ratio_variances(h1_high, h2))
         else:

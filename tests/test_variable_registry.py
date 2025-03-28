@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 import yaml
 from pytest import fail, raises
 
@@ -164,11 +165,17 @@ def test_update_variable_registry_ranges():
     for key in variable_keys:
         registry = get_variable_from_registry(key, path=registry_path)
         if key == "variable_0":
-            assert registry["range"] == [-10.55227774892869, 10.04658448558009]
+            assert np.allclose(
+                registry["range"], [-10.55227774892869, 10.04658448558009]
+            )
         elif key == "variable_1":
-            assert registry["range"] == [-9.32198527389102, 10.320677227899562]
+            assert np.allclose(
+                registry["range"], [-9.32198527389102, 10.320677227899562]
+            )
         elif key == "variable_2":
-            assert registry["range"] == [-17.983319077507936, 16.84354525625102]
+            assert np.allclose(
+                registry["range"], [-17.983319077507936, 16.84354525625102]
+            )
 
     # Change range value by hand for variable_0
     registry = get_variable_from_registry("variable_0", path=registry_path)
@@ -193,7 +200,7 @@ def test_update_variable_registry_ranges():
     )
 
     registry = get_variable_from_registry("variable_0", path=registry_path)
-    assert registry["range"] == [-10.55227774892869, 10.04658448558009]
+    assert np.allclose(registry["range"], [-10.55227774892869, 10.04658448558009])
 
     # Same tests as above but with update_variable_registry() function
     update_variable_registry(
@@ -203,7 +210,7 @@ def test_update_variable_registry_ranges():
     )
 
     registry = get_variable_from_registry("variable_0", path=registry_path)
-    assert registry["range"] == [-10.55227774892869, 10.04658448558009]
+    assert np.allclose(registry["range"], [-10.55227774892869, 10.04658448558009])
 
     update_variable_registry(
         {"range": [-1, 1]},
