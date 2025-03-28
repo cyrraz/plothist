@@ -51,6 +51,10 @@ dev = [
 test = [
     "pytest>=8.3.5",
 ]
+docs = [
+    "sphinx_gallery",
+    "sphinx_rtd_theme",
+]
 
 [tool.ruff.lint]
 extend-select = [
