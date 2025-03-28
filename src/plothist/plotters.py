@@ -40,7 +40,8 @@ def create_comparison_figure(
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
     gridspec_kw : dict, optional
-        Additional keyword arguments for the GridSpec. Default is {"height_ratios": [4, 1]}.
+        Additional keyword arguments for the GridSpec. Default is None.
+        If None is provided, this is set to {"height_ratios": [4, 1]}.
     hspace : float, optional
         Height spacing between subplots. Default is 0.15.
 
@@ -117,12 +118,16 @@ def plot_2d_hist(
     ax_colorbar : matplotlib.axes.Axes
         The Axes instance for the colorbar. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
     pcolormesh_kwargs : dict, optional
-        Additional keyword arguments forwarded to ax.pcolormesh() (default is {}).
+        Additional keyword arguments forwarded to ax.pcolormesh(). Default is None.
     colorbar_kwargs : dict, optional
-        Additional keyword arguments forwarded to ax.get_figure().colorbar() (default is {}).
+        Additional keyword arguments forwarded to ax.get_figure().colorbar(). Default is None.
     square_ax : bool, optional
         Whether to make the main ax square (default is True).
     """
+    if colorbar_kwargs is None:
+        colorbar_kwargs = {}
+    if pcolormesh_kwargs is None:
+        pcolormesh_kwargs = {}
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
     if colorbar_kwargs is None:
         colorbar_kwargs = {}
@@ -263,11 +268,11 @@ def plot_2d_hist_with_projections(
     offset_x_labels : bool, optional
         Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
     pcolormesh_kwargs : dict, optional
-        Keyword arguments for the pcolormesh call. Default is {}.
+        Keyword arguments for the pcolormesh call. Default is None.
     colorbar_kwargs : dict, optional
-        Keyword arguments for the colorbar call. Default is {}.
+        Keyword arguments for the colorbar call. Default is None.
     plot_hist_kwargs : dict, optional
-        Keyword arguments for the plot_hist call (x and y projections). Default is {}.
+        Keyword arguments for the plot_hist call (x and y projections). Default is None.
     figsize : tuple, optional
         Figure size in inches. Default is (6, 6). To get square bins if the figure is not square shaped, be sure to set the bins and the ranges of the histogram according to the ratio of the figure width and height.
 
@@ -757,13 +762,13 @@ def plot_model(
     Parameters
     ----------
     stacked_components : list of boost_histogram.Histogram, optional
-        The list of histograms to be stacked composing the model. Default is [].
+        The list of histograms to be stacked composing the model. Default is None.
     stacked_labels : list of str, optional
         The labels of the model stacked components. Default is None.
     stacked_colors : list of str, optional
         The colors of the model stacked components. Default is None.
     unstacked_components : list of boost_histogram.Histogram, optional
-        The list of histograms not to be stacked composing the model. Default is [].
+        The list of histograms not to be stacked composing the model. Default is None.
     unstacked_labels : list of str, optional
         The labels of the model unstacked components. Default is None.
     unstacked_colors : list of str, optional
@@ -773,14 +778,14 @@ def plot_model(
     ylabel : str, optional
         The label for the y-axis. Default is None.
     stacked_kwargs : dict, optional
-        The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is {}.
+        The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is None.
     unstacked_kwargs_list : list of dict, optional
-        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
+        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is None.
     model_sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
-        Default is {"show": True, "label": "Model", "color": "navy"}.
+        Default is None. If None is provided, this is set to {"show": True, "label": "Model", "color": "navy"}.
     function_range : tuple, optional (mandatory if the model is made of functions)
         The range for the x-axis if the model is made of functions.
     model_uncertainty : bool, optional
@@ -801,6 +806,16 @@ def plot_model(
         The Axes object containing the plot.
 
     """
+    if model_sum_kwargs is None:
+        model_sum_kwargs = {"show": True, "label": "Model", "color": "navy"}
+    if unstacked_kwargs_list is None:
+        unstacked_kwargs_list = []
+    if stacked_kwargs is None:
+        stacked_kwargs = {}
+    if unstacked_components is None:
+        unstacked_components = []
+    if stacked_components is None:
+        stacked_components = []
 
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
     if model_sum_kwargs is None:
@@ -982,13 +997,13 @@ def plot_data_model_comparison(
     data_hist : boost_histogram.Histogram
         The histogram for the data.
     stacked_components : list of boost_histogram.Histogram, optional
-        The list of histograms to be stacked composing the model. Default is [].
+        The list of histograms to be stacked composing the model. Default is None.
     stacked_labels : list of str, optional
         The labels of the model stacked components. Default is None.
     stacked_colors : list of str, optional
         The colors of the model stacked components. Default is None.
     unstacked_components : list of boost_histogram.Histogram, optional
-        The list of histograms not to be stacked composing the model. Default is [].
+        The list of histograms not to be stacked composing the model. Default is None.
     unstacked_labels : list of str, optional
         The labels of the model unstacked components. Default is None.
     unstacked_colors : list of str, optional
@@ -1000,14 +1015,14 @@ def plot_data_model_comparison(
     data_label : str, optional
         The label for the data. Default is "Data".
     stacked_kwargs : dict, optional
-        The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is {}.
+        The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is None.
     unstacked_kwargs_list : list of dict, optional
-        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is [].
+        The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is None.
     model_sum_kwargs : dict, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
-        Default is {"show": True, "label": "Sum", "color": "navy"}.
+        Default is None. If None is provided, this is set to {"show": True, "label": "Sum", "color": "navy"}.
     model_uncertainty : bool, optional
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
@@ -1049,6 +1064,12 @@ def plot_data_model_comparison(
         unstacked_components = []
     if stacked_components is None:
         stacked_components = []
+
+    # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
+    stacked_kwargs = stacked_kwargs.copy()
+    unstacked_kwargs_list = unstacked_kwargs_list.copy()
+    model_sum_kwargs = model_sum_kwargs.copy()
+
     comparison_kwargs.setdefault("h1_label", data_label)
     comparison_kwargs.setdefault("h2_label", "Pred.")
     comparison_kwargs.setdefault("comparison", "split_ratio")
@@ -1080,11 +1101,8 @@ def plot_data_model_comparison(
         raise ValueError(
             "Need to provide fig, ax_main and ax_comparison (or none of them)."
         )
-    else:
-        if plot_only is not None:
-            raise ValueError(
-                "Cannot provide fig, ax_main or ax_comparison with plot_only."
-            )
+    elif plot_only is not None:
+        raise ValueError("Cannot provide fig, ax_main or ax_comparison with plot_only.")
 
     plot_model(
         stacked_components=stacked_components,

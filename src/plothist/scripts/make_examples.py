@@ -5,6 +5,7 @@ import subprocess
 import warnings
 
 import yaml
+from packaging import version
 
 import plothist
 
@@ -33,9 +34,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import matplotlib
 
-    if tuple(map(int, matplotlib.__version__.split("."))) < tuple(
-        map(int, _matplotlib_version.split("."))
-    ):
+    if version.parse(matplotlib.__version__) < version.parse(_matplotlib_version):
         warnings.warn(
             f"svg behavior is not consistent across matplotlib versions. Please run this script with matplotlib {_matplotlib_version} or higher. Skipping.",
             stacklevel=2,
@@ -44,9 +43,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     import numpy
 
-    if tuple(map(int, numpy.__version__.split("."))) < tuple(
-        map(int, _numpy_version.split("."))
-    ):
+    if version.parse(numpy.__version__) < version.parse(_numpy_version):
         warnings.warn(
             f"svg behavior is not consistent across numpy versions. Please run this script with numpy {_numpy_version} or higher. Skipping.",
             stacklevel=2,
@@ -59,15 +56,15 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         else os.environ.get("PLOTHIST_PATH")
     )
 
-    example_folder = plothist_folder + "/docs/examples"
-    img_folder = plothist_folder + "/docs/img"
+    example_folder = plothist_folder + "/../../docs/examples"
+    img_folder = plothist_folder + "/../../docs/img"
 
     if not os.path.exists(example_folder) or not os.path.exists(img_folder):
         raise FileNotFoundError(
-            "Could not find the example or img folder for the documentation.\nIf you installed plothist from source using flit, please run `export PLOTHIST_PATH=path/to/plothist` before launching the script."
+            f"Could not find the example {example_folder} or img {img_folder} folder for the documentation.\nTry to run `export PLOTHIST_PATH=path/to/plothist` before launching the script."
         )
 
-    temp_img_folder = plothist_folder + "/docs/temp_img"
+    temp_img_folder = plothist_folder + "/../../docs/temp_img"
 
     # Get all python files in the example folder
     python_files = [
@@ -121,7 +118,8 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 "-O",
                 plothist_folder + "/.svg_metadata.yaml",
                 "https://raw.githubusercontent.com/0ctagon/plothist-utils/dbf86375576fa2ca5c35ab3a35bba1ab7715a186/.svg_metadata.yaml",
-            ]
+            ],
+            check=False,
         )
 
     with open(plothist_folder + "/.svg_metadata.yaml") as f:
@@ -140,7 +138,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
     # Iterate through all subfolders and files in the source folder
     for root, _dirs, files in os.walk(example_folder):
-        for _i_file, file in enumerate(files, 1):
+        for file in files:
             if file not in plots_to_redo:
                 continue
 
@@ -169,17 +167,22 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
                 cwd=temp_img_folder,
                 capture_output=True,
                 text=True,
+                check=False,
             )
             if result.returncode != 0 and check_svg:
                 fail(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
+            elif result.returncode != 0:
+                print(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
 
     # Move the svg files to the img folder
     for file in os.listdir(temp_img_folder):
         if file.endswith(".svg"):
-            subprocess.run(["mv", os.path.join(temp_img_folder, file), img_folder])
+            subprocess.run(
+                ["mv", os.path.join(temp_img_folder, file), img_folder], check=False
+            )
 
     # Remove the temp folder
-    subprocess.run(["rm", "-rf", temp_img_folder])
+    subprocess.run(["rm", "-rf", temp_img_folder], check=False)
 
     # Check that the svg files have not changed
     if check_svg:

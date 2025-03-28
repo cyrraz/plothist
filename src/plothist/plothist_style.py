@@ -1,10 +1,6 @@
-# Set style
-# Deprecated since 3.11 function to access style file, to be updated
-# https://docs.python.org/3/library/importlib.resources.html
-from importlib.resources import path as resources_path
+from importlib.resources import files
 
 import matplotlib as mpl
-import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -34,8 +30,8 @@ def set_style(style="default"):
     available_styles = ["default"]
 
     if style in available_styles:
-        with resources_path("plothist", f"{style}_style.mplstyle") as style_file:
-            plt.style.use(style_file.as_posix())
+        style_file = files("plothist").joinpath(f"{style}_style.mplstyle")
+        plt.style.use(style_file)
     else:
         raise ValueError(f"{style} not in the available styles: {available_styles}")
 
@@ -92,7 +88,7 @@ def cubehelix_palette(
         # Adapted from matplotlib
         def color(lambda_):
             # emphasise either low intensity values (gamma < 1),
-            # or high intensity values (γ > 1)
+            # or high intensity values (gamma > 1)
             lambda_gamma = lambda_**gamma
 
             # Angle and amplitude for the deviation
@@ -128,7 +124,7 @@ def get_color_palette(cmap, N):
     Parameters
     ----------
     cmap : str
-        The name of the colormap to use. Use "ggplot" get the cycle of the default style. Use "cubehelix" to get the cubehelix palette with default settings. Can also be any colormap from matplotlib (we recommend "viridis", "coolwarm" or "YlGnBu_r").
+        The name of the colormap to use. Use "ggplot" get the cycle of the plothist style. Use "cubehelix" to get the cubehelix palette with default settings. Can also be any colormap from matplotlib (we recommend "viridis", "coolwarm" or "YlGnBu_r").
     N : int
         The number of colors to sample.
 
@@ -152,10 +148,17 @@ def get_color_palette(cmap, N):
     if cmap == "ggplot":
         if N > 7:
             raise ValueError(
-                f"Only 7 colors are available in the default style cycle ({N} asked).",
+                f"Only 7 colors are available in the ggplot style cycle ({N} asked).",
             )
-        prop_cycle = plt.rcParams["axes.prop_cycle"]
-        return [mcolors.hex2color(prop["color"]) for prop in prop_cycle][:N]
+        return [
+            "#348ABD",
+            "#E24A33",
+            "#988ED5",
+            "#777777",
+            "#FBC15E",
+            "#8EBA42",
+            "#FFB5B8",
+        ][0:N]
 
     if cmap == "cubehelix":
         return cubehelix_palette(N)
@@ -353,7 +356,7 @@ def add_luminosity(
 
     text = (
         r"$\mathrm{\mathbf{"
-        + collaboration.replace(" ", "\,\,")
+        + collaboration.replace(" ", r"\,\,")
         + "}"
         + (r"\,\,preliminary}$" if preliminary else "}$")
     )

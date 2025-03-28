@@ -78,15 +78,15 @@ class RangeWarning(Warning):
 warnings.filterwarnings("always", category=RangeWarning)
 
 
-def make_hist(data=np.array([]), bins=50, range=None, weights=1):
+def make_hist(data=None, bins=50, range=None, weights=1):
     """
     Create a histogram object and fill it with the provided data.
 
     Parameters
     ----------
     data : array-like, optional
-        1D array-like data used to fill the histogram (default is an empty array).
-        If an empty array, an empty histogram is returned.
+        1D array-like data used to fill the histogram (default is None).
+        If None is provided, an empty histogram is returned.
     bins : int or tuple, optional
         Binning specification for the histogram (default is 50).
         If an integer, it represents the number of bins.
@@ -109,6 +109,8 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     RangeWarning
         If more than 1% of the data is outside of the binning range.
     """
+    if data is None:
+        data = np.array([])
 
     if weights is None:
         weights = 1
@@ -136,15 +138,15 @@ def make_hist(data=np.array([]), bins=50, range=None, weights=1):
     return EnhancedNumPyPlottableHistogram(hist, edges, variances=variances)
 
 
-def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), weights=1):
+def make_2d_hist(data=None, bins=(10, 10), range=(None, None), weights=1):
     """
     Create a 2D histogram object and fill it with the provided data.
 
     Parameters
     ----------
     data : array-like, optional
-        2D array-like data used to fill the histogram (default is an empty array).
-        If an empty array, an empty histogram is returned.
+        2D array-like data used to fill the histogram (default is None).
+        If None is provided, an empty histogram is returned.
     bins : tuple, optional
         Binning specification for each dimension of the histogram (default is (10, 10)).
         Each element of the tuple represents the number of bins for the corresponding dimension.
@@ -173,6 +175,8 @@ def make_2d_hist(data=np.array([[], []]), bins=(10, 10), range=(None, None), wei
     RangeWarning
         If more than 1% of the data is outside of the binning range.
     """
+    if data is None:
+        data = np.array([[], []])
     if len(data) != 2:
         raise ValueError("data should have two components, x and y")
     if len(data[0]) != len(data[1]):
@@ -225,7 +229,6 @@ def _check_counting_histogram(hist):
         raise ValueError(
             f"The histogram must be a counting histogram, but the input histogram has kind {hist.kind}."
         )
-    return
 
 
 def _make_hist_from_function(func, ref_hist):

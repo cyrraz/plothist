@@ -29,10 +29,10 @@ x4 = df[name][df[category] == 5]
 
 x_range = [-9, 9]
 
-h1 = make_hist(x1, bins=50, range=x_range)
-h2 = make_hist(x2, bins=50, range=x_range)
-h3 = make_hist(x3, bins=50, range=x_range)
-h4 = make_hist(x4, bins=50, range=x_range)
+h1 = make_hist(x3, bins=50, range=x_range)
+h2 = make_hist(x4, bins=50, range=x_range)
+h3 = make_hist(x1, bins=50, range=x_range)
+h4 = make_hist(x2, bins=50, range=x_range)
 
 # Create the 3 axes that we need for this plot
 fig, axes = create_comparison_figure(
@@ -58,10 +58,10 @@ plot_error_hist(h4, label="Test B", ax=ax_main, color="red", density=True)
 
 # First comparison is using pulls. We also change the color of the bars to make the plot easier to read
 plot_comparison(
-    h4, h3, ax=ax1_comparison, comparison="pull", color=colors[0], alpha=0.7
+    h2, h1, ax=ax1_comparison, comparison="pull", color=colors[0], alpha=0.7
 )
 # Second comparison is using the default "ratio". Same strategy as pulls
-plot_comparison(h2, h1, ax=ax2_comparison, color=colors[1], alpha=0.7)
+plot_comparison(h4, h3, ax=ax2_comparison, color=colors[1], alpha=0.7)
 
 # Harmonize the range of each axes
 ax_main.set_xlim(x_range)

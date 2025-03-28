@@ -29,17 +29,9 @@ for x, y in positions:
     x_label = x.replace("_", "\_")
     y_label = y.replace("_", "\_")
     add_text(
-        "$\mathtt{add\_text()}$"
-        + "\n"
-        + "$\mathtt{x = }$"
-        + '"$\mathtt{'
-        + x_label
-        + '}$"'
-        + "\n"
-        + "$\mathtt{y = }$"
-        + '"$\mathtt{'
-        + y_label
-        + '}$"',
+        f"$\\mathtt{{add\\_text()}}$\n"
+        f'$\\mathtt{{x = }}$"$\\mathtt{{{x_label}}}$"\n'
+        f'$\\mathtt{{y = }}$"$\\mathtt{{{y_label}}}$"',
         x=x,
         y=y,
     )

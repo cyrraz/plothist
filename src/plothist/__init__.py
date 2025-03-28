@@ -1,7 +1,3 @@
-"""Plot histograms in a scalable way and a beautiful style."""
-
-__version__ = "1.3.0"
-
 from .comparison import (
     get_asymmetrical_uncertainties,
     get_comparison,
@@ -56,7 +52,6 @@ __all__ = [
     "cubehelix_palette",
     "flatten_2d_hist",
     "get_asymmetrical_uncertainties",
-    "get_asymmetrical_uncertainties",
     "get_color_palette",
     "get_comparison",
     "get_difference",
@@ -88,14 +83,12 @@ __all__ = [
 
 
 # Get style file and use it
-# Deprecated since 3.11 function to access style file, to be updated
-# https://docs.python.org/3/library/importlib.resources.html
-from importlib.resources import path as resources_path
+from importlib.resources import files
 
 import matplotlib.pyplot as plt
 
-with resources_path("plothist", "default_style.mplstyle") as style_file:
-    plt.style.use(style_file.as_posix())
+style_file = files("plothist").joinpath("default_style.mplstyle")
+plt.style.use(style_file)
 
 # Check the fonts
 import warnings
@@ -105,7 +98,7 @@ from matplotlib.font_manager import findfont
 for font_type in ["Math", "Sans", "Roman"]:
     try:
         findfont(f"Latin Modern {font_type}", fallback_to_default=False)
-    except:
+    except Exception:
         warnings.warn(
             "The recommended fonts to use plothist were not found. You can install them by typing 'install_latin_modern_fonts' in your terminal. If it still does not work, please check the documentation at https://plothist.readthedocs.io/en/latest/usage/font_installation.html",
             stacklevel=3,
