@@ -19,7 +19,7 @@ plothist
    :width: 320
 
 
-|GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Code style: black|
+|GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Linter|
 
 This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
 
@@ -52,5 +52,5 @@ This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
    :target: https://github.com/cyrraz/plothist/discussions
 .. |DOI| image:: https://zenodo.org/badge/647069945.svg
    :target: https://zenodo.org/doi/10.5281/zenodo.10995667
-.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/psf/black
+.. |Linter| image:: https://img.shields.io/badge/Linter-Ruff-brightgreen?style=flat-square
+    :target: https://github.com/charliermarsh/ruff
