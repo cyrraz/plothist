@@ -51,7 +51,7 @@ You can also run specific nox sessions:
    # Build the documentation and serve it locally (display the documentation in a web browser with live-reloading)
    nox -s docs
    # Build the documentation without serving it
-   nox -s docs --non-interactive 
+   nox -s docs --non-interactive
    # Check for broken links in the documentation
    nox -s docs -- -b linkcheck
 
