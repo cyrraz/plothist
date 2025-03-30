@@ -44,12 +44,16 @@ skip = '*.pdf,./test/*,*.svg,./docs/html/*'
 quiet-level = 3
 write-changes = true
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pre-commit>=4.1.0",
 ]
 test = [
     "pytest>=8.3.5",
+]
+docs = [
+    "sphinx_gallery",
+    "sphinx_rtd_theme",
 ]
 
 [tool.ruff.lint]

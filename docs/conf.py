@@ -1,3 +1,5 @@
+import sys
+
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -12,10 +14,6 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 # -- Project information -----------------------------------------------------
-import subprocess
-import sys
-
-subprocess.check_call(["flit", "install", "-s"], cwd="../")
 
 project = "plothist"
 copyright = "2023-2024, Cyrille Praz, Tristan Fillinger"

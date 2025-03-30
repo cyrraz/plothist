@@ -1,13 +1,16 @@
+import argparse
+
 import nox
 
 nox.options.sessions = ["lint", "tests"]
+nox.needs_version = ">=2025.2.9"
 nox.options.default_venv_backend = "uv|venv"
 
 PYTHON_ALL_VERSIONS = ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
 
 @nox.session(reuse_venv=True)
-def lint(session):
+def lint(session: nox.Session) -> None:
     """
     Run the linter.
     """
@@ -16,9 +19,45 @@ def lint(session):
 
 
 @nox.session(python=PYTHON_ALL_VERSIONS)
-def tests(session):
+def tests(session: nox.Session) -> None:
     """
     Run the unit and regular tests.
     """
-    session.install("-e.[test]")
+    pyproject = nox.project.load_toml("pyproject.toml")
+    session.install(".", *nox.project.dependency_groups(pyproject, "test"))
     session.run("pytest", *session.posargs)
+
+
+@nox.session(reuse_venv=True)
+def docs(session: nox.Session) -> None:
+    """
+    Build the docs. Pass --non-interactive to avoid serving. Pass "-- -b linkcheck" to check links.
+    """
+    pyproject = nox.project.load_toml("pyproject.toml")
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-b", dest="builder", default="html", help="Build target (default: html)"
+    )
+    args, posargs = parser.parse_known_args(session.posargs)
+    serve = args.builder == "html" and session.interactive
+
+    extra_installs = ["sphinx-autobuild"] if serve else []
+    session.install(
+        ".", *nox.project.dependency_groups(pyproject, "docs"), *extra_installs
+    )
+
+    shared_args = (
+        "-n",  # nitpicky mode
+        "-T",  # full tracebacks
+        f"-b={args.builder}",
+        "docs",
+        *(posargs or [f"docs/_build/{args.builder}"]),
+    )
+
+    if serve:
+        session.run(
+            "sphinx-autobuild", "--open-browser", "--ignore=docs/.build", *shared_args
+        )
+    else:
+        session.run("sphinx-build", "--keep-going", *shared_args)
