@@ -63,3 +63,9 @@ Linters and Formatters
 The tools are listed in ``.pre-commit-config.yaml``. Key among them is ``Ruff`` is used for linting and formatting, with its configuration in ``pyproject.toml``.
 
 Use ``nox -s lint`` to run the linters and formatters.
+
+To install the pre-commit hooks, run the following command (assuming you have installed  ``plothist`` via ``uv`` following the instructions in :ref:`install-dev-version`):
+
+.. code-block:: console
+
+   uv run pre-commit install
