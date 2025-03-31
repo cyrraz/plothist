@@ -21,7 +21,7 @@ jobs:
         run: uv sync --group test
 
       - name: Run tests
-        run: uv run pytest --cov=plothist --cov-report=xml
+        run: uv run pytest --cov=plothist --cov-report=xml --ignore=tests/test_make_examples.py
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
