@@ -14,3 +14,6 @@ docs/examples/*/*.svg
 example_gallery/
 .svg_metadata.yaml
 tests/*.yaml
+
+# Version file
+_version.py
