@@ -4,6 +4,10 @@
 Contributing
 ============
 
+Welcome to the ``plothist`` project! We appreciate your interest in contributing to our codebase. This document outlines the steps to get started with development, including setting up your environment and running tests.
+If you have any questions or need assistance, feel free to reach out to the maintainers.
+We welcome contributions of all kinds, including bug fixes, new features, and documentation improvements.
+
 Building from source
 ====================
 
@@ -54,6 +58,8 @@ You can also run specific nox sessions:
    nox -s docs --non-interactive
    # Check for broken links in the documentation
    nox -s docs -- -b linkcheck
+   # Run the tests with coverage (takes a while)
+   nox -s coverage
 
 Linters and Formatters
 ----------------------
@@ -63,3 +69,9 @@ Linters and Formatters
 The tools are listed in ``.pre-commit-config.yaml``. Key among them is ``Ruff`` is used for linting and formatting, with its configuration in ``pyproject.toml``.
 
 Use ``nox -s lint`` to run the linters and formatters.
+
+To install the pre-commit hooks, run the following command (assuming you have installed  ``plothist`` via ``uv`` following the instructions in :ref:`install-dev-version`):
+
+.. code-block:: console
+
+   uv run pre-commit install

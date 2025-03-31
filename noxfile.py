@@ -24,8 +24,25 @@ def tests(session: nox.Session) -> None:
     Run the unit and regular tests.
     """
     pyproject = nox.project.load_toml("pyproject.toml")
-    session.install(".", *nox.project.dependency_groups(pyproject, "test"))
+    session.install("-e", ".")
+    session.install(*nox.project.dependency_groups(pyproject, "test"))
     session.run("pytest", *session.posargs)
+
+
+# run coverage
+@nox.session(reuse_venv=True)
+def coverage(session: nox.Session) -> None:
+    """
+    Run the unit tests with coverage. Warning: takes a long time to run.
+    """
+    pyproject = nox.project.load_toml("pyproject.toml")
+    session.install("-e", ".")
+    session.install(*nox.project.dependency_groups(pyproject, "test"))
+    session.run(
+        "pytest",
+        "--cov=plothist",
+        *session.posargs,
+    )
 
 
 @nox.session(reuse_venv=True)

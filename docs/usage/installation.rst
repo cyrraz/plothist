@@ -83,11 +83,9 @@ Option 1 (recommended) - Using ``uv``
 
     .. code-block:: bash
 
-       uv venv
+       uv sync --group dev --group test
 
-       uv pip install --editable ".[dev,test]"
-
-The previous commands create a virtual environment ``.venv`` and install the package in editable mode with the development and test dependencies.
+The previous command creates a virtual environment ``.venv`` and installs the package in editable mode with the development and test dependencies.
 
 4. To activate the virtual environment, run:
 
