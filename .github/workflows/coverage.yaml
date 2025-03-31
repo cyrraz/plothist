@@ -1,6 +1,9 @@
 name: Run tests and upload coverage
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   test:
@@ -21,7 +24,7 @@ jobs:
         run: uv sync --group test
 
       - name: Run tests
-        run: uv run pytest --cov=plothist --cov-report=xml --ignore=tests/test_make_examples.py
+        run: uv run pytest --cov=plothist --cov-report=xml
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
