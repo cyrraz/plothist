@@ -21,7 +21,7 @@ plothist
 
 |GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Linter|
 
-|GitHub Actions Status: CI| |GitHub Actions Status: CD| |pre-commit.ci Status|
+|GitHub Actions Status: CI| |GitHub Actions Status: CD| |pre-commit.ci Status| |Code Coverage|
 
 This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
 
@@ -62,3 +62,5 @@ This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
    :target: https://github.com/cyrraz/plothist/actions/workflows/cd.yaml?query=branch%3Amain
 .. |pre-commit.ci Status| image:: https://results.pre-commit.ci/badge/github/cyrraz/plothist/main.svg
    :target: https://results.pre-commit.ci/latest/github/cyrraz/plothist/main
+.. |Code Coverage| image:: https://codecov.io/gh/cyrraz/plothist/branch/main/graph/badge.svg
+    :target: https://codecov.io/gh/cyrraz/plothist
