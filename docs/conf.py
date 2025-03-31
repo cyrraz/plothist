@@ -18,11 +18,13 @@ import plothist
 # -- Project information -----------------------------------------------------
 
 project = "plothist"
-copyright = "2023-2024, Cyrille Praz, Tristan Fillinger"
+copyright = "2023-2025, Cyrille Praz, Tristan Fillinger"
 author = "Cyrille Praz, Tristan Fillinger"
 
 parts = plothist.__version__.split(".")
+# The short X.Y version
 version = ".".join(parts[:2])
+# The full version, including alpha/beta/rc tags
 release = ".".join(parts)
 
 # -- General configuration ---------------------------------------------------
