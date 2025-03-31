@@ -4,6 +4,10 @@
 Contributing
 ============
 
+Welcome to the ``plothist`` project! We appreciate your interest in contributing to our codebase. This document outlines the steps to get started with development, including setting up your environment and running tests.
+If you have any questions or need assistance, feel free to reach out to the maintainers.
+We welcome contributions of all kinds, including bug fixes, new features, and documentation improvements.
+
 Building from source
 ====================
 

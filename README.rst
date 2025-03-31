@@ -54,7 +54,7 @@ This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
    :target: https://github.com/cyrraz/plothist/discussions
 .. |DOI| image:: https://zenodo.org/badge/647069945.svg
    :target: https://zenodo.org/doi/10.5281/zenodo.10995667
-.. |Linter| image:: https://img.shields.io/badge/Linter-Ruff-brightgreen?style=flat-square
+.. |Linter| image:: https://img.shields.io/badge/Linter-Ruff-brightgreen
    :target: https://github.com/charliermarsh/ruff
 .. |GitHub Actions Status: CI| image:: https://github.com/cyrraz/plothist/actions/workflows/ci.yaml/badge.svg
    :target: https://github.com/cyrraz/plothist/actions/workflows/ci.yaml?query=branch%3Amain
