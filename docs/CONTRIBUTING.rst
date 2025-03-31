@@ -54,6 +54,8 @@ You can also run specific nox sessions:
    nox -s docs --non-interactive
    # Check for broken links in the documentation
    nox -s docs -- -b linkcheck
+   # Run the tests with coverage (takes a while)
+   nox -s coverage
 
 Linters and Formatters
 ----------------------
