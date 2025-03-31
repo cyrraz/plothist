@@ -1,0 +1,7 @@
+comment: false
+
+github_checks:
+  annotations: false
+
+ignore:
+  - "src/plothist/scripts"
