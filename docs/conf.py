@@ -1,5 +1,7 @@
 import sys
 
+import plothist
+
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -19,11 +21,9 @@ project = "plothist"
 copyright = "2023-2024, Cyrille Praz, Tristan Fillinger"
 author = "Cyrille Praz, Tristan Fillinger"
 
-# The short X.Y version
-version = "1.3.2"
-# The full version, including alpha/beta/rc tags
-release = "1.3.2"
-
+parts = plothist.__version__.split(".")
+version = ".".join(parts[:2])
+release = ".".join(parts)
 
 # -- General configuration ---------------------------------------------------
 

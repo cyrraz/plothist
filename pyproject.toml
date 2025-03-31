@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
@@ -55,6 +55,11 @@ docs = [
     "sphinx_gallery",
     "sphinx_rtd_theme",
 ]
+
+
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "src/plothist/_version.py"
 
 [tool.ruff.lint]
 extend-select = [
