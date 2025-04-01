@@ -6,6 +6,8 @@ Plot a 1D function with ``plot_function()``.
 """
 
 ###
+from __future__ import annotations
+
 from matplotlib import pyplot as plt
 from scipy.stats import norm
 

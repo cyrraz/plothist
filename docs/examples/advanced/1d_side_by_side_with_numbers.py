@@ -6,6 +6,8 @@ Plot multiple 1D histograms with categories side by side, and add the number of 
 """
 
 ###
+from __future__ import annotations
+
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 import numpy as np

@@ -5,6 +5,8 @@ Pull
 Compare two 1D histograms using the pull method.
 """
 
+from __future__ import annotations
+
 from plothist import get_dummy_data
 
 df = get_dummy_data()

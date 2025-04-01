@@ -5,6 +5,8 @@ Data/model comparisons
 All supported comparisons between data and model.
 """
 
+from __future__ import annotations
+
 from plothist import get_dummy_data
 
 df = get_dummy_data()

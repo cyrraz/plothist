@@ -5,6 +5,8 @@ Color palettes
 Examples of color palettes.
 """
 
+from __future__ import annotations
+
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np

@@ -5,6 +5,8 @@ Multiple histograms
 Plot multiple histograms on the same plot using ``plot_hist()``.
 """
 
+from __future__ import annotations
+
 from plothist import get_dummy_data
 
 df = get_dummy_data()

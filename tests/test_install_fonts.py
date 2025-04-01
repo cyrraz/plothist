@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pytest import fail
 
 from plothist.scripts import install_latin_modern_fonts

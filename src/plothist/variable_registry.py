@@ -2,6 +2,8 @@
 Collection of functions to manage the variable registry
 """
 
+from __future__ import annotations
+
 import os
 import warnings
 
