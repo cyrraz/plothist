@@ -1,11 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "plothist"
 description = "Plot histograms in a scalable way and a beautiful style."
-version = "1.3.2"
 authors = [
     {name = "Cyrille Praz", email = "cyrraz.code@protonmail.com"},
     {name = "Tristan Fillinger", email = "tristan.github@gmail.com"},
@@ -30,6 +29,7 @@ dependencies = [
     "requests>=2.25.0",
     "mplhep",
 ]
+dynamic = ["version"]
 
 [project.scripts]
 install_latin_modern_fonts = "plothist.scripts.install_latin_modern_fonts:install_latin_modern_fonts"
@@ -45,13 +45,23 @@ skip = '*.pdf,./test/*,*.svg,./docs/html/*'
 quiet-level = 3
 write-changes = true
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pre-commit>=4.1.0",
 ]
 test = [
     "pytest>=8.3.5",
+    "pytest-cov>=4.1.0",
 ]
+docs = [
+    "sphinx_gallery",
+    "sphinx_rtd_theme",
+]
+
+
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "src/plothist/_version.py"
 
 [tool.ruff.lint]
 extend-select = [

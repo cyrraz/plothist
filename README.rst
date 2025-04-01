@@ -19,7 +19,9 @@ plothist
    :width: 320
 
 
-|GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Code style: black|
+|GitHub Project| |PyPI version| |Docs from main| |Discussion| |DOI| |Linter|
+
+|GitHub Actions Status: CI| |GitHub Actions Status: CD| |pre-commit.ci Status| |Code Coverage|
 
 This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
 
@@ -52,5 +54,13 @@ This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
    :target: https://github.com/cyrraz/plothist/discussions
 .. |DOI| image:: https://zenodo.org/badge/647069945.svg
    :target: https://zenodo.org/doi/10.5281/zenodo.10995667
-.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/psf/black
+.. |Linter| image:: https://img.shields.io/badge/Linter-Ruff-brightgreen
+   :target: https://github.com/charliermarsh/ruff
+.. |GitHub Actions Status: CI| image:: https://github.com/cyrraz/plothist/actions/workflows/ci.yaml/badge.svg
+   :target: https://github.com/cyrraz/plothist/actions/workflows/ci.yaml?query=branch%3Amain
+.. |GitHub Actions Status: CD| image:: https://github.com/cyrraz/plothist/actions/workflows/cd.yaml/badge.svg
+   :target: https://github.com/cyrraz/plothist/actions/workflows/cd.yaml?query=branch%3Amain
+.. |pre-commit.ci Status| image:: https://results.pre-commit.ci/badge/github/cyrraz/plothist/main.svg
+   :target: https://results.pre-commit.ci/latest/github/cyrraz/plothist/main
+.. |Code Coverage| image:: https://codecov.io/gh/cyrraz/plothist/branch/main/graph/badge.svg
+    :target: https://codecov.io/gh/cyrraz/plothist

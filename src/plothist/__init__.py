@@ -1,3 +1,4 @@
+from ._version import version as __version__
 from .comparison import (
     get_asymmetrical_uncertainties,
     get_comparison,
