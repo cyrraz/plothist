@@ -5,8 +5,6 @@ Stacked functions
 Plot stacked functions using ``plot_function()``.
 """
 
-from __future__ import annotations
-
 from scipy.stats import norm
 
 

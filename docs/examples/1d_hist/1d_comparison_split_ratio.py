@@ -5,8 +5,6 @@ Ratio, split errors
 Compare two 1D histograms using the ratio [h1/h2] method and split the errors.
 """
 
-from __future__ import annotations
-
 from plothist import get_dummy_data
 
 df = get_dummy_data()

@@ -5,8 +5,6 @@
 Plot a 2D histogram with the two 1D projections.
 """
 
-from __future__ import annotations
-
 from plothist import get_dummy_data
 
 df = get_dummy_data()

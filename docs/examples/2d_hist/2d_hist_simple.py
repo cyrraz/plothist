@@ -5,8 +5,6 @@
 Plot a 2D histogram with ``plot_2d_hist()``.
 """
 
-from __future__ import annotations
-
 from plothist import get_dummy_data
 
 df = get_dummy_data()

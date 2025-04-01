@@ -86,4 +86,3 @@ ignore = [
     "NPY002",  # Replace legacy `np.random` call with `np.random.Generator`
     "PD901",  # Avoid using the generic variable name `df` for DataFrames
 ]
-isort.required-imports = ["from __future__ import annotations"]

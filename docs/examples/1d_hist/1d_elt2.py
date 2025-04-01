@@ -5,8 +5,6 @@ Histogram with uncertainties
 Plot a 1D histogram with error bars using ``plot_error_hist()``.
 """
 
-from __future__ import annotations
-
 from plothist import get_dummy_data
 
 df = get_dummy_data()

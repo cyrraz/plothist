@@ -6,7 +6,6 @@ Plot the asymmetry between 2 histograms and 2 functions.
 """
 
 # Get dummy data
-from __future__ import annotations
 
 from plothist import get_dummy_data
 

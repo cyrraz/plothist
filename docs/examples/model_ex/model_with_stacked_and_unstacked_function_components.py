@@ -5,8 +5,6 @@ Model with stacked and unstacked functional components
 Plot a model with stacked and unstacked functional components.
 """
 
-from __future__ import annotations
-
 from plothist import get_dummy_data
 
 df = get_dummy_data()

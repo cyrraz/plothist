@@ -5,8 +5,6 @@ Multiple comparisons
 Compare two 1D histograms using the pull and ratio methods on the same plot.
 """
 
-from __future__ import annotations
-
 from plothist import get_dummy_data
 
 df = get_dummy_data()

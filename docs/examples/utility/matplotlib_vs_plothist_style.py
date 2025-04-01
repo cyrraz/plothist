@@ -5,8 +5,6 @@ Default style: matplotlib vs plothist
 Illustration of the difference between matplotlib and plothist default styles.
 """
 
-from __future__ import annotations
-
 import matplotlib.pyplot as plt
 
 from plothist import get_dummy_data
