@@ -41,8 +41,8 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-        additional_dependencies:
-          - tomli
+        args: ["-L", "gaus"]
+        additional_dependencies: ["tomli"]
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.31.3
