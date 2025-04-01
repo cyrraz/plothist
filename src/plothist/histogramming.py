@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import warnings
 
 import boost_histogram as bh
