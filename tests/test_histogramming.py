@@ -1,7 +1,8 @@
 import boost_histogram as bh
 import numpy as np
 from pytest import warns
-from uhi.numpy_plottable import NumPyPlottableAxis
+from uhi.numpy_plottable import NumPyPlottableAxis, NumPyPlottableHistogram
+from uhi.typing.plottable import PlottableHistogram
 
 from plothist import make_2d_hist, make_hist
 from plothist.histogramming import EnhancedNumPyPlottableHistogram
@@ -12,6 +13,8 @@ def test_make_hist():
     Test make_hist() function.
     """
     h = make_hist(data=[0, 1, 2, 3, 4], bins=5, range=(0, 5))
+    assert isinstance(h, PlottableHistogram)
+    assert isinstance(h, NumPyPlottableHistogram)
     assert isinstance(h, EnhancedNumPyPlottableHistogram)
     assert isinstance(h.axes[0], NumPyPlottableAxis)
     assert h.values().sum() == 5
