@@ -1,6 +1,9 @@
 name: Run tests and upload coverage
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   test:
