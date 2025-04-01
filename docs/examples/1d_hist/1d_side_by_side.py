@@ -6,7 +6,6 @@ Plot multiple 1D histograms with categories side by side.
 """
 
 ###
-
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 import numpy as np

@@ -6,7 +6,6 @@ Examples of use of ``add_text()``.
 """
 
 ###
-
 import matplotlib.pyplot as plt
 
 from plothist import add_text

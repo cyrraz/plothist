@@ -6,7 +6,6 @@ Plot a 1D histogram with integer categories.
 """
 
 ###
-
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 
