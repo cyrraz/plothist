@@ -2,6 +2,8 @@
 Collection of functions to plot histograms
 """
 
+from __future__ import annotations
+
 import copy
 import re
 

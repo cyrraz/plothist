@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import boost_histogram as bh
 import numpy as np
 from pytest import warns

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from plothist.scripts import make_examples
 
 
