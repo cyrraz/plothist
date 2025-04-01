@@ -46,21 +46,21 @@ This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
 
 .. |GitHub Project| image:: https://img.shields.io/badge/GitHub--blue?style=social&logo=GitHub
    :target: https://github.com/cyrraz/plothist
-.. |PyPI version| image:: https://badge.fury.io/py/plothist.svg
+.. |PyPI version| image:: https://badge.fury.io/py/plothist.svg?style=flat-square
    :target: https://badge.fury.io/py/plothist
-.. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg
+.. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg?style=platic
    :target: https://plothist.readthedocs.io/en/main/
-.. |Discussion| image:: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
+.. |Discussion| image:: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github?style=flat-square
    :target: https://github.com/cyrraz/plothist/discussions
-.. |DOI| image:: https://zenodo.org/badge/647069945.svg
+.. |DOI| image:: https://zenodo.org/badge/647069945.svg?style=flat-square
    :target: https://zenodo.org/doi/10.5281/zenodo.10995667
-.. |Linter| image:: https://img.shields.io/badge/Linter-Ruff-brightgreen
+.. |Linter| image:: https://img.shields.io/badge/Linter-Ruff-brightgreen?style=platic
    :target: https://github.com/charliermarsh/ruff
-.. |GitHub Actions Status: CI| image:: https://github.com/cyrraz/plothist/actions/workflows/ci.yaml/badge.svg
+.. |GitHub Actions Status: CI| image:: https://github.com/cyrraz/plothist/actions/workflows/ci.yaml/badge.svg?style=flat-square
    :target: https://github.com/cyrraz/plothist/actions/workflows/ci.yaml?query=branch%3Amain
-.. |GitHub Actions Status: CD| image:: https://github.com/cyrraz/plothist/actions/workflows/cd.yaml/badge.svg
+.. |GitHub Actions Status: CD| image:: https://github.com/cyrraz/plothist/actions/workflows/cd.yaml/badge.svg?style=flat-square
    :target: https://github.com/cyrraz/plothist/actions/workflows/cd.yaml?query=branch%3Amain
-.. |pre-commit.ci Status| image:: https://results.pre-commit.ci/badge/github/cyrraz/plothist/main.svg
+.. |pre-commit.ci Status| image:: https://results.pre-commit.ci/badge/github/cyrraz/plothist/main.svg?style=flat-square
    :target: https://results.pre-commit.ci/latest/github/cyrraz/plothist/main
-.. |Code Coverage| image:: https://codecov.io/gh/cyrraz/plothist/branch/main/graph/badge.svg
+.. |Code Coverage| image:: https://codecov.io/gh/cyrraz/plothist/branch/main/graph/badge.svg?style=flat-square
     :target: https://codecov.io/gh/cyrraz/plothist
