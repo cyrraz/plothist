@@ -19,9 +19,9 @@ plothist
    :width: 320
 
 
-|GitHub Project| |PyPI version||Docs from main||space||Discussion||DOI| |space| |Linter|
+|GitHub Project| |PyPI version| f |Docs from main|b|space||Discussion||DOI| |space| |Linter|
 
-|GitHub Actions Status: CI||nbspc||GitHub Actions Status: CD| |nbspc| |pre-commit.ci Status||Code Coverage|
+|GitHub Actions Status: CI| f |nbspc| f |GitHub Actions Status: CD| |nbspc| |pre-commit.ci Status||Code Coverage|
 
 This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
 
