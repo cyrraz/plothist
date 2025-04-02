@@ -5,7 +5,7 @@
 Plot multiple 2D histograms with the variable registry.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

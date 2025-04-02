@@ -1,27 +1,20 @@
-.. _usage-fonts-label:
 
-=================
-Font installation
-=================
 
-Standard installation
-=====================
-
-Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
-
-On Linux/Ubuntu/MacOS, after installing ``plothist``, you can install the fonts by running on your terminal:
-
-.. code-block:: bash
-
-    install_latin_modern_fonts
-
-Try to restart your python session and run ``import plothist`` again. If no warning is raised, the fonts are installed correctly and you can skip the rest of this section.
-
+===============
 Troubleshooting
 ===============
 
-Fail to download the fonts
---------------------------
+.. _usage-fonts-label:
+
+Font installation
+=================
+
+Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
+
+The fonts are stored in the |plothist_utils|_, which is a dependency of ``plothist``. After installing ``plothist``, the fonts are automatically installed whenever ``plothist`` is imported in a script.
+
+.. |plothist_utils| replace:: ``plothist_utils`` package
+.. _plothist_utils: https://github.com/0ctagon/plothist_utils
 
 If a font is not correctly installed, you can try to install it manually. You can download the fonts from the following links:
 
@@ -65,37 +58,3 @@ The last step is to delete the cache of matplotlib by running in a python consol
    cache_files = PosixPath(matplotlib.get_cachedir()).glob("fontlist-v???.json")
    for cache_file in cache_files:
        subprocess.run(["rm", "-v", cache_file])
-
-
-Command not found
------------------
-
-If the command doesn't exist, you can run the script manually. First you need to get the folder where ``plothist`` is installed. You can do this by running in a python console:
-
-.. code-block:: python
-
-   import plothist
-
-   plothist.__file__
-
-   # > '/path/to/plothist/__init__.py'
-
-Then you can run the following command in a terminal:
-
-.. code-block:: bash
-
-   python3 /path/to/plothist/scripts/install_latin_modern_fonts.py
-
-
-Font not used by matplotlib
----------------------------
-
-It was observed in some cases that, after running ``install_latin_modern_fonts``, you may need to move the font files ``latinmodern-math.otf``, ``latin-modern-roman/`` and ``latin-modern-sans/`` from ``~/.fonts/`` into another folder. To get an idea of where the fonts are installed on your system, you can run the following commands in a python console:
-
-.. code-block:: python
-
-   from matplotlib import font_manager
-
-   font_manager.findSystemFonts(fontpaths=None, fontext="ttf")
-
-Make also sure to delete the cache of matplotlib, otherwise the fonts may not be loaded correctly.
