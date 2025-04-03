@@ -55,6 +55,7 @@ test = [
 docs = [
     "sphinx_gallery>=0.17.0",
     "sphinx_rtd_theme>=3.0.0",
+    "sphinx-copybutton>=0.5.0",
 ]
 
 
