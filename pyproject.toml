@@ -27,7 +27,7 @@ dependencies = [
     "pyyaml>=5.3.1",
     "scipy>=1.6.0",
     "requests>=2.25.0",
-    "plothist_utils",
+    "plothist_utils>=0.0.1",
 ]
 dynamic = ["version"]
 
@@ -53,8 +53,8 @@ test = [
     "pytest-cov>=4.1.0",
 ]
 docs = [
-    "sphinx_gallery",
-    "sphinx_rtd_theme",
+    "sphinx_gallery>=0.17.0",
+    "sphinx_rtd_theme>=3.0.0",
 ]
 
 
