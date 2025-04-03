@@ -1255,7 +1255,7 @@ requires-dist = [
 dev = [{ name = "pre-commit", specifier = ">=4.1.0" }]
 docs = [
     { name = "sphinx-gallery", specifier = ">=0.17.0" },
-    { name = "sphinx-rtd-theme" },
+    { name = "sphinx-rtd-theme", specifier = ">=3.0.0" },
 ]
 test = [
     { name = "pytest", specifier = ">=8.3.5" },
