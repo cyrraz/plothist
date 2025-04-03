@@ -11,7 +11,7 @@ Font installation
 
 Latin Modern fonts are used by default (Latin Modern Math, Latin Modern Roman, Latin Modern Sans).
 
-The fonts are stored in the |plothist_utils|_, which is a dependency of ``plothist``. After installing ``plothist``, the fonts are automatically installed whenever ``plothist`` is imported in a script.
+The fonts are stored in the |plothist_utils|_, which is a dependency of ``plothist``. The fonts are automatically registered within ``matplotlib`` whenever ``plothist`` is imported in a script.
 
 .. |plothist_utils| replace:: ``plothist_utils`` package
 .. _plothist_utils: https://github.com/0ctagon/plothist_utils
