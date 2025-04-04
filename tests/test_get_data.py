@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import numpy as np
+from plothist_utils import get_dummy_data
+
 
 def test_get_data():
     """
     Test get dummy data.
     """
-    import numpy as np
-    from plothist_utils import get_dummy_data
 
     data = get_dummy_data()
 

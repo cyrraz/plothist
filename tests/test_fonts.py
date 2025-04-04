@@ -1,15 +1,15 @@
 from __future__ import annotations
 
+import matplotlib.font_manager as fm
 from pytest import fail
+
+import plothist  # NOQA: F401
 
 
 def test_fonts():
     """
     Test fonts.
     """
-    import matplotlib.font_manager as fm
-
-    import plothist  # NOQA: F401
 
     installation_failed = False
     for font_type in ["Math", "Sans", "Roman"]:
