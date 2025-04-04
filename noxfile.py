@@ -80,3 +80,14 @@ def docs(session: nox.Session) -> None:
         )
     else:
         session.run("sphinx-build", "--keep-going", *shared_args)
+
+
+@nox.session(venv_backend="conda")
+def root_tests(session):
+    """
+    Test ROOT histograms. Note: a conda installation is needed to run this test.
+    """
+
+    session.conda_install("--channel=conda-forge", "ROOT", "pytest")
+    session.install(".")
+    session.run("pytest", "tests/test_root.py")

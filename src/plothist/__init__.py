@@ -11,7 +11,6 @@ from .comparison import (
 )
 from .get_dummy_data import get_dummy_data
 from .histogramming import (
-    create_axis,
     flatten_2d_hist,
     make_2d_hist,
     make_hist,
@@ -51,7 +50,6 @@ __all__ = [
     "__version__",
     "add_luminosity",
     "add_text",
-    "create_axis",
     "create_comparison_figure",
     "create_variable_registry",
     "cubehelix_palette",
@@ -109,11 +107,3 @@ for font_type in ["Math", "Sans", "Roman"]:
             stacklevel=3,
         )
         break
-
-# Check version of boost_histogram
-import boost_histogram as bh
-
-if tuple(int(part) for part in bh.__version__.split(".")) < (1, 4, 0):
-    raise ImportError(
-        "The version of boost_histogram is lower than 1.4.0. Please update to the latest version to avoid issues (pip install --upgrade boost_histogram).",
-    )
