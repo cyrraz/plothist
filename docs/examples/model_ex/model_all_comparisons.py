@@ -5,7 +5,7 @@ Data/model comparisons
 All supported comparisons between data and model.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

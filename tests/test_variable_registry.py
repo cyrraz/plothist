@@ -3,11 +3,11 @@ from __future__ import annotations
 import os
 
 import yaml
+from plothist_utils import get_dummy_data
 from pytest import fail, raises
 
 from plothist import (
     create_variable_registry,
-    get_dummy_data,
     get_variable_from_registry,
     remove_variable_registry_parameters,
     update_variable_registry,

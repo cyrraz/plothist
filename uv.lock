@@ -1220,6 +1220,7 @@ dependencies = [
     { name = "matplotlib", version = "3.10.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "numpy", version = "2.2.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+    { name = "plothist-utils" },
     { name = "pyyaml" },
     { name = "requests" },
     { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
@@ -1245,6 +1246,7 @@ requires-dist = [
     { name = "boost-histogram", specifier = ">=1.4.0" },
     { name = "matplotlib", specifier = ">=3.0" },
     { name = "numpy", specifier = ">=1.14.5" },
+    { name = "plothist-utils", specifier = ">=0.0.1" },
     { name = "pyyaml", specifier = ">=5.3.1" },
     { name = "requests", specifier = ">=2.25.0" },
     { name = "scipy", specifier = ">=1.6.0" },
@@ -1253,13 +1255,26 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [{ name = "pre-commit", specifier = ">=4.1.0" }]
 docs = [
-    { name = "sphinx-copybutton" },
-    { name = "sphinx-gallery" },
-    { name = "sphinx-rtd-theme" },
+    { name = "sphinx-copybutton", specifier = ">=0.5.0" },
+    { name = "sphinx-gallery", specifier = ">=0.17.0" },
+    { name = "sphinx-rtd-theme", specifier = ">=3.0.0" },
 ]
 test = [
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "pytest-cov", specifier = ">=4.1.0" },
+]
+
+[[package]]
+name = "plothist-utils"
+version = "0.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "numpy", version = "2.2.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ea/c6/ce0f7c948bc6d94cf140de7ed4418fbc6e785cb2b60eac4b4bb8148d109d/plothist_utils-0.0.1.tar.gz", hash = "sha256:85d390e728db3b8e75f57a7a6947676b09682a4625761f8cb4537e11cbfac4fe", size = 6241366 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/68/4a/4279aec5500caf4e58192cdd9673b933b4dd102e5da31620b5f3bc1a4f7f/plothist_utils-0.0.1-py3-none-any.whl", hash = "sha256:e0d80fa225a84ef742d0912fc56c8a2590ac7711e5dfdca3bcbb24e6bb6baf32", size = 6177098 },
 ]
 
 [[package]]

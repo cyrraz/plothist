@@ -10,7 +10,7 @@ The examples use of a numpy ndarray ``df`` containing dummy data (you may also u
 
 .. code-block:: python
 
-    from plothist import get_dummy_data
+    from plothist_utils import get_dummy_data
 
     df = get_dummy_data()
 

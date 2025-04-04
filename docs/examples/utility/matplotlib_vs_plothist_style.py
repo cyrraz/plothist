@@ -6,8 +6,7 @@ Illustration of the difference between matplotlib and plothist default styles.
 """
 
 import matplotlib.pyplot as plt
-
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

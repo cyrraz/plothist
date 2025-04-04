@@ -7,7 +7,6 @@ Content
     :maxdepth: 2
 
     usage/installation
-    usage/font_installation
     CONTRIBUTING
 
 .. toctree::
@@ -41,3 +40,4 @@ Content
     example_gallery/index
     documentation/documentation
     documentation/statistics
+    documentation/troubleshooting

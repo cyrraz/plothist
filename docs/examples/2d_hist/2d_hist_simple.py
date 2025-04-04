@@ -5,7 +5,7 @@
 Plot a 2D histogram with ``plot_2d_hist()``.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

@@ -5,7 +5,7 @@ Data vs model with unstacked components
 Plot data and a model with unstacked components.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 
