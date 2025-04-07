@@ -8,6 +8,7 @@ registry.yaml
 test.yaml
 temp_img/
 .venv
+.nox
 
 # Ignore local readthedocs build
 html/
