@@ -5,7 +5,7 @@ Asymmetry
 Compare two 1D histograms using the asymmetry comparison [(h1-h2)/(h1+h2)].
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

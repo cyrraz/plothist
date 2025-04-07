@@ -5,7 +5,7 @@ Efficiency
 Compare the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

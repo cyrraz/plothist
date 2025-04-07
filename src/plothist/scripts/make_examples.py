@@ -5,6 +5,7 @@ import hashlib
 import os
 import subprocess
 import warnings
+from importlib import resources
 
 import yaml
 from packaging import version
@@ -113,18 +114,10 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         os.makedirs(temp_img_folder, exist_ok=True)
 
     # Get the metadata for the svg files
-    if not os.path.exists(plothist_folder + "/.svg_metadata.yaml"):
-        subprocess.run(
-            [
-                "wget",
-                "-O",
-                plothist_folder + "/.svg_metadata.yaml",
-                "https://raw.githubusercontent.com/0ctagon/plothist-utils/dbf86375576fa2ca5c35ab3a35bba1ab7715a186/.svg_metadata.yaml",
-            ],
-            check=False,
-        )
-
-    with open(plothist_folder + "/.svg_metadata.yaml") as f:
+    metadata_file = (
+        resources.files("plothist_utils") / "metadata" / ".svg_metadata.yaml"
+    )
+    with open(metadata_file) as f:
         svg_metadata = yaml.safe_load(f)
 
     svg_metadata = "metadata=" + str(svg_metadata)

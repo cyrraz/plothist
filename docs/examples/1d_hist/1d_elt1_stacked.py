@@ -5,7 +5,7 @@ Stack histograms
 Stack two 1D histograms with ``plot_hist()``.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

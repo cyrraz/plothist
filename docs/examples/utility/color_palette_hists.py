@@ -5,7 +5,7 @@ Color palettes in stacked histograms
 Examples of color palettes in stacked histograms.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 

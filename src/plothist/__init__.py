@@ -9,7 +9,6 @@ from .comparison import (
     get_ratio,
     get_ratio_variances,
 )
-from .get_dummy_data import get_dummy_data
 from .histogramming import (
     flatten_2d_hist,
     make_2d_hist,
@@ -58,7 +57,6 @@ __all__ = [
     "get_color_palette",
     "get_comparison",
     "get_difference",
-    "get_dummy_data",
     "get_pull",
     "get_ratio",
     "get_ratio_variances",
@@ -93,17 +91,20 @@ import matplotlib.pyplot as plt
 style_file = files("plothist").joinpath("default_style.mplstyle")
 plt.style.use(style_file)
 
-# Check the fonts
-import warnings
+# Install fonts
+from importlib import resources
 
-from matplotlib.font_manager import findfont
+import matplotlib.font_manager as fm
 
-for font_type in ["Math", "Sans", "Roman"]:
-    try:
-        findfont(f"Latin Modern {font_type}", fallback_to_default=False)
-    except Exception:
-        warnings.warn(
-            "The recommended fonts to use plothist were not found. You can install them by typing 'install_latin_modern_fonts' in your terminal. If it still does not work, please check the documentation at https://plothist.readthedocs.io/en/latest/usage/font_installation.html",
-            stacklevel=3,
-        )
-        break
+with resources.as_file(resources.files("plothist_utils") / "fonts") as font_path:
+    font_files = fm.findSystemFonts(fontpaths=[str(font_path)])
+    for font in font_files:
+        fm.fontManager.addfont(font)
+
+# Check version of boost_histogram
+import boost_histogram as bh
+
+if tuple(int(part) for part in bh.__version__.split(".")) < (1, 4, 0):
+    raise ImportError(
+        "The version of boost_histogram is lower than 1.4.0. Please update to the latest version to avoid issues (pip install --upgrade boost_histogram).",
+    )

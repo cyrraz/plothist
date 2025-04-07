@@ -5,7 +5,7 @@ Flatten 2D histograms
 This example shows how to flatten and display 2D histograms on one dimension.
 """
 
-from plothist import get_dummy_data
+from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 
