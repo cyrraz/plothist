@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import os
 import subprocess
@@ -206,4 +207,15 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
 
 
 if __name__ == "__main__":
-    make_examples()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--no_input",
+        action="store_true",
+        help="If True, the function will not ask for any input and will relaunch all the python files.",
+    )
+    parser.add_argument(
+        "--check_svg",
+        action="store_true",
+        help="If True, the function will check that the svg files have not changed after the relaunch.",
+    )
+    make_examples(**vars(parser.parse_args()))

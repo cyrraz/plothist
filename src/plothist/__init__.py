@@ -10,7 +10,6 @@ from .comparison import (
     get_ratio_variances,
 )
 from .histogramming import (
-    create_axis,
     flatten_2d_hist,
     make_2d_hist,
     make_hist,
@@ -50,7 +49,6 @@ __all__ = [
     "__version__",
     "add_luminosity",
     "add_text",
-    "create_axis",
     "create_comparison_figure",
     "create_variable_registry",
     "cubehelix_palette",
