@@ -9,6 +9,7 @@ test.yaml
 temp_img/
 .venv
 .nox
+result_images/
 
 # Ignore local readthedocs build
 html/

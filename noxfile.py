@@ -82,12 +82,14 @@ def docs(session: nox.Session) -> None:
         session.run("sphinx-build", "--keep-going", *shared_args)
 
 
-@nox.session(venv_backend="conda")
+@nox.session(venv_backend="conda", reuse_venv=True)
 def root_tests(session):
     """
     Test ROOT histograms. Note: a conda installation is needed to run this test.
     """
-
-    session.conda_install("--channel=conda-forge", "ROOT", "pytest")
-    session.install(".")
+    pyproject = nox.project.load_toml("pyproject.toml")
+    session.conda_install("--channel=conda-forge", "ROOT")
+    session.install("-e", ".")
+    session.install(*nox.project.dependency_groups(pyproject, "test"))
     session.run("pytest", "tests/test_root.py")
+    session.run("pytest", "tests/test_inputs.py")
