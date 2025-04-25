@@ -119,7 +119,6 @@ def test_root_histogram_input(fig_test, fig_ref, sample_data):
 
     # === Test Figure ===
     h_root = ROOT.TH1F("h", "h", 5, min(sample_data[name]), max(sample_data[name]))
-    h_root.SetDirectory(0)  # Prevent ROOT from tracking this object globally
     for val in sample_data[name]:
         h_root.Fill(val)
 
