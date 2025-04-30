@@ -3,13 +3,14 @@
 import boost_histogram as bh
 import hist
 import matplotlib
+import matplotlib.gridspec as gridspec
 import numpy as np
 import pytest
 import uproot
 from matplotlib.testing.decorators import check_figures_equal
 from plothist_utils import get_dummy_data
 
-from plothist import make_hist, plot_hist
+from plothist import get_color_palette, make_hist, plot_data_model_comparison, plot_hist
 from plothist.histogramming import make_plottable_histogram
 
 matplotlib.use("agg")
@@ -154,3 +155,70 @@ def test_pyroot_to_uproot_histogram_input(fig_test, fig_ref, sample_data):
 
     ax_test = fig_test.subplots()
     plot_hist(h_uproot, ax=ax_test)
+
+
+@check_figures_equal(extensions=["png"])
+def test_data_model_comparison(fig_test, fig_ref, sample_data):
+    df = sample_data
+
+    # Define the histograms
+
+    key = "variable_1"
+    range_ = [-9, 12]
+    category = "category"
+
+    # Define masks
+    data_mask = df[category] == 8
+
+    background_categories = [0, 1, 2]
+    background_categories_labels = [f"c{i}" for i in background_categories]
+    background_categories_colors = get_color_palette(
+        "cubehelix", len(background_categories)
+    )
+
+    background_masks = [df[category] == p for p in background_categories]
+
+    # Make histograms
+    data_hist = make_hist(df[key][data_mask], bins=50, range=range_, weights=1)
+    background_hists = [
+        make_hist(df[key][mask], bins=50, range=range_, weights=1)
+        for mask in background_masks
+    ]
+
+    gs_ref = gridspec.GridSpec(2, 1, figure=fig_ref, height_ratios=[4, 1])
+    gs_test = gridspec.GridSpec(2, 1, figure=fig_test, height_ratios=[4, 1])
+
+    axes_ref = []
+    axes_test = []
+
+    for i in range(2):
+        axes_ref.append(fig_ref.add_subplot(gs_ref[i]))
+        axes_test.append(fig_test.add_subplot(gs_test[i]))
+
+    fig_ref, _, _ = plot_data_model_comparison(
+        data_hist=data_hist,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        xlabel=f"${key}\,\,[TeV/c^2]$",
+        ylabel="Candidates per 0.42 $TeV/c^2$",
+        comparison="pull",
+        fig=fig_ref,
+        ax_main=axes_ref[0],
+        ax_comparison=axes_ref[1],
+    )
+    fig_test, _, _ = plot_data_model_comparison(
+        data_hist=data_hist,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        xlabel=f"${key}\,\,[TeV/c^2]$",
+        ylabel="Candidates per 0.42 $TeV/c^2$",
+        comparison="pull",
+        fig=fig_test,
+        ax_main=axes_test[0],
+        ax_comparison=axes_test[1],
+    )
+
+    fig_ref.tight_layout()
+    fig_test.tight_layout()

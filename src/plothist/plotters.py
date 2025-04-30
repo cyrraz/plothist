@@ -22,6 +22,7 @@ from plothist.histogramming import (
     EnhancedNumPyPlottableHistogram,
     _check_counting_histogram,
     _make_hist_from_function,
+    make_plottable_histogram,
 )
 from plothist.plothist_style import set_fitting_ylabel_fontsize
 
@@ -1053,6 +1054,18 @@ def plot_data_model_comparison(
         unstacked_components = []
     if stacked_components is None:
         stacked_components = []
+
+    # Convert input histograms to plottable histograms.
+    # If the input is a function, it is left unchanged.
+    data_hist = make_plottable_histogram(data_hist)
+    stacked_components = [
+        make_plottable_histogram(component) if not callable(component) else component
+        for component in stacked_components
+    ]
+    unstacked_components = [
+        make_plottable_histogram(component) if not callable(component) else component
+        for component in unstacked_components
+    ]
 
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
     stacked_kwargs = stacked_kwargs.copy()
