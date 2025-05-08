@@ -157,8 +157,98 @@ def test_pyroot_to_uproot_histogram_input(fig_test, fig_ref, sample_data):
     plot_hist(h_uproot, ax=ax_test)
 
 
+def test_data_model_comparison_simple_run(sample_data):
+    df = sample_data
+
+    # Define the histograms
+
+    key = "variable_1"
+    range_ = [-9, 12]
+    category = "category"
+    bins = 50
+
+    # Define masks
+    data_mask = df[category] == 8
+
+    background_categories = [0, 1, 2, 3, 4]
+    background_categories_labels = [
+        "ROOT",
+        "Uproot",
+        "Hist",
+        "boost_histogram",
+        "NumPy",
+    ]
+    background_categories_colors = get_color_palette(
+        "cubehelix", len(background_categories)
+    )
+
+    background_masks = {
+        label: df[category] == p
+        for p, label in zip(background_categories, background_categories_labels)
+    }
+
+    # Make histograms
+
+    # Data histogram
+    arbitrary_factor_for_a_nicer_figure = 4
+    h_data = make_hist(
+        np.repeat(df[key][data_mask], arbitrary_factor_for_a_nicer_figure),
+        bins=bins,
+        range=range_,
+        weights=1,
+    )
+
+    # ROOT
+    h_root = ROOT.TH1F("h", "h", bins, range_[0], range_[1])
+    for val in df[key][background_masks["ROOT"]]:
+        h_root.Fill(val)
+
+    # Uproot
+    h_uproot = ROOT.TH1F("h", "h", bins, range_[0], range_[1])
+    h_uproot.SetDirectory(0)  # Prevent ROOT from tracking this object globally
+    for val in df[key][background_masks["Uproot"]]:
+        h_uproot.Fill(val)
+    h_uproot = uproot.pyroot.from_pyroot(h_uproot)
+
+    # Hist
+    h_hist = hist.Hist.new.Reg(bins, range_[0], range_[1]).Double()
+    h_hist.fill(df[key][background_masks["Hist"]])
+
+    # boost_histogram
+    h_boost_histogram = bh.Histogram(bh.axis.Regular(bins, range_[0], range_[1]))
+    h_boost_histogram.fill(df[key][background_masks["boost_histogram"]])
+
+    # NumPy
+    h_numpy = np.histogram(
+        df[key][background_masks["NumPy"]],
+        bins=bins,
+        range=range_,
+    )
+
+    background_hists = {
+        "ROOT": h_root,
+        "Uproot": h_uproot,
+        "Hist": h_hist,
+        "boost_histogram": h_boost_histogram,
+        "NumPy": h_numpy,
+    }
+
+    fig, _, _ = plot_data_model_comparison(
+        data_hist=h_data,
+        stacked_components=[background_hists[k] for k in background_categories_labels],
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        xlabel="Dummy variable",
+        ylabel="Entries",
+        comparison="pull",
+        comparison_ylim=(-20, 20),
+    )
+
+    fig.savefig("test_data_model_comparison_diverse_inputs.pdf", bbox_inches="tight")
+
+
 @check_figures_equal(extensions=["png"])
-def test_data_model_comparison(fig_test, fig_ref, sample_data):
+def test_data_model_comparison_figure_equal(fig_test, fig_ref, sample_data):
     df = sample_data
 
     # Define the histograms

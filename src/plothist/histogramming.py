@@ -28,6 +28,8 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
 
     def __init__(self, hist, *bins, variances=None, kind=Kind.COUNT):
         super().__init__(hist, *bins, variances=variances, kind=kind)
+        if isinstance(self._variances, np.ndarray) and self._variances.ndim == 0:
+            self._variances = None
 
     def __add__(self, other):
         if not isinstance(other, EnhancedNumPyPlottableHistogram):
@@ -44,6 +46,10 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
         added_variances = None
         if self._variances is not None and other._variances is not None:
             added_variances = self._variances + other._variances
+        elif self._variances is not None and other._variances is None:
+            added_variances = self._variances
+        elif self._variances is None and other._variances is not None:
+            added_variances = other._variances
         return EnhancedNumPyPlottableHistogram(
             added_values, self.axes[0].edges, variances=added_variances, kind=self.kind
         )
