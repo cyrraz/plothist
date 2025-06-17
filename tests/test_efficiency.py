@@ -54,7 +54,7 @@ def test_efficiency_weighted_histograms() -> None:
     assert str(err.value) == error_msg
 
 
-def simple_efficiency_uncertainty(total, sample) -> None:
+def simple_efficiency_uncertainty(total, sample) -> float:
     """
     Calculate the uncertainty of the efficiency of a sample, derived from the Binomial Statistics.
     """
