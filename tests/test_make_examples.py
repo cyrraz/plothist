@@ -3,7 +3,7 @@ from __future__ import annotations
 from plothist.scripts import make_examples
 
 
-def test_make_examples():
+def test_make_examples() -> None:
     """
     Test make_examples.
     """

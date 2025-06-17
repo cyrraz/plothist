@@ -6,7 +6,7 @@ from pytest import approx, raises
 from plothist import get_comparison, make_hist
 
 
-def test_difference_weighted_histograms():
+def test_difference_weighted_histograms() -> None:
     """
     Test weighted histograms error.
     """
@@ -28,7 +28,7 @@ def test_difference_weighted_histograms():
     )
 
 
-def test_difference_simple_values():
+def test_difference_simple_values() -> None:
     """
     Test difference with simple values.
     """
@@ -51,7 +51,7 @@ def test_difference_simple_values():
     assert approx(low_uncertainty) == np.array([13.104772168594577])
 
 
-def test_difference_complex_values():
+def test_difference_complex_values() -> None:
     """
     Test difference with random values.
     """

@@ -15,7 +15,9 @@ _matplotlib_version = "3.10.0"
 _numpy_version = "2.0.0"
 
 
-def make_examples(no_input=False, check_svg=False, print_code=False):
+def make_examples(
+    no_input: bool = False, check_svg: bool = False, print_code: bool = False
+) -> int | None:
     """
     This function can redo automatically all the examples from the documentation. Only works with python 3.9 or higher.
 
@@ -52,11 +54,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
         )
         return 1
 
-    plothist_folder = (
-        plothist.__path__[0]
-        if os.environ.get("PLOTHIST_PATH") is None
-        else os.environ.get("PLOTHIST_PATH")
-    )
+    plothist_folder = os.environ.get("PLOTHIST_PATH") or plothist.__path__[0]
 
     example_folder = plothist_folder + "/../../docs/examples"
     img_folder = plothist_folder + "/../../docs/img"
@@ -116,7 +114,7 @@ def make_examples(no_input=False, check_svg=False, print_code=False):
     metadata_file = (
         resources.files("plothist_utils") / "metadata" / ".svg_metadata.yaml"
     )
-    with open(metadata_file) as f:
+    with open(str(metadata_file)) as f:
         svg_metadata = yaml.safe_load(f)
 
     svg_metadata = "metadata=" + str(svg_metadata)

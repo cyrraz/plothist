@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def set_style(style="default"):
+def set_style(style: str = "default") -> None:
     """
     Set the plothist style.
 
@@ -39,15 +39,15 @@ def set_style(style="default"):
 
 
 def cubehelix_palette(
-    ncolors=7,
-    start=1.5,
-    rotation=1.5,
-    gamma=1.0,
-    hue=0.8,
-    lightest=0.8,
-    darkest=0.3,
-    reverse=True,
-):
+    ncolors: int = 7,
+    start: float = 1.5,
+    rotation: float = 1.5,
+    gamma: float = 1.0,
+    hue: float = 0.8,
+    lightest: float = 0.8,
+    darkest: float = 0.3,
+    reverse: bool = True,
+) -> list[tuple[float, float, float]]:
     """
     Make a sequential palette from the cubehelix system, in which the perceived brightness is linearly increasing.
     This code is adapted from seaborn, which implements equation (2) of reference [1] below.
@@ -75,9 +75,8 @@ def cubehelix_palette(
 
     Returns
     -------
-    list of RGB tuples
+    list[tuple[float, float, float]]
         The generated palette of colors represented as a list of RGB tuples.
-
 
     References
     ----------
@@ -119,7 +118,9 @@ def cubehelix_palette(
     return pal
 
 
-def get_color_palette(cmap, N):
+def get_color_palette(
+    cmap: str, N: int
+) -> list[str] | list[tuple[float, float, float]]:
     """
     Get N different colors from a chosen colormap.
 
@@ -132,8 +133,9 @@ def get_color_palette(cmap, N):
 
     Returns
     -------
-    list
-        A list of RGB color tuples sampled from the colormap.
+    list[str] or list[tuple[float, float, float]]
+        A list of colors. If "ggplot" is selected, returns a list of hex color strings.
+        Otherwise, returns a list of RGB color tuples.
 
     References
     ----------
@@ -174,7 +176,7 @@ def get_color_palette(cmap, N):
     return plt_cmap(np.linspace(0, 1, N))
 
 
-def set_fitting_ylabel_fontsize(ax):
+def set_fitting_ylabel_fontsize(ax: mpl.axes.Axes) -> float:
     """
     Get the suitable font size for a ylabel text that fits within the plot's y-axis limits.
 
@@ -214,14 +216,14 @@ def set_fitting_ylabel_fontsize(ax):
 
 
 def add_text(
-    text,
-    x="left",
-    y="top",
-    fontsize=12,
-    white_background=False,
-    ax=None,
+    text: str,
+    x: float | str = "left",
+    y: float | str = "top",
+    fontsize: int = 12,
+    white_background: bool = False,
+    ax: mpl.axes.Axes | None = None,
     **kwargs,
-):
+) -> None:
     """
     Add text to an axis.
 
@@ -229,9 +231,9 @@ def add_text(
     ----------
     text : str
         The text to add.
-    x : float, optional
+    x : float | str, optional
         Horizontal position of the text in unit of the normalized x-axis length. The default is value "left", which is an alias for 0.0. Other aliases are "right", "left_in", "right_in", "right_out".
-    y : float, optional
+    y : float | str, optional
         Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01. Other aliases are "top_in", "bottom_in", "top_out"="top", "bottom_out"="bottom".
     fontsize : int, optional
         Font size, by default 12.
@@ -279,14 +281,16 @@ def add_text(
     }
 
     if isinstance(x, str):
-        x = x_values.get(x)
-        if x is None:
-            raise ValueError(f"{x} not a float or a valid position")
+        resolved_x = x_values.get(x)
+        if resolved_x is None:
+            raise ValueError(f"{x} is not a valid x position")
+        x = resolved_x
 
     if isinstance(y, str):
-        y = y_values.get(y)
-        if y is None:
-            raise ValueError(f"{y} not a float or a valid position")
+        resolved_y = y_values.get(y)
+        if resolved_y is None:
+            raise ValueError(f"{y} is not a valid y position")
+        y = resolved_y
 
     t = ax.text(
         x,
@@ -303,19 +307,19 @@ def add_text(
 
 
 def add_luminosity(
-    collaboration,
-    x="right",
-    y="top",
-    fontsize=12,
-    is_data=True,
-    lumi="",
-    lumi_unit="fb",
-    preliminary=False,
-    two_lines=False,
-    white_background=False,
-    ax=None,
+    collaboration: str,
+    x: float | str = "right",
+    y: float | str = "top",
+    fontsize: int = 12,
+    is_data: bool = True,
+    lumi: int | str = "",
+    lumi_unit: str = "fb",
+    preliminary: bool = False,
+    two_lines: bool = False,
+    white_background: bool = False,
+    ax: mpl.axes.Axes | None = None,
     **kwargs,
-):
+) -> None:
     """
     Add the collaboration name and the integrated luminosity (or "Simulation").
 
@@ -323,17 +327,17 @@ def add_luminosity(
     ----------
     collaboration : str
         Collaboration name.
-    x : float, optional
+    x : float | str, optional
         Horizontal position of the text in unit of the normalized x-axis length. The default is value "right", which is an alias for 1.0. Can take other aliases such as "left", "left_in", "right_in", "right_out".
-    y : float, optional
+    y : float | str, optional
         Vertical position of the text in unit of the normalized y-axis length. The default is value "top", which is an alias for 1.01. Can take other aliases such as "top_in", "bottom_in", "top_out"="top", "bottom_out"="bottom".
     fontsize : int, optional
         Font size, by default 12.
     is_data : bool, optional
         If True, plot integrated luminosity. If False, plot "Simulation", by default True.
-    lumi : int/string, optional
+    lumi : int | str, optional
         Integrated luminosity. If empty, do not plot luminosity. Default value is empty.
-    lumi_unit : string, optional
+    lumi_unit : str, optional
         Integrated luminosity unit. Default value is fb. The exponent is automatically -1.
     preliminary : bool, optional
         If True, print "preliminary", by default False.
@@ -383,7 +387,7 @@ def add_luminosity(
     )
 
 
-def plot_reordered_legend(ax, order, **kwargs):
+def plot_reordered_legend(ax: mpl.axes.Axes, order: list[int], **kwargs) -> None:
     """
     Reorder the legend handlers and labels on the given Matplotlib axis based
     on the specified order and plot the reordered legend.
@@ -392,7 +396,7 @@ def plot_reordered_legend(ax, order, **kwargs):
     ----------
     ax : matplotlib.axes.Axes
         The Matplotlib Axes object on which the legend is to be reordered.
-    order : list of int
+    order : list[int]
         A list of integers specifying the new order of the legend items.
         The integers refer to the indices of the current legend items.
     kwargs : dict, optional
@@ -418,7 +422,6 @@ def plot_reordered_legend(ax, order, **kwargs):
     To reorder the legend so that 'Line 2' comes first, use:
 
     >>> plot_reordered_legend(ax, [1, 0])
-
     """
 
     # Extract the original handlers and labels

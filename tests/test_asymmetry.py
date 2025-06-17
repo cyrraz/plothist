@@ -6,7 +6,7 @@ from pytest import approx
 from plothist import get_comparison, make_hist
 
 
-def test_asymmetry_simple_values():
+def test_asymmetry_simple_values() -> None:
     """
     Test asymmetry with simple values.
     """
@@ -22,7 +22,7 @@ def test_asymmetry_simple_values():
     assert approx(low_uncertainty) == high_uncertainty
 
 
-def test_asymmetry_complex_values():
+def test_asymmetry_complex_values() -> None:
     """
     Test asymmetry with random values.
     """

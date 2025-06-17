@@ -6,7 +6,7 @@ from pytest import approx, raises
 from plothist import get_comparison, make_hist
 
 
-def test_ratio_weighted_histograms():
+def test_ratio_weighted_histograms() -> None:
     """
     Test weighted histograms error.
     """
@@ -26,7 +26,7 @@ def test_ratio_weighted_histograms():
     )
 
 
-def test_ratio_simple_values():
+def test_ratio_simple_values() -> None:
     """
     Test ratio with simple values.
     """
@@ -49,7 +49,7 @@ def test_ratio_simple_values():
     assert approx(low_uncertainty) == np.array([0.04382563])
 
 
-def test_ratio_complex_values():
+def test_ratio_complex_values() -> None:
     """
     Test ratio with random values.
     """
@@ -138,7 +138,7 @@ def test_ratio_complex_values():
     )
 
 
-def test_split_ratio_simple_values():
+def test_split_ratio_simple_values() -> None:
     """
     Test split ratio with simple values.
     """
@@ -161,7 +161,7 @@ def test_split_ratio_simple_values():
     assert approx(low_uncertainty) == np.array([0.04266949759891313])
 
 
-def test_split_ratio_complex_values():
+def test_split_ratio_complex_values() -> None:
     """
     Test split ratio with random values.
     """

@@ -18,7 +18,7 @@ registry_path = "registry.yaml"
 variable_keys = ["variable_0", "variable_1", "variable_2"]
 
 
-def test_variable_registry_warning():
+def test_variable_registry_warning() -> None:
     """
     Test variable registry creation.
     """
@@ -30,7 +30,7 @@ def test_variable_registry_warning():
     assert str(err.value) == "Did you forgot to run create_variable_registry()?"
 
 
-def test_variable_registry_creation():
+def test_variable_registry_creation() -> None:
     """
     Test variable registry creation.
     """
@@ -50,7 +50,7 @@ def test_variable_registry_creation():
         fail("test.yaml not created.")
 
 
-def test_variable_registry_info():
+def test_variable_registry_info() -> None:
     """
     Test variable registry information.
     """
@@ -98,7 +98,7 @@ def test_variable_registry_info():
         assert registry == {"text": "test"}
 
 
-def test_update_variable_registry_ranges():
+def test_update_variable_registry_ranges() -> None:
     """
     Test variable registry range update.
     """
@@ -218,7 +218,7 @@ def test_update_variable_registry_ranges():
     assert registry["range"] == [-1, 1]
 
 
-def test_updating_variable_registry():
+def test_updating_variable_registry() -> None:
     """
     Test variable registry update.
     """

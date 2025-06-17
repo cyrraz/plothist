@@ -7,7 +7,7 @@ from pytest import warns
 from plothist import create_axis, make_2d_hist, make_hist
 
 
-def test_make_hist():
+def test_make_hist() -> None:
     """
     Test make_hist() function.
     """
@@ -20,7 +20,7 @@ def test_make_hist():
     assert h[-1].value == 1
 
 
-def test_upper_edge_inclusive():
+def test_upper_edge_inclusive() -> None:
     """
     Check that upper edge of last bin is inclusive by default.
     This comes from the fact that make_hist() turns off the underflow and overflow bins by default.
@@ -38,7 +38,7 @@ def test_upper_edge_inclusive():
         assert np.array_equal(h.values(), expected)
 
 
-def test_upper_edge_exclusive():
+def test_upper_edge_exclusive() -> None:
     """
     Check that upper edge of last bin is exclusive when overflow=True.
     """
@@ -80,7 +80,10 @@ def test_upper_edge_exclusive():
         assert np.array_equal(h.values(), expected)
 
 
-def test_range_coverage_warning():
+def test_range_coverage_warning() -> None:
+    """
+    Test that a warning is raised when to much data is outside the binning range.
+    """
     warn_message = r"Only 80.00% of data contained in the binning range [0.0, 5.0]."
 
     with warns(Warning) as warn_info:
