@@ -201,7 +201,7 @@ def plot_function(
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
     stacked : bool, optional
-        Whether to use ax.stackplot() to plot the function(s) as a stacked plot.
+        Whether to use ax.stackplot() to plot the function(s) as a stacked plot. Default is False.
     npoints : int, optional
         The number of points to use for plotting. Default is 1000.
     **kwargs
@@ -245,7 +245,7 @@ def plot_2d_hist_with_projections(
     pcolormesh_kwargs: dict | None = None,
     colorbar_kwargs: dict | None = None,
     plot_hist_kwargs: dict | None = None,
-    figsize: tuple[int, int] = (6, 6),
+    figsize: tuple[float, float] = (6, 6),
 ) -> tuple[plt.Figure, plt.Axes, plt.Axes, plt.Axes, plt.Axes]:
     """
     Plot a 2D histogram with projections on the x and y axes.
@@ -272,7 +272,7 @@ def plot_2d_hist_with_projections(
         Keyword arguments for the colorbar call. Default is None.
     plot_hist_kwargs : dict | None, optional
         Keyword arguments for the plot_hist call (x and y projections). Default is None.
-    figsize : tuple[int, int], optional
+    figsize : tuple[float, float], optional
         Figure size in inches. Default is (6, 6). To get square bins if the figure is not square shaped, be sure to set the bins and the ranges of the histogram according to the ratio of the figure width and height.
 
     Returns
@@ -393,7 +393,7 @@ def plot_error_hist(
         In the case of a mean histogram, only symmetrical uncertainties are supported and correspond to the standard deviation of the sample and not to a Poisson standard deviation (see :ref:`basics-1d_hist_profile_plot-label`).
 
     density : bool, optional
-        Whether to normalize the histogram to unit area.
+        Whether to normalize the histogram to unit area. Default is False.
     **kwargs
         Additional keyword arguments forwarded to ax.errorbar().
     """

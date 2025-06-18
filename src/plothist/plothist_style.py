@@ -176,7 +176,7 @@ def get_color_palette(
     return plt_cmap(np.linspace(0, 1, N))
 
 
-def set_fitting_ylabel_fontsize(ax: mpl.axes.Axes) -> float:
+def set_fitting_ylabel_fontsize(ax: plt.Axes) -> float:
     """
     Get the suitable font size for a ylabel text that fits within the plot's y-axis limits.
 
@@ -221,7 +221,7 @@ def add_text(
     y: float | str = "top",
     fontsize: int = 12,
     white_background: bool = False,
-    ax: mpl.axes.Axes | None = None,
+    ax: plt.Axes | None = None,
     **kwargs,
 ) -> None:
     """
@@ -317,7 +317,7 @@ def add_luminosity(
     preliminary: bool = False,
     two_lines: bool = False,
     white_background: bool = False,
-    ax: mpl.axes.Axes | None = None,
+    ax: plt.Axes | None = None,
     **kwargs,
 ) -> None:
     """
@@ -387,7 +387,7 @@ def add_luminosity(
     )
 
 
-def plot_reordered_legend(ax: mpl.axes.Axes, order: list[int], **kwargs) -> None:
+def plot_reordered_legend(ax: plt.Axes, order: list[int], **kwargs) -> None:
     """
     Reorder the legend handlers and labels on the given Matplotlib axis based
     on the specified order and plot the reordered legend.
