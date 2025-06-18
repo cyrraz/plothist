@@ -31,7 +31,7 @@ def create_axis(
     bins : int or list[float]
         The number of bins or bin edges for the axis.
     range : None or tuple[float | str, float | str], optional
-        The range of the axis. If None, it will be determined based on the data.
+        The range of the axis. If None, it will be determined based on the data. Default is None.
     data : list[float] or np.ndarray, optional
         The input data for determining the axis range. Default is None.
     overflow : bool, optional

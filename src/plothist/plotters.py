@@ -116,15 +116,15 @@ def plot_2d_hist(
     hist : boost_histogram.Histogram
         The 2D histogram to plot.
     fig : matplotlib.figure.Figure | None, optional
-        The Figure instance for plotting. If fig, ax and ax_colorbar are None, a new figure will be created.
+        The Figure instance for plotting. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
     ax : matplotlib.axes.Axes | None, optional
-        The Axes instance for plotting.
+        The Axes instance for plotting. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
     ax_colorbar : matplotlib.axes.Axes | None, optional
-        The Axes instance for the colorbar.
+        The Axes instance for the colorbar. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
     pcolormesh_kwargs : dict | None, optional
-        Additional keyword arguments forwarded to ax.pcolormesh().
+        Additional keyword arguments forwarded to ax.pcolormesh(). Default is None.
     colorbar_kwargs : dict | None, optional
-        Additional keyword arguments forwarded to ax.get_figure().colorbar().
+        Additional keyword arguments forwarded to ax.get_figure().colorbar(). Default is None.
     square_ax : bool, optional
         Whether to make the main ax square. Default is True.
     """
@@ -255,23 +255,23 @@ def plot_2d_hist_with_projections(
     hist : boost_histogram.Histogram
         The 2D histogram to plot.
     xlabel : str | None, optional
-        Label for the x axis.
+        Label for the x axis. Default is None.
     ylabel : str | None, optional
-        Label for the y axis.
+        Label for the y axis. Default is None.
     ylabel_x_projection : str | None, optional
-        Label for the y axis of the x projection.
+        Label for the y axis of the x projection. Default is None.
     xlabel_y_projection : str | None, optional
-        Label for the x axis of the y projection.
+        Label for the x axis of the y projection. Default is None.
     colorbar_label : str | None, optional
-        Label for the colorbar.
+        Label for the colorbar. Default is None.
     offset_x_labels : bool, optional
         Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
     pcolormesh_kwargs : dict | None, optional
-        Keyword arguments for the pcolormesh call.
+        Keyword arguments for the pcolormesh call. Default is None.
     colorbar_kwargs : dict | None, optional
-        Keyword arguments for the colorbar call.
+        Keyword arguments for the colorbar call. Default is None.
     plot_hist_kwargs : dict | None, optional
-        Keyword arguments for the plot_hist call (x and y projections).
+        Keyword arguments for the plot_hist call (x and y projections). Default is None.
     figsize : tuple[int, int], optional
         Figure size in inches. Default is (6, 6). To get square bins if the figure is not square shaped, be sure to set the bins and the ranges of the histogram according to the ratio of the figure width and height.
 
@@ -386,7 +386,7 @@ def plot_error_hist(
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
     uncertainty_type : str, optional
-        Type of bin uncertainty to use: "symmetrical" or "asymmetrical".
+        What kind of bin uncertainty to use for hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
         Asymmetrical uncertainties can only be computed for an unweighted histogram, because the bin contents of a weighted histogram do not follow a Poisson distribution.
         More information in :ref:`documentation-statistics-label`.
         The uncertainties are overwritten if the keyword argument yerr is provided.
@@ -471,19 +471,19 @@ def plot_two_hist_comparison(
     h2 : boost_histogram.Histogram
         The second histogram to compare.
     xlabel : str | None, optional
-        The label for the x-axis.
+        The label for the x-axis. Default is None.
     ylabel : str | None, optional
-        The label for the y-axis.
+        The label for the y-axis. Default is None.
     h1_label : str, optional
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
     fig : matplotlib.figure.Figure | None, optional
-        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created.
+        The figure to use for the plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes | None, optional
-        The main axes for the histogram comparison.
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes | None, optional
-        The axes for the comparison plot.
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
     **comparison_kwargs : optional
         Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details).
 
@@ -562,7 +562,7 @@ def plot_comparison(
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
     xlabel : str | None, optional
-        The label for the x-axis.
+        The label for the x-axis. Default is None.
     h1_label : str, optional
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
@@ -571,9 +571,9 @@ def plot_comparison(
         The type of comparison to plot ("ratio", "split_ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry"). Default is "ratio".
         When the `split_ratio` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents, and the h2 adjusted uncertainties are shown separately as a hatched area.
     comparison_ylabel : str | None, optional
-        The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
+        The label for the y-axis. If None, the label is the explicit formula used to compute the comparison plot. Default is None.
     comparison_ylim : tuple[float, float] | None, optional
-        The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
+        The y-axis limits for the comparison plot. If None, standard y-axis limits are setup. Default is None.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
         Asymmetrical uncertainties are not supported for the asymmetry and efficiency comparisons.
@@ -706,7 +706,7 @@ def savefig(
     path : str
         The output file path where the figure will be saved.
     new_figsize : tuple[float, float] | None, optional
-        The new figsize as a (width, height) tuple. If None, the original figsize is preserved.
+        The new figsize as a (width, height) tuple. If None, the original figsize is preserved. Default is None.
 
     Returns
     -------
@@ -842,15 +842,15 @@ def plot_model(
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is None. If None is provided, this is set to {"show": True, "label": "Model", "color": "navy"}.
     function_range : tuple[float, float] | None, optional (mandatory if the model is made of functions)
-        The range for the x-axis if the model is made of functions.
+        The range for the x-axis if the model is made of functions. Default is None.
     model_uncertainty : bool, optional
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
         The label for the model uncertainties. Default is "Model stat. unc.".
     fig : matplotlib.figure.Figure | None, optional
-        The Figure object to use for the plot. Create a new one if none is provided.
+        The Figure object to use for the plot. If fig and ax are all None, a new figure will be created. Default is None.
     ax : matplotlib.axes.Axes | None, optional
-        The Axes object to use for the plot. Create a new one if none is provided.
+        The Axes object to use for the plot. If fig and ax are all None, a new figure will be created. Default is None.
 
     Returns
     -------
@@ -1074,15 +1074,16 @@ def plot_data_model_comparison(
     data_uncertainty_type : str, optional
         What kind of bin uncertainty to use for data_hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "asymmetrical".
     fig : matplotlib.figure.Figure | None, optional
-        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
+        The figure to use for the plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
     ax_main : matplotlib.axes.Axes | None, optional
-        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
     ax_comparison : matplotlib.axes.Axes | None, optional
-        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
     plot_only : str | None, optional
         If "ax_main" or "ax_comparison", only the main or comparison axis is plotted on the figure. Both axes are plotted if None is specified, which is the default. This can only be used when fig, ax_main and ax_comparison are not provided by the user.
     **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="split_ratio".
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details).
+        If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="split_ratio".
 
     Returns
     -------

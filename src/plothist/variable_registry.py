@@ -81,7 +81,7 @@ def create_variable_registry(
         variable name in data.
     bins : int
         Number of bins, default is 50.
-    range: list[float]
+    range: tuple[float, float]
         Range of the variables, default is [min, max] of the data.
     label : str
         Label to display, default is variable name. Latex supported by surrounding the label with $label$.
