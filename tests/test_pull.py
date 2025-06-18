@@ -6,7 +6,7 @@ from pytest import approx, raises
 from plothist import get_comparison, make_hist
 
 
-def test_pull_weighted_histograms():
+def test_pull_weighted_histograms() -> None:
     """
     Test weighted histograms error.
     """
@@ -26,7 +26,7 @@ def test_pull_weighted_histograms():
     )
 
 
-def test_pull_simple_values():
+def test_pull_simple_values() -> None:
     """
     Test pull with simple values.
     """
@@ -49,7 +49,7 @@ def test_pull_simple_values():
     assert approx(low_uncertainty) == high_uncertainty
 
 
-def test_pull_complex_values():
+def test_pull_complex_values() -> None:
     """
     Test pull with random values.
     """

@@ -4,7 +4,7 @@ import numpy as np
 from plothist_utils import get_dummy_data
 
 
-def test_get_data():
+def test_get_data() -> None:
     """
     Test get dummy data.
     """

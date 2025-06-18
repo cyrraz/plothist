@@ -6,7 +6,7 @@ from pytest import fail
 import plothist  # NOQA: F401
 
 
-def test_fonts():
+def test_fonts() -> None:
     """
     Test fonts.
     """

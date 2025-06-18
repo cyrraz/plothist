@@ -13,7 +13,7 @@ import yaml
 from plothist.histogramming import create_axis
 
 
-def _check_if_variable_registry_exists(path):
+def _check_if_variable_registry_exists(path: str) -> None:
     """
     Check if the variable registry file exists at the specified path.
 
@@ -35,13 +35,15 @@ def _check_if_variable_registry_exists(path):
         raise RuntimeError("Did you forgot to run create_variable_registry()?")
 
 
-def _save_variable_registry(variable_registry, path="./variable_registry.yaml"):
+def _save_variable_registry(
+    variable_registry: dict[str, dict], path: str = "./variable_registry.yaml"
+) -> None:
     """
     Save the variable registry to a yaml file.
 
     Parameters
     ----------
-    variable_registry : dict
+    variable_registry : dict[str, dict]
         The variable registry to save.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
@@ -58,8 +60,11 @@ def _save_variable_registry(variable_registry, path="./variable_registry.yaml"):
 
 
 def create_variable_registry(
-    variable_keys, path="./variable_registry.yaml", custom_dict=None, reset=False
-):
+    variable_keys: list[str],
+    path: str = "./variable_registry.yaml",
+    custom_dict: dict | None = None,
+    reset: bool = False,
+) -> None:
     """
     Create the variable registry yaml file given a list of variable keys.
     It stores all the plotting information for each variable.
@@ -76,7 +81,7 @@ def create_variable_registry(
         variable name in data.
     bins : int
         Number of bins, default is 50.
-    range: list of two float
+    range: tuple[float, float]
         Range of the variables, default is [min, max] of the data.
     label : str
         Label to display, default is variable name. Latex supported by surrounding the label with $label$.
@@ -93,7 +98,7 @@ def create_variable_registry(
 
     Parameters
     ----------
-    variable_keys : list
+    variable_keys : list[str]
         A list of variable keys to be registered.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
@@ -101,8 +106,6 @@ def create_variable_registry(
         A dictionary containing the plotting information for the variables. Default dictionary is the one described above.
     reset : bool, optional
         If True, the registry will be reset to default values for all variable keys (default is False).
-
-
     """
 
     if not os.path.exists(path):
@@ -137,7 +140,9 @@ def create_variable_registry(
     _save_variable_registry(variable_registry, path=path)
 
 
-def get_variable_from_registry(variable_key, path="./variable_registry.yaml"):
+def get_variable_from_registry(
+    variable_key: str, path: str = "./variable_registry.yaml"
+) -> dict:
     """
     This function retrieves the parameter information for a variable from the variable registry file specified by the 'path' parameter.
     It loads the variable registry file and returns the dictionary entry corresponding to the specified variable name.
@@ -167,8 +172,11 @@ def get_variable_from_registry(variable_key, path="./variable_registry.yaml"):
 
 
 def update_variable_registry(
-    dictionary, variable_keys=None, path="./variable_registry.yaml", overwrite=False
-):
+    dictionary: dict,
+    variable_keys: list[str] | None = None,
+    path: str = "./variable_registry.yaml",
+    overwrite: bool = False,
+) -> None:
     """
     Update the variable registry file with a dictionary. Each key in the provided dictionary will be added as parameters for each variable. If they are already in the variable information, they will be updated with the new values only if the overwrite flag is True.
 
@@ -176,7 +184,7 @@ def update_variable_registry(
     ----------
     dictionary : dict
         A dictionary containing the information to update the registry with.
-    variable_keys : list
+    variable_keys : list[str]
         A list of variable keys for which to update the registry. Default is None: all variables in the registry are updated.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
@@ -204,16 +212,18 @@ def update_variable_registry(
 
 
 def remove_variable_registry_parameters(
-    parameters, variable_keys=None, path="./variable_registry.yaml"
-):
+    parameters: list[str],
+    variable_keys: list[str] | None = None,
+    path: str = "./variable_registry.yaml",
+) -> None:
     """
     Remove the specified parameters from the variable registry file.
 
     Parameters
     ----------
-    parameters : list
+    parameters : list[str]
         A list of parameters to remove from the variable keys.
-    variable_keys : list
+    variable_keys : list[str]
         A list of variable keys for which to remove the specified parameters from the registry. Default is None: all variables in the registry are updated.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
@@ -245,10 +255,10 @@ def remove_variable_registry_parameters(
 
 def update_variable_registry_ranges(
     data,
-    variable_keys=None,
-    path="./variable_registry.yaml",
-    overwrite=False,
-):
+    variable_keys: list[str] | None = None,
+    path: str = "./variable_registry.yaml",
+    overwrite: bool = False,
+) -> None:
     """
     Update the range parameters for multiple variables in the variable registry file.
 
@@ -256,7 +266,7 @@ def update_variable_registry_ranges(
     ----------
     data : numpy.ndarray or pandas.DataFrame
         A dataset containing the data for the variables.
-    variable_keys : list
+    variable_keys : list[str]
         A list of variable keys for which to update the range parameters in the registry. The variable needs to have a bin and range properties in the registry. Default is None: all variables in the registry are updated.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
@@ -289,7 +299,7 @@ def update_variable_registry_ranges(
         range = ["min", "max"] if overwrite else variable["range"]
 
         if range == ["min", "max"]:
-            axis = create_axis(variable["bins"], range, data[variable["name"]])
+            axis = create_axis(variable["bins"], tuple(range), data[variable["name"]])
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
                     {"range": [float(axis.edges[0]), float(axis.edges[-1])]},

@@ -5,6 +5,7 @@ Collection of functions to plot histograms
 from __future__ import annotations
 
 import re
+from typing import Callable
 
 import boost_histogram as bh
 import matplotlib.pyplot as plt
@@ -22,34 +23,32 @@ from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
 def create_comparison_figure(
-    figsize=(6, 5),
-    nrows=2,
-    gridspec_kw=None,
-    hspace=0.15,
-):
+    figsize: tuple[float, float] = (6, 5),
+    nrows: int = 2,
+    gridspec_kw: dict | None = None,
+    hspace: float = 0.15,
+) -> tuple[plt.Figure, np.ndarray]:
     """
     Create a figure with subplots for comparison.
 
     Parameters
     ----------
-    figsize : tuple, optional
+    figsize : tuple[float, float], optional
         Figure size in inches. Default is (6, 5).
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
-    gridspec_kw : dict, optional
+    gridspec_kw : dict | None, optional
         Additional keyword arguments for the GridSpec. Default is None.
         If None is provided, this is set to {"height_ratios": [4, 1]}.
     hspace : float, optional
         Height spacing between subplots. Default is 0.15.
 
-
     Returns
     -------
     fig : matplotlib.figure.Figure
         The created figure.
-    axes : ndarray
+    axes : np.ndarray
         Array of Axes objects representing the subplots.
-
     """
     if gridspec_kw is None:
         gridspec_kw = {"height_ratios": [4, 1]}
@@ -66,13 +65,13 @@ def create_comparison_figure(
     return fig, axes
 
 
-def plot_hist(hist, ax, **kwargs):
+def plot_hist(hist: bh.Histogram | list[bh.Histogram], ax: plt.Axes, **kwargs) -> None:
     """
     Plot a histogram or a list of histograms from boost_histogram.
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram or list of boost_histogram.Histogram
+    hist : bh.Histogram | list[bh.Histogram]
         The histogram(s) to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
@@ -101,33 +100,33 @@ def plot_hist(hist, ax, **kwargs):
 
 
 def plot_2d_hist(
-    hist,
-    fig=None,
-    ax=None,
-    ax_colorbar=None,
-    pcolormesh_kwargs=None,
-    colorbar_kwargs=None,
-    square_ax=True,
-):
+    hist: bh.Histogram,
+    fig: plt.Figure | None = None,
+    ax: plt.Axes | None = None,
+    ax_colorbar: plt.Axes | None = None,
+    pcolormesh_kwargs: dict | None = None,
+    colorbar_kwargs: dict | None = None,
+    square_ax: bool = True,
+) -> tuple[plt.Figure, plt.Axes, plt.Axes]:
     """
     Plot a 2D histogram using a pcolormesh plot and add a colorbar.
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The 2D histogram to plot.
-    fig : matplotlib.figure.Figure, optional
-        The Figure instance for plotting. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
-    ax : matplotlib.axes.Axes, optional
-        The Axes instance for plotting. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
-    ax_colorbar : matplotlib.axes.Axes
-        The Axes instance for the colorbar. If fig, ax and ax_colorbar are None, a new figure will be created. Default is None.
-    pcolormesh_kwargs : dict, optional
+    fig : matplotlib.figure.Figure | None, optional
+        The Figure instance for plotting. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
+    ax : matplotlib.axes.Axes | None, optional
+        The Axes instance for plotting. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
+    ax_colorbar : matplotlib.axes.Axes | None, optional
+        The Axes instance for the colorbar. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
+    pcolormesh_kwargs : dict | None, optional
         Additional keyword arguments forwarded to ax.pcolormesh(). Default is None.
-    colorbar_kwargs : dict, optional
+    colorbar_kwargs : dict | None, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar(). Default is None.
     square_ax : bool, optional
-        Whether to make the main ax square (default is True).
+        Whether to make the main ax square. Default is True.
     """
     if colorbar_kwargs is None:
         colorbar_kwargs = {}
@@ -156,7 +155,7 @@ def plot_2d_hist(
     return fig, ax, ax_colorbar
 
 
-def _invert_collection_order(ax, n=0):
+def _invert_collection_order(ax: plt.Axes, n: int = 0) -> None:
     """
     Invert the order of the collection objects in an Axes instance.
 
@@ -166,7 +165,6 @@ def _invert_collection_order(ax, n=0):
         The Axes instance for plotting.
     n : int, optional
         The number of collections to keep in the original order. Default is 0.
-
     """
     # Retrieve the list of collection objects
     collections = list(ax.collections)
@@ -183,17 +181,23 @@ def _invert_collection_order(ax, n=0):
         ax.add_collection(collection)
 
 
-def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
+def plot_function(
+    func: Callable[[np.ndarray], np.ndarray] | list[Callable[[np.ndarray], np.ndarray]],
+    range: tuple[float, float],
+    ax: plt.Axes,
+    stacked: bool = False,
+    npoints: int = 1000,
+    **kwargs,
+) -> None:
     """
     Plot a 1D function on a given range.
 
     Parameters
     ----------
-    func : function or list of functions
-        The 1D function or list of functions to plot.
-        The function(s) should support vectorization (i.e. accept a numpy array as input).
-    range : tuple
-        The range of the function(s). The function(s) will be plotted on the interval [range[0], range[1]].
+    func : Callable[[np.ndarray], np.ndarray] | list[Callable[[np.ndarray], np.ndarray]]
+        The 1D function or list of functions to plot. Should support vectorization.
+    range : tuple[float, float]
+        The range of the function(s). Will be plotted on the interval [range[0], range[1]].
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
     stacked : bool, optional
@@ -231,43 +235,44 @@ def plot_function(func, range, ax, stacked=False, npoints=1000, **kwargs):
 
 
 def plot_2d_hist_with_projections(
-    hist,
-    xlabel=None,
-    ylabel=None,
-    ylabel_x_projection=None,
-    xlabel_y_projection=None,
-    colorbar_label=None,
-    offset_x_labels=False,
-    pcolormesh_kwargs=None,
-    colorbar_kwargs=None,
-    plot_hist_kwargs=None,
-    figsize=(6, 6),
-):
-    """Plot a 2D histogram with projections on the x and y axes.
+    hist: bh.Histogram,
+    xlabel: str | None = None,
+    ylabel: str | None = None,
+    ylabel_x_projection: str | None = None,
+    xlabel_y_projection: str | None = None,
+    colorbar_label: str | None = None,
+    offset_x_labels: bool = False,
+    pcolormesh_kwargs: dict | None = None,
+    colorbar_kwargs: dict | None = None,
+    plot_hist_kwargs: dict | None = None,
+    figsize: tuple[float, float] = (6, 6),
+) -> tuple[plt.Figure, plt.Axes, plt.Axes, plt.Axes, plt.Axes]:
+    """
+    Plot a 2D histogram with projections on the x and y axes.
 
     Parameters
     ----------
-    hist : 2D boost_histogram.Histogram
+    hist : bh.Histogram
         The 2D histogram to plot.
-    xlabel : str, optional
+    xlabel : str | None, optional
         Label for the x axis. Default is None.
-    ylabel : str, optional
+    ylabel : str | None, optional
         Label for the y axis. Default is None.
-    ylabel_x_projection : str, optional
+    ylabel_x_projection : str | None, optional
         Label for the y axis of the x projection. Default is None.
-    xlabel_y_projection : str, optional
+    xlabel_y_projection : str | None, optional
         Label for the x axis of the y projection. Default is None.
-    colorbar_label : str, optional
+    colorbar_label : str | None, optional
         Label for the colorbar. Default is None.
     offset_x_labels : bool, optional
         Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
-    pcolormesh_kwargs : dict, optional
+    pcolormesh_kwargs : dict | None, optional
         Keyword arguments for the pcolormesh call. Default is None.
-    colorbar_kwargs : dict, optional
+    colorbar_kwargs : dict | None, optional
         Keyword arguments for the colorbar call. Default is None.
-    plot_hist_kwargs : dict, optional
+    plot_hist_kwargs : dict | None, optional
         Keyword arguments for the plot_hist call (x and y projections). Default is None.
-    figsize : tuple, optional
+    figsize : tuple[float, float], optional
         Figure size in inches. Default is (6, 6). To get square bins if the figure is not square shaped, be sure to set the bins and the ranges of the histogram according to the ratio of the figure width and height.
 
     Returns
@@ -364,13 +369,19 @@ def plot_2d_hist_with_projections(
     return fig, ax_2d, ax_x_projection, ax_y_projection, ax_colorbar
 
 
-def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **kwargs):
+def plot_error_hist(
+    hist: bh.Histogram,
+    ax: plt.Axes,
+    uncertainty_type: str = "symmetrical",
+    density: bool = False,
+    **kwargs,
+) -> None:
     """
     Create an errorbar plot from a boost histogram.
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
@@ -407,13 +418,13 @@ def plot_error_hist(hist, ax, uncertainty_type="symmetrical", density=False, **k
     )
 
 
-def plot_hist_uncertainties(hist, ax, **kwargs):
+def plot_hist_uncertainties(hist: bh.Histogram, ax: plt.Axes, **kwargs) -> None:
     """
     Plot the symmetrical uncertainty, which is the Poisson standard deviation derived from the variance stored in the histogram, as a hatched area.
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram from which we want to plot the uncertainties.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
@@ -439,40 +450,40 @@ def plot_hist_uncertainties(hist, ax, **kwargs):
 
 
 def plot_two_hist_comparison(
-    h1,
-    h2,
-    xlabel=None,
-    ylabel=None,
-    h1_label="h1",
-    h2_label="h2",
-    fig=None,
-    ax_main=None,
-    ax_comparison=None,
+    h1: bh.Histogram,
+    h2: bh.Histogram,
+    xlabel: str | None = None,
+    ylabel: str | None = None,
+    h1_label: str = "h1",
+    h2_label: str = "h2",
+    fig: plt.Figure | None = None,
+    ax_main: plt.Axes | None = None,
+    ax_comparison: plt.Axes | None = None,
     **comparison_kwargs,
-):
+) -> tuple[plt.Figure, plt.Axes, plt.Axes]:
     """
     Compare two histograms.
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram to compare.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram to compare.
-    xlabel : str, optional
+    xlabel : str | None, optional
         The label for the x-axis. Default is None.
-    ylabel : str, optional
+    ylabel : str | None, optional
         The label for the y-axis. Default is None.
     h1_label : str, optional
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
         The label for the second histogram. Default is "h2".
-    fig : matplotlib.figure.Figure or None, optional
-        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
-    ax_main : matplotlib.axes.Axes or None, optional
-        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    ax_comparison : matplotlib.axes.Axes or None, optional
-        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
+    fig : matplotlib.figure.Figure | None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes | None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes | None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
     **comparison_kwargs : optional
         Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details).
 
@@ -527,16 +538,16 @@ def plot_two_hist_comparison(
 
 
 def plot_comparison(
-    h1,
-    h2,
-    ax,
-    xlabel="",
-    h1_label="h1",
-    h2_label="h2",
-    comparison="ratio",
-    comparison_ylabel=None,
-    comparison_ylim=None,
-    h1_uncertainty_type="symmetrical",
+    h1: bh.Histogram,
+    h2: bh.Histogram,
+    ax: plt.Axes,
+    xlabel: str | None = None,
+    h1_label: str = "h1",
+    h2_label: str = "h2",
+    comparison: str = "ratio",
+    comparison_ylabel: str | None = None,
+    comparison_ylim: tuple[float, float] | None = None,
+    h1_uncertainty_type: str = "symmetrical",
     **plot_hist_kwargs,
 ):
     """
@@ -544,14 +555,14 @@ def plot_comparison(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram for comparison.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram for comparison.
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
-    xlabel : str, optional
-        The label for the x-axis. Default is "".
+    xlabel : str | None, optional
+        The label for the x-axis. Default is None.
     h1_label : str, optional
         The label for the first histogram. Default is "h1".
     h2_label : str, optional
@@ -559,10 +570,10 @@ def plot_comparison(
     comparison : str, optional
         The type of comparison to plot ("ratio", "split_ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry"). Default is "ratio".
         When the `split_ratio` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents, and the h2 adjusted uncertainties are shown separately as a hatched area.
-    comparison_ylabel : str, optional
-        The label for the y-axis. Default is the explicit formula used to compute the comparison plot.
-    comparison_ylim : tuple or None, optional
-        The y-axis limits for the comparison plot. Default is None. If None, standard y-axis limits are setup.
+    comparison_ylabel : str | None, optional
+        The label for the y-axis. If None, the label is the explicit formula used to compute the comparison plot. Default is None.
+    comparison_ylim : tuple[float, float] | None, optional
+        The y-axis limits for the comparison plot. If None, standard y-axis limits are setup. Default is None.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
         Asymmetrical uncertainties are not supported for the asymmetry and efficiency comparisons.
@@ -577,7 +588,6 @@ def plot_comparison(
     See Also
     --------
     plot_two_hist_comparison : Compare two histograms and plot the comparison.
-
     """
 
     h1_label = _get_math_text(h1_label)
@@ -683,7 +693,9 @@ def plot_comparison(
     return ax
 
 
-def savefig(fig, path, new_figsize=None):
+def savefig(
+    fig: plt.Figure, path: str, new_figsize: tuple[float, float] | None = None
+) -> None:
     """
     Save a Matplotlib figure with consistent figsize, axes size and subplot spacing (experimental feature).
 
@@ -693,8 +705,8 @@ def savefig(fig, path, new_figsize=None):
         The Matplotlib figure to be saved.
     path : str
         The output file path where the figure will be saved.
-    new_figsize : tuple, optional
-        The new figsize as a (width, height) tuple. If None, the original figsize is preserved.
+    new_figsize : tuple[float, float] | None, optional
+        The new figsize as a (width, height) tuple. If None, the original figsize is preserved. Default is None.
 
     Returns
     -------
@@ -734,7 +746,7 @@ def savefig(fig, path, new_figsize=None):
     fig.savefig(path)
 
 
-def _get_math_text(text):
+def _get_math_text(text: str) -> str:
     """
     Search for text between $ and return it.
 
@@ -754,7 +766,7 @@ def _get_math_text(text):
     return text
 
 
-def _get_model_type(components):
+def _get_model_type(components: list) -> str:
     """
     Check that all components of a model are either all histograms or all functions
     and return the type of the model components.
@@ -782,64 +794,63 @@ def _get_model_type(components):
 
 
 def plot_model(
-    stacked_components=None,
-    stacked_labels=None,
-    stacked_colors=None,
-    unstacked_components=None,
-    unstacked_labels=None,
-    unstacked_colors=None,
-    xlabel=None,
-    ylabel=None,
-    stacked_kwargs=None,
-    unstacked_kwargs_list=None,
-    model_sum_kwargs=None,
-    function_range=None,
-    model_uncertainty=True,
-    model_uncertainty_label="Model stat. unc.",
-    fig=None,
-    ax=None,
-):
+    stacked_components: list[bh.Histogram] | None = None,
+    stacked_labels: list[str | None] | None = None,
+    stacked_colors: list[str | None] | None = None,
+    unstacked_components: list[bh.Histogram] | None = None,
+    unstacked_labels: list[str | None] | None = None,
+    unstacked_colors: list[str | None] | None = None,
+    xlabel: str | None = None,
+    ylabel: str | None = None,
+    stacked_kwargs: dict | None = None,
+    unstacked_kwargs_list: list[dict] | None = None,
+    model_sum_kwargs: dict | None = None,
+    function_range: tuple[float, float] | None = None,
+    model_uncertainty: bool = True,
+    model_uncertainty_label: str = "Model stat. unc.",
+    fig: plt.Figure | None = None,
+    ax: plt.Axes | None = None,
+) -> tuple[plt.Figure, plt.Axes]:
     """
     Plot model made of a collection of histograms.
 
     Parameters
     ----------
-    stacked_components : list of boost_histogram.Histogram, optional
+    stacked_components : list[bh.Histogram] | None, optional
         The list of histograms to be stacked composing the model. Default is None.
-    stacked_labels : list of str, optional
+    stacked_labels : list[str | None] | None, optional
         The labels of the model stacked components. Default is None.
-    stacked_colors : list of str, optional
+    stacked_colors : list[str | None] | None, optional
         The colors of the model stacked components. Default is None.
-    unstacked_components : list of boost_histogram.Histogram, optional
+    unstacked_components : list[bh.Histogram] | None, optional
         The list of histograms not to be stacked composing the model. Default is None.
-    unstacked_labels : list of str, optional
+    unstacked_labels : list[str | None] | None, optional
         The labels of the model unstacked components. Default is None.
-    unstacked_colors : list of str, optional
+    unstacked_colors : list[str | None] | None, optional
         The colors of the model unstacked components. Default is None.
-    xlabel : str, optional
+    xlabel : str | None, optional
         The label for the x-axis. Default is None.
-    ylabel : str, optional
+    ylabel : str | None, optional
         The label for the y-axis. Default is None.
-    stacked_kwargs : dict, optional
+    stacked_kwargs : dict | None, optional
         The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is None.
-    unstacked_kwargs_list : list of dict, optional
+    unstacked_kwargs_list : list[dict] | None, optional
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is None.
-    model_sum_kwargs : dict, optional
+    model_sum_kwargs : dict | None, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
         Default is None. If None is provided, this is set to {"show": True, "label": "Model", "color": "navy"}.
-    function_range : tuple, optional (mandatory if the model is made of functions)
-        The range for the x-axis if the model is made of functions.
+    function_range : tuple[float, float] | None, optional (mandatory if the model is made of functions)
+        The range for the x-axis if the model is made of functions. Default is None.
     model_uncertainty : bool, optional
         If False, set the model uncertainties to zeros. Default is True.
     model_uncertainty_label : str, optional
         The label for the model uncertainties. Default is "Model stat. unc.".
-    fig : matplotlib.figure.Figure or None, optional
-        The Figure object to use for the plot. Create a new one if none is provided.
-    ax : matplotlib.axes.Axes or None, optional
-        The Axes object to use for the plot. Create a new one if none is provided.
-
+    fig : matplotlib.figure.Figure | None, optional
+        The Figure object to use for the plot. If fig and ax are all None, a new figure will be created. Default is None.
+    ax : matplotlib.axes.Axes | None, optional
+        The Axes object to use for the plot. If fig and ax are all None, a new figure will be created. Default is None.
 
     Returns
     -------
@@ -847,8 +858,8 @@ def plot_model(
         The Figure object containing the plot.
     ax : matplotlib.axes.Axes
         The Axes object containing the plot.
-
     """
+
     if model_sum_kwargs is None:
         model_sum_kwargs = {"show": True, "label": "Model", "color": "navy"}
     if unstacked_kwargs_list is None:
@@ -1000,58 +1011,58 @@ def plot_model(
 
 
 def plot_data_model_comparison(
-    data_hist,
-    stacked_components=None,
-    stacked_labels=None,
-    stacked_colors=None,
-    unstacked_components=None,
-    unstacked_labels=None,
-    unstacked_colors=None,
-    xlabel=None,
-    ylabel=None,
-    data_label="Data",
-    stacked_kwargs=None,
-    unstacked_kwargs_list=None,
-    model_sum_kwargs=None,
-    model_uncertainty=True,
-    model_uncertainty_label="Model stat. unc.",
-    data_uncertainty_type="asymmetrical",
-    fig=None,
-    ax_main=None,
-    ax_comparison=None,
-    plot_only=None,
+    data_hist: bh.Histogram,
+    stacked_components: list[bh.Histogram] | None = None,
+    stacked_labels: list[str | None] | None = None,
+    stacked_colors: list[str | None] | None = None,
+    unstacked_components: list[bh.Histogram] | None = None,
+    unstacked_labels: list[str | None] | None = None,
+    unstacked_colors: list[str | None] | None = None,
+    xlabel: str | None = None,
+    ylabel: str | None = None,
+    data_label: str = "Data",
+    stacked_kwargs: dict | None = None,
+    unstacked_kwargs_list: list[dict] | None = None,
+    model_sum_kwargs: dict | None = None,
+    model_uncertainty: bool = True,
+    model_uncertainty_label: str = "Model stat. unc.",
+    data_uncertainty_type: str = "asymmetrical",
+    fig: plt.Figure | None = None,
+    ax_main: plt.Axes | None = None,
+    ax_comparison: plt.Axes | None = None,
+    plot_only: str | None = None,
     **comparison_kwargs,
-):
+) -> tuple[plt.Figure, plt.Axes, plt.Axes]:
     """
     Compare data to model. The data uncertainties are computed using the Poisson confidence interval.
 
     Parameters
     ----------
-    data_hist : boost_histogram.Histogram
+    data_hist : bh.Histogram
         The histogram for the data.
-    stacked_components : list of boost_histogram.Histogram, optional
+    stacked_components : list[bh.Histogram] | None, optional
         The list of histograms to be stacked composing the model. Default is None.
-    stacked_labels : list of str, optional
+    stacked_labels : list[str | None] | None, optional
         The labels of the model stacked components. Default is None.
-    stacked_colors : list of str, optional
+    stacked_colors : list[str | None] | None, optional
         The colors of the model stacked components. Default is None.
-    unstacked_components : list of boost_histogram.Histogram, optional
+    unstacked_components : list[bh.Histogram] | None, optional
         The list of histograms not to be stacked composing the model. Default is None.
-    unstacked_labels : list of str, optional
+    unstacked_labels : list[str | None] | None, optional
         The labels of the model unstacked components. Default is None.
-    unstacked_colors : list of str, optional
+    unstacked_colors : list[str | None] | None, optional
         The colors of the model unstacked components. Default is None.
-    xlabel : str, optional
+    xlabel : str | None, optional
         The label for the x-axis. Default is None.
-    ylabel : str, optional
+    ylabel : str | None, optional
         The label for the y-axis. Default is None.
     data_label : str, optional
         The label for the data. Default is "Data".
-    stacked_kwargs : dict, optional
+    stacked_kwargs : dict | None, optional
         The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is None.
-    unstacked_kwargs_list : list of dict, optional
+    unstacked_kwargs_list : list[dict] | None, optional
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is None.
-    model_sum_kwargs : dict, optional
+    model_sum_kwargs : dict | None, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
@@ -1062,16 +1073,17 @@ def plot_data_model_comparison(
         The label for the model uncertainties. Default is "Model stat. unc.".
     data_uncertainty_type : str, optional
         What kind of bin uncertainty to use for data_hist: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "asymmetrical".
-    fig : matplotlib.figure.Figure or None, optional
-        The figure to use for the plot. If fig, ax_main and ax_comparison are None, a new figure will be created. Default is None.
-    ax_main : matplotlib.axes.Axes or None, optional
-        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    ax_comparison : matplotlib.axes.Axes or None, optional
-        The axes for the comparison plot. If fig, ax_main and ax_comparison are None, a new axes will be created. Default is None.
-    plot_only : str, optional
+    fig : matplotlib.figure.Figure | None, optional
+        The figure to use for the plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
+    ax_main : matplotlib.axes.Axes | None, optional
+        The main axes for the histogram comparison. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
+    ax_comparison : matplotlib.axes.Axes | None, optional
+        The axes for the comparison plot. If fig, ax_main and ax_comparison are all None, a new figure will be created. Default is None.
+    plot_only : str | None, optional
         If "ax_main" or "ax_comparison", only the main or comparison axis is plotted on the figure. Both axes are plotted if None is specified, which is the default. This can only be used when fig, ax_main and ax_comparison are not provided by the user.
     **comparison_kwargs : optional
-        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details). If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="split_ratio".
+        Arguments to be passed to plot_comparison(), including the choice of the comparison function and the treatment of the uncertainties (see documentation of plot_comparison() for details).
+        If they are not provided explicitly, the following arguments are passed by default: h1_label="Data", h2_label="Pred.", comparison="split_ratio".
 
     Returns
     -------
@@ -1148,7 +1160,7 @@ def plot_data_model_comparison(
         stacked_kwargs=stacked_kwargs,
         unstacked_kwargs_list=unstacked_kwargs_list,
         model_sum_kwargs=model_sum_kwargs,
-        function_range=[data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]],
+        function_range=(data_hist.axes[0].edges[0], data_hist.axes[0].edges[-1]),
         model_uncertainty=model_uncertainty,
         model_uncertainty_label=model_uncertainty_label,
         fig=fig,

@@ -6,7 +6,7 @@ from pytest import approx, raises
 from plothist import get_comparison, make_hist
 
 
-def test_efficiency_subsample():
+def test_efficiency_subsample() -> None:
     """
     Test subsample error.
     """
@@ -20,7 +20,7 @@ def test_efficiency_subsample():
     )
 
 
-def test_efficiency_weighted_histograms():
+def test_efficiency_weighted_histograms() -> None:
     """
     Test weighted histograms error.
     """
@@ -54,7 +54,7 @@ def test_efficiency_weighted_histograms():
     assert str(err.value) == error_msg
 
 
-def simple_efficiency_uncertainty(total, sample):
+def simple_efficiency_uncertainty(total, sample) -> float:
     """
     Calculate the uncertainty of the efficiency of a sample, derived from the Binomial Statistics.
     """
@@ -62,7 +62,7 @@ def simple_efficiency_uncertainty(total, sample):
     return np.sqrt(efficiency * (1 - efficiency) / total)
 
 
-def test_efficiency_simple_values():
+def test_efficiency_simple_values() -> None:
     """
     Test efficiency with simple values.
     """
@@ -109,7 +109,7 @@ def test_efficiency_simple_values():
     )  # 1e-6 relative error by default
 
 
-def test_efficiency_complex_values():
+def test_efficiency_complex_values() -> None:
     """
     Test efficiency with random values.
     """
