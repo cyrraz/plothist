@@ -23,7 +23,7 @@ from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
 def create_comparison_figure(
-    figsize: tuple[int, int] = (6, 5),
+    figsize: tuple[float, float] = (6, 5),
     nrows: int = 2,
     gridspec_kw: dict | None = None,
     hspace: float = 0.15,
@@ -33,7 +33,7 @@ def create_comparison_figure(
 
     Parameters
     ----------
-    figsize : tuple[int, int], optional
+    figsize : tuple[float, float], optional
         Figure size in inches. Default is (6, 5).
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
@@ -71,7 +71,7 @@ def plot_hist(hist: bh.Histogram | list[bh.Histogram], ax: plt.Axes, **kwargs) -
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram | list[boost_histogram.Histogram]
+    hist : bh.Histogram | list[bh.Histogram]
         The histogram(s) to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
@@ -113,7 +113,7 @@ def plot_2d_hist(
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The 2D histogram to plot.
     fig : matplotlib.figure.Figure | None, optional
         The Figure instance for plotting. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
@@ -252,7 +252,7 @@ def plot_2d_hist_with_projections(
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The 2D histogram to plot.
     xlabel : str | None, optional
         Label for the x axis. Default is None.
@@ -381,7 +381,7 @@ def plot_error_hist(
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram to plot.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
@@ -424,7 +424,7 @@ def plot_hist_uncertainties(hist: bh.Histogram, ax: plt.Axes, **kwargs) -> None:
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram from which we want to plot the uncertainties.
     ax : matplotlib.axes.Axes
         The Axes instance for plotting.
@@ -466,9 +466,9 @@ def plot_two_hist_comparison(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram to compare.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram to compare.
     xlabel : str | None, optional
         The label for the x-axis. Default is None.
@@ -555,9 +555,9 @@ def plot_comparison(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram for comparison.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram for comparison.
     ax : matplotlib.axes.Axes
         The axes to plot the comparison.
@@ -816,13 +816,13 @@ def plot_model(
 
     Parameters
     ----------
-    stacked_components : list[boost_histogram.Histogram] | None, optional
+    stacked_components : list[bh.Histogram] | None, optional
         The list of histograms to be stacked composing the model. Default is None.
     stacked_labels : list[str | None] | None, optional
         The labels of the model stacked components. Default is None.
     stacked_colors : list[str | None] | None, optional
         The colors of the model stacked components. Default is None.
-    unstacked_components : list[boost_histogram.Histogram] | None, optional
+    unstacked_components : list[bh.Histogram] | None, optional
         The list of histograms not to be stacked composing the model. Default is None.
     unstacked_labels : list[str | None] | None, optional
         The labels of the model unstacked components. Default is None.
@@ -1038,15 +1038,15 @@ def plot_data_model_comparison(
 
     Parameters
     ----------
-    data_hist : boost_histogram.Histogram
+    data_hist : bh.Histogram
         The histogram for the data.
-    stacked_components : list[boost_histogram.Histogram] | None, optional
+    stacked_components : list[bh.Histogram] | None, optional
         The list of histograms to be stacked composing the model. Default is None.
     stacked_labels : list[str | None] | None, optional
         The labels of the model stacked components. Default is None.
     stacked_colors : list[str | None] | None, optional
         The colors of the model stacked components. Default is None.
-    unstacked_components : list[boost_histogram.Histogram] | None, optional
+    unstacked_components : list[bh.Histogram] | None, optional
         The list of histograms not to be stacked composing the model. Default is None.
     unstacked_labels : list[str | None] | None, optional
         The labels of the model unstacked components. Default is None.
