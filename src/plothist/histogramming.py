@@ -22,7 +22,7 @@ def create_axis(
     data: list[float] | np.ndarray | None = None,
     overflow: bool = False,
     underflow: bool = False,
-):
+) -> bh.axis.Regular | bh.axis.Variable:
     """
     Create an axis object for histogram binning based on the input data and parameters.
 
@@ -108,7 +108,7 @@ def make_hist(
     bins: int | list[float] = 50,
     range: tuple[float | str, float | str] | None = None,
     weights: float | list[float] | np.ndarray = 1,
-):
+) -> bh.Histogram:
     """
     Create a histogram object and fill it with the provided data.
 
@@ -131,7 +131,7 @@ def make_hist(
 
     Returns
     -------
-    histogram : boost_histogram.Histogram
+    histogram : bh.Histogram
         The filled histogram object.
 
     Warns
@@ -176,7 +176,7 @@ def make_2d_hist(
         tuple[float | str, float | str] | None, tuple[float | str, float | str] | None
     ] = (None, None),
     weights: float | list[float] | np.ndarray = 1,
-):
+) -> bh.Histogram:
     """
     Create a 2D histogram object and fill it with the provided data.
 
@@ -200,7 +200,7 @@ def make_2d_hist(
 
     Returns
     -------
-    histogram : boost_histogram.Histogram
+    histogram : bh.Histogram
         The filled 2D histogram object.
 
     Raises
@@ -252,13 +252,13 @@ def make_2d_hist(
     return h
 
 
-def _check_counting_histogram(hist: bh.Histogram):
+def _check_counting_histogram(hist: bh.Histogram) -> None:
     """
     Check that the histogram is a counting histogram.
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram to check.
 
     Raise
@@ -285,12 +285,12 @@ def _make_hist_from_function(
     ----------
     func : Callable[[np.ndarray], np.ndarray]
         1D function. The function should support vectorization (i.e. accept a numpy array as input).
-    ref_hist : boost_histogram.Histogram
+    ref_hist : bh.Histogram
         The reference 1D histogram to use for the binning.
 
     Returns
     -------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram filled with the function.
 
     Raises
@@ -314,12 +314,12 @@ def flatten_2d_hist(hist: bh.Histogram) -> bh.Histogram:
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The 2D histogram to be flattened.
 
     Returns
     -------
-    boost_histogram.Histogram
+    bh.Histogram
         The flattened 1D histogram.
 
     Raises

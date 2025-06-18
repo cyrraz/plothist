@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import boost_histogram
+import boost_histogram as bh
 import numpy as np
 from scipy import stats
 
@@ -28,13 +28,13 @@ def _check_uncertainty_type(uncertainty_type: str) -> None:
         )
 
 
-def _is_unweighted(hist: boost_histogram.Histogram) -> bool:
+def _is_unweighted(hist: bh.Histogram) -> bool:
     """
     Check whether a histogram is unweighted.
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram to check.
 
     Returns
@@ -46,7 +46,7 @@ def _is_unweighted(hist: boost_histogram.Histogram) -> bool:
 
 
 def get_asymmetrical_uncertainties(
-    hist: boost_histogram.Histogram,
+    hist: bh.Histogram,
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Get Poisson asymmetrical uncertainties for a histogram via a frequentist approach based on a confidence-interval computation.
@@ -55,7 +55,7 @@ def get_asymmetrical_uncertainties(
 
     Parameters
     ----------
-    hist : boost_histogram.Histogram
+    hist : bh.Histogram
         The histogram.
 
     Returns
@@ -86,13 +86,13 @@ def get_asymmetrical_uncertainties(
     return uncertainties_low, uncertainties_high
 
 
-def _check_binning_consistency(hist_list: list[boost_histogram.Histogram]) -> None:
+def _check_binning_consistency(hist_list: list[bh.Histogram]) -> None:
     """
     Check that all the histograms in the provided list share the same definition of their bins.
 
     Parameters
     ----------
-    hist_list : list[boost_histogram.Histogram]
+    hist_list : list[bh.Histogram]
         The list of histograms to check.
 
     Raise
@@ -109,17 +109,15 @@ def _check_binning_consistency(hist_list: list[boost_histogram.Histogram]) -> No
                 raise ValueError("The bins of the histograms must be equal.")
 
 
-def get_ratio_variances(
-    h1: boost_histogram.Histogram, h2: boost_histogram.Histogram
-) -> np.ndarray:
+def get_ratio_variances(h1: bh.Histogram, h2: bh.Histogram) -> np.ndarray:
     """
     Calculate the variances of the ratio of two uncorrelated histograms (h1/h2).
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram.
 
     Returns
@@ -149,8 +147,8 @@ def get_ratio_variances(
 
 
 def get_pull(
-    h1: boost_histogram.Histogram,
-    h2: boost_histogram.Histogram,
+    h1: bh.Histogram,
+    h2: bh.Histogram,
     h1_uncertainty_type: str = "symmetrical",
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
@@ -158,9 +156,9 @@ def get_pull(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
@@ -205,8 +203,8 @@ def get_pull(
 
 
 def get_difference(
-    h1: boost_histogram.Histogram,
-    h2: boost_histogram.Histogram,
+    h1: bh.Histogram,
+    h2: bh.Histogram,
     h1_uncertainty_type: str = "symmetrical",
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
@@ -214,9 +212,9 @@ def get_difference(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
@@ -253,9 +251,7 @@ def get_difference(
     )
 
 
-def get_efficency(
-    h1: boost_histogram.Histogram, h2: boost_histogram.Histogram
-) -> tuple[np.ndarray, np.ndarray]:
+def get_efficency(h1: bh.Histogram, h2: bh.Histogram) -> tuple[np.ndarray, np.ndarray]:
     """
     Calculate the ratio of two correlated histograms (h1/h2), in which the entries of h1 are a subsample of the entries of h2.
     The variances are calculated according to the formula given in :ref:`documentation-statistics-label`.
@@ -268,9 +264,9 @@ def get_efficency(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram.
 
     Returns
@@ -318,18 +314,16 @@ def get_efficency(
     return efficiency_values, np.sqrt(efficiency_variances)
 
 
-def get_asymmetry(
-    h1: boost_histogram.Histogram, h2: boost_histogram.Histogram
-) -> tuple[np.ndarray, np.ndarray]:
+def get_asymmetry(h1: bh.Histogram, h2: bh.Histogram) -> tuple[np.ndarray, np.ndarray]:
     """
     Get the asymmetry between two histograms h1 and h2, defined as (h1 - h2) / (h1 + h2).
     Only symmetrical uncertainties are supported.
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram.
 
     Returns
@@ -356,8 +350,8 @@ def get_asymmetry(
 
 
 def get_ratio(
-    h1: boost_histogram.Histogram,
-    h2: boost_histogram.Histogram,
+    h1: bh.Histogram,
+    h2: bh.Histogram,
     h1_uncertainty_type: str = "symmetrical",
     ratio_uncertainty_type: str = "uncorrelated",
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -366,9 +360,9 @@ def get_ratio(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The numerator histogram.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The denominator histogram.
     h1_uncertainty_type : str, optional
         What kind of bin uncertainty to use for h1: "symmetrical" for the Poisson standard deviation derived from the variance stored in the histogram object, "asymmetrical" for asymmetrical uncertainties based on a Poisson confidence interval. Default is "symmetrical".
@@ -436,8 +430,8 @@ def get_ratio(
 
 
 def get_comparison(
-    h1: boost_histogram.Histogram,
-    h2: boost_histogram.Histogram,
+    h1: bh.Histogram,
+    h2: bh.Histogram,
     comparison: str,
     h1_uncertainty_type: str = "symmetrical",
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -446,9 +440,9 @@ def get_comparison(
 
     Parameters
     ----------
-    h1 : boost_histogram.Histogram
+    h1 : bh.Histogram
         The first histogram for comparison.
-    h2 : boost_histogram.Histogram
+    h2 : bh.Histogram
         The second histogram for comparison.
     comparison : str
         The type of comparison ("ratio", "split_ratio", "pull", "difference", "relative_difference", "efficiency", or "asymmetry").
