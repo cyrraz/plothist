@@ -251,7 +251,7 @@ def get_difference(
     )
 
 
-def get_efficency(h1: bh.Histogram, h2: bh.Histogram) -> tuple[np.ndarray, np.ndarray]:
+def get_efficiency(h1: bh.Histogram, h2: bh.Histogram) -> tuple[np.ndarray, np.ndarray]:
     """
     Calculate the ratio of two correlated histograms (h1/h2), in which the entries of h1 are a subsample of the entries of h2.
     The variances are calculated according to the formula given in :ref:`documentation-statistics-label`.
@@ -509,7 +509,7 @@ def get_comparison(
             raise ValueError(
                 "Asymmetrical uncertainties are not supported in an efficiency computation."
             )
-        values, uncertainties = get_efficency(h1, h2)
+        values, uncertainties = get_efficiency(h1, h2)
         lower_uncertainties = uncertainties
         upper_uncertainties = uncertainties
     else:

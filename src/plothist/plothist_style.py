@@ -281,16 +281,14 @@ def add_text(
     }
 
     if isinstance(x, str):
-        resolved_x = x_values.get(x)
-        if resolved_x is None:
-            raise ValueError(f"{x} is not a valid x position")
-        x = resolved_x
+        if x not in x_values:
+            raise ValueError(f"{x!r} is not a valid x position.")
+        x = x_values[x]
 
     if isinstance(y, str):
-        resolved_y = y_values.get(y)
-        if resolved_y is None:
-            raise ValueError(f"{y} is not a valid y position")
-        y = resolved_y
+        if y not in y_values:
+            raise ValueError(f"{y!r} is not a valid y position.")
+        y = y_values[y]
 
     t = ax.text(
         x,

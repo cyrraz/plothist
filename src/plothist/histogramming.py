@@ -17,7 +17,7 @@ warnings.filterwarnings("always", category=RangeWarning)
 
 
 def create_axis(
-    bins: int | list[float],
+    bins: int | list[float] | np.ndarray,
     range: tuple[float | str, float | str] | None = None,
     data: list[float] | np.ndarray | None = None,
     overflow: bool = False,
@@ -105,7 +105,7 @@ def create_axis(
 
 def make_hist(
     data: list[float] | np.ndarray | None = None,
-    bins: int | list[float] = 50,
+    bins: int | list[float] | np.ndarray = 50,
     range: tuple[float | str, float | str] | None = None,
     weights: float | list[float] | np.ndarray = 1,
 ) -> bh.Histogram:
