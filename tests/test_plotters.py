@@ -12,6 +12,7 @@ from plothist import (
     plot_2d_hist,
     plot_data_model_comparison,
     plot_function,
+    plot_model,
     plot_two_hist_comparison,
     savefig,
 )
@@ -53,6 +54,11 @@ def test_partial_fig_and_ax_input() -> None:
         _ = plot_data_model_comparison(
             data_hist=h_1d, stacked_components=[h_1d], fig=fig
         )
+
+    with pytest.raises(
+        ValueError, match=r"Need to provide both fig and ax \(or none\)."
+    ):
+        _ = plot_model(unstacked_components=[h_1d], fig=fig)
 
 
 def test_plot_function_cases() -> None:
@@ -157,3 +163,59 @@ def test_get_model_type() -> None:
         ValueError, match="All model components must be either histograms or functions."
     ):
         _get_model_type([func, hist])
+
+
+def test_plot_model_cases() -> None:
+    """
+    Test that plot_model can handle different cases that are not covered by the examples.
+    """
+
+    def f1(x):
+        return x**2
+
+    h_1d = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
+
+    # Case 1
+    fig, ax = plt.subplots()
+    with pytest.warns(
+        UserWarning, match="No artists with labels found to put in legend."
+    ):
+        fig, ax = plot_model(
+            unstacked_components=[f1],
+            function_range=(0, 10),
+            fig=fig,
+            ax=ax,
+        )
+    plt.close(fig)
+
+    # Case 2
+    fig, ax = plt.subplots()
+    fig, ax = plot_model(
+        unstacked_components=[h_1d],
+        fig=fig,
+        ax=ax,
+    )
+    plt.close(fig)
+
+    # Case 3
+    fig, ax = plt.subplots()
+    with pytest.raises(
+        ValueError, match="Need to provide at least one model component."
+    ):
+        fig, ax = plot_model(
+            fig=fig,
+            ax=ax,
+        )
+    plt.close(fig)
+
+    # Case 4
+    fig, ax = plt.subplots()
+    with pytest.raises(
+        ValueError, match="Need to provide function_range for model made of functions."
+    ):
+        fig, ax = plot_model(
+            stacked_components=[f1],
+            fig=fig,
+            ax=ax,
+        )
+    plt.close(fig)
