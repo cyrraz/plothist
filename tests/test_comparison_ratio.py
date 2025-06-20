@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import re
+
 import numpy as np
 from pytest import approx, raises
 
-from plothist import get_comparison, make_hist
+from plothist import get_comparison, get_ratio, make_hist
 
 
 def test_ratio_weighted_histograms() -> None:
@@ -248,3 +250,17 @@ def test_split_ratio_complex_values() -> None:
             1.3189298113983732,
         ]
     )
+
+
+def test_get_ratio_with_invalid_ratio_uncertainty_type() -> None:
+    """
+    Test that an error is raised when an invalid uncertainty type is used for ratio comparison.
+    """
+    h1 = make_hist(data=[1] * 100, bins=1, range=(0, 3))
+    h2 = make_hist(data=[1] * 10, bins=1, range=(0, 3))
+
+    with raises(
+        ValueError,
+        match=re.escape("ratio_uncertainty_type not in ['uncorrelated', 'split']."),
+    ):
+        get_ratio(h2, h1, ratio_uncertainty_type="invalid")

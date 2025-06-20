@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 from pytest import approx, raises
 
 from plothist import get_comparison, make_hist
@@ -18,6 +19,38 @@ def test_efficiency_subsample() -> None:
         str(err.value)
         == "The ratio of two correlated histograms (efficiency) can only be computed if the bin contents of h1 are a subsample of the bin contents of h2."
     )
+
+
+def test_get_efficiency_negative_bin_content() -> None:
+    """
+    Test efficiency with negative bin content.
+    """
+    h1 = make_hist(data=[0.5], bins=1, range=(0, 1))
+    h2 = make_hist(data=[0.5], bins=1, range=(0, 1))
+    h1[:] = np.c_[[-1.0], [-1.0]]
+    with pytest.raises(
+        ValueError,
+        match="can only be computed if the bin contents of both histograms are positive or zero",
+    ):
+        get_comparison(h1, h2, comparison="efficiency")
+
+
+def test_efficiency_asymmetrical_uncertainty() -> None:
+    """
+    Test efficiency with asymmetrical uncertainty.
+    """
+    h1 = make_hist(data=np.random.normal(size=10), bins=10, range=(-5, 5))
+    h2 = make_hist(data=np.random.normal(size=100), bins=10, range=(-5, 5))
+
+    error_msg = (
+        "Asymmetrical uncertainties are not supported in an efficiency computation."
+    )
+
+    with raises(ValueError) as err:
+        get_comparison(
+            h1, h2, comparison="efficiency", h1_uncertainty_type="asymmetrical"
+        )
+    assert str(err.value) == error_msg
 
 
 def test_efficiency_weighted_histograms() -> None:
