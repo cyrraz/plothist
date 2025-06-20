@@ -10,6 +10,7 @@ from plothist import (
     make_2d_hist,
     make_hist,
     plot_2d_hist,
+    plot_2d_hist_with_projections,
     plot_data_model_comparison,
     plot_function,
     plot_model,
@@ -98,11 +99,11 @@ def test_plot_function_cases() -> None:
 
 def test_plot_2d_hist_with_projections_cases() -> None:
     """
-    Test that plot_2d_hist can handle different cases with projections.
+    Test that plot_2d_hist_with_projections can handle different cases with projections.
     """
     h_2d = make_2d_hist(data=[[], []], bins=[10, 10], range=[[0, 10], [0, 10]])
     fig, _ = plt.subplots()
-    _ = plot_2d_hist(
+    _ = plot_2d_hist_with_projections(
         h_2d,
     )
     plt.close(fig)
