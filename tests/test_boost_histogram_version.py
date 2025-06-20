@@ -13,4 +13,4 @@ def test_import_plothist_version_too_low(monkeypatch: pytest.MonkeyPatch) -> Non
     with pytest.raises(
         ImportError, match="The version of boost_histogram is lower than 1.4.0"
     ):
-        pass
+        import plothist  # noqa: F401
