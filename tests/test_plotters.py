@@ -1,3 +1,6 @@
+import tempfile
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
@@ -8,8 +11,11 @@ from plothist import (
     make_hist,
     plot_2d_hist,
     plot_data_model_comparison,
+    plot_function,
     plot_two_hist_comparison,
+    savefig,
 )
+from plothist.plotters import _get_model_type
 
 
 def test_create_comparison_figure_figsize_none() -> None:
@@ -47,3 +53,107 @@ def test_partial_fig_and_ax_input() -> None:
         _ = plot_data_model_comparison(
             data_hist=h_1d, stacked_components=[h_1d], fig=fig
         )
+
+
+def test_plot_function_cases() -> None:
+    """
+    Test that plot_function can handle different cases that are note covered by the examples.
+    """
+
+    def f1(x):
+        return x**2
+
+    def f2(x):
+        return x + 1
+
+    # Case 1
+    fig, ax = plt.subplots()
+    plot_function(
+        [
+            f1,
+            f2,
+        ],
+        range=(0, 10),
+        ax=ax,
+        stacked=False,
+    )
+    assert len(ax.lines) == 2
+    plt.close(fig)
+
+    # Case 2
+    fig, ax = plt.subplots()
+    plot_function(
+        f1,
+        range=(0, 10),
+        ax=ax,
+        stacked=True,
+    )
+    assert len(ax.collections) == 1
+    plt.close(fig)
+
+
+def test_plot_2d_hist_with_projections_cases() -> None:
+    """
+    Test that plot_2d_hist can handle different cases with projections.
+    """
+    h_2d = make_2d_hist(data=[[], []], bins=[10, 10], range=[[0, 10], [0, 10]])
+    fig, _ = plt.subplots()
+    _ = plot_2d_hist(
+        h_2d,
+    )
+    plt.close(fig)
+
+
+def test_savefig_with_default_size() -> None:
+    """Test that savefig works correctly without resizing the figure (new_figsize=None)."""
+    fig, ax = plt.subplots()
+    ax.plot([0, 1], [1, 0])
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_path = Path(tmpdir) / "default_size.png"
+        savefig(fig, str(output_path))
+        assert output_path.exists()
+        assert output_path.stat().st_size > 0  # Ensure file is not empty
+
+    plt.close(fig)
+
+
+def test_savefig_with_custom_size():
+    """Test that savefig correctly rescales the figure when new_figsize is provided."""
+    fig, ax = plt.subplots()
+    ax.plot([0, 1], [1, 0])
+
+    new_size = (10.0, 5.0)
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_path = Path(tmpdir) / "custom_size.png"
+        savefig(fig, str(output_path), new_figsize=new_size)
+        assert output_path.exists()
+        assert output_path.stat().st_size > 0
+
+        # Confirm figure was resized
+        width, height = fig.get_size_inches()
+        assert round(width, 2) == new_size[0]
+        assert round(height, 2) == new_size[1]
+
+    plt.close(fig)
+
+
+def test_get_model_type() -> None:
+    """
+    Test the _get_model_type function with different model inputs.
+    """
+
+    def func(x):
+        return x
+
+    hist = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
+
+    assert _get_model_type([func]) == "functions"
+
+    assert _get_model_type([hist]) == "histograms"
+
+    with pytest.raises(
+        ValueError, match="All model components must be either histograms or functions."
+    ):
+        _get_model_type([func, hist])
