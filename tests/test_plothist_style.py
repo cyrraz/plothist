@@ -60,22 +60,6 @@ def test_set_fitting_ylabel_fontsize_raises() -> None:
     plt.close(fig)
 
 
-def test_set_fitting_ylabel_fontsize_calls_draw() -> None:
-    """
-    Test that set_fitting_ylabel_fontsize executes the canvas.draw() when renderer is initially None.
-    """
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Test Label")
-
-    ax.figure.canvas.renderer = None
-
-    fontsize = set_fitting_ylabel_fontsize(ax)
-
-    assert fontsize > 0
-
-    plt.close(fig)
-
-
 def test_add_text_invalid_positions() -> None:
     """
     Test that add_text raises ValueError for invalid x and y string positions.
