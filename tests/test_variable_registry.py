@@ -4,7 +4,7 @@ import os
 
 import yaml
 from plothist_utils import get_dummy_data
-from pytest import fail, raises
+from pytest import approx, fail, raises, warns
 
 from plothist import (
     create_variable_registry,
@@ -14,7 +14,7 @@ from plothist import (
     update_variable_registry_ranges,
 )
 
-registry_path = "registry.yaml"
+registry_path = "_test_registry.yaml"
 variable_keys = ["variable_0", "variable_1", "variable_2"]
 
 
@@ -22,8 +22,8 @@ def test_variable_registry_warning() -> None:
     """
     Test variable registry creation.
     """
-    if os.path.exists("variable_registry.yaml"):
-        os.remove("variable_registry.yaml")
+    if os.path.exists(registry_path):
+        os.remove(registry_path)
 
     with raises(RuntimeError) as err:
         get_variable_from_registry("variable_0")
@@ -34,20 +34,11 @@ def test_variable_registry_creation() -> None:
     """
     Test variable registry creation.
     """
-    if os.path.exists("variable_registry.yaml"):
-        os.remove("variable_registry.yaml")
-    if os.path.exists("test.yaml"):
-        os.remove("test.yaml")
+    create_variable_registry(variable_keys, path=registry_path)
+    if not os.path.exists(registry_path):
+        fail("Variable registry not created.")
 
-    create_variable_registry(variable_keys)
-
-    if not os.path.exists("variable_registry.yaml"):
-        fail("variable_registry.yaml not created.")
-
-    # With custom path
-    create_variable_registry(variable_keys, path="test.yaml")
-    if not os.path.exists("test.yaml"):
-        fail("test.yaml not created.")
+    os.remove(registry_path)
 
 
 def test_variable_registry_info() -> None:
@@ -96,6 +87,8 @@ def test_variable_registry_info() -> None:
     for key in variable_keys:
         registry = get_variable_from_registry(key, path=registry_path)
         assert registry == {"text": "test"}
+
+    os.remove(registry_path)
 
 
 def test_update_variable_registry_ranges() -> None:
@@ -217,6 +210,18 @@ def test_update_variable_registry_ranges() -> None:
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert registry["range"] == [-1, 1]
 
+    update_variable_registry(
+        {"range": [-2, 2]},
+        None,
+        path=registry_path,
+        overwrite=True,
+    )
+
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert registry["range"] == [-2, 2]
+
+    os.remove(registry_path)
+
 
 def test_updating_variable_registry() -> None:
     """
@@ -272,3 +277,43 @@ def test_updating_variable_registry() -> None:
             "custom_list": [1, "a", True],
             "custom_value": 0,
         }
+
+    os.remove(registry_path)
+
+
+def test_remove_variable_registry_parameters_warning() -> None:
+    """
+    Test that removing parameters from the variable registry raises a warning
+    if the parameter is not present in the registry.
+    """
+    create_variable_registry(variable_keys, path=registry_path)
+    remove_variable_registry_parameters(
+        ["bins"], variable_keys=None, path=registry_path
+    )
+
+    with warns(
+        UserWarning,
+        match="bins parameter not present in the registry _test_registry.yaml for variable_0, skipping.",
+    ):
+        remove_variable_registry_parameters(
+            ["bins"], variable_keys=["variable_0"], path=registry_path
+        )
+
+    os.remove(registry_path)
+
+
+def test_update_variable_registry_ranges_all_keys() -> None:
+    """
+    Test update of variable registry with variable_keys=None
+    """
+    df = get_dummy_data()
+
+    create_variable_registry(variable_keys, path=registry_path)
+    update_variable_registry_ranges(df, variable_keys=None, path=registry_path)
+
+    for key in variable_keys:
+        variable = get_variable_from_registry(key, path=registry_path)
+        assert approx(variable["range"][0]) == df[key].min()
+        assert approx(variable["range"][1]) == df[key].max()
+
+    os.remove(registry_path)

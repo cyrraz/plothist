@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
-from pytest import approx
+from pytest import approx, raises
 
 from plothist import get_comparison, make_hist
 
@@ -20,6 +20,24 @@ def test_asymmetry_simple_values() -> None:
     assert approx(values) == np.array([0.3333333333333333])
     assert approx(high_uncertainty) == np.array([0.08606629658238704])
     assert approx(low_uncertainty) == high_uncertainty
+
+
+def test_assymmetry_asymmetrical_uncertainty() -> None:
+    """
+    Test efficiency with asymmetrical uncertainty.
+    """
+    h1 = make_hist(data=np.random.normal(size=10), bins=10, range=(-5, 5))
+    h2 = make_hist(data=np.random.normal(size=100), bins=10, range=(-5, 5))
+
+    error_msg = (
+        "Asymmetrical uncertainties are not supported for the asymmetry comparison."
+    )
+
+    with raises(ValueError) as err:
+        get_comparison(
+            h1, h2, comparison="asymmetry", h1_uncertainty_type="asymmetrical"
+        )
+    assert str(err.value) == error_msg
 
 
 def test_asymmetry_complex_values() -> None:
