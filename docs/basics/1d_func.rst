@@ -25,17 +25,17 @@ Simple function
 
 Plothist supports plotting of functions using the :func:`plot_function() <plothist.plotters.plot_function>` function:
 
-.. literalinclude:: ../examples/1d_func/1d_fct.py
+.. literalinclude:: ../../src/plothist/examples/1d_func/1d_fct.py
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_fct.svg
+.. image:: ../img/1d_fct.png
     :alt: Simple function
     :width: 500
 
 In particular, you can stack functions using the ``stacked=True`` argument:
 
-.. literalinclude:: ../examples/1d_func/1d_fct_stacked.py
+.. literalinclude:: ../../src/plothist/examples/1d_func/1d_fct_stacked.py
     :language: python
     :start-after: ###
 

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from importlib.resources import files
-
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -32,8 +30,7 @@ def set_style(style: str = "default") -> None:
     available_styles = ["default"]
 
     if style in available_styles:
-        style_file = files("plothist").joinpath(f"{style}_style.mplstyle")
-        plt.style.use(style_file)
+        plt.style.use(f"plothist.{style}_style")
     else:
         raise ValueError(f"{style} not in the available styles: {available_styles}")
 

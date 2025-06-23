@@ -88,7 +88,7 @@ Histograms
 
 Here is an example with a model made of 3 stacked and 1 unstacked histograms. The calculated sum is the sum of all 4 histograms.
 
-.. literalinclude:: ../examples/model_ex/model_with_stacked_and_unstacked_histograms_components.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_with_stacked_and_unstacked_histograms_components.py
     :language: python
     :start-after: ###
 
@@ -104,7 +104,7 @@ Functions
 
 Here is an example with a model made of 2 stacked and 1 unstacked functions:
 
-.. literalinclude:: ../examples/model_ex/model_with_stacked_and_unstacked_function_components.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_with_stacked_and_unstacked_function_components.py
     :language: python
     :start-after: ###
 
@@ -128,7 +128,7 @@ Stacked histograms
 
 A comparison between data and a model composed of 3 stacked histograms. A signal histogram is also plotted, but it doesn't belong to the model, so it is not taken into account in the comparison.
 
-.. literalinclude:: ../examples/model_ex/model_examples_stacked.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_examples_stacked.py
     :language: python
     :start-after: ###
 
@@ -148,7 +148,7 @@ Unstacked histograms
 
 The same comparison as above, but we represent the model with unstacked histograms:
 
-.. literalinclude:: ../examples/model_ex/model_examples_unstacked.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_examples_unstacked.py
     :language: python
     :start-after: ###
 
@@ -162,7 +162,7 @@ Stacked and unstacked histograms
 
 Stacked and unstacked histograms can be combined. The sum of the model components is always the sum of all the components, stacked and unstacked. Below is the same comparison as above, but the model is now composed of 2 stacked and 1 unstacked histograms:
 
-.. literalinclude:: ../examples/model_ex/model_examples_stacked_unstacked.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_examples_stacked_unstacked.py
     :language: python
     :start-after: ###
 
@@ -176,7 +176,7 @@ Models made of functions
 
 The function :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` can also be used to compare data and a model made of functions. The model below is composed of 2 stacked and 1 unstacked functions. All the functions contribute to the model. The sum of the model components is the sum of all the components, stacked and unstacked:
 
-.. literalinclude:: ../examples/model_ex/ratio_data_vs_model_with_stacked_and_unstacked_function_components.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/ratio_data_vs_model_with_stacked_and_unstacked_function_components.py
     :language: python
     :start-after: ###
 
@@ -193,7 +193,7 @@ Model uncertainty
 
 As said earlier, the comparison function can take any comparison method available in :func:`plot_comparison() <plothist.plotters.plot_comparison>`. To use pulls instead of the ratio to compare the histograms:
 
-.. literalinclude:: ../examples/model_ex/model_examples_pull.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_examples_pull.py
     :language: python
     :start-after: ###
 
@@ -204,7 +204,7 @@ As said earlier, the comparison function can take any comparison method availabl
 
 Now, if you do not want to show nor take into account the model uncertainties, setting ``model_uncertainty`` to ``False`` removes them and updates the definition of the pulls:
 
-.. literalinclude:: ../examples/model_ex/model_examples_pull_no_model_unc.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_examples_pull_no_model_unc.py
     :language: python
     :start-after: ###
 
@@ -228,7 +228,7 @@ All the different comparisons
 
 Below is shown how to make a plot with all the possible comparisons between data and model. The idea is to use :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` to make the plot with the ratio comparison, and then use :func:`plot_comparison() <plothist.plotters.plot_comparison>` to add the other comparisons. The :func:`plot_comparison() <plothist.plotters.plot_comparison>` function can take a ``fig`` and ``ax`` argument to add the comparison to an existing figure. The :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` function returns the figure and axes used to make the plot, so we can use them to add the other comparisons.
 
-.. literalinclude:: ../examples/model_ex/model_all_comparisons.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_all_comparisons.py
     :language: python
     :start-after: ###
 
@@ -243,7 +243,7 @@ No model uncertainties
 
 Same example as above, but we remove the statistical uncertainties of the model by adding ``model_uncertainty=False`` in :func:`plot_data_model_comparison() <plothist.plotters.plot_data_model_comparison>` and pass a model histogram without uncertainties to :func:`plot_comparison() <plothist.plotters.plot_comparison>`:
 
-.. literalinclude:: ../examples/model_ex/model_all_comparisons_no_model_unc.py
+.. literalinclude:: ../../src/plothist/examples/model_ex/model_all_comparisons_no_model_unc.py
     :language: python
     :start-after: ###
 

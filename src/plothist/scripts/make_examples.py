@@ -56,7 +56,7 @@ def make_examples(
 
     plothist_folder = os.environ.get("PLOTHIST_PATH") or plothist.__path__[0]
 
-    example_folder = plothist_folder + "/../../docs/examples"
+    example_folder = plothist_folder + "/examples"
     img_folder = plothist_folder + "/../../docs/img"
 
     if not os.path.exists(example_folder) or not os.path.exists(img_folder):
