@@ -12,7 +12,7 @@ mpl_image_compare_kwargs = {
     filename="fct_1d.png",
     **mpl_image_compare_kwargs,
 )
-def test_plot_ttt():
+def test_example_fct_1d():
     from plothist.examples.func_1d.fct_1d import make_figure
 
     return make_figure()

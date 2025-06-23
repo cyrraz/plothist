@@ -45,30 +45,51 @@ signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
 signal_hist *= signal_scaling_factor
 
 ###
+from matplotlib.figure import Figure
+
 from plothist import add_luminosity, plot_data_model_comparison, plot_hist
 
-fig, ax_main, ax_comparison = plot_data_model_comparison(
-    data_hist=data_hist,
-    stacked_components=background_hists,
-    stacked_labels=background_categories_labels,
-    stacked_colors=background_categories_colors,
-    xlabel=key,
-    ylabel="Entries",
-)
 
-# Signal histogram not part of the model and therefore not included in the comparison
-plot_hist(
+def make_figure(
+    data_hist,
     signal_hist,
-    ax=ax_main,
-    color="red",
-    label="Signal",
-    histtype="step",
-)
+    background_hists,
+    background_categories_labels,
+    background_categories_colors,
+) -> Figure:
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
+        data_hist=data_hist,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        xlabel=key,
+        ylabel="Entries",
+    )
 
-ax_main.legend()
+    # Signal histogram not part of the model and therefore not included in the comparison
+    plot_hist(
+        signal_hist,
+        ax=ax_main,
+        color="red",
+        label="Signal",
+        histtype="step",
+    )
 
-add_luminosity(
-    collaboration="plothist", ax=ax_main, lumi=3, lumi_unit="zb", preliminary=True
-)
+    ax_main.legend()
 
-fig.savefig("model_examples_stacked.svg", bbox_inches="tight")
+    add_luminosity(
+        collaboration="plothist", ax=ax_main, lumi=3, lumi_unit="zb", preliminary=True
+    )
+
+    return fig
+
+
+if __name__ == "__main__":
+    fig = make_figure(
+        data_hist,
+        signal_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+    fig.savefig("model_examples_stacked.svg", bbox_inches="tight")
