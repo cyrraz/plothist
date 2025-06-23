@@ -30,4 +30,4 @@ def make_figure() -> Figure:
 
 if __name__ == "__main__":
     fig = make_figure()
-    fig.savefig("1d_fct.svg", bbox_inches="tight")
+    fig.savefig("fct_1d.svg", bbox_inches="tight")

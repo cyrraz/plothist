@@ -195,7 +195,7 @@ sphinx_gallery_conf = {
         [
             "../src/plothist/examples/1d_hist",
             "../src/plothist/examples/2d_hist",
-            "../src/plothist/examples/1d_func",
+            "../src/plothist/examples/func_1d",
             "../src/plothist/examples/model_ex",
             "../src/plothist/examples/advanced",
             "../src/plothist/examples/utility",
