@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 import plothist
-from plothist.test_helpers import run_script_and_get_fig
+from plothist.test_helpers import run_script_and_get_object
 
 mpl_image_compare_kwargs = {
     "baseline_dir": "../docs/img",
@@ -24,7 +24,7 @@ for script_path in script_dir.glob("*.py"):
 
     @pytest.mark.mpl_image_compare(filename=filename, **mpl_image_compare_kwargs)
     def func_test(script=script_path):
-        return run_script_and_get_fig(script)
+        return run_script_and_get_object(script, "fig")
 
     func_test.__name__ = test_name
     setattr(current_module, test_name, func_test)

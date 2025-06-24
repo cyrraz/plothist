@@ -1,21 +1,25 @@
 import runpy
 from pathlib import Path
+from typing import Any
 
 import matplotlib.figure
 
 
-def run_script_and_get_fig(script_path_str: str) -> matplotlib.figure.Figure | None:
+def run_script_and_get_object(script_path_str: str, name: str) -> Any | None:
     """
-    Executes a Python script located at the specified filesystem path, suppresses any calls to
-    'matplotlib.figure.Figure.savefig' during execution to prevent file output, and returns the
-    'fig' object if it is defined in the script's global namespace.
+    Runs a Python script from a given file path, temporarily disables saving of matplotlib figures
+    to suppress file output, and retrieves a variable from the script's global namespace by name.
+    The retrieved variable can be of any type.
+
+    Typically used with name="fig" to get the figure object created in the script.
 
     Parameters:
-        script_path_str (str): Filesystem path to the Python script to be executed.
+        script_path_str (str): Path to the Python script file to execute.
+        name (str): Name of the variable in the script's global namespace to retrieve.
 
     Returns:
-        matplotlib.figure.Figure or None: The 'fig' object created in the script if present;
-                                           otherwise, None.
+        Any or None: The specified variable from the script's global namespace if present;
+                     otherwise, None.
     """
     script_path = Path(script_path_str).resolve()
 
@@ -34,4 +38,4 @@ def run_script_and_get_fig(script_path_str: str) -> matplotlib.figure.Figure | N
     finally:
         matplotlib.figure.Figure.savefig = original_savefig
 
-    return globals_dict.get("fig")
+    return globals_dict.get(name)
