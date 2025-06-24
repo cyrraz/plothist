@@ -1,5 +1,10 @@
+import sys
+from pathlib import Path
+
 import pytest
-from test_utils import run_script_and_get_fig
+
+import plothist
+from plothist.test_helpers import run_script_and_get_fig
 
 mpl_image_compare_kwargs = {
     "baseline_dir": "../docs/img",
@@ -9,17 +14,17 @@ mpl_image_compare_kwargs = {
 }
 
 
-@pytest.mark.mpl_image_compare(
-    filename="fct_1d.png",
-    **mpl_image_compare_kwargs,
-)
-def test_example_fct_1d():
-    return run_script_and_get_fig("plothist.examples.func_1d.fct_1d")
+script_dir = Path(plothist.__file__).parent / "examples" / "func_1d"
 
+current_module = sys.modules[__name__]
 
-@pytest.mark.mpl_image_compare(
-    filename="fct_1d_stacked.png",
-    **mpl_image_compare_kwargs,
-)
-def test_example_fct_1d_stacked():
-    return run_script_and_get_fig("plothist.examples.func_1d.fct_1d_stacked")
+for script_path in script_dir.glob("*.py"):
+    filename = f"{script_path.stem}.png"
+    test_name = f"test_{script_path.stem}"
+
+    @pytest.mark.mpl_image_compare(filename=filename, **mpl_image_compare_kwargs)
+    def func_test(script=script_path):
+        return run_script_and_get_fig(script)
+
+    func_test.__name__ = test_name
+    setattr(current_module, test_name, func_test)
