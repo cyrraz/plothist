@@ -47,49 +47,28 @@ signal_hist *= signal_scaling_factor
 ###
 from plothist import add_luminosity, plot_data_model_comparison, plot_hist
 
+fig, ax_main, ax_comparison = plot_data_model_comparison(
+    data_hist=data_hist,
+    stacked_components=background_hists,
+    stacked_labels=background_categories_labels,
+    stacked_colors=background_categories_colors,
+    xlabel=key,
+    ylabel="Entries",
+)
 
-def make_figure(
-    key,
-    data_hist,
+# Signal histogram not part of the model and therefore not included in the comparison
+plot_hist(
     signal_hist,
-    background_hists,
-    background_categories_labels,
-    background_categories_colors,
-):
-    fig, ax_main, ax_comparison = plot_data_model_comparison(
-        data_hist=data_hist,
-        stacked_components=background_hists,
-        stacked_labels=background_categories_labels,
-        stacked_colors=background_categories_colors,
-        xlabel=key,
-        ylabel="Entries",
-    )
+    ax=ax_main,
+    color="red",
+    label="Signal",
+    histtype="step",
+)
 
-    # Signal histogram not part of the model and therefore not included in the comparison
-    plot_hist(
-        signal_hist,
-        ax=ax_main,
-        color="red",
-        label="Signal",
-        histtype="step",
-    )
+ax_main.legend()
 
-    ax_main.legend()
+add_luminosity(
+    collaboration="plothist", ax=ax_main, lumi=3, lumi_unit="zb", preliminary=True
+)
 
-    add_luminosity(
-        collaboration="plothist", ax=ax_main, lumi=3, lumi_unit="zb", preliminary=True
-    )
-
-    return fig
-
-
-if __name__ == "__main__":
-    fig = make_figure(
-        key,
-        data_hist,
-        signal_hist,
-        background_hists,
-        background_categories_labels,
-        background_categories_colors,
-    )
-    fig.savefig("model_examples_stacked.svg", bbox_inches="tight")
+fig.savefig("model_examples_stacked.svg", bbox_inches="tight")

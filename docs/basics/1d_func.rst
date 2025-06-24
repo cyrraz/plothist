@@ -35,11 +35,11 @@ Plothist supports plotting of functions using the :func:`plot_function() <plothi
 
 In particular, you can stack functions using the ``stacked=True`` argument:
 
-.. literalinclude:: ../../src/plothist/examples/func_1d/1d_fct_stacked.py
+.. literalinclude:: ../../src/plothist/examples/func_1d/fct_1d_stacked.py
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_fct_stacked.svg
+.. image:: ../img/fct_1d_stacked.svg
     :alt: Simple stacked function
     :width: 500
 

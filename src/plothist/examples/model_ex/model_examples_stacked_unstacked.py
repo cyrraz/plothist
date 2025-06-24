@@ -43,37 +43,18 @@ background_hists = [background_scaling_factor * h for h in background_hists]
 ###
 from plothist import plot_data_model_comparison
 
+fig, ax_main, ax_comparison = plot_data_model_comparison(
+    data_hist=data_hist,
+    stacked_components=background_hists[:2],
+    stacked_labels=background_categories_labels[:2],
+    stacked_colors=background_categories_colors[:2],
+    unstacked_components=background_hists[2:],
+    unstacked_labels=background_categories_labels[2:],
+    unstacked_colors=background_categories_colors[2:],
+    xlabel=key,
+    ylabel="Entries",
+    model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+    comparison_ylim=(0.5, 1.5),
+)
 
-def make_figure(
-    key,
-    data_hist,
-    background_hists,
-    background_categories_labels,
-    background_categories_colors,
-):
-    fig, ax_main, ax_comparison = plot_data_model_comparison(
-        data_hist=data_hist,
-        stacked_components=background_hists[:2],
-        stacked_labels=background_categories_labels[:2],
-        stacked_colors=background_categories_colors[:2],
-        unstacked_components=background_hists[2:],
-        unstacked_labels=background_categories_labels[2:],
-        unstacked_colors=background_categories_colors[2:],
-        xlabel=key,
-        ylabel="Entries",
-        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
-        comparison_ylim=(0.5, 1.5),
-    )
-
-    return fig
-
-
-if __name__ == "__main__":
-    fig = make_figure(
-        key,
-        data_hist,
-        background_hists,
-        background_categories_labels,
-        background_categories_colors,
-    )
-    fig.savefig("model_examples_stacked_unstacked.svg", bbox_inches="tight")
+fig.savefig("model_examples_stacked_unstacked.svg", bbox_inches="tight")

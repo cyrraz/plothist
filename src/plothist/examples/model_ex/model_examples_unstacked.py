@@ -43,34 +43,15 @@ background_hists = [background_scaling_factor * h for h in background_hists]
 ###
 from plothist import plot_data_model_comparison
 
+fig, ax_main, ax_comparison = plot_data_model_comparison(
+    data_hist=data_hist,
+    unstacked_components=background_hists,
+    unstacked_labels=background_categories_labels,
+    unstacked_colors=background_categories_colors,
+    xlabel=key,
+    ylabel="Entries",
+    model_sum_kwargs={"label": "Sum(hists)", "color": "navy"},
+    comparison_ylim=[0.5, 1.5],
+)
 
-def make_figure(
-    key,
-    data_hist,
-    background_hists,
-    background_categories_labels,
-    background_categories_colors,
-):
-    fig, ax_main, ax_comparison = plot_data_model_comparison(
-        data_hist=data_hist,
-        unstacked_components=background_hists,
-        unstacked_labels=background_categories_labels,
-        unstacked_colors=background_categories_colors,
-        xlabel=key,
-        ylabel="Entries",
-        model_sum_kwargs={"label": "Sum(hists)", "color": "navy"},
-        comparison_ylim=[0.5, 1.5],
-    )
-
-    return fig
-
-
-if __name__ == "__main__":
-    fig = make_figure(
-        key,
-        data_hist,
-        background_hists,
-        background_categories_labels,
-        background_categories_colors,
-    )
-    fig.savefig("model_examples_unstacked.svg", bbox_inches="tight")
+fig.savefig("model_examples_unstacked.svg", bbox_inches="tight")

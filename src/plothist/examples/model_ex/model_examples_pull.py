@@ -43,31 +43,14 @@ background_hists = [background_scaling_factor * h for h in background_hists]
 ###
 from plothist import plot_data_model_comparison
 
+fig, ax_main, ax_comparison = plot_data_model_comparison(
+    data_hist=data_hist,
+    stacked_components=background_hists,
+    stacked_labels=background_categories_labels,
+    stacked_colors=background_categories_colors,
+    xlabel=f"${key}\\,\\,[TeV/c^2]$",
+    ylabel="Candidates per 0.42 $TeV/c^2$",
+    comparison="pull",
+)
 
-def make_figure(
-    data_hist,
-    background_hists,
-    background_categories_labels,
-    background_categories_colors,
-):
-    fig, ax_main, ax_comparison = plot_data_model_comparison(
-        data_hist=data_hist,
-        stacked_components=background_hists,
-        stacked_labels=background_categories_labels,
-        stacked_colors=background_categories_colors,
-        xlabel=f"${key}\\,\\,[TeV/c^2]$",
-        ylabel="Candidates per 0.42 $TeV/c^2$",
-        comparison="pull",
-    )
-
-    return fig
-
-
-if __name__ == "__main__":
-    fig = make_figure(
-        data_hist,
-        background_hists,
-        background_categories_labels,
-        background_categories_colors,
-    )
-    fig.savefig("model_examples_pull.svg", bbox_inches="tight")
+fig.savefig("model_examples_pull.svg", bbox_inches="tight")

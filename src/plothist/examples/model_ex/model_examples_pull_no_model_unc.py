@@ -43,34 +43,17 @@ background_hists = [background_scaling_factor * h for h in background_hists]
 ###
 from plothist import add_luminosity, plot_data_model_comparison
 
+fig, ax_main, ax_comparison = plot_data_model_comparison(
+    data_hist=data_hist,
+    stacked_components=background_hists,
+    stacked_labels=background_categories_labels,
+    stacked_colors=background_categories_colors,
+    xlabel=f"${key}\\,\\,[eV/c^2]$",
+    ylabel="Hits in the LMN per $4.2\\times 10^{-1}\\,\\,eV/c^2$",
+    comparison="pull",
+    model_uncertainty=False,  # <--
+)
 
-def make_figure(
-    data_hist,
-    background_hists,
-    background_categories_labels,
-    background_categories_colors,
-):
-    fig, ax_main, ax_comparison = plot_data_model_comparison(
-        data_hist=data_hist,
-        stacked_components=background_hists,
-        stacked_labels=background_categories_labels,
-        stacked_colors=background_categories_colors,
-        xlabel=f"${key}\\,\\,[eV/c^2]$",
-        ylabel="Hits in the LMN per $4.2\\times 10^{-1}\\,\\,eV/c^2$",
-        comparison="pull",
-        model_uncertainty=False,  # <--
-    )
+add_luminosity(collaboration="plothist", ax=ax_main, is_data=False)
 
-    add_luminosity(collaboration="plothist", ax=ax_main, is_data=False)
-
-    return fig
-
-
-if __name__ == "__main__":
-    fig = make_figure(
-        data_hist,
-        background_hists,
-        background_categories_labels,
-        background_categories_colors,
-    )
-    fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches="tight")
+fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches="tight")
