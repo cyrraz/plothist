@@ -70,3 +70,22 @@ def test_color_palette_squares_3():
 )
 def test_color_palette_squares_4():
     return run_script_and_get_object(script_dir / "color_palette_squares.py", "figs")[4]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="matplotlib_example.png",
+    **{k: v for k, v in mpl_image_compare_kwargs.items() if k != "style"},
+)
+def test_matplotlib_vs_plothist_style_matplotlib():
+    return run_script_and_get_object(
+        script_dir / "matplotlib_vs_plothist_style.py", "figs"
+    )[0]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="plothist_example.png", **mpl_image_compare_kwargs
+)
+def test_matplotlib_vs_plothist_style_plothist():
+    return run_script_and_get_object(
+        script_dir / "matplotlib_vs_plothist_style.py", "figs"
+    )[1]

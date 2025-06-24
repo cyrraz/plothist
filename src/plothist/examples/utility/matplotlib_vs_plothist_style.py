@@ -10,6 +10,8 @@ from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 
+figs = []
+
 for style in ["matplotlib", "plothist"]:
     if style == "matplotlib":
         plt.style.use("default")
@@ -54,3 +56,5 @@ for style in ["matplotlib", "plothist"]:
     fig.subplots_adjust(hspace=0.15)
 
     fig.savefig(f"{style}_example.svg", bbox_inches="tight")
+
+    figs.append(fig)
