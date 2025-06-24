@@ -7,13 +7,12 @@ Plot a 1D function with ``plot_function()``.
 
 ###
 from matplotlib import pyplot as plt
-from matplotlib.figure import Figure
 from scipy.stats import norm
 
 from plothist import plot_function
 
 
-def make_figure() -> Figure:
+def make_figure():
     # Define the gaussian function of mean=0.5 and std_dev=3
     def f(x):
         return 1000 * norm.pdf(x, loc=0.5, scale=3)

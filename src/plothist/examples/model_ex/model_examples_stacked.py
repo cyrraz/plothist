@@ -45,8 +45,6 @@ signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
 signal_hist *= signal_scaling_factor
 
 ###
-from matplotlib.figure import Figure
-
 from plothist import add_luminosity, plot_data_model_comparison, plot_hist
 
 
@@ -56,7 +54,7 @@ def make_figure(
     background_hists,
     background_categories_labels,
     background_categories_colors,
-) -> Figure:
+):
     fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
         stacked_components=background_hists,

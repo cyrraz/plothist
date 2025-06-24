@@ -41,8 +41,6 @@ background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().
 background_hists = [background_scaling_factor * h for h in background_hists]
 
 ###
-from matplotlib.figure import Figure
-
 from plothist import plot_data_model_comparison
 
 
@@ -51,7 +49,7 @@ def make_figure(
     background_hists,
     background_categories_labels,
     background_categories_colors,
-) -> Figure:
+):
     fig, ax_main, ax_comparison = plot_data_model_comparison(
         data_hist=data_hist,
         unstacked_components=background_hists,
