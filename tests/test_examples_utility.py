@@ -35,3 +35,38 @@ for script_path in script_dir.glob("*.py"):
 
     func_test.__name__ = test_name
     setattr(current_module, test_name, func_test)
+
+
+@pytest.mark.mpl_image_compare(
+    filename="usage_style_cycle.png", **mpl_image_compare_kwargs
+)
+def test_color_palette_squares_0():
+    return run_script_and_get_object(script_dir / "color_palette_squares.py", "figs")[0]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="usage_cubehelix.png", **mpl_image_compare_kwargs
+)
+def test_color_palette_squares_1():
+    return run_script_and_get_object(script_dir / "color_palette_squares.py", "figs")[1]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="usage_viridis_palette.png", **mpl_image_compare_kwargs
+)
+def test_color_palette_squares_2():
+    return run_script_and_get_object(script_dir / "color_palette_squares.py", "figs")[2]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="usage_coolwarm_palette.png", **mpl_image_compare_kwargs
+)
+def test_color_palette_squares_3():
+    return run_script_and_get_object(script_dir / "color_palette_squares.py", "figs")[3]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="usage_YlGnBu_r_palette.png", **mpl_image_compare_kwargs
+)
+def test_color_palette_squares_4():
+    return run_script_and_get_object(script_dir / "color_palette_squares.py", "figs")[4]
