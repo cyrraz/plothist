@@ -28,7 +28,7 @@ def tests(session: nox.Session) -> None:
     pyproject = nox.project.load_toml("pyproject.toml")
     session.install("-e", ".")
     session.install(*nox.project.dependency_groups(pyproject, "test"))
-    session.run("pytest", *session.posargs)
+    session.run("pytest", "--mpl", *session.posargs)
 
 
 # run coverage

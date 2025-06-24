@@ -18,7 +18,13 @@ script_dir = Path(plothist.__file__).parent / "examples" / "2d_hist"
 
 current_module = sys.modules[__name__]
 
+exclude_scripts = [
+    "2d_hist_correlations",  # multiple figures
+]
+
 for script_path in script_dir.glob("*.py"):
+    if script_path.stem in exclude_scripts:
+        continue
     filename = f"{script_path.stem}.png"
     test_name = f"test_{script_path.stem}"
 
@@ -28,3 +34,24 @@ for script_path in script_dir.glob("*.py"):
 
     func_test.__name__ = test_name
     setattr(current_module, test_name, func_test)
+
+
+@pytest.mark.mpl_image_compare(
+    filename="2d_hist_correlations_0.png", **mpl_image_compare_kwargs
+)
+def test_2d_hist_correlations_0():
+    return run_script_and_get_object(script_dir / "2d_hist_correlations.py", "figs")[0]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="2d_hist_correlations_1.png", **mpl_image_compare_kwargs
+)
+def test_2d_hist_correlations_1(script=script_path):
+    return run_script_and_get_object(script_dir / "2d_hist_correlations.py", "figs")[1]
+
+
+@pytest.mark.mpl_image_compare(
+    filename="2d_hist_correlations_2.png", **mpl_image_compare_kwargs
+)
+def test_2d_hist_correlations_2(script=script_path):
+    return run_script_and_get_object(script_dir / "2d_hist_correlations.py", "figs")[2]

@@ -30,7 +30,9 @@ update_variable_registry_ranges(df, variable_keys, path=temporary_registry_path)
 # Get all the correlation plot between the variables
 variable_keys_combinations = list(combinations(variable_keys, 2))
 
-for k_combination, variable_keys_combination in enumerate(variable_keys_combinations):
+figs = []
+
+for variable_keys_combination in variable_keys_combinations:
     variable0 = get_variable_from_registry(
         variable_keys_combination[0], path=temporary_registry_path
     )
@@ -52,6 +54,9 @@ for k_combination, variable_keys_combination in enumerate(variable_keys_combinat
     ax.set_xlim(variable0["range"])
     ax.set_ylim(variable1["range"])
 
-    fig.savefig(f"2d_hist_correlations_{k_combination}.svg", bbox_inches="tight")
+    figs.append(fig)
+
+for i, fig in enumerate(figs):
+    fig.savefig(f"2d_hist_correlations_{i}.svg", bbox_inches="tight")
 
 os.remove(temporary_registry_path)

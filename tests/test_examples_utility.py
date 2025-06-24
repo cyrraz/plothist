@@ -18,7 +18,14 @@ script_dir = Path(plothist.__file__).parent / "examples" / "utility"
 
 current_module = sys.modules[__name__]
 
+exclude_scripts = [
+    "color_palette_squares",  # multiple figures
+    "matplotlib_vs_plothist_style",  # multiple figures
+]
+
 for script_path in script_dir.glob("*.py"):
+    if script_path.stem in exclude_scripts:
+        continue
     filename = f"{script_path.stem}.png"
     test_name = f"test_{script_path.stem}"
 
