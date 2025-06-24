@@ -1,0 +1,30 @@
+import sys
+from pathlib import Path
+
+import pytest
+
+import plothist
+from plothist.test_helpers import run_script_and_get_fig
+
+mpl_image_compare_kwargs = {
+    "baseline_dir": "../docs/img",
+    "savefig_kwargs": {"bbox_inches": "tight"},
+    "style": "plothist.default_style",
+    "deterministic": True,
+}
+
+
+script_dir = Path(plothist.__file__).parent / "examples" / "1d_hist"
+
+current_module = sys.modules[__name__]
+
+for script_path in script_dir.glob("*.py"):
+    filename = f"{script_path.stem}.png"
+    test_name = f"test_{script_path.stem}"
+
+    @pytest.mark.mpl_image_compare(filename=filename, **mpl_image_compare_kwargs)
+    def func_test(script=script_path):
+        return run_script_and_get_fig(script)
+
+    func_test.__name__ = test_name
+    setattr(current_module, test_name, func_test)

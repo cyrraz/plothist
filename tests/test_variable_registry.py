@@ -4,7 +4,7 @@ import os
 
 import yaml
 from plothist_utils import get_dummy_data
-from pytest import approx, fail, raises, warns
+from pytest import approx, fail, raises, skip, warns
 
 from plothist import (
     create_variable_registry,
@@ -20,13 +20,17 @@ variable_keys = ["variable_0", "variable_1", "variable_2"]
 
 def test_variable_registry_warning() -> None:
     """
-    Test variable registry creation.
+    Test variable registry creation. Skips the test if the default registry file is already present,
+    to avoid interfering with existing data.
     """
-    if os.path.exists(registry_path):
-        os.remove(registry_path)
+    default_registry_path = "./variable_registry.yaml"
+
+    if os.path.exists(default_registry_path):
+        skip("Default registry exists; skipping to avoid deleting user data.")
 
     with raises(RuntimeError) as err:
         get_variable_from_registry("variable_0")
+
     assert str(err.value) == "Did you forgot to run create_variable_registry()?"
 
 

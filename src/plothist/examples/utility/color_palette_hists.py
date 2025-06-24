@@ -89,6 +89,6 @@ for k, cmap_name in enumerate(cmap_list):
     )
 
 fig.savefig(
-    "usage_colorpalette_examples.svg",
+    "color_palette_hists.svg",
     bbox_inches="tight",
 )

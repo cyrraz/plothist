@@ -10,6 +10,7 @@ from plothist_utils import get_dummy_data
 df = get_dummy_data()
 
 ###
+import os
 from itertools import combinations
 
 from plothist import (
@@ -22,15 +23,20 @@ from plothist import (
 
 # No need to redo this step if the registry was already created before
 variable_keys = ["variable_0", "variable_1", "variable_2"]
-create_variable_registry(variable_keys)
-update_variable_registry_ranges(df, variable_keys)
+temporary_registry_path = "./_temporary_variable_registry.yaml"
+create_variable_registry(variable_keys, path=temporary_registry_path)
+update_variable_registry_ranges(df, variable_keys, path=temporary_registry_path)
 
 # Get all the correlation plot between the variables
 variable_keys_combinations = list(combinations(variable_keys, 2))
 
 for k_combination, variable_keys_combination in enumerate(variable_keys_combinations):
-    variable0 = get_variable_from_registry(variable_keys_combination[0])
-    variable1 = get_variable_from_registry(variable_keys_combination[1])
+    variable0 = get_variable_from_registry(
+        variable_keys_combination[0], path=temporary_registry_path
+    )
+    variable1 = get_variable_from_registry(
+        variable_keys_combination[1], path=temporary_registry_path
+    )
 
     h = make_2d_hist(
         [df[variable0["name"]], df[variable1["name"]]],
@@ -47,3 +53,5 @@ for k_combination, variable_keys_combination in enumerate(variable_keys_combinat
     ax.set_ylim(variable1["range"])
 
     fig.savefig(f"2d_hist_correlations_{k_combination}.svg", bbox_inches="tight")
+
+os.remove(temporary_registry_path)

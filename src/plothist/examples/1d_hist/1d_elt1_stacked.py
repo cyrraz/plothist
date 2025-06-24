@@ -25,21 +25,21 @@ h1 = make_hist(x1, bins=50, range=x_range)
 h2 = make_hist(x2, bins=50, range=x_range)
 
 ###
-fig2, ax2 = plt.subplots()
+fig, ax = plt.subplots()
 
 plot_hist(
     [h1, h2],
     label=["c1", "c2"],
-    ax=ax2,
+    ax=ax,
     edgecolor="black",
     linewidth=0.5,
     histtype="stepfilled",
     stacked=True,
 )
 
-ax2.set_xlabel(name)
-ax2.set_ylabel("Entries")
-ax2.set_xlim(x_range)
-ax2.legend()
+ax.set_xlabel(name)
+ax.set_ylabel("Entries")
+ax.set_xlim(x_range)
+ax.legend()
 
-fig2.savefig("1d_elt1_stacked.svg", bbox_inches="tight")
+fig.savefig("1d_elt1_stacked.svg", bbox_inches="tight")
