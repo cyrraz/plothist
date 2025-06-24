@@ -51,6 +51,7 @@ from plothist import (
 
 
 def make_figure(
+    key,
     data_hist,
     background_hists,
     background_categories_labels,
@@ -112,6 +113,7 @@ def make_figure(
 
 if __name__ == "__main__":
     fig = make_figure(
+        key,
         data_hist,
         background_hists,
         background_categories_labels,

@@ -1,5 +1,6 @@
 import pytest
 from plothist_utils import get_dummy_data
+from scipy.stats import norm
 
 from plothist import get_color_palette, make_hist
 
@@ -9,6 +10,20 @@ mpl_image_compare_kwargs = {
     "style": "plothist.default_style",
     "deterministic": True,
 }
+
+
+@pytest.fixture
+def functions():
+    def f_signal(x):
+        return 1000 * norm.pdf(x, loc=0.5, scale=3)
+
+    def f_background1(x):
+        return 1000 * norm.pdf(x, loc=-1.5, scale=4)
+
+    def f_background2(x):
+        return 3000 * norm.pdf(x, loc=-1.8, scale=1.8)
+
+    return f_signal, f_background1, f_background2
 
 
 @pytest.fixture
@@ -51,6 +66,8 @@ def histograms():
     signal_hist *= signal_scaling_factor
 
     return (
+        key,
+        range,
         data_hist,
         signal_hist,
         background_hists,
@@ -69,6 +86,8 @@ def test_model_all_comparisons_no_model_unc(histograms):
     )
 
     (
+        key,
+        _,
         data_hist,
         _,
         background_hists,
@@ -77,6 +96,7 @@ def test_model_all_comparisons_no_model_unc(histograms):
     ) = histograms
 
     return make_figure(
+        key,
         data_hist,
         background_hists,
         background_categories_labels,
@@ -92,6 +112,8 @@ def test_model_all_comparisons(histograms):
     from plothist.examples.model_ex.model_all_comparisons import make_figure
 
     (
+        key,
+        _,
         data_hist,
         _,
         background_hists,
@@ -100,6 +122,7 @@ def test_model_all_comparisons(histograms):
     ) = histograms
 
     return make_figure(
+        key,
         data_hist,
         background_hists,
         background_categories_labels,
@@ -115,6 +138,8 @@ def test_model_examples_pull_no_model_unc(histograms):
     from plothist.examples.model_ex.model_examples_pull_no_model_unc import make_figure
 
     (
+        _,
+        _,
         data_hist,
         _,
         background_hists,
@@ -138,6 +163,8 @@ def test_model_examples_pull(histograms):
     from plothist.examples.model_ex.model_examples_pull import make_figure
 
     (
+        _,
+        _,
         data_hist,
         _,
         background_hists,
@@ -146,6 +173,32 @@ def test_model_examples_pull(histograms):
     ) = histograms
 
     return make_figure(
+        data_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="model_examples_stacked_unstacked.png",
+    **mpl_image_compare_kwargs,
+)
+def test_example_model_stacked_unstacked(histograms):
+    from plothist.examples.model_ex.model_examples_stacked_unstacked import make_figure
+
+    (
+        key,
+        _,
+        data_hist,
+        _,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    ) = histograms
+
+    return make_figure(
+        key,
         data_hist,
         background_hists,
         background_categories_labels,
@@ -161,39 +214,19 @@ def test_example_model_stacked(histograms):
     from plothist.examples.model_ex.model_examples_stacked import make_figure
 
     (
-        data_hist,
-        signal_hist,
-        background_hists,
-        background_categories_labels,
-        background_categories_colors,
-    ) = histograms
-
-    return make_figure(
-        data_hist,
-        signal_hist,
-        background_hists,
-        background_categories_labels,
-        background_categories_colors,
-    )
-
-
-@pytest.mark.mpl_image_compare(
-    filename="model_examples_stacked_unstacked.png",
-    **mpl_image_compare_kwargs,
-)
-def test_example_model_stacked_unstacked(histograms):
-    from plothist.examples.model_ex.model_examples_stacked_unstacked import make_figure
-
-    (
-        data_hist,
+        key,
         _,
+        data_hist,
+        signal_hist,
         background_hists,
         background_categories_labels,
         background_categories_colors,
     ) = histograms
 
     return make_figure(
+        key,
         data_hist,
+        signal_hist,
         background_hists,
         background_categories_labels,
         background_categories_colors,
@@ -208,6 +241,8 @@ def test_example_model_unstacked(histograms):
     from plothist.examples.model_ex.model_examples_unstacked import make_figure
 
     (
+        key,
+        _,
         data_hist,
         _,
         background_hists,
@@ -216,8 +251,91 @@ def test_example_model_unstacked(histograms):
     ) = histograms
 
     return make_figure(
+        key,
         data_hist,
         background_hists,
         background_categories_labels,
         background_categories_colors,
     )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="model_with_stacked_and_unstacked_function_components.png",
+    **mpl_image_compare_kwargs,
+)
+def test_example_model_with_stacked_and_unstacked_function_components(
+    histograms, functions
+):
+    from plothist.examples.model_ex.model_with_stacked_and_unstacked_function_components import (
+        make_figure,
+    )
+
+    f_signal, f_background1, f_background2 = functions
+
+    (
+        key,
+        range,
+        _,
+        _,
+        _,
+        background_categories_labels,
+        _,
+    ) = histograms
+
+    return make_figure(
+        f_signal, f_background1, f_background2, key, range, background_categories_labels
+    )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="model_with_stacked_and_unstacked_histograms_components.png",
+    **mpl_image_compare_kwargs,
+)
+def test_example_model_with_stacked_and_unstacked_histograms_components(histograms):
+    from plothist.examples.model_ex.model_with_stacked_and_unstacked_histograms_components import (
+        make_figure,
+    )
+
+    (
+        key,
+        _,
+        _,
+        signal_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    ) = histograms
+
+    return make_figure(
+        key,
+        signal_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="ratio_data_vs_model_with_stacked_and_unstacked_function_components.png",
+    **mpl_image_compare_kwargs,
+)
+def test_example_ratio_data_vs_model_with_stacked_and_unstacked_function_components(
+    histograms, functions
+):
+    from plothist.examples.model_ex.ratio_data_vs_model_with_stacked_and_unstacked_function_components import (
+        make_figure,
+    )
+
+    f_signal, f_background1, f_background2 = functions
+
+    (
+        key,
+        _,
+        data_hist,
+        _,
+        _,
+        _,
+        _,
+    ) = histograms
+
+    return make_figure(f_signal, f_background1, f_background2, key, data_hist)

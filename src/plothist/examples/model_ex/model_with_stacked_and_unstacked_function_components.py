@@ -5,13 +5,6 @@ Model with stacked and unstacked functional components
 Plot a model with stacked and unstacked functional components.
 """
 
-from plothist_utils import get_dummy_data
-
-df = get_dummy_data()
-
-
-# Define the histograms
-
 key = "variable_1"
 range = [-9, 12]
 
@@ -38,20 +31,31 @@ def f_background2(x):
 ###
 from plothist import add_text, plot_model
 
-fig, ax = plot_model(
-    stacked_components=[f_background1, f_background2],
-    stacked_labels=background_categories_labels[:2],
-    unstacked_components=[f_signal],
-    unstacked_labels=["Signal"],
-    unstacked_colors=["black"],
-    xlabel=key,
-    ylabel=f"f({key})",
-    model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
-    function_range=range,
-)
 
-add_text("Model made of functions", ax=ax)
+def make_figure(
+    f_signal, f_background1, f_background2, key, range, background_categories_labels
+):
+    fig, ax = plot_model(
+        stacked_components=[f_background1, f_background2],
+        stacked_labels=background_categories_labels[:2],
+        unstacked_components=[f_signal],
+        unstacked_labels=["Signal"],
+        unstacked_colors=["black"],
+        xlabel=key,
+        ylabel=f"f({key})",
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+        function_range=range,
+    )
 
-fig.savefig(
-    "model_with_stacked_and_unstacked_function_components.svg", bbox_inches="tight"
-)
+    add_text("Model made of functions", ax=ax)
+
+    return fig
+
+
+if __name__ == "__main__":
+    fig = make_figure(
+        f_signal, f_background1, f_background2, key, range, background_categories_labels
+    )
+    fig.savefig(
+        "model_with_stacked_and_unstacked_function_components.svg", bbox_inches="tight"
+    )

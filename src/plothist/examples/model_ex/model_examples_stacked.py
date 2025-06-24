@@ -49,6 +49,7 @@ from plothist import add_luminosity, plot_data_model_comparison, plot_hist
 
 
 def make_figure(
+    key,
     data_hist,
     signal_hist,
     background_hists,
@@ -84,6 +85,7 @@ def make_figure(
 
 if __name__ == "__main__":
     fig = make_figure(
+        key,
         data_hist,
         signal_hist,
         background_hists,

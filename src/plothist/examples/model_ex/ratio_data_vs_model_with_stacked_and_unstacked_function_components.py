@@ -42,20 +42,27 @@ def f_background2(x):
 ###
 from plothist import plot_data_model_comparison
 
-fig, ax_main, ax_comparison = plot_data_model_comparison(
-    data_hist=data_hist,
-    stacked_components=[f_background1, f_background2],
-    stacked_labels=["c0", "c1"],
-    unstacked_components=[f_signal],
-    unstacked_labels=["Signal"],
-    unstacked_colors=["#8EBA42"],
-    xlabel=key,
-    ylabel="Entries",
-    model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
-    comparison="pull",
-)
 
-fig.savefig(
-    "ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg",
-    bbox_inches="tight",
-)
+def make_figure(f_signal, f_background1, f_background2, key, data_hist):
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
+        data_hist=data_hist,
+        stacked_components=[f_background1, f_background2],
+        stacked_labels=["c0", "c1"],
+        unstacked_components=[f_signal],
+        unstacked_labels=["Signal"],
+        unstacked_colors=["#8EBA42"],
+        xlabel=key,
+        ylabel="Entries",
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+        comparison="pull",
+    )
+
+    return fig
+
+
+if __name__ == "__main__":
+    fig = make_figure(f_signal, f_background1, f_background2, key, data_hist)
+    fig.savefig(
+        "ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg",
+        bbox_inches="tight",
+    )

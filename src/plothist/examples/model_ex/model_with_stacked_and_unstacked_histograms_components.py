@@ -47,22 +47,42 @@ signal_hist *= signal_scaling_factor
 ###
 from plothist import add_text, plot_model
 
-fig, ax = plot_model(
-    stacked_components=background_hists,
-    stacked_labels=background_categories_labels,
-    stacked_colors=background_categories_colors,
-    unstacked_components=[signal_hist],
-    unstacked_labels=["Signal"],
-    unstacked_colors=["black"],
-    unstacked_kwargs_list=[{"linestyle": "dotted"}],
-    xlabel=key,
-    ylabel="Entries",
-    model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
-    model_uncertainty_label="Stat. unc.",
-)
 
-add_text("Model made of histograms", ax=ax)
+def make_figure(
+    key,
+    signal_hist,
+    background_hists,
+    background_categories_labels,
+    background_categories_colors,
+):
+    fig, ax = plot_model(
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        unstacked_components=[signal_hist],
+        unstacked_labels=["Signal"],
+        unstacked_colors=["black"],
+        unstacked_kwargs_list=[{"linestyle": "dotted"}],
+        xlabel=key,
+        ylabel="Entries",
+        model_sum_kwargs={"show": True, "label": "Model", "color": "navy"},
+        model_uncertainty_label="Stat. unc.",
+    )
 
-fig.savefig(
-    "model_with_stacked_and_unstacked_histograms_components.svg", bbox_inches="tight"
-)
+    add_text("Model made of histograms", ax=ax)
+
+    return fig
+
+
+if __name__ == "__main__":
+    fig = make_figure(
+        key,
+        signal_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+    fig.savefig(
+        "model_with_stacked_and_unstacked_histograms_components.svg",
+        bbox_inches="tight",
+    )
