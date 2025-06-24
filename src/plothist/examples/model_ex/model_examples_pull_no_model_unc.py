@@ -35,29 +35,44 @@ background_hists = [
     make_hist(df[key][mask], bins=50, range=range, weights=1)
     for mask in background_masks
 ]
-signal_hist = make_hist(df[key][signal_mask], bins=50, range=range, weights=1)
 
 # Optional: scale to data
 background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
 background_hists = [background_scaling_factor * h for h in background_hists]
 
-signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
-signal_hist *= signal_scaling_factor
-
 ###
+from matplotlib.figure import Figure
+
 from plothist import add_luminosity, plot_data_model_comparison
 
-fig, ax_main, ax_comparison = plot_data_model_comparison(
-    data_hist=data_hist,
-    stacked_components=background_hists,
-    stacked_labels=background_categories_labels,
-    stacked_colors=background_categories_colors,
-    xlabel=f"${key}\,\,[eV/c^2]$",
-    ylabel="Hits in the LMN per $4.2\\times 10^{-1}\,\,eV/c^2$",
-    comparison="pull",
-    model_uncertainty=False,  # <--
-)
 
-add_luminosity(collaboration="plothist", ax=ax_main, is_data=False)
+def make_figure(
+    data_hist,
+    background_hists,
+    background_categories_labels,
+    background_categories_colors,
+) -> Figure:
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
+        data_hist=data_hist,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        xlabel=f"${key}\\,\\,[eV/c^2]$",
+        ylabel="Hits in the LMN per $4.2\\times 10^{-1}\\,\\,eV/c^2$",
+        comparison="pull",
+        model_uncertainty=False,  # <--
+    )
 
-fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches="tight")
+    add_luminosity(collaboration="plothist", ax=ax_main, is_data=False)
+
+    return fig
+
+
+if __name__ == "__main__":
+    fig = make_figure(
+        data_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+    fig.savefig("model_examples_pull_no_model_unc.svg", bbox_inches="tight")

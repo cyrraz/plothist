@@ -60,11 +60,82 @@ def histograms():
 
 
 @pytest.mark.mpl_image_compare(
+    filename="model_all_comparisons_no_model_unc.png",
+    **mpl_image_compare_kwargs,
+)
+def test_model_all_comparisons_no_model_unc(histograms):
+    from plothist.examples.model_ex.model_all_comparisons_no_model_unc import (
+        make_figure,
+    )
+
+    (
+        data_hist,
+        _,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    ) = histograms
+
+    return make_figure(
+        data_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+
+
+@pytest.mark.mpl_image_compare(
     filename="model_all_comparisons.png",
     **mpl_image_compare_kwargs,
 )
-def test_example_fct_1d(histograms):
+def test_model_all_comparisons(histograms):
     from plothist.examples.model_ex.model_all_comparisons import make_figure
+
+    (
+        data_hist,
+        _,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    ) = histograms
+
+    return make_figure(
+        data_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="model_examples_pull_no_model_unc.png",
+    **mpl_image_compare_kwargs,
+)
+def test_model_examples_pull_no_model_unc(histograms):
+    from plothist.examples.model_ex.model_examples_pull_no_model_unc import make_figure
+
+    (
+        data_hist,
+        _,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    ) = histograms
+
+    return make_figure(
+        data_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="model_examples_pull.png",
+    **mpl_image_compare_kwargs,
+)
+def test_model_examples_pull(histograms):
+    from plothist.examples.model_ex.model_examples_pull import make_figure
 
     (
         data_hist,
@@ -100,6 +171,52 @@ def test_example_model_stacked(histograms):
     return make_figure(
         data_hist,
         signal_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="model_examples_stacked_unstacked.png",
+    **mpl_image_compare_kwargs,
+)
+def test_example_model_stacked_unstacked(histograms):
+    from plothist.examples.model_ex.model_examples_stacked_unstacked import make_figure
+
+    (
+        data_hist,
+        _,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    ) = histograms
+
+    return make_figure(
+        data_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+
+
+@pytest.mark.mpl_image_compare(
+    filename="model_examples_unstacked.png",
+    **mpl_image_compare_kwargs,
+)
+def test_example_model_unstacked(histograms):
+    from plothist.examples.model_ex.model_examples_unstacked import make_figure
+
+    (
+        data_hist,
+        _,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    ) = histograms
+
+    return make_figure(
+        data_hist,
         background_hists,
         background_categories_labels,
         background_categories_colors,

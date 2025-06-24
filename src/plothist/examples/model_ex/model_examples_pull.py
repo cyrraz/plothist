@@ -35,26 +35,41 @@ background_hists = [
     make_hist(df[key][mask], bins=50, range=range, weights=1)
     for mask in background_masks
 ]
-signal_hist = make_hist(df[key][signal_mask], bins=50, range=range, weights=1)
 
 # Optional: scale to data
 background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
 background_hists = [background_scaling_factor * h for h in background_hists]
 
-signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
-signal_hist *= signal_scaling_factor
-
 ###
+from matplotlib.figure import Figure
+
 from plothist import plot_data_model_comparison
 
-fig, ax_main, ax_comparison = plot_data_model_comparison(
-    data_hist=data_hist,
-    stacked_components=background_hists,
-    stacked_labels=background_categories_labels,
-    stacked_colors=background_categories_colors,
-    xlabel=f"${key}\,\,[TeV/c^2]$",
-    ylabel="Candidates per 0.42 $TeV/c^2$",
-    comparison="pull",
-)
 
-fig.savefig("model_examples_pull.svg", bbox_inches="tight")
+def make_figure(
+    data_hist,
+    background_hists,
+    background_categories_labels,
+    background_categories_colors,
+) -> Figure:
+    fig, ax_main, ax_comparison = plot_data_model_comparison(
+        data_hist=data_hist,
+        stacked_components=background_hists,
+        stacked_labels=background_categories_labels,
+        stacked_colors=background_categories_colors,
+        xlabel=f"${key}\\,\\,[TeV/c^2]$",
+        ylabel="Candidates per 0.42 $TeV/c^2$",
+        comparison="pull",
+    )
+
+    return fig
+
+
+if __name__ == "__main__":
+    fig = make_figure(
+        data_hist,
+        background_hists,
+        background_categories_labels,
+        background_categories_colors,
+    )
+    fig.savefig("model_examples_pull.svg", bbox_inches="tight")

@@ -35,14 +35,10 @@ background_hists = [
     make_hist(df[key][mask], bins=50, range=range, weights=1)
     for mask in background_masks
 ]
-signal_hist = make_hist(df[key][signal_mask], bins=50, range=range, weights=1)
 
 # Optional: scale to data
 background_scaling_factor = data_hist.sum().value / sum(background_hists).sum().value
 background_hists = [background_scaling_factor * h for h in background_hists]
-
-signal_scaling_factor = data_hist.sum().value / signal_hist.sum().value
-signal_hist *= signal_scaling_factor
 
 ###
 from matplotlib.figure import Figure
