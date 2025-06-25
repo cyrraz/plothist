@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
-from pytest import approx, raises
+import pytest
 
 from plothist import get_comparison, make_hist
 
@@ -17,9 +17,9 @@ def test_asymmetry_simple_values() -> None:
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="asymmetry"
     )
-    assert approx(values) == np.array([0.3333333333333333])
-    assert approx(high_uncertainty) == np.array([0.08606629658238704])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([0.3333333333333333])
+    assert pytest.approx(high_uncertainty) == np.array([0.08606629658238704])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
 
 def test_assymmetry_asymmetrical_uncertainty() -> None:
@@ -33,7 +33,7 @@ def test_assymmetry_asymmetrical_uncertainty() -> None:
         "Asymmetrical uncertainties are not supported for the asymmetry comparison."
     )
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(
             h1, h2, comparison="asymmetry", h1_uncertainty_type="asymmetrical"
         )
@@ -51,7 +51,7 @@ def test_asymmetry_complex_values() -> None:
         h2, h1, comparison="asymmetry"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             -0.42857142857142855,
             -0.20346320346320346,
@@ -65,7 +65,7 @@ def test_asymmetry_complex_values() -> None:
             0.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             0.41121309550224255,
             0.06714322983291869,
@@ -79,4 +79,4 @@ def test_asymmetry_complex_values() -> None:
             0.5,
         ]
     )
-    assert approx(high_uncertainty) == low_uncertainty
+    assert pytest.approx(high_uncertainty) == low_uncertainty

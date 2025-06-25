@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import os
 
+import pytest
 import yaml
 from plothist_utils import get_dummy_data
-from pytest import approx, fail, raises, warns
 
 from plothist import (
     create_variable_registry,
@@ -25,7 +25,7 @@ def test_variable_registry_warning() -> None:
     if os.path.exists(registry_path):
         os.remove(registry_path)
 
-    with raises(RuntimeError) as err:
+    with pytest.raises(RuntimeError) as err:
         get_variable_from_registry("variable_0")
     assert str(err.value) == "Did you forgot to run create_variable_registry()?"
 
@@ -36,7 +36,7 @@ def test_variable_registry_creation() -> None:
     """
     create_variable_registry(variable_keys, path=registry_path)
     if not os.path.exists(registry_path):
-        fail("Variable registry not created.")
+        pytest.fail("Variable registry not created.")
 
     os.remove(registry_path)
 
@@ -102,7 +102,7 @@ def test_update_variable_registry_ranges() -> None:
         variable_keys, path=registry_path, custom_dict={"bins": 50}, reset=True
     )
 
-    with raises(RuntimeError) as err:
+    with pytest.raises(RuntimeError) as err:
         update_variable_registry_ranges(df, variable_keys, path=registry_path)
     assert (
         str(err.value)
@@ -116,7 +116,7 @@ def test_update_variable_registry_ranges() -> None:
         reset=True,
     )
 
-    with raises(RuntimeError) as err:
+    with pytest.raises(RuntimeError) as err:
         update_variable_registry_ranges(df, variable_keys, path=registry_path)
     assert (
         str(err.value)
@@ -130,7 +130,7 @@ def test_update_variable_registry_ranges() -> None:
         reset=True,
     )
 
-    with raises(RuntimeError) as err:
+    with pytest.raises(RuntimeError) as err:
         update_variable_registry_ranges(df, variable_keys, path=registry_path)
     assert (
         str(err.value)
@@ -144,7 +144,7 @@ def test_update_variable_registry_ranges() -> None:
         reset=True,
     )
 
-    with raises(RuntimeError) as err:
+    with pytest.raises(RuntimeError) as err:
         update_variable_registry_ranges(df, variable_keys, path=registry_path)
     assert (
         str(err.value)
@@ -291,7 +291,7 @@ def test_remove_variable_registry_parameters_warning() -> None:
         ["bins"], variable_keys=None, path=registry_path
     )
 
-    with warns(
+    with pytest.warns(
         UserWarning,
         match="bins parameter not present in the registry _test_registry.yaml for variable_0, skipping.",
     ):
@@ -313,7 +313,7 @@ def test_update_variable_registry_ranges_all_keys() -> None:
 
     for key in variable_keys:
         variable = get_variable_from_registry(key, path=registry_path)
-        assert approx(variable["range"][0]) == df[key].min()
-        assert approx(variable["range"][1]) == df[key].max()
+        assert pytest.approx(variable["range"][0]) == df[key].min()
+        assert pytest.approx(variable["range"][1]) == df[key].max()
 
     os.remove(registry_path)

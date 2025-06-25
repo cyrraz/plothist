@@ -112,7 +112,14 @@ def test_plot_reordered_legend_valid_and_invalid():
     ax.legend()
 
     # Valid call: reorder legend to [B, A]
-    plot_reordered_legend(ax, [1, 0])  # Should not raise
+    plot_reordered_legend(ax, [1, 0], loc="upper left")
+
+    # Check that the legend is reordered correctly
+    legend = ax.get_legend()
+    assert legend.get_texts()[0].get_text() == "B"
+    assert legend.get_texts()[1].get_text() == "A"
+    # Check that the legend location is set correctly
+    assert legend._loc == 2  # 'upper left' corresponds to loc=2
 
     # Invalid call: duplicate and missing index
     with pytest.raises(

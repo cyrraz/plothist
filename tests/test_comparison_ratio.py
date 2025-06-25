@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import re
-
 import numpy as np
-from pytest import approx, raises
+import pytest
 
 from plothist import get_comparison, get_ratio, make_hist
 
@@ -20,7 +18,7 @@ def test_ratio_weighted_histograms() -> None:
     )
     h2 = make_hist(data=np.random.normal(size=10), bins=10, range=(-5, 5))
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(h1w, h2, comparison="ratio", h1_uncertainty_type="asymmetrical")
     assert (
         str(err.value)
@@ -39,16 +37,16 @@ def test_ratio_simple_values() -> None:
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="ratio"
     )
-    assert approx(values) == np.array([0.1])
-    assert approx(high_uncertainty) == np.array([0.03316625])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([0.1])
+    assert pytest.approx(high_uncertainty) == np.array([0.03316625])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="ratio", h1_uncertainty_type="asymmetrical"
     )
-    assert approx(values) == np.array([0.1])
-    assert approx(high_uncertainty) == np.array([0.03265575])
-    assert approx(low_uncertainty) == np.array([0.04382563])
+    assert pytest.approx(values) == np.array([0.1])
+    assert pytest.approx(high_uncertainty) == np.array([0.03265575])
+    assert pytest.approx(low_uncertainty) == np.array([0.04382563])
 
 
 def test_ratio_complex_values() -> None:
@@ -62,7 +60,7 @@ def test_ratio_complex_values() -> None:
         h2, h1, comparison="ratio"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             0.4,
             0.6618705035971223,
@@ -76,7 +74,7 @@ def test_ratio_complex_values() -> None:
             1.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             0.3346640106136302,
             0.08895650327968395,
@@ -90,13 +88,13 @@ def test_ratio_complex_values() -> None:
             1.0,
         ]
     )
-    assert approx(high_uncertainty) == low_uncertainty
+    assert pytest.approx(high_uncertainty) == low_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="ratio", h1_uncertainty_type="asymmetrical"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             0.4,
             0.6618705035971223,
@@ -110,7 +108,7 @@ def test_ratio_complex_values() -> None:
             1.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             0.31424734572549723,
             0.08885909032232045,
@@ -124,7 +122,7 @@ def test_ratio_complex_values() -> None:
             0.9577036150850644,
         ]
     )
-    assert approx(low_uncertainty) == np.array(
+    assert pytest.approx(low_uncertainty) == np.array(
         [
             0.5570746229934151,
             0.09484770051247897,
@@ -151,16 +149,16 @@ def test_split_ratio_simple_values() -> None:
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="split_ratio"
     )
-    assert approx(values) == np.array([0.1])
-    assert approx(high_uncertainty) == np.array([0.0316227766016838])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([0.1])
+    assert pytest.approx(high_uncertainty) == np.array([0.0316227766016838])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="split_ratio", h1_uncertainty_type="asymmetrical"
     )
-    assert approx(values) == np.array([0.1])
-    assert approx(high_uncertainty) == np.array([0.031086944386636207])
-    assert approx(low_uncertainty) == np.array([0.04266949759891313])
+    assert pytest.approx(values) == np.array([0.1])
+    assert pytest.approx(high_uncertainty) == np.array([0.031086944386636207])
+    assert pytest.approx(low_uncertainty) == np.array([0.04266949759891313])
 
 
 def test_split_ratio_complex_values() -> None:
@@ -174,7 +172,7 @@ def test_split_ratio_complex_values() -> None:
         h2, h1, comparison="split_ratio"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             0.4,
             0.6618705035971223,
@@ -188,7 +186,7 @@ def test_split_ratio_complex_values() -> None:
             1.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             0.282842712474619,
             0.06900477011960747,
@@ -202,13 +200,13 @@ def test_split_ratio_complex_values() -> None:
             0.7071067811865476,
         ]
     )
-    assert approx(high_uncertainty) == low_uncertainty
+    assert pytest.approx(high_uncertainty) == low_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="split_ratio", h1_uncertainty_type="asymmetrical"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             0.4,
             0.6618705035971223,
@@ -222,7 +220,7 @@ def test_split_ratio_complex_values() -> None:
             1.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             0.2583629119969045,
             0.06887914601983501,
@@ -236,7 +234,7 @@ def test_split_ratio_complex_values() -> None:
             0.6459072799922612,
         ]
     )
-    assert approx(low_uncertainty) == np.array(
+    assert pytest.approx(low_uncertainty) == np.array(
         [
             0.5275719245593493,
             0.07644923227878979,
@@ -259,8 +257,8 @@ def test_get_ratio_with_invalid_ratio_uncertainty_type() -> None:
     h1 = make_hist(data=[1] * 100, bins=1, range=(0, 3))
     h2 = make_hist(data=[1] * 10, bins=1, range=(0, 3))
 
-    with raises(
+    with pytest.raises(
         ValueError,
-        match=re.escape("ratio_uncertainty_type not in ['uncorrelated', 'split']."),
+        match=r"ratio_uncertainty_type not in \['uncorrelated', 'split'\].",
     ):
         get_ratio(h2, h1, ratio_uncertainty_type="invalid")
