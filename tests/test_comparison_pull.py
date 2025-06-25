@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
-from pytest import approx, raises
+import pytest
 
 from plothist import get_comparison, make_hist
 
@@ -18,7 +18,7 @@ def test_pull_weighted_histograms() -> None:
     )
     h2 = make_hist(data=np.random.normal(size=10), bins=10, range=(-5, 5))
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(h1w, h2, comparison="pull", h1_uncertainty_type="asymmetrical")
     assert (
         str(err.value)
@@ -37,16 +37,16 @@ def test_pull_simple_values() -> None:
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="pull"
     )
-    assert approx(values) == np.array([-4.08248290463863])
-    assert approx(high_uncertainty) == np.array([1.0])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([-4.08248290463863])
+    assert pytest.approx(high_uncertainty) == np.array([1.0])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="pull", h1_uncertainty_type="asymmetrical"
     )
-    assert approx(values) == np.array([-3.8818568847803108])
-    assert approx(high_uncertainty) == np.array([1.0])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([-3.8818568847803108])
+    assert pytest.approx(high_uncertainty) == np.array([1.0])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
 
 def test_pull_complex_values() -> None:
@@ -60,7 +60,7 @@ def test_pull_complex_values() -> None:
         h2, h1, comparison="pull"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             -1.1338934190276817,
             -3.092372966310914,
@@ -74,14 +74,14 @@ def test_pull_complex_values() -> None:
             0.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array([1.0] * 10)
-    assert approx(high_uncertainty) == low_uncertainty
+    assert pytest.approx(high_uncertainty) == np.array([1.0] * 10)
+    assert pytest.approx(high_uncertainty) == low_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="pull", h1_uncertainty_type="asymmetrical"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             -0.867533933037641,
             -2.9611841506616883,
@@ -95,5 +95,5 @@ def test_pull_complex_values() -> None:
             0.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array([1.0] * 10)
-    assert approx(high_uncertainty) == low_uncertainty
+    assert pytest.approx(high_uncertainty) == np.array([1.0] * 10)
+    assert pytest.approx(high_uncertainty) == low_uncertainty

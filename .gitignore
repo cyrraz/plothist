@@ -9,6 +9,7 @@ test.yaml
 temp_img/
 .venv
 .nox/
+.coverage
 
 # Ignore local readthedocs build
 html/

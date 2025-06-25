@@ -192,9 +192,8 @@ def set_fitting_ylabel_fontsize(ax: plt.Axes) -> float:
     """
     ylabel_fontsize = ax.yaxis.get_label().get_fontsize()
 
-    # Check if renderer is available
-    if ax.figure.canvas.get_renderer() is None:
-        ax.figure.canvas.draw()
+    # Force renderer to be initialized
+    ax.figure.canvas.draw()
 
     while (
         ax.yaxis.get_label()
