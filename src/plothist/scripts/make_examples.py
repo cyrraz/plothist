@@ -6,6 +6,7 @@ import subprocess
 import warnings
 from importlib import resources
 
+import pytest
 import yaml
 from packaging import version
 
@@ -120,8 +121,6 @@ def make_examples(
     svg_metadata = "metadata=" + str(svg_metadata)
 
     if check_svg:
-        from pytest import fail
-
         img_hashes = {}
         for file in os.listdir(img_folder):
             if file.endswith(".svg"):
@@ -162,7 +161,9 @@ def make_examples(
                 check=False,
             )
             if result.returncode != 0 and check_svg:
-                fail(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
+                pytest.fail(
+                    f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}"
+                )
             elif result.returncode != 0:
                 print(f"Error while redoing {file}:\n{result.stderr}\n{result.stdout}")
 
@@ -191,11 +192,11 @@ def make_examples(
                 changed_img.append(file)
         if changed_img:
             changed_img.sort()
-            fail(
+            pytest.fail(
                 f"The following images in the doc have changed [{len(changed_img)} out of {len(img_hashes)}]:\n{', '.join(changed_img)}.\nPlease run `plothist_make_examples`, check the new images and commit them if they are correct."
             )
         if len(new_img_hashes) != len(img_hashes):
-            fail(
+            pytest.fail(
                 f"The number of images has changed. Please run `plothist_make_examples`, check the new images and commit them if they are correct. New images:\n{set(new_img_hashes.keys()) - set(img_hashes.keys())}"
             )
             return None

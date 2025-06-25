@@ -62,7 +62,7 @@ def test_partial_fig_and_ax_input() -> None:
 
 def test_plot_function_cases() -> None:
     """
-    Test that plot_function can handle different cases that are note covered by the examples.
+    Test that plot_function can handle different cases that are not covered by the examples.
     """
 
     def f1(x):
@@ -71,7 +71,7 @@ def test_plot_function_cases() -> None:
     def f2(x):
         return x + 1
 
-    # Case 1
+    # Case 1: Plotting multiple functions without stacking
     fig, ax = plt.subplots()
     plot_function(
         [
@@ -85,7 +85,7 @@ def test_plot_function_cases() -> None:
     assert len(ax.lines) == 2
     plt.close(fig)
 
-    # Case 2
+    # Case 2: Plotting a single function with stacking
     fig, ax = plt.subplots()
     plot_function(
         f1,
@@ -99,13 +99,13 @@ def test_plot_function_cases() -> None:
 
 def test_plot_2d_hist_with_projections_cases() -> None:
     """
-    Test that plot_2d_hist_with_projections can handle different cases with projections.
+    Test that plot_2d_hist_with_projections can handle empty data and no input figure.
     """
     h_2d = make_2d_hist(data=[[], []], bins=[10, 10], range=[[0, 10], [0, 10]])
-    fig, _ = plt.subplots()
-    _ = plot_2d_hist_with_projections(
+    fig, _, _, _, _ = plot_2d_hist_with_projections(
         h_2d,
     )
+    assert len(fig.axes) == 4  # Main plot + 2 projections + colorbar
     plt.close(fig)
 
 
@@ -118,7 +118,10 @@ def test_savefig_with_default_size() -> None:
         output_path = Path(tmpdir) / "default_size.png"
         savefig(fig, str(output_path))
         assert output_path.exists()
-        assert output_path.stat().st_size > 0  # Ensure file is not empty
+        # Confirm figure size is unchanged
+        width, height = fig.get_size_inches()
+        assert pytest.approx(width) == plt.rcParams["figure.figsize"][0]
+        assert pytest.approx(height) == plt.rcParams["figure.figsize"][1]
 
     plt.close(fig)
 
@@ -174,7 +177,7 @@ def test_plot_model_cases() -> None:
 
     h_1d = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
 
-    # Case 1
+    # Case 1: Plotting functions without labels
     fig, ax = plt.subplots()
     with pytest.warns(
         UserWarning, match="No artists with labels found to put in legend."
@@ -187,7 +190,7 @@ def test_plot_model_cases() -> None:
         )
     plt.close(fig)
 
-    # Case 2
+    # Case 2: Plotting a model with  single unstacked histogram
     fig, ax = plt.subplots()
     fig, ax = plot_model(
         unstacked_components=[h_1d],
@@ -197,7 +200,7 @@ def test_plot_model_cases() -> None:
     assert len(ax.patches) == 4
     plt.close(fig)
 
-    # Case 3
+    # Case 3: Plotting a model without any components
     fig, ax = plt.subplots()
     with pytest.raises(
         ValueError, match="Need to provide at least one model component."
@@ -231,7 +234,7 @@ def test_plot_data_model_comparison_cases() -> None:
 
     h_1d = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
 
-    # Case 1
+    # Case 1: No model components provided
     fig, ax = plt.subplots()
     with pytest.raises(
         ValueError, match="Need to provide at least one model component."
@@ -243,7 +246,7 @@ def test_plot_data_model_comparison_cases() -> None:
         )
     plt.close(fig)
 
-    # Case 2
+    # Case 2: Providing fig and ax_main or ax_comparison with plot_only
     fig, ax = plt.subplots()
     with pytest.raises(
         ValueError, match="Cannot provide fig, ax_main or ax_comparison with plot_only."
@@ -259,7 +262,7 @@ def test_plot_data_model_comparison_cases() -> None:
         )
     plt.close(fig)
 
-    # Case 3
+    # Case 3: Not providing labels for model components in ax_main
     with pytest.warns(
         UserWarning, match="No artists with labels found to put in legend."
     ):
@@ -268,7 +271,7 @@ def test_plot_data_model_comparison_cases() -> None:
         )
     plt.close(fig)
 
-    # Case 4
+    # Case 4: Not providing labels for model components in ax_comparison
     with pytest.warns(
         UserWarning, match="No artists with labels found to put in legend."
     ):
@@ -277,7 +280,7 @@ def test_plot_data_model_comparison_cases() -> None:
         )
     plt.close(fig)
 
-    # Case 5
+    # Case 5: Providing an invalid plot_only value
     with pytest.raises(
         ValueError, match="plot_only must be 'ax_main', 'ax_comparison' or None."
     ):

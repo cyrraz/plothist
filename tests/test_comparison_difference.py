@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
-from pytest import approx, raises
+import pytest
 
 from plothist import get_comparison, make_hist
 
@@ -18,7 +18,7 @@ def test_difference_weighted_histograms() -> None:
     )
     h2 = make_hist(data=np.random.normal(size=10), bins=10, range=(-5, 5))
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(
             h1w, h2, comparison="difference", h1_uncertainty_type="asymmetrical"
         )
@@ -39,16 +39,16 @@ def test_difference_simple_values() -> None:
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="difference"
     )
-    assert approx(values) == np.array([50.0])
-    assert approx(high_uncertainty) == np.array([12.24744871391589])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([50.0])
+    assert pytest.approx(high_uncertainty) == np.array([12.24744871391589])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="difference", h1_uncertainty_type="asymmetrical"
     )
-    assert approx(values) == np.array([50.0])
-    assert approx(high_uncertainty) == np.array([12.233780151938355])
-    assert approx(low_uncertainty) == np.array([13.104772168594577])
+    assert pytest.approx(values) == np.array([50.0])
+    assert pytest.approx(high_uncertainty) == np.array([12.233780151938355])
+    assert pytest.approx(low_uncertainty) == np.array([13.104772168594577])
 
 
 def test_difference_complex_values() -> None:
@@ -62,10 +62,10 @@ def test_difference_complex_values() -> None:
         h2, h1, comparison="difference"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [-3.0, -47.0, -449.0, -2623.0, -6946.0, -6879.0, -2468.0, -575.0, -10.0, 0.0]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             2.6457513110645907,
             15.198684153570664,
@@ -79,16 +79,16 @@ def test_difference_complex_values() -> None:
             2.0,
         ]
     )
-    assert approx(high_uncertainty) == low_uncertainty
+    assert pytest.approx(high_uncertainty) == low_uncertainty
 
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="difference", h1_uncertainty_type="asymmetrical"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [-3.0, -47.0, -449.0, -2623.0, -6946.0, -6879.0, -2468.0, -575.0, -10.0, 0.0]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             2.5823990507642316,
             15.187670343763216,
@@ -102,7 +102,7 @@ def test_difference_complex_values() -> None:
             1.9154072301701288,
         ]
     )
-    assert approx(low_uncertainty) == np.array(
+    assert pytest.approx(low_uncertainty) == np.array(
         [
             3.458077990673633,
             15.87202875900091,

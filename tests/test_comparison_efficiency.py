@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-from pytest import approx, raises
 
 from plothist import get_comparison, make_hist
 
@@ -13,7 +12,7 @@ def test_efficiency_subsample() -> None:
     """
     h1 = make_hist(data=np.random.normal(size=11), bins=100, range=(-5, 5))
     h2 = make_hist(data=np.random.normal(size=10), bins=100, range=(-5, 5))
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(h1, h2, comparison="efficiency")
     assert (
         str(err.value)
@@ -46,7 +45,7 @@ def test_efficiency_asymmetrical_uncertainty() -> None:
         "Asymmetrical uncertainties are not supported in an efficiency computation."
     )
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(
             h1, h2, comparison="efficiency", h1_uncertainty_type="asymmetrical"
         )
@@ -74,15 +73,15 @@ def test_efficiency_weighted_histograms() -> None:
 
     error_msg = "The ratio of two correlated histograms (efficiency) can only be computed for unweighted histograms."
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(h1w, h2, comparison="efficiency")
     assert str(err.value) == error_msg
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(h1, h2w, comparison="efficiency")
     assert str(err.value) == error_msg
 
-    with raises(ValueError) as err:
+    with pytest.raises(ValueError) as err:
         get_comparison(h1w, h2w, comparison="efficiency")
     assert str(err.value) == error_msg
 
@@ -108,14 +107,14 @@ def test_efficiency_simple_values() -> None:
     values, high_uncertainty, low_uncertainty = get_comparison(
         h2, h1, comparison="efficiency"
     )
-    assert approx(values) == np.array([0.1])
-    assert approx(high_uncertainty) == np.array([0.03056316])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([0.1])
+    assert pytest.approx(high_uncertainty) == np.array([0.03056316])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
-    assert approx(high_uncertainty[0], 0.02) == simple_efficiency_uncertainty(
+    assert pytest.approx(high_uncertainty[0], 0.02) == simple_efficiency_uncertainty(
         n1, n2
     )  # 0.02 relative error
-    assert approx(low_uncertainty[0], 0.02) == simple_efficiency_uncertainty(
+    assert pytest.approx(low_uncertainty[0], 0.02) == simple_efficiency_uncertainty(
         n1, n2
     )  # 0.02 relative error
 
@@ -130,14 +129,14 @@ def test_efficiency_simple_values() -> None:
         h2, h1, comparison="efficiency"
     )
 
-    assert approx(values) == np.array([0.1])
-    assert approx(high_uncertainty) == np.array([9.48683493e-05])
-    assert approx(low_uncertainty) == high_uncertainty
+    assert pytest.approx(values) == np.array([0.1])
+    assert pytest.approx(high_uncertainty) == np.array([9.48683493e-05])
+    assert pytest.approx(low_uncertainty) == high_uncertainty
 
-    assert approx(high_uncertainty[0]) == simple_efficiency_uncertainty(
+    assert pytest.approx(high_uncertainty[0]) == simple_efficiency_uncertainty(
         n1, n2
     )  # 1e-6 relative error by default
-    assert approx(low_uncertainty[0]) == simple_efficiency_uncertainty(
+    assert pytest.approx(low_uncertainty[0]) == simple_efficiency_uncertainty(
         n1, n2
     )  # 1e-6 relative error by default
 
@@ -155,7 +154,7 @@ def test_efficiency_complex_values() -> None:
         h2, h1, comparison="efficiency"
     )
 
-    assert approx(values) == np.array(
+    assert pytest.approx(values) == np.array(
         [
             0.0,
             0.1079136690647482,
@@ -169,7 +168,7 @@ def test_efficiency_complex_values() -> None:
             0.0,
         ]
     )
-    assert approx(high_uncertainty) == np.array(
+    assert pytest.approx(high_uncertainty) == np.array(
         [
             0.12371791482634838,
             0.02661654698726243,
@@ -183,4 +182,4 @@ def test_efficiency_complex_values() -> None:
             0.19364916731037085,
         ]
     )
-    assert approx(high_uncertainty) == low_uncertainty
+    assert pytest.approx(high_uncertainty) == low_uncertainty
