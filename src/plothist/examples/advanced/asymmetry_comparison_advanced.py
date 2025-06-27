@@ -93,8 +93,8 @@ plot_comparison(
     h1,
     h2,
     ax=ax_comparison,
-    h1_label="$Data_1$",
-    h2_label="$Data_2$",
+    h1_label=r"$Data_1$",
+    h2_label=r"$Data_2$",
     comparison="asymmetry",
     comparison_ylim=(-1, 1),
 )

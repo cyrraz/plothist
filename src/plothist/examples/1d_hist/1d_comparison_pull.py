@@ -29,8 +29,8 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h2,
     xlabel=name,
     ylabel="Entries",
-    h1_label="$h_1$",
-    h2_label="$h_2$",
+    h1_label=r"$h_1$",
+    h2_label=r"$h_2$",
     comparison="pull",  # <---
 )
 

@@ -29,8 +29,8 @@ fig, ax_main, ax_comparison = plot_two_hist_comparison(
     h_total,
     xlabel=name,
     ylabel="Entries",
-    h1_label="$\mathit{H}_{Sample}$",
-    h2_label="$\mathit{H}_{Total}$",
+    h1_label=r"$\mathit{H}_{Sample}$",
+    h2_label=r"$\mathit{H}_{Total}$",
     comparison="efficiency",  # <--
 )
 
