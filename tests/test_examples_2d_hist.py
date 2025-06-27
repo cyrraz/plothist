@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 
+import matplotlib.pyplot as plt
 import pytest
 
 import plothist
@@ -21,6 +22,14 @@ current_module = sys.modules[__name__]
 exclude_scripts = [
     "2d_hist_correlations",  # multiple figures
 ]
+
+
+@pytest.fixture(autouse=True)
+def close_all_figures():
+    """Automatically close all figures after each test."""
+    yield
+    plt.close("all")
+
 
 for script_path in script_dir.glob("*.py"):
     if script_path.stem in exclude_scripts:

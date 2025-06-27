@@ -6,6 +6,7 @@ Illustration of the difference between matplotlib and plothist default styles.
 """
 
 import matplotlib.pyplot as plt
+import numpy as np
 from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
@@ -38,7 +39,8 @@ for style in ["matplotlib", "plothist"]:
     ax1.legend()
 
     # Calculate the ratio of histogram values and plot in the second subplot (ax2)
-    ratio = hist_0 / h1[0]  # Divide bin values of variable_0 by variable_1
+    with np.errstate(divide="ignore", invalid="ignore"):
+        ratio = hist_0 / h1[0]  # Divide bin values of variable_0 by variable_1
     bin_centers = 0.5 * (bins[:-1] + bins[1:])  # Calculate bin centers
 
     # Create fake error bars for the ratio

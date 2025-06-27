@@ -83,9 +83,9 @@ for k, cmap_name in enumerate(cmap_list):
     ax.set_xlim(xrange)
     ax.legend()
 
-    cmap_name = cmap_name.replace("_", "\_")
+    cmap_name = cmap_name.replace("_", r"\_")
     add_text(
-        f"$\mathrm{{\mathbf{{cmap = {cmap_name}}}}}$", x="right", fontsize=12, ax=ax
+        rf"$\mathrm{{\mathbf{{cmap = {cmap_name}}}}}$", x="right", fontsize=12, ax=ax
     )
 
 fig.savefig(

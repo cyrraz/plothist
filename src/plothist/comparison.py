@@ -134,16 +134,13 @@ def get_ratio_variances(h1: bh.Histogram, h2: bh.Histogram) -> np.ndarray:
     _check_counting_histogram(h1)
     _check_counting_histogram(h2)
 
-    np.seterr(divide="ignore", invalid="ignore")
-    ratio_variances = np.where(
-        h2.values() != 0,
-        h1.variances() / h2.values() ** 2
-        + h2.variances() * h1.values() ** 2 / h2.values() ** 4,
-        np.nan,
-    )
-    np.seterr(divide="warn", invalid="warn")
-
-    return ratio_variances
+    with np.errstate(divide="ignore", invalid="ignore"):
+        return np.where(
+            h2.values() != 0,
+            h1.variances() / h2.values() ** 2
+            + h2.variances() * h1.values() ** 2 / h2.values() ** 4,
+            np.nan,
+        )
 
 
 def get_pull(
@@ -473,49 +470,47 @@ def get_comparison(
     _check_counting_histogram(h1)
     _check_counting_histogram(h2)
 
-    np.seterr(divide="ignore", invalid="ignore")
-
-    if comparison == "ratio":
-        values, lower_uncertainties, upper_uncertainties = get_ratio(
-            h1, h2, h1_uncertainty_type, "uncorrelated"
-        )
-    elif comparison == "split_ratio":
-        values, lower_uncertainties, upper_uncertainties = get_ratio(
-            h1, h2, h1_uncertainty_type, "split"
-        )
-    elif comparison == "relative_difference":
-        values, lower_uncertainties, upper_uncertainties = get_ratio(
-            h1, h2, h1_uncertainty_type, "uncorrelated"
-        )
-        values -= 1  # relative difference is ratio-1
-    elif comparison == "pull":
-        values, lower_uncertainties, upper_uncertainties = get_pull(
-            h1, h2, h1_uncertainty_type
-        )
-    elif comparison == "difference":
-        values, lower_uncertainties, upper_uncertainties = get_difference(
-            h1, h2, h1_uncertainty_type
-        )
-    elif comparison == "asymmetry":
-        if h1_uncertainty_type == "asymmetrical":
-            raise ValueError(
-                "Asymmetrical uncertainties are not supported for the asymmetry comparison."
+    with np.errstate(divide="ignore", invalid="ignore"):
+        if comparison == "ratio":
+            values, lower_uncertainties, upper_uncertainties = get_ratio(
+                h1, h2, h1_uncertainty_type, "uncorrelated"
             )
-        values, uncertainties = get_asymmetry(h1, h2)
-        lower_uncertainties = uncertainties
-        upper_uncertainties = uncertainties
-    elif comparison == "efficiency":
-        if h1_uncertainty_type == "asymmetrical":
-            raise ValueError(
-                "Asymmetrical uncertainties are not supported in an efficiency computation."
+        elif comparison == "split_ratio":
+            values, lower_uncertainties, upper_uncertainties = get_ratio(
+                h1, h2, h1_uncertainty_type, "split"
             )
-        values, uncertainties = get_efficiency(h1, h2)
-        lower_uncertainties = uncertainties
-        upper_uncertainties = uncertainties
-    else:
-        raise ValueError(
-            f"{comparison} not available as a comparison ('ratio', 'split_ratio', 'pull', 'difference', 'relative_difference', 'asymmetry' or 'efficiency')."
-        )
-    np.seterr(divide="warn", invalid="warn")
+        elif comparison == "relative_difference":
+            values, lower_uncertainties, upper_uncertainties = get_ratio(
+                h1, h2, h1_uncertainty_type, "uncorrelated"
+            )
+            values -= 1  # relative difference is ratio-1
+        elif comparison == "pull":
+            values, lower_uncertainties, upper_uncertainties = get_pull(
+                h1, h2, h1_uncertainty_type
+            )
+        elif comparison == "difference":
+            values, lower_uncertainties, upper_uncertainties = get_difference(
+                h1, h2, h1_uncertainty_type
+            )
+        elif comparison == "asymmetry":
+            if h1_uncertainty_type == "asymmetrical":
+                raise ValueError(
+                    "Asymmetrical uncertainties are not supported for the asymmetry comparison."
+                )
+            values, uncertainties = get_asymmetry(h1, h2)
+            lower_uncertainties = uncertainties
+            upper_uncertainties = uncertainties
+        elif comparison == "efficiency":
+            if h1_uncertainty_type == "asymmetrical":
+                raise ValueError(
+                    "Asymmetrical uncertainties are not supported in an efficiency computation."
+                )
+            values, uncertainties = get_efficiency(h1, h2)
+            lower_uncertainties = uncertainties
+            upper_uncertainties = uncertainties
+        else:
+            raise ValueError(
+                f"{comparison} not available as a comparison ('ratio', 'split_ratio', 'pull', 'difference', 'relative_difference', 'asymmetry' or 'efficiency')."
+            )
 
     return values, lower_uncertainties, upper_uncertainties

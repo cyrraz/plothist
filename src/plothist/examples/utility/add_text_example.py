@@ -26,8 +26,8 @@ positions = [
 ]
 
 for x, y in positions:
-    x_label = x.replace("_", "\_")
-    y_label = y.replace("_", "\_")
+    x_label = x.replace("_", r"\_")
+    y_label = y.replace("_", r"\_")
     add_text(
         f"$\\mathtt{{add\\_text()}}$\n"
         f'$\\mathtt{{x = }}$"$\\mathtt{{{x_label}}}$"\n'

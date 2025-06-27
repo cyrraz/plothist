@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 
+import matplotlib.pyplot as plt
 import pytest
 
 import plothist
@@ -17,6 +18,14 @@ mpl_image_compare_kwargs = {
 script_dir = Path(plothist.__file__).parent / "examples" / "model_ex"
 
 current_module = sys.modules[__name__]
+
+
+@pytest.fixture(autouse=True)
+def close_all_figures():
+    """Automatically close all figures after each test."""
+    yield
+    plt.close("all")
+
 
 for script_path in script_dir.glob("*.py"):
     filename = f"{script_path.stem}.png"

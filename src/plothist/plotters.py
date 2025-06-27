@@ -636,13 +636,12 @@ def plot_comparison(
             ax.set_ylabel(r"$\frac{" + h1_label + "}{" + h2_label + "}$")
 
         if comparison == "split_ratio":
-            np.seterr(divide="ignore", invalid="ignore")
-            h2_scaled_uncertainties = np.where(
-                h2.values() != 0,
-                np.sqrt(h2.variances()) / h2.values(),
-                np.nan,
-            )
-            np.seterr(divide="warn", invalid="warn")
+            with np.errstate(divide="ignore", invalid="ignore"):
+                h2_scaled_uncertainties = np.where(
+                    h2.values() != 0,
+                    np.sqrt(h2.variances()) / h2.values(),
+                    np.nan,
+                )
             ax.bar(
                 x=h2.axes[0].centers,
                 bottom=np.nan_to_num(
