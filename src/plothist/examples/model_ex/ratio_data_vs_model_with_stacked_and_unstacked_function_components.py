@@ -14,7 +14,7 @@ from plothist import make_hist
 # Define the histograms
 
 key = "variable_1"
-range = [-9, 12]
+range = (-9, 12)
 category = "category"
 
 # Define masks

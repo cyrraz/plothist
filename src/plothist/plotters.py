@@ -794,11 +794,13 @@ def _get_model_type(components: list) -> str:
 
 def plot_model(
     stacked_components: list[bh.Histogram] | None = None,
-    stacked_labels: list[str | None] | None = None,
-    stacked_colors: list[str | None] | None = None,
+    stacked_labels: list[str] | None = None,
+    stacked_colors: list[str] | list[tuple[float, float, float]] | None = None,
     unstacked_components: list[bh.Histogram] | None = None,
-    unstacked_labels: list[str | None] | None = None,
-    unstacked_colors: list[str | None] | None = None,
+    unstacked_labels: list[str] | list[None] | None = None,
+    unstacked_colors: (
+        list[str] | list[tuple[float, float, float]] | list[None] | None
+    ) = None,
     xlabel: str | None = None,
     ylabel: str | None = None,
     stacked_kwargs: dict | None = None,
@@ -817,15 +819,15 @@ def plot_model(
     ----------
     stacked_components : list[bh.Histogram] | None, optional
         The list of histograms to be stacked composing the model. Default is None.
-    stacked_labels : list[str | None] | None, optional
+    stacked_labels : list[str] | None, optional
         The labels of the model stacked components. Default is None.
-    stacked_colors : list[str | None] | None, optional
+    stacked_colors : list[str] | None, optional
         The colors of the model stacked components. Default is None.
     unstacked_components : list[bh.Histogram] | None, optional
         The list of histograms not to be stacked composing the model. Default is None.
-    unstacked_labels : list[str | None] | None, optional
+    unstacked_labels : list[str] | list[None] | None, optional
         The labels of the model unstacked components. Default is None.
-    unstacked_colors : list[str | None] | None, optional
+    unstacked_colors : list[str] | list[tuple[float, float, float]] | list[None] | None, optional
         The colors of the model unstacked components. Default is None.
     xlabel : str | None, optional
         The label for the x-axis. Default is None.
@@ -1012,11 +1014,11 @@ def plot_model(
 def plot_data_model_comparison(
     data_hist: bh.Histogram,
     stacked_components: list[bh.Histogram] | None = None,
-    stacked_labels: list[str | None] | None = None,
-    stacked_colors: list[str | None] | None = None,
+    stacked_labels: list[str] | None = None,
+    stacked_colors: list[str] | list[tuple[float, float, float]] | None = None,
     unstacked_components: list[bh.Histogram] | None = None,
-    unstacked_labels: list[str | None] | None = None,
-    unstacked_colors: list[str | None] | None = None,
+    unstacked_labels: list[str] | None = None,
+    unstacked_colors: list[str] | list[tuple[float, float, float]] | None = None,
     xlabel: str | None = None,
     ylabel: str | None = None,
     data_label: str = "Data",
@@ -1041,15 +1043,15 @@ def plot_data_model_comparison(
         The histogram for the data.
     stacked_components : list[bh.Histogram] | None, optional
         The list of histograms to be stacked composing the model. Default is None.
-    stacked_labels : list[str | None] | None, optional
+    stacked_labels : list[str] | None, optional
         The labels of the model stacked components. Default is None.
-    stacked_colors : list[str | None] | None, optional
+    stacked_colors : list[str] | None, optional
         The colors of the model stacked components. Default is None.
     unstacked_components : list[bh.Histogram] | None, optional
         The list of histograms not to be stacked composing the model. Default is None.
-    unstacked_labels : list[str | None] | None, optional
+    unstacked_labels : list[str] | None, optional
         The labels of the model unstacked components. Default is None.
-    unstacked_colors : list[str | None] | None, optional
+    unstacked_colors : list[str] | None, optional
         The colors of the model unstacked components. Default is None.
     xlabel : str | None, optional
         The label for the x-axis. Default is None.

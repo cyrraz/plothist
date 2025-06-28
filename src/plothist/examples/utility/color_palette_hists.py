@@ -15,7 +15,7 @@ from plothist import add_text, get_color_palette, make_hist, plot_error_hist, pl
 
 # Define the histograms
 key = "variable_1"
-xrange = [-8, 10]
+xrange = (-8, 10)
 category = "category"
 
 # Define masks

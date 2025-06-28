@@ -38,7 +38,7 @@ category = "category"
 
 x1 = df[name][df[category] == 5]
 
-x_range = [-9, 9]
+x_range = (-9, 9)
 
 # Create the histograms used as data
 h1 = make_hist(x1 - 2.5, bins=50, range=x_range)
@@ -73,12 +73,16 @@ marker_2 = {
 plot_error_hist(
     h1,
     ax_main,
+    uncertainty_type="symmetrical",
+    density=False,
     **marker_1,
 )
 
 plot_error_hist(
     h2,
     ax_main,
+    uncertainty_type="symmetrical",
+    density=False,
     **marker_2,
 )
 

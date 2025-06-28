@@ -28,7 +28,7 @@ fig, ax = plt.subplots()
 
 plot_function(
     [f, g],
-    range=[-10, 10],
+    range=(-10, 10),
     ax=ax,
     labels=["f1", "f2"],
     stacked=True,

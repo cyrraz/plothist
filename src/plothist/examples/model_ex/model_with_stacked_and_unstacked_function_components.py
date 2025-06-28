@@ -6,7 +6,7 @@ Plot a model with stacked and unstacked functional components.
 """
 
 key = "variable_1"
-range = [-9, 12]
+range = (-9, 12)
 
 background_categories = [0, 1, 2]
 background_categories_labels = [f"c{i}" for i in background_categories]

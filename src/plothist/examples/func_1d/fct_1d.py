@@ -19,7 +19,7 @@ def f(x):
 
 fig, ax = plt.subplots()
 
-plot_function(f, range=[-10, 10], ax=ax)
+plot_function(f, range=(-10, 10), ax=ax)
 
 ax.set_xlabel("x")
 ax.set_ylabel("f(x)")

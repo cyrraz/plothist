@@ -31,7 +31,7 @@ We also show an example of how to scale the model to the data. We take advantage
     from plothist import make_hist, get_color_palette
 
     key = "variable_1"
-    range = [-9, 12]
+    range = (-9, 12)
     category = "category"
 
     # Define some masks to separate the dataset in signal (1 category), background (3 categories) and data (1 category)

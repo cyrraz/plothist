@@ -27,7 +27,7 @@ x2 = df[name][df[category] == 4]
 x3 = df[name][df[category] == 3]
 x4 = df[name][df[category] == 5]
 
-x_range = [-9, 9]
+x_range = (-9, 9)
 
 h1 = make_hist(x3, bins=50, range=x_range)
 h2 = make_hist(x4, bins=50, range=x_range)

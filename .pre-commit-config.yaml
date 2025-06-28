@@ -49,6 +49,15 @@ repos:
       - id: check-github-workflows
         args: ["--verbose"]
 
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.16.0
+    hooks:
+      - id: mypy
+        files: src
+        additional_dependencies:
+          - types-requests
+          - types-pyyaml
+
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:
