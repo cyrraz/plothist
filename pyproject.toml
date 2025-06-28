@@ -51,6 +51,7 @@ dev = [
 test = [
     "pytest>=8.3.5",
     "pytest-cov>=4.1.0",
+    "pytest-mpl>=0.17.0",
 ]
 docs = [
     "sphinx_gallery>=0.17.0",

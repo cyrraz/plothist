@@ -24,7 +24,7 @@ Simple 1D histogram
 
 To plot a simple 1D histogram, you first need to create a histogram object with the :func:`make_hist() <plothist.histogramming.make_hist>` function that you can then plot with the :func:`plot_hist() <plothist.plotters.plot_hist>` function:
 
-.. literalinclude:: ../examples/1d_hist/1d_hist_simple.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_hist_simple.py
     :language: python
     :start-after: ###
 
@@ -39,7 +39,7 @@ To plot a simple 1D histogram, you first need to create a histogram object with 
 
 To add multiple histograms to the same plot, you can just call the :func:`make_hist() <plothist.histogramming.make_hist>` and :func:`plot_hist() <plothist.plotters.plot_hist>` functions multiple times:
 
-.. literalinclude:: ../examples/1d_hist/1d_elt1.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_elt1.py
     :language: python
     :start-after: ###
 
@@ -50,7 +50,7 @@ To add multiple histograms to the same plot, you can just call the :func:`make_h
 
 To stack them, use the argument ``stacked=True`` in the :func:`plot_hist() <plothist.plotters.plot_hist>` function:
 
-.. literalinclude:: ../examples/1d_hist/1d_elt1_stacked.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_elt1_stacked.py
     :language: python
     :start-after: ###
 
@@ -64,7 +64,7 @@ Histogram with error bars
 
 To plot a simple histogram with error bars, use the :func:`plot_error_hist() <plothist.plotters.plot_error_hist>` function. The default error bars are the Poisson standard deviation derived from the variance stored in the histogram object.
 
-.. literalinclude:: ../examples/1d_hist/1d_elt2.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_elt2.py
     :language: python
     :start-after: ###
 
@@ -89,7 +89,7 @@ Ratio
 
 Ratio is the default comparison method:
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_ratio.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_ratio.py
     :language: python
     :start-after: ###
 
@@ -103,7 +103,7 @@ Split ratio
 
 When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are scaled down by the h2 bin contents. The h2 adjusted uncertainties are shown separately as a hatched area. In practice, the ``split_ratio`` comparison option is used when h1 is filled with measured data and h2 is a model, see :ref:`advanced-model_comparison-label` section for more details.
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_split_ratio.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_split_ratio.py
     :language: python
     :start-after: ###
 
@@ -117,7 +117,7 @@ Pull
 
 To perform a pull comparison between two histograms:
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_pull.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_pull.py
     :language: python
     :start-after: ###
 
@@ -131,7 +131,7 @@ Difference
 
 To plot the difference between two histograms:
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_difference.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_difference.py
     :language: python
     :start-after: ###
 
@@ -145,7 +145,7 @@ Relative difference
 
 To plot the relative difference between two histograms:
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_relative_difference.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_relative_difference.py
     :language: python
     :start-after: ###
 
@@ -159,7 +159,7 @@ Asymmetry
 
 To plot the asymmetry between two histograms:
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_asymmetry.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_asymmetry.py
     :language: python
     :start-after: ###
 
@@ -173,7 +173,7 @@ Efficiency
 
 This example shows how to plot the ratio between two histograms h1 and h2 when the entries of h1 are a subset of the entries of h2. The variances are calculated according to the formula given in :ref:`documentation-statistics-label`.
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_efficiency.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_efficiency.py
     :language: python
     :start-after: ###
 
@@ -187,7 +187,7 @@ To only plot the comparison
 
 With any of the comparison shown above, you can use the :func:`plot_comparison() <plothist.plotters.plot_comparison>` function to only plot the comparison. Here is an example with the efficiency comparison of two histograms:
 
-.. literalinclude:: ../examples/1d_hist/1d_comparison_only_efficiency.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_comparison_only_efficiency.py
     :language: python
     :start-after: ###
 
@@ -220,7 +220,7 @@ In this example, the data points and the error bars are the average value and th
 Note that most functions in ``plothist`` work only with counting histograms and will raise an error if you try to use them with a mean histogram.
 
 
-.. literalinclude:: ../examples/1d_hist/1d_profile.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_profile.py
     :language: python
     :start-after: ###
 
@@ -239,7 +239,7 @@ The examples below show how to create a histogram with a category axis in ``boos
 Integer category
 ----------------
 
-.. literalinclude:: ../examples/1d_hist/1d_int_category.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_int_category.py
     :language: python
     :start-after: ###
 
@@ -256,7 +256,7 @@ Integer category
 String category
 ---------------
 
-.. literalinclude:: ../examples/1d_hist/1d_str_category.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_str_category.py
     :language: python
     :start-after: ###
 
@@ -275,6 +275,6 @@ With multiple histograms, the :func:`plot_hist() <plothist.plotters.plot_hist>` 
     :alt: Side by side histograms
     :width: 500
 
-.. literalinclude:: ../examples/1d_hist/1d_side_by_side.py
+.. literalinclude:: ../../src/plothist/examples/1d_hist/1d_side_by_side.py
     :language: python
     :start-after: ###

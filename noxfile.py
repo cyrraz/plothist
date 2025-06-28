@@ -20,7 +20,7 @@ def lint(session: nox.Session) -> None:
     session.run("pre-commit", "run", "--all-files", *session.posargs)
 
 
-@nox.session(python=PYTHON_ALL_VERSIONS)
+@nox.session(python=PYTHON_ALL_VERSIONS, reuse_venv=True)
 def tests(session: nox.Session) -> None:
     """
     Run the unit and regular tests.
@@ -28,7 +28,22 @@ def tests(session: nox.Session) -> None:
     pyproject = nox.project.load_toml("pyproject.toml")
     session.install("-e", ".")
     session.install(*nox.project.dependency_groups(pyproject, "test"))
-    session.run("pytest", *session.posargs)
+    session.run("pytest", "--mpl", *session.posargs)
+
+
+@nox.session(reuse_venv=True)
+def generate_examples_figures(session: nox.Session) -> None:
+    """
+    Generate the example figures. Pass "-- tests/test_examples_*.py" to run only the relevant tests.
+    """
+    pyproject = nox.project.load_toml("pyproject.toml")
+    session.install("-e", ".")
+    session.install(*nox.project.dependency_groups(pyproject, "test"))
+    session.run(
+        "pytest",
+        "--mpl-generate-path=docs/img",
+        *session.posargs,
+    )
 
 
 # run coverage

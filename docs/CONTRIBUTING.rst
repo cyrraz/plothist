@@ -60,6 +60,8 @@ You can also run specific nox sessions:
    nox -s docs -- -b linkcheck
    # Run the tests with coverage (takes a while)
    nox -s coverage
+   # Generate the example figures. Needed if you update any of the example scripts.
+   nox -s generate_examples_figures -- tests/test_examples_*.py
 
 Linters and Formatters
 ----------------------

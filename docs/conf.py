@@ -190,17 +190,17 @@ from sphinx_gallery.sorting import ExplicitOrder
 
 sphinx_gallery_conf = {
     # path to your example scripts
-    "examples_dirs": ["examples"],
+    "examples_dirs": ["../src/plothist/examples"],
     # path to where to save gallery generated output
     "gallery_dirs": ["example_gallery"],
     "subsection_order": ExplicitOrder(
         [
-            "examples/1d_hist",
-            "examples/2d_hist",
-            "examples/1d_func",
-            "examples/model_ex",
-            "examples/advanced",
-            "examples/utility",
+            "../src/plothist/examples/1d_hist",
+            "../src/plothist/examples/2d_hist",
+            "../src/plothist/examples/func_1d",
+            "../src/plothist/examples/model_ex",
+            "../src/plothist/examples/advanced",
+            "../src/plothist/examples/utility",
         ]
     ),
     "nested_sections": False,

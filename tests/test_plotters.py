@@ -41,7 +41,7 @@ def test_partial_fig_and_ax_input() -> None:
     """
     fig, _ = plt.subplots()
     h_1d = make_hist(data=[], bins=10, range=(0, 10))
-    h_2d = make_2d_hist(data=[[], []], bins=[10, 10], range=[[0, 10], [0, 10]])
+    h_2d = make_2d_hist(data=[[], []], bins=[10, 10], range=((0, 10), (0, 10)))
 
     msg = r"Need to provide fig, ax"
 
@@ -101,7 +101,7 @@ def test_plot_2d_hist_with_projections_cases() -> None:
     """
     Test that plot_2d_hist_with_projections can handle empty data and no input figure.
     """
-    h_2d = make_2d_hist(data=[[], []], bins=[10, 10], range=[[0, 10], [0, 10]])
+    h_2d = make_2d_hist(data=[[], []], bins=[10, 10], range=((0, 10), (0, 10)))
     fig, _, _, _, _ = plot_2d_hist_with_projections(
         h_2d,
     )
