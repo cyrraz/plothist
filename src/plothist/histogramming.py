@@ -3,7 +3,11 @@ from __future__ import annotations
 import warnings
 
 import numpy as np
-from uhi.numpy_plottable import Kind, NumPyPlottableHistogram
+from uhi.numpy_plottable import (
+    Kind,
+    NumPyPlottableHistogram,
+    ensure_plottable_histogram,
+)
 
 
 class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
@@ -24,6 +28,8 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
 
     def __init__(self, hist, *bins, variances=None, kind=Kind.COUNT):
         super().__init__(hist, *bins, variances=variances, kind=kind)
+        if isinstance(self._variances, np.ndarray) and self._variances.ndim == 0:
+            self._variances = None
 
     def __add__(self, other):
         if not isinstance(other, EnhancedNumPyPlottableHistogram):
@@ -40,6 +46,10 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
         added_variances = None
         if self._variances is not None and other._variances is not None:
             added_variances = self._variances + other._variances
+        elif self._variances is not None and other._variances is None:
+            added_variances = self._variances
+        elif self._variances is None and other._variances is not None:
+            added_variances = other._variances
         return EnhancedNumPyPlottableHistogram(
             added_values, self.axes[0].edges, variances=added_variances, kind=self.kind
         )
@@ -69,6 +79,46 @@ class EnhancedNumPyPlottableHistogram(NumPyPlottableHistogram):
 
     def __rmul__(self, factor):
         return self.__mul__(factor)
+
+
+def make_plottable_histogram(hist):
+    """
+    Convert a histogram to a plottable histogram.
+
+    Parameters
+    ----------
+    hist : Histogram object
+        The histogram to be converted.
+
+    Returns
+    -------
+    EnhancedNumPyPlottableHistogram
+        The converted plottable histogram.
+
+    Raises
+    ------
+    ValueError
+        If the input histogram is not 1D.
+    """
+    hist = ensure_plottable_histogram(hist)
+    if len(hist.axes) != 1:
+        raise ValueError("The input histogram must be 1D.")
+
+    axis = hist.axes[0]
+
+    edges = np.arange(len(axis) + 1).astype(float)
+    if isinstance(axis[0], tuple):  # Regular axis
+        edges[0] = axis[0][0]
+        edges[1:] = [axis[i][1] for i in range(len(axis))]
+    else:  # Categorical axis
+        raise NotImplementedError("Categorical axis is not supported yet.")
+
+    return EnhancedNumPyPlottableHistogram(
+        np.array(hist.values()),  # copy to avoid further modification
+        edges,
+        variances=np.array(hist.variances()),  # copy to avoid further modification
+        kind=hist.kind,
+    )
 
 
 # Define a custom warning for range issues
@@ -103,7 +153,7 @@ def make_hist(data=None, bins=50, range=None, weights=1):
 
     Returns
     -------
-    histogram : uhi.numpy_plottable.PlottableHistogram
+    histogram : EnhancedNumPyPlottableHistogram
         The filled histogram object.
 
     Warns

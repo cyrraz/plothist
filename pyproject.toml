@@ -27,7 +27,7 @@ dependencies = [
     "pyyaml>=5.3.1",
     "scipy>=1.6.0",
     "requests>=2.25.0",
-    "mplhep",
+    "mplhep>=0.3.24",
     "plothist_utils>=0.0.1",
 ]
 dynamic = ["version"]
@@ -50,8 +50,12 @@ dev = [
     "pre-commit>=4.1.0",
 ]
 test = [
+    "boost-histogram>=1.5.2",
+    "hist>=2.8.1",
     "pytest>=8.3.5",
     "pytest-cov>=4.1.0",
+    "scikit-hep-testdata>=0.5.0",
+    "uproot>=5.0.0",
 ]
 docs = [
     "sphinx_gallery>=0.17.0",
