@@ -195,7 +195,7 @@ def update_variable_registry(
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
-        If True, the keys will be overwrite by the provided value in the dictionary (default is False).
+        If True, the keys will be overwritten by the provided value in the dictionary (default is False).
 
     Returns
     -------
@@ -277,7 +277,7 @@ def update_variable_registry_ranges(
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
-        If True, the range parameters will be overwrite even if it's not equal to ("min", "max") (default is False).
+        If True, the range parameters will be overwritten even if it's not equal to ("min", "max") (default is False).
 
     Returns
     -------
