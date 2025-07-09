@@ -10,7 +10,7 @@ import boost_histogram as bh
 import matplotlib.pyplot as plt
 import numpy as np
 
-from plothist import get_color_palette, plot_hist
+from plothist import plot_hist
 
 rng = np.random.default_rng(83113111)
 
@@ -31,8 +31,7 @@ histos = [bh.Histogram(axis, storage=bh.storage.Weight()) for _ in range(len(dat
 histos = [histo.fill(data[i]) for i, histo in enumerate(histos)]
 
 labels = [f"$h_{{{i}}}$" for i in range(len(histos))]
-colors = get_color_palette("ggplot", 5)
-colors = [*colors[:3], colors[4]]
+colors = ["#348ABD", "#E24A33", "#988ED5", "#FBC15E"]
 
 # Plot the histogram
 fig, ax = plt.subplots()
