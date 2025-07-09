@@ -31,7 +31,7 @@ def test_variable_registry_warning() -> None:
     with pytest.raises(RuntimeError) as err:
         get_variable_from_registry("variable_0")
 
-    assert str(err.value) == "Did you forgot to run create_variable_registry()?"
+    assert str(err.value) == "Did you forget to run create_variable_registry()?"
 
 
 def test_variable_registry_creation() -> None:

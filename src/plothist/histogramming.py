@@ -187,7 +187,7 @@ def make_2d_hist(
         2D array-like data used to fill the histogram (default is None).
         If None is provided, an empty histogram is returned.
     bins : Sequence[int | Sequence[float]], optional
-        Binning specification for each dimension of the histogram (if None, it will be set to [10, 10]).
+        Binning specification for each dimension of the histogram (if None, it will be set to [50, 50]).
         Each element of the tuple represents the number of bins for the corresponding dimension.
         Also support explicit bin edges specification (for non-constant bin size).
     range : tuple[tuple[float | str, float | str] | None, tuple[float | str, float | str] | None], optional
@@ -221,7 +221,7 @@ def make_2d_hist(
     if len(data[0]) != len(data[1]):
         raise ValueError("x and y must have the same length.")
     if bins is None:
-        bins = [10, 10]
+        bins = [50, 50]
 
     x_axis = create_axis(bins[0], range[0], data[0])
     y_axis = create_axis(bins[1], range[1], data[1])

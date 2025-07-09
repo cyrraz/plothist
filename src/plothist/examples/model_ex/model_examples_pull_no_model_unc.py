@@ -48,8 +48,8 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     stacked_components=background_hists,
     stacked_labels=background_categories_labels,
     stacked_colors=background_categories_colors,
-    xlabel=f"${key}\\,\\,[eV/c^2]$",
-    ylabel="Hits in the LMN per $4.2\\times 10^{-1}\\,\\,eV/c^2$",
+    xlabel=rf"${key}\,\,[eV/c^2]$",
+    ylabel=r"Hits in the LMN per $4.2\times 10^{-1}\,\,eV/c^2$",
     comparison="pull",
     model_uncertainty=False,  # <--
 )

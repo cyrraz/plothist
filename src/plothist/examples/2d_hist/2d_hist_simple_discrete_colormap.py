@@ -17,7 +17,7 @@ name_y = "variable_1"
 # We only take a subset of the data
 nentries = 1000
 
-h = make_2d_hist([df[name_x][:nentries], df[name_y][:nentries]], bins=[50, 50])
+h = make_2d_hist([df[name_x][:nentries], df[name_y][:nentries]])
 
 ###
 from matplotlib.colors import ListedColormap

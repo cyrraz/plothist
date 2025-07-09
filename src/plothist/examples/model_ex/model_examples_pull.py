@@ -48,7 +48,7 @@ fig, ax_main, ax_comparison = plot_data_model_comparison(
     stacked_components=background_hists,
     stacked_labels=background_categories_labels,
     stacked_colors=background_categories_colors,
-    xlabel=f"${key}\\,\\,[TeV/c^2]$",
+    xlabel=rf"${key}\,\,[TeV/c^2]$",
     ylabel="Candidates per 0.42 $TeV/c^2$",
     comparison="pull",
 )

@@ -15,7 +15,7 @@ from plothist import make_2d_hist, plot_2d_hist
 name_x = "variable_0"
 name_y = "variable_1"
 
-h = make_2d_hist([df[name_x], df[name_y]])
+h = make_2d_hist([df[name_x], df[name_y]], bins=[10, 10])
 
 fig, ax, ax_colorbar = plot_2d_hist(h, colorbar_kwargs={"label": "Entries"})
 

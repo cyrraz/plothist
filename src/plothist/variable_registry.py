@@ -32,7 +32,7 @@ def _check_if_variable_registry_exists(path: str) -> None:
         If the variable registry file does not exist.
     """
     if not os.path.exists(path) and path == "./variable_registry.yaml":
-        raise RuntimeError("Did you forgot to run create_variable_registry()?")
+        raise RuntimeError("Did you forget to run create_variable_registry()?")
 
 
 def _save_variable_registry(
@@ -168,7 +168,9 @@ def get_variable_from_registry(
 
     with open(path) as f:
         variable_registry = yaml.safe_load(f)
-        if "range" in variable_registry[variable_key]:
+        if "range" in variable_registry[variable_key] and isinstance(
+            variable_registry[variable_key]["range"], list
+        ):
             variable_registry[variable_key]["range"] = tuple(
                 variable_registry[variable_key]["range"]
             )

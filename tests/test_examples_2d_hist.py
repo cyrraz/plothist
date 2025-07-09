@@ -55,12 +55,12 @@ def test_2d_hist_correlations_0():
 @pytest.mark.mpl_image_compare(
     filename="2d_hist_correlations_1.png", **mpl_image_compare_kwargs
 )
-def test_2d_hist_correlations_1(script=script_path):
+def test_2d_hist_correlations_1():
     return run_script_and_get_object(script_dir / "2d_hist_correlations.py", "figs")[1]
 
 
 @pytest.mark.mpl_image_compare(
     filename="2d_hist_correlations_2.png", **mpl_image_compare_kwargs
 )
-def test_2d_hist_correlations_2(script=script_path):
+def test_2d_hist_correlations_2():
     return run_script_and_get_object(script_dir / "2d_hist_correlations.py", "figs")[2]

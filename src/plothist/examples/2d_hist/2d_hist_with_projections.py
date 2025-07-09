@@ -15,7 +15,7 @@ from plothist import make_2d_hist, plot_2d_hist_with_projections
 name_x = "variable_0"
 name_y = "variable_1"
 
-h = make_2d_hist([df[name_x], df[name_y]], bins=[50, 50])
+h = make_2d_hist([df[name_x], df[name_y]])
 
 (
     fig,
