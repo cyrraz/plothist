@@ -32,7 +32,7 @@ def _check_if_variable_registry_exists(path: str) -> None:
         If the variable registry file does not exist.
     """
     if not os.path.exists(path) and path == "./variable_registry.yaml":
-        raise RuntimeError("Did you forgot to run create_variable_registry()?")
+        raise RuntimeError("Did you forget to run create_variable_registry()?")
 
 
 def _save_variable_registry(
@@ -127,7 +127,7 @@ def create_variable_registry(
                             variable_key: {
                                 "name": variable_key,
                                 "bins": 50,
-                                "range": ["min", "max"],
+                                "range": ("min", "max"),
                                 "label": variable_key,
                                 "log": False,
                                 "legend_location": "best",
@@ -168,6 +168,12 @@ def get_variable_from_registry(
 
     with open(path) as f:
         variable_registry = yaml.safe_load(f)
+        if "range" in variable_registry[variable_key] and isinstance(
+            variable_registry[variable_key]["range"], list
+        ):
+            variable_registry[variable_key]["range"] = tuple(
+                variable_registry[variable_key]["range"]
+            )
         return variable_registry[variable_key]
 
 
@@ -189,7 +195,7 @@ def update_variable_registry(
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
-        If True, the keys will be overwrite by the provided value in the dictionary (default is False).
+        If True, the keys will be overwritten by the provided value in the dictionary (default is False).
 
     Returns
     -------
@@ -271,7 +277,7 @@ def update_variable_registry_ranges(
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
-        If True, the range parameters will be overwrite even if it's not equal to ["min", "max"] (default is False).
+        If True, the range parameters will be overwritten even if it's not equal to ("min", "max") (default is False).
 
     Returns
     -------
@@ -296,13 +302,13 @@ def update_variable_registry_ranges(
                 f"Variable {variable_key} does not have a name, bins or range property in the registry {path}."
             )
 
-        range = ["min", "max"] if overwrite else variable["range"]
+        range = ("min", "max") if overwrite else variable["range"]
 
-        if range == ["min", "max"]:
+        if tuple(range) == ("min", "max"):
             axis = create_axis(variable["bins"], tuple(range), data[variable["name"]])
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
-                    {"range": [float(axis.edges[0]), float(axis.edges[-1])]},
+                    {"range": (float(axis.edges[0]), float(axis.edges[-1]))},
                     [variable_key],
                     path=path,
                     overwrite=True,

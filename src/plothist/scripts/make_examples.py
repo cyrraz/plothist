@@ -57,15 +57,15 @@ def make_examples(
 
     plothist_folder = os.environ.get("PLOTHIST_PATH") or plothist.__path__[0]
 
-    example_folder = plothist_folder + "/../../docs/examples"
-    img_folder = plothist_folder + "/../../docs/img"
+    example_folder = os.path.join(plothist_folder, "examples")
+    img_folder = os.path.join(plothist_folder, "../../docs/img")
 
     if not os.path.exists(example_folder) or not os.path.exists(img_folder):
         raise FileNotFoundError(
             f"Could not find the example {example_folder} or img {img_folder} folder for the documentation.\nTry to run `export PLOTHIST_PATH=path/to/plothist` before launching the script."
         )
 
-    temp_img_folder = plothist_folder + "/../../docs/temp_img"
+    temp_img_folder = os.path.join(plothist_folder, "../../docs/temp_img")
 
     # Get all python files in the example folder
     python_files = [

@@ -23,7 +23,7 @@ In this example, we will compare two tuples of histograms and use pull and ratio
    :alt: Advanced hist comparison
    :width: 500
 
-.. literalinclude:: ../examples/advanced/1d_comparison_advanced.py
+.. literalinclude:: ../../src/plothist/examples/advanced/1d_comparison_advanced.py
    :language: python
    :start-after: ###
 
@@ -38,7 +38,7 @@ This example shows how to plot an asymmetry plot between two histograms and two 
    :alt: Advanced asymmetry comparison
    :width: 500
 
-.. literalinclude:: ../examples/advanced/asymmetry_comparison_advanced.py
+.. literalinclude:: ../../src/plothist/examples/advanced/asymmetry_comparison_advanced.py
    :language: python
    :start-after: ###
 
@@ -51,7 +51,7 @@ Compare data and stacked histogram for a flatten 2D variable:
    :alt: Data/model comparison, flatten variable
    :width: 500
 
-.. literalinclude:: ../examples/advanced/model_examples_flatten2D.py
+.. literalinclude:: ../../src/plothist/examples/advanced/model_examples_flatten2D.py
     :language: python
     :start-after: ###
 
@@ -65,6 +65,6 @@ This example shows how to plot multiple 1D histograms side by side, with numbers
    :alt: Multiple histograms side by side
    :width: 500
 
-.. literalinclude:: ../examples/advanced/1d_side_by_side_with_numbers.py
+.. literalinclude:: ../../src/plothist/examples/advanced/1d_side_by_side_with_numbers.py
    :language: python
    :start-after: ###
