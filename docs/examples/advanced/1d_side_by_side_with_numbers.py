@@ -32,7 +32,7 @@ histos = [histo.fill(data[i]) for i, histo in enumerate(histos)]
 
 labels = [f"$h_{{{i}}}$" for i in range(len(histos))]
 colors = get_color_palette("ggplot", 5)
-colors = colors[:3] + [colors[4]]
+colors = [*colors[:3], colors[4]]
 
 # Plot the histogram
 fig, ax = plt.subplots()
