@@ -15,7 +15,7 @@ mpl_image_compare_kwargs = {
 }
 
 mpl_image_compare_for_default_matplotlib_kwargs = mpl_image_compare_kwargs.copy()
-mpl_image_compare_for_default_matplotlib_kwargs["style"] = "default"
+mpl_image_compare_for_default_matplotlib_kwargs["style"] = {"figure.figsize": (6, 4)}
 
 script_dir = Path(plothist.__file__).parent / "examples" / "utility"
 
