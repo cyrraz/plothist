@@ -15,10 +15,8 @@ mpl_image_compare_kwargs = {
 }
 
 mpl_image_compare_for_default_matplotlib_kwargs = mpl_image_compare_kwargs.copy()
-mpl_image_compare_for_default_matplotlib_kwargs["style"] = {"figure.figsize": (10, 10)}
-mpl_image_compare_for_default_matplotlib_kwargs["savefig_kwargs"] = {
-    "bbox_inches": "tight",
-    "dpi": 100,
+mpl_image_compare_for_default_matplotlib_kwargs["style"] = {
+    "font.size": 12,
 }
 
 script_dir = Path(plothist.__file__).parent / "examples" / "utility"
