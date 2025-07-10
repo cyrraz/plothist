@@ -28,7 +28,7 @@ To plot a simple 1D histogram, you first need to create a histogram object with 
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_hist_simple.svg
+.. image:: ../img/1d_hist_simple.png
    :alt: Simple hist
    :width: 500
 
@@ -43,7 +43,7 @@ To add multiple histograms to the same plot, you can just call the :func:`make_h
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_elt1.svg
+.. image:: ../img/1d_elt1.png
    :alt: Simple hist
    :width: 500
 
@@ -54,7 +54,7 @@ To stack them, use the argument ``stacked=True`` in the :func:`plot_hist() <plot
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_elt1_stacked.svg
+.. image:: ../img/1d_elt1_stacked.png
    :alt: Simple stacked hist
    :width: 500
 
@@ -68,7 +68,7 @@ To plot a simple histogram with error bars, use the :func:`plot_error_hist() <pl
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_elt2.svg
+.. image:: ../img/1d_elt2.png
    :alt: Simple error hist
    :width: 500
 
@@ -93,7 +93,7 @@ Ratio is the default comparison method:
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_ratio.svg
+.. image:: ../img/1d_comparison_ratio.png
    :alt: Simple ratio comparison
    :width: 500
 
@@ -107,7 +107,7 @@ When the ``split_ratio`` option is used, both the h1 and h2 uncertainties are sc
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_split_ratio.svg
+.. image:: ../img/1d_comparison_split_ratio.png
     :alt: Simple split ratio comparison
     :width: 500
 
@@ -121,7 +121,7 @@ To perform a pull comparison between two histograms:
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_pull.svg
+.. image:: ../img/1d_comparison_pull.png
    :alt: Simple pull comparison
    :width: 500
 
@@ -135,7 +135,7 @@ To plot the difference between two histograms:
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_difference.svg
+.. image:: ../img/1d_comparison_difference.png
    :alt: Simple difference comparison
    :width: 500
 
@@ -149,7 +149,7 @@ To plot the relative difference between two histograms:
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_relative_difference.svg
+.. image:: ../img/1d_comparison_relative_difference.png
    :alt: Simple difference comparison
    :width: 500
 
@@ -163,7 +163,7 @@ To plot the asymmetry between two histograms:
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_asymmetry.svg
+.. image:: ../img/1d_comparison_asymmetry.png
    :alt: Simple asymmetry comparison
    :width: 500
 
@@ -177,7 +177,7 @@ This example shows how to plot the ratio between two histograms h1 and h2 when t
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_efficiency.svg
+.. image:: ../img/1d_comparison_efficiency.png
    :alt: Simple efficiency comparison
    :width: 500
 
@@ -191,7 +191,7 @@ With any of the comparison shown above, you can use the :func:`plot_comparison()
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_comparison_only_efficiency.svg
+.. image:: ../img/1d_comparison_only_efficiency.png
     :alt: Simple efficiency comparison, only the comparison
     :width: 500
 
@@ -224,7 +224,7 @@ Note that most functions in ``plothist`` work only with counting histograms and 
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_profile.svg
+.. image:: ../img/1d_profile.png
     :alt: Profile plot
     :width: 500
 
@@ -243,7 +243,7 @@ Integer category
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_int_category.svg
+.. image:: ../img/1d_int_category.png
     :alt: Integer category plot
     :width: 500
 
@@ -260,7 +260,7 @@ String category
     :language: python
     :start-after: ###
 
-.. image:: ../img/1d_str_category.svg
+.. image:: ../img/1d_str_category.png
     :alt: String category plot
     :width: 500
 
@@ -271,7 +271,7 @@ Using multiple histograms
 
 With multiple histograms, the :func:`plot_hist() <plothist.plotters.plot_hist>` function will correctly put them side by side, because it is a wrapper around the ``hist()`` function from ``matplotlib`` that provides this functionality.
 
-.. image:: ../img/1d_side_by_side.svg
+.. image:: ../img/1d_side_by_side.png
     :alt: Side by side histograms
     :width: 500
 

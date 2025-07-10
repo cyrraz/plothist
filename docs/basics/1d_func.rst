@@ -39,7 +39,7 @@ In particular, you can stack functions using the ``stacked=True`` argument:
     :language: python
     :start-after: ###
 
-.. image:: ../img/fct_1d_stacked.svg
+.. image:: ../img/fct_1d_stacked.png
     :alt: Simple stacked function
     :width: 500
 

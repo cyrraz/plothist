@@ -31,9 +31,6 @@ dependencies = [
 ]
 dynamic = ["version"]
 
-[project.scripts]
-plothist_make_examples = "plothist.scripts.make_examples:make_examples"
-
 [project.urls]
 Homepage = "https://github.com/cyrraz/plothist"
 Documentation = "https://plothist.readthedocs.io/"

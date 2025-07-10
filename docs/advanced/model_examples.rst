@@ -92,7 +92,7 @@ Here is an example with a model made of 3 stacked and 1 unstacked histograms. Th
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_with_stacked_and_unstacked_histograms_components.svg
+.. image:: ../img/model_with_stacked_and_unstacked_histograms_components.png
    :alt: Plot of a model with stacked and unstacked histograms components
    :width: 500
 
@@ -108,7 +108,7 @@ Here is an example with a model made of 2 stacked and 1 unstacked functions:
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_with_stacked_and_unstacked_function_components.svg
+.. image:: ../img/model_with_stacked_and_unstacked_function_components.png
    :alt: Plot of a model with stacked and unstacked function components
    :width: 500
 
@@ -132,7 +132,7 @@ A comparison between data and a model composed of 3 stacked histograms. A signal
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_examples_stacked.svg
+.. image:: ../img/model_examples_stacked.png
    :alt: Data/model comparison, stacked plot
    :width: 500
 
@@ -152,7 +152,7 @@ The same comparison as above, but we represent the model with unstacked histogra
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_examples_unstacked.svg
+.. image:: ../img/model_examples_unstacked.png
    :alt: Data/model comparison, stacked plot
    :width: 500
 
@@ -166,7 +166,7 @@ Stacked and unstacked histograms can be combined. The sum of the model component
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_examples_stacked_unstacked.svg
+.. image:: ../img/model_examples_stacked_unstacked.png
    :alt: Data/model comparison, stacked and unstacked plot with histograms
    :width: 500
 
@@ -180,7 +180,7 @@ The function :func:`plot_data_model_comparison() <plothist.plotters.plot_data_mo
     :language: python
     :start-after: ###
 
-.. image:: ../img/ratio_data_vs_model_with_stacked_and_unstacked_function_components.svg
+.. image:: ../img/ratio_data_vs_model_with_stacked_and_unstacked_function_components.png
    :alt: Data/Model comparison, model with stacked and unstacked function components
    :width: 500
 
@@ -197,7 +197,7 @@ As said earlier, the comparison function can take any comparison method availabl
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_examples_pull.svg
+.. image:: ../img/model_examples_pull.png
    :alt: Data/model comparison with pull, stacked plot
    :width: 500
 
@@ -208,7 +208,7 @@ Now, if you do not want to show nor take into account the model uncertainties, s
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_examples_pull_no_model_unc.svg
+.. image:: ../img/model_examples_pull_no_model_unc.png
    :alt: Data/model comparison with pull, no model stat. unc., stacked plot
    :width: 500
 
@@ -232,7 +232,7 @@ Below is shown how to make a plot with all the possible comparisons between data
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_all_comparisons.svg
+.. image:: ../img/model_all_comparisons.png
    :alt: Data/model comparison with all comparisons, stacked plot
    :width: 500
 
@@ -247,6 +247,6 @@ Same example as above, but we remove the statistical uncertainties of the model 
     :language: python
     :start-after: ###
 
-.. image:: ../img/model_all_comparisons_no_model_unc.svg
+.. image:: ../img/model_all_comparisons_no_model_unc.png
    :alt: Data/model comparison with all comparisons, no model uncertainties, stacked plot
    :width: 500

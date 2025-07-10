@@ -19,7 +19,7 @@ Advanced example comparing two histograms
 
 In this example, we will compare two tuples of histograms and use pull and ratio comparisons. First, we make the histograms and scale them. Then, we plot the histograms and the comparison plots on different axes:
 
-.. image:: ../img/1d_comparison_advanced.svg
+.. image:: ../img/1d_comparison_advanced.png
    :alt: Advanced hist comparison
    :width: 500
 
@@ -34,7 +34,7 @@ Advanced example using asymmetry comparison
 
 This example shows how to plot an asymmetry plot between two histograms and two functions. Information on how to convert a function from an external fitting package to an object that can be used by ``plothist`` can be found in :ref:`plot-fit-result-label`.
 
-.. image:: ../img/asymmetry_comparison_advanced.svg
+.. image:: ../img/asymmetry_comparison_advanced.png
    :alt: Advanced asymmetry comparison
    :width: 500
 
@@ -47,7 +47,7 @@ Flatten 2D variable
 
 Compare data and stacked histogram for a flatten 2D variable:
 
-.. image:: ../img/model_examples_flatten2D.svg
+.. image:: ../img/model_examples_flatten2D.png
    :alt: Data/model comparison, flatten variable
    :width: 500
 
@@ -61,7 +61,7 @@ Multiple histograms, side by side, with numbers on top
 
 This example shows how to plot multiple 1D histograms side by side, with numbers on top of each bars. The code is similar to the one used in the :ref:`basics-1d_hist_side_by_side-label` section.
 
-.. image:: ../img/1d_side_by_side_with_numbers.svg
+.. image:: ../img/1d_side_by_side_with_numbers.png
    :alt: Multiple histograms side by side
    :width: 500
 

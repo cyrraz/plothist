@@ -60,7 +60,7 @@ y aliases
 
 Here is an example of good combinations of aliases to add text to a plot:
 
-.. image:: ../img/add_text_example.svg
+.. image:: ../img/add_text_example.png
    :alt: Example of add_text
    :width: 500
 
@@ -75,7 +75,7 @@ By default, the text also fits between the sub-plots by specifying the different
     add_text("Difference ax", x="right", ax=ax_comparison)
     ...
 
-.. image:: ../img/1d_comparison_difference.svg
+.. image:: ../img/1d_comparison_difference.png
    :alt: Simple difference comparison
    :width: 500
 
@@ -93,7 +93,7 @@ Automatic ylabel fontsize
     set_fitting_ylabel_fontsize(ax_main)
     ...
 
-.. image:: ../img/model_examples_pull_no_model_unc.svg
+.. image:: ../img/model_examples_pull_no_model_unc.png
    :alt: Pull comparison
    :width: 500
 
