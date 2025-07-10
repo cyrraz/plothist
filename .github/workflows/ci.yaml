@@ -27,8 +27,6 @@ jobs:
       - name: Install the project
         run: |
           uv sync --group dev --group test
-          uv pip install pytest-github-actions-annotate-failures
-          uv pip install pytest-xdist
 
       - name: Run pre-commit
         run: |
