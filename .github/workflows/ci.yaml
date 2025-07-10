@@ -22,7 +22,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-          sudo apt-get install ttf-mscorefonts-installe
+          sudo apt-get install ttf-mscorefonts-installer
 
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v6
