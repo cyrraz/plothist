@@ -18,6 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install core fonts
+        if: runner.os == 'Linux'
+        run: |
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt-get install ttf-mscorefonts-installe
+
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v6
         with:
