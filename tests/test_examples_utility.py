@@ -14,9 +14,6 @@ mpl_image_compare_kwargs = {
     "deterministic": True,
 }
 
-mpl_image_compare_for_default_matplotlib_kwargs = mpl_image_compare_kwargs.copy()
-mpl_image_compare_for_default_matplotlib_kwargs["style"] = "default"
-
 script_dir = Path(plothist.__file__).parent / "examples" / "utility"
 
 current_module = sys.modules[__name__]
@@ -85,7 +82,7 @@ def test_color_palette_squares_4():
 
 @pytest.mark.mpl_image_compare(
     filename="matplotlib_example.png",
-    **mpl_image_compare_for_default_matplotlib_kwargs,
+    **{k: v for k, v in mpl_image_compare_kwargs.items() if k != "style"},
 )
 def test_matplotlib_vs_plothist_style_matplotlib():
     return run_script_and_get_object(
