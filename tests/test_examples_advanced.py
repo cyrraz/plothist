@@ -1,11 +1,14 @@
 import sys
 from pathlib import Path
 
+import matplotlib
 import matplotlib.pyplot as plt
 import pytest
 
 import plothist
 from plothist.test_helpers import run_script_and_get_object
+
+matplotlib.use("Agg")
 
 mpl_image_compare_kwargs = {
     "baseline_dir": "../docs/img",
