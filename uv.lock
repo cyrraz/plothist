@@ -487,6 +487,15 @@ wheels = [
 ]
 
 [[package]]
+name = "execnet"
+version = "2.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bb/ff/b4c0dc78fbe20c3e59c0c7334de0c27eb4001a2b2017999af398bf730817/execnet-2.1.1.tar.gz", hash = "sha256:5189b52c6121c24feae288166ab41b32549c7e2348652736540b9e6e7d4e72e3", size = 166524 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/43/09/2aea36ff60d16dd8879bdb2f5b3ee0ba8d08cbbdcdfe870e695ce3784385/execnet-2.1.1-py3-none-any.whl", hash = "sha256:26dee51f1b80cebd6d0ca8e74dd8745419761d3bef34163928cbebbdc4749fdc", size = 40612 },
+]
+
+[[package]]
 name = "filelock"
 version = "3.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1323,7 +1332,9 @@ docs = [
 test = [
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "pytest-github-actions-annotate-failures" },
     { name = "pytest-mpl" },
+    { name = "pytest-xdist" },
 ]
 
 [package.metadata]
@@ -1347,7 +1358,9 @@ docs = [
 test = [
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "pytest-cov", specifier = ">=4.1.0" },
+    { name = "pytest-github-actions-annotate-failures", specifier = ">=0.3.0" },
     { name = "pytest-mpl", specifier = ">=0.17.0" },
+    { name = "pytest-xdist", specifier = ">=3.8.0" },
 ]
 
 [[package]]
@@ -1440,6 +1453,18 @@ wheels = [
 ]
 
 [[package]]
+name = "pytest-github-actions-annotate-failures"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/39/d4/c54ee6a871eee4a7468e3a8c0dead28e634c0bc2110c694309dcb7563a66/pytest_github_actions_annotate_failures-0.3.0.tar.gz", hash = "sha256:d4c3177c98046c3900a7f8ddebb22ea54b9f6822201b5d3ab8fcdea51e010db7", size = 11248 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6d/73/7b0b15cb8605ee967b34aa1d949737ab664f94e6b0f1534e8339d9e64ab2/pytest_github_actions_annotate_failures-0.3.0-py3-none-any.whl", hash = "sha256:41ea558ba10c332c0bfc053daeee0c85187507b2034e990f21e4f7e5fef044cf", size = 6030 },
+]
+
+[[package]]
 name = "pytest-mpl"
 version = "0.17.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1454,6 +1479,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a9/81/636f9ea4ec0182abc0ab96e5abeab39fc1d9ce8fecf19e2943d685de519f/pytest-mpl-0.17.0.tar.gz", hash = "sha256:fbef05d7e664b4b33452fb698ac188e522791f327de34e7ea37dbdfe9d52cac6", size = 885613 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f3/32/3b5d6973cc8bdc320736ee608377e2756b1042ed162ca2d2ee5555f2d117/pytest_mpl-0.17.0-py3-none-any.whl", hash = "sha256:2ee7cf902ef071e45ae14fe190b3d8a9839c2fd8933e0514bf58df310d8ed66b", size = 27555 },
+]
+
+[[package]]
+name = "pytest-xdist"
+version = "3.8.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "execnet" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/78/b4/439b179d1ff526791eb921115fca8e44e596a13efeda518b9d845a619450/pytest_xdist-3.8.0.tar.gz", hash = "sha256:7e578125ec9bc6050861aa93f2d59f1d8d085595d6551c2c90b6f4fad8d3a9f1", size = 88069 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ca/31/d4e37e9e550c2b92a9cbc2e4d0b7420a27224968580b5a447f420847c975/pytest_xdist-3.8.0-py3-none-any.whl", hash = "sha256:202ca578cfeb7370784a8c33d6d05bc6e13b4f25b5053c30a152269fd10f0b88", size = 46396 },
 ]
 
 [[package]]
