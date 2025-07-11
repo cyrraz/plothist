@@ -13,11 +13,11 @@ Here are shown two simple comparison plots done with matplotlib functions only. 
 
 |img1| |img2|
 
-.. |img1| image:: ../img/matplotlib_example.svg
+.. |img1| image:: ../img/matplotlib_example.png
    :alt: without plothist
    :width: 320
 
-.. |img2| image:: ../img/plothist_example.svg
+.. |img2| image:: ../img/plothist_example.png
    :alt: with plothist
    :width: 320
 
@@ -33,7 +33,7 @@ Default palette
 
 When no colors are specified for a plot, the default palette of the ``plothist`` style is applied (adapted from `here <https://matplotlib.org/stable/gallery/style_sheets/ggplot.html>`_):
 
-.. image:: ../img/usage_style_cycle.svg
+.. image:: ../img/usage_style_cycle.png
    :alt: Default ggplot palette
 
 To get this color palette, the function :func:`get_color_palette() <plothist.plothist_style.get_color_palette>` can be used with ``ggplot`` as the argument:
@@ -60,7 +60,7 @@ We provide the cubehelix palette (adapted from `here <https://seaborn.pydata.org
 
     colors = get_color_palette("cubehelix", 7)
 
-.. image:: ../img/usage_cubehelix.svg
+.. image:: ../img/usage_cubehelix.png
    :alt: Cubehelix example
 
 You can also use the :func:`cubehelix_palette() <plothist.plothist_style.cubehelix_palette>` function to tweak the colormap parameters.
@@ -83,24 +83,24 @@ We recommend using ``viridis``, ``coolwarm`` or ``YlGnBu_r``:
     background_categories_colors = get_color_palette("Any cmap name", len(background_categories))
     ...
 
-.. image:: ../img/color_palette_hists.svg
+.. image:: ../img/color_palette_hists.png
    :alt: Color palette examples
 
 * ``viridis``:
 
-.. image:: ../img/usage_viridis_palette.svg
+.. image:: ../img/usage_viridis_palette.png
    :alt: viridis palette
 
 
 * ``coolwarm``:
 
-.. image:: ../img/usage_coolwarm_palette.svg
+.. image:: ../img/usage_coolwarm_palette.png
    :alt: coolwarm palette
 
 
 * ``YlGnBu_r``:
 
-.. image:: ../img/usage_YlGnBu_r_palette.svg
+.. image:: ../img/usage_YlGnBu_r_palette.png
    :alt: YlGnBu_r palette
 
 

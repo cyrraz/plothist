@@ -16,6 +16,7 @@ figs = []
 for style in ["matplotlib", "plothist"]:
     if style == "matplotlib":
         plt.style.use("default")
+        plt.rcParams["font.family"] = "DejaVu Sans"
     else:
         # No need to set the style if we use plothist, just importing it is enough
         # Here we set the style because the matplotlib style was set before

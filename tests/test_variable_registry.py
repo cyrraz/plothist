@@ -14,7 +14,6 @@ from plothist import (
     update_variable_registry_ranges,
 )
 
-registry_path = "_test_registry.yaml"
 variable_keys = ["variable_0", "variable_1", "variable_2"]
 
 
@@ -38,6 +37,7 @@ def test_variable_registry_creation() -> None:
     """
     Test variable registry creation.
     """
+    registry_path = "./_test_variable_registry_creation.yaml"
     create_variable_registry(variable_keys, path=registry_path)
     if not os.path.exists(registry_path):
         pytest.fail("Variable registry not created.")
@@ -49,7 +49,7 @@ def test_variable_registry_info() -> None:
     """
     Test variable registry information.
     """
-
+    registry_path = "./_test_variable_registry_info.yaml"
     create_variable_registry(variable_keys, path=registry_path, reset=True)
 
     for key in variable_keys:
@@ -100,6 +100,8 @@ def test_update_variable_registry_ranges() -> None:
     Test variable registry range update.
     """
     df = get_dummy_data()
+
+    registry_path = "./_test_variable_registry_ranges.yaml"
 
     # Test multiple conditions for missing properties
     create_variable_registry(
@@ -232,6 +234,8 @@ def test_updating_variable_registry() -> None:
     Test variable registry update.
     """
 
+    registry_path = "./_test_variable_registry_update.yaml"
+
     create_variable_registry(variable_keys, path=registry_path, reset=True)
 
     new_properties = {
@@ -290,6 +294,8 @@ def test_remove_variable_registry_parameters_warning() -> None:
     Test that removing parameters from the variable registry raises a warning
     if the parameter is not present in the registry.
     """
+    registry_path = "./_test_variable_registry_remove_warning.yaml"
+
     create_variable_registry(variable_keys, path=registry_path)
     remove_variable_registry_parameters(
         ["bins"], variable_keys=None, path=registry_path
@@ -297,7 +303,7 @@ def test_remove_variable_registry_parameters_warning() -> None:
 
     with pytest.warns(
         UserWarning,
-        match="bins parameter not present in the registry _test_registry.yaml for variable_0, skipping.",
+        match=f"bins parameter not present in the registry {registry_path} for variable_0, skipping.",
     ):
         remove_variable_registry_parameters(
             ["bins"], variable_keys=["variable_0"], path=registry_path
@@ -311,6 +317,8 @@ def test_update_variable_registry_ranges_all_keys() -> None:
     Test update of variable registry with variable_keys=None
     """
     df = get_dummy_data()
+
+    registry_path = "./_test_variable_registry_update_all_keys.yaml"
 
     create_variable_registry(variable_keys, path=registry_path)
     update_variable_registry_ranges(df, variable_keys=None, path=registry_path)

@@ -14,7 +14,6 @@ mpl_image_compare_kwargs = {
     "deterministic": True,
 }
 
-
 script_dir = Path(plothist.__file__).parent / "examples" / "utility"
 
 current_module = sys.modules[__name__]

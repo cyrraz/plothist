@@ -28,7 +28,7 @@ def tests(session: nox.Session) -> None:
     pyproject = nox.project.load_toml("pyproject.toml")
     session.install("-e", ".")
     session.install(*nox.project.dependency_groups(pyproject, "test"))
-    session.run("pytest", "--mpl", *session.posargs)
+    session.run("pytest", "--mpl", "-n", "auto", *session.posargs)
 
 
 @nox.session(reuse_venv=True)
