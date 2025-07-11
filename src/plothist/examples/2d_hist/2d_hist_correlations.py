@@ -5,17 +5,14 @@
 Plot multiple 2D histograms with the variable registry.
 """
 
-import hashlib
-import os
-import time
-
-unique_id = hashlib.sha256(str(time.time()).encode()).hexdigest()[:8]
-
 from plothist_utils import get_dummy_data
 
 df = get_dummy_data()
 
+
 ###
+import os
+import time
 from itertools import combinations
 
 from plothist import (
@@ -28,6 +25,7 @@ from plothist import (
 
 # No need to redo this step if the registry was already created before
 variable_keys = ["variable_0", "variable_1", "variable_2"]
+unique_id = str(int(time.time() * 1000))[-8:]  # unique ID based on current time
 temporary_registry_path = f"./_temporary_variable_registry_{unique_id}.yaml"
 create_variable_registry(variable_keys, path=temporary_registry_path)
 update_variable_registry_ranges(df, variable_keys, path=temporary_registry_path)
