@@ -77,11 +77,27 @@ def get_asymmetrical_uncertainties(
         raise ValueError(
             "Asymmetrical uncertainties can only be computed for an unweighted histogram."
         )
+
     conf_level = 0.682689492
     alpha = 1.0 - conf_level
-    n = hist.values()
-    uncertainties_low = n - stats.gamma.ppf(alpha / 2, n, scale=1)
-    uncertainties_high = stats.gamma.ppf(1 - alpha / 2, n + 1, scale=1) - n
+    n = np.asarray(hist.values())
+
+    lower = np.zeros_like(n, dtype=float)
+    upper = np.zeros_like(n, dtype=float)
+
+    # One-sided upper limit for n == 0
+    upper[n == 0] = stats.gamma.ppf(conf_level, 1)
+
+    # Two-sided Garwood intervals for n > 0
+    lower[n > 0] = stats.gamma.ppf(alpha / 2, n[n > 0])
+    upper[n > 0] = stats.gamma.ppf(1 - alpha / 2, n[n > 0] + 1)
+
+    # Compute asymmetric uncertainties
+    uncertainties_low = n - lower
+    uncertainties_high = upper - n
+
+    uncertainties_low = np.nan_to_num(uncertainties_low, nan=0.0)
+    uncertainties_high = np.nan_to_num(uncertainties_high, nan=0.0)
 
     return uncertainties_low, uncertainties_high
 
