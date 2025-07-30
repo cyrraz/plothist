@@ -112,7 +112,7 @@ def cubehelix_palette(
     pal = cmap(x)[:, :3].tolist()
     if reverse:
         pal = pal[::-1]
-    return pal
+    return [tuple(c) for c in pal]
 
 
 def get_color_palette(
@@ -170,7 +170,7 @@ def get_color_palette(
         )
 
     plt_cmap = plt.get_cmap(cmap)
-    return plt_cmap(np.linspace(0, 1, N))
+    return [tuple(k) for k in plt_cmap(np.linspace(0, 1, N))]
 
 
 def set_fitting_ylabel_fontsize(ax: plt.Axes) -> float:
