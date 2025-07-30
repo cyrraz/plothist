@@ -170,8 +170,7 @@ def get_color_palette(
         )
 
     plt_cmap = plt.get_cmap(cmap)
-    plt_cmap = plt_cmap(np.linspace(0, 1, N))
-    return [tuple(k) for k in plt_cmap]
+    return [tuple(k) for k in plt_cmap(np.linspace(0, 1, N))]
 
 
 def set_fitting_ylabel_fontsize(ax: plt.Axes) -> float:
