@@ -406,7 +406,9 @@ def plot_error_hist(
     if uncertainty_type == "symmetrical":
         kwargs.setdefault("yerr", np.sqrt(hist.variances()))
     else:
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(hist)
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
+            hist, uncertainty_type
+        )
         kwargs.setdefault("yerr", [uncertainties_low, uncertainties_high])
 
     kwargs.setdefault("fmt", ".")

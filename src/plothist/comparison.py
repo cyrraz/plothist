@@ -22,9 +22,16 @@ def _check_uncertainty_type(uncertainty_type: str) -> None:
         If the uncertainty type is not valid.
 
     """
-    if uncertainty_type not in ["symmetrical", "asymmetrical"]:
+    _valid_uncertainty_types = [
+        "symmetrical",
+        "asymmetrical",
+        "asymmetrical_double_sided",
+        "asymmetrical_one_sided",
+    ]
+
+    if uncertainty_type not in _valid_uncertainty_types:
         raise ValueError(
-            f"Uncertainty type {uncertainty_type} not valid. Must be 'symmetrical' or 'asymmetrical'."
+            f"Uncertainty type {uncertainty_type} not valid. Must be in {_valid_uncertainty_types}."
         )
 
 
@@ -42,11 +49,13 @@ def _is_unweighted(hist: bh.Histogram) -> bool:
     bool
         True if the histogram is unweighted, False otherwise.
     """
-    return np.allclose(hist.variances(), hist.values())
+    print(hist.variances(), hist.values())
+    return np.allclose(hist.variances(), hist.values(), equal_nan=True)
 
 
 def get_asymmetrical_uncertainties(
     hist: bh.Histogram,
+    uncertainty_type: str = "asymmetrical",
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Get Poisson asymmetrical uncertainties for a histogram via a frequentist approach based on a confidence-interval computation.
@@ -57,6 +66,8 @@ def get_asymmetrical_uncertainties(
     ----------
     hist : bh.Histogram
         The histogram.
+    uncertainty_type : str, optional
+        The type of uncertainty to compute for bins with 0 entries. Default is "asymmetrical" (= "asymmetrical_one_sided"). Use "asymmetrical_double_sided" to have the double-sided definition. More information in :ref:`documentation-statistics-label`.
 
     Returns
     -------
@@ -72,10 +83,16 @@ def get_asymmetrical_uncertainties(
 
     """
     _check_counting_histogram(hist)
+    _check_uncertainty_type(uncertainty_type)
 
     if not _is_unweighted(hist):
         raise ValueError(
             "Asymmetrical uncertainties can only be computed for an unweighted histogram."
+        )
+
+    if uncertainty_type == "symmetrical":
+        raise ValueError(
+            "Invalid uncertainty type 'symmetrical' for asymmetrical uncertainties."
         )
 
     alpha = 1.0 - 0.682689492
@@ -84,11 +101,22 @@ def get_asymmetrical_uncertainties(
     lower_bound = np.zeros_like(n, dtype=float)
     upper_bound = np.zeros_like(n, dtype=float)
 
+    tail_probability = alpha / 2
+
     # Two-sided Garwood intervals for n > 0
-    lower_bound[n > 0] = stats.gamma.ppf(q=alpha / 2, a=n[n > 0], scale=1)
-    upper_bound[n > 0] = stats.gamma.ppf(q=1 - alpha / 2, a=n[n > 0] + 1, scale=1)
-    # One-sided upper limit for n == 0
-    upper_bound[n == 0] = stats.gamma.ppf(q=1 - alpha, a=1, scale=1)
+    lower_bound[n > 0] = stats.gamma.ppf(q=tail_probability, a=n[n > 0], scale=1)
+    upper_bound[n > 0] = stats.gamma.ppf(
+        q=1 - tail_probability, a=n[n > 0] + 1, scale=1
+    )
+
+    if uncertainty_type == "asymmetrical_double_sided":
+        # Two-sided Garwood intervals for n == 0
+        tail_probability = alpha / 2
+    else:
+        # One-sided upper limit for n == 0
+        tail_probability = alpha
+
+    upper_bound[n == 0] = stats.gamma.ppf(q=1 - tail_probability, a=1, scale=1)
 
     # Compute asymmetric uncertainties
     uncertainties_low = n - lower_bound
@@ -189,7 +217,9 @@ def get_pull(
     _check_counting_histogram(h2)
 
     if h1_uncertainty_type == "asymmetrical":
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
+            h1, h1_uncertainty_type
+        )
         h1_variances = np.where(
             h1.values() >= h2.values(),
             uncertainties_low**2,
@@ -247,7 +277,9 @@ def get_difference(
     difference_values = h1.values() - h2.values()
 
     if h1_uncertainty_type == "asymmetrical":
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
+            h1, h1_uncertainty_type
+        )
 
         difference_uncertainties_low = np.sqrt(uncertainties_low**2 + h2.variances())
         difference_uncertainties_high = np.sqrt(uncertainties_high**2 + h2.variances())
@@ -405,7 +437,9 @@ def get_ratio(
     ratio_values = np.where(h2.values() != 0, h1.values() / h2.values(), np.nan)
 
     if h1_uncertainty_type == "asymmetrical":
-        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(h1)
+        uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
+            h1, h1_uncertainty_type
+        )
 
     if ratio_uncertainty_type == "uncorrelated":
         if h1_uncertainty_type == "asymmetrical":

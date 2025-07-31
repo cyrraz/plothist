@@ -4,6 +4,7 @@ import pytest
 from plothist.comparison import (
     _check_binning_consistency,
     _check_uncertainty_type,
+    get_asymmetrical_uncertainties,
     get_comparison,
 )
 
@@ -11,9 +12,18 @@ from plothist.comparison import (
 def test_check_uncertainty_type_invalid():
     with pytest.raises(
         ValueError,
-        match="Uncertainty type invalid_type not valid. Must be 'symmetrical' or 'asymmetrical'.",
+        match="Uncertainty type invalid_type not valid. Must be in \['symmetrical', 'asymmetrical', 'asymmetrical_double_sided', 'asymmetrical_one_sided'\].",
     ):
         _check_uncertainty_type("invalid_type")
+
+
+def test_get_asymmetrical_uncertainties_invalid():
+    h1 = bh.Histogram(bh.axis.Regular(10, 0, 1))
+    with pytest.raises(
+        ValueError,
+        match="Invalid uncertainty type 'symmetrical' for asymmetrical uncertainties.",
+    ):
+        get_asymmetrical_uncertainties(h1, uncertainty_type="symmetrical")
 
 
 def test_check_binning_consistency_dimensionality():
