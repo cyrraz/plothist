@@ -49,7 +49,6 @@ def _is_unweighted(hist: bh.Histogram) -> bool:
     bool
         True if the histogram is unweighted, False otherwise.
     """
-    print(hist.variances(), hist.values())
     return np.allclose(hist.variances(), hist.values(), equal_nan=True)
 
 

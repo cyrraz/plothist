@@ -1,3 +1,10 @@
+"""
+Representation of different uncertainty types.
+==============================================
+
+This example demonstrates how to use the `plot_error_hist` function with different uncertainty types
+"""
+
 import boost_histogram as bh
 import matplotlib.pyplot as plt
 import numpy as np
