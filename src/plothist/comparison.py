@@ -95,12 +95,13 @@ def get_asymmetrical_uncertainties(
         )
 
     alpha = 1.0 - 0.682689492
+    tail_probability = alpha / 2
+
     n = hist.values()
 
     lower_bound = np.zeros_like(n, dtype=float)
     upper_bound = np.zeros_like(n, dtype=float)
 
-    tail_probability = alpha / 2
 
     # Two-sided Garwood intervals for n > 0
     lower_bound[n > 0] = stats.gamma.ppf(q=tail_probability, a=n[n > 0], scale=1)
@@ -110,12 +111,11 @@ def get_asymmetrical_uncertainties(
 
     if uncertainty_type == "asymmetrical_double_sided":
         # Two-sided Garwood intervals for n == 0
-        tail_probability = alpha / 2
+        upper_bound[n == 0] = stats.gamma.ppf(q=1 - tail_probability, a=1, scale=1)
     else:
         # One-sided upper limit for n == 0
-        tail_probability = alpha
+        upper_bound[n == 0] = stats.gamma.ppf(q=1 - 2 * tail_probability, a=1, scale=1)
 
-    upper_bound[n == 0] = stats.gamma.ppf(q=1 - tail_probability, a=1, scale=1)
 
     # Compute asymmetric uncertainties
     uncertainties_low = n - lower_bound
@@ -215,7 +215,7 @@ def get_pull(
     _check_counting_histogram(h1)
     _check_counting_histogram(h2)
 
-    if h1_uncertainty_type == "asymmetrical":
+    if "asymmetrical" in h1_uncertainty_type:
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
             h1, h1_uncertainty_type
         )
@@ -275,7 +275,7 @@ def get_difference(
 
     difference_values = h1.values() - h2.values()
 
-    if h1_uncertainty_type == "asymmetrical":
+    if "asymmetrical" in h1_uncertainty_type:
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
             h1, h1_uncertainty_type
         )
@@ -435,13 +435,13 @@ def get_ratio(
 
     ratio_values = np.where(h2.values() != 0, h1.values() / h2.values(), np.nan)
 
-    if h1_uncertainty_type == "asymmetrical":
+    if "asymmetrical" in h1_uncertainty_type:
         uncertainties_low, uncertainties_high = get_asymmetrical_uncertainties(
             h1, h1_uncertainty_type
         )
 
     if ratio_uncertainty_type == "uncorrelated":
-        if h1_uncertainty_type == "asymmetrical":
+        if "asymmetrical" in h1_uncertainty_type:
             h1_high = h1.copy()
             h1_high[:] = np.c_[h1_high.values(), uncertainties_high**2]
             h1_low = h1.copy()
@@ -452,7 +452,7 @@ def get_ratio(
             ratio_uncertainties_low = np.sqrt(get_ratio_variances(h1, h2))
             ratio_uncertainties_high = ratio_uncertainties_low
     elif ratio_uncertainty_type == "split":
-        if h1_uncertainty_type == "asymmetrical":
+        if "asymmetrical" in h1_uncertainty_type:
             ratio_uncertainties_low = uncertainties_low / h2.values()
             ratio_uncertainties_high = uncertainties_high / h2.values()
         else:
@@ -540,7 +540,7 @@ def get_comparison(
                 h1, h2, h1_uncertainty_type
             )
         elif comparison == "asymmetry":
-            if h1_uncertainty_type == "asymmetrical":
+            if "asymmetrical" in h1_uncertainty_type:
                 raise ValueError(
                     "Asymmetrical uncertainties are not supported for the asymmetry comparison."
                 )
@@ -548,7 +548,7 @@ def get_comparison(
             lower_uncertainties = uncertainties
             upper_uncertainties = uncertainties
         elif comparison == "efficiency":
-            if h1_uncertainty_type == "asymmetrical":
+            if "asymmetrical" in h1_uncertainty_type:
                 raise ValueError(
                     "Asymmetrical uncertainties are not supported in an efficiency computation."
                 )
