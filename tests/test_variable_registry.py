@@ -99,7 +99,7 @@ def test_update_variable_registry_ranges() -> None:
     """
     Test variable registry range update.
     """
-    df = get_dummy_data()
+    dummy_data = get_dummy_data()
 
     registry_path = "./_test_variable_registry_ranges.yaml"
 
@@ -109,7 +109,7 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(df, variable_keys, path=registry_path)
+        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -123,7 +123,7 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(df, variable_keys, path=registry_path)
+        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -137,7 +137,7 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(df, variable_keys, path=registry_path)
+        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -151,7 +151,7 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(df, variable_keys, path=registry_path)
+        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -160,7 +160,7 @@ def test_update_variable_registry_ranges() -> None:
     # Standard registry creation
     create_variable_registry(variable_keys, path=registry_path, reset=True)
 
-    update_variable_registry_ranges(df, variable_keys, path=registry_path)
+    update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
 
     for key in variable_keys:
         registry = get_variable_from_registry(key, path=registry_path)
@@ -183,14 +183,14 @@ def test_update_variable_registry_ranges() -> None:
     assert registry["range"] == (-1, 1)
 
     # Range values shouldn't be updated as overwrite=False
-    update_variable_registry_ranges(df, ["variable_0"], path=registry_path)
+    update_variable_registry_ranges(dummy_data, ["variable_0"], path=registry_path)
 
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert registry["range"] == (-1, 1)
 
     # Range values should be updated as overwrite=True
     update_variable_registry_ranges(
-        df, ["variable_0"], path=registry_path, overwrite=True
+        dummy_data, ["variable_0"], path=registry_path, overwrite=True
     )
 
     registry = get_variable_from_registry("variable_0", path=registry_path)
@@ -316,16 +316,16 @@ def test_update_variable_registry_ranges_all_keys() -> None:
     """
     Test update of variable registry with variable_keys=None
     """
-    df = get_dummy_data()
+    dummy_data = get_dummy_data()
 
     registry_path = "./_test_variable_registry_update_all_keys.yaml"
 
     create_variable_registry(variable_keys, path=registry_path)
-    update_variable_registry_ranges(df, variable_keys=None, path=registry_path)
+    update_variable_registry_ranges(dummy_data, variable_keys=None, path=registry_path)
 
     for key in variable_keys:
         variable = get_variable_from_registry(key, path=registry_path)
-        assert pytest.approx(variable["range"][0]) == df[key].min()
-        assert pytest.approx(variable["range"][1]) == df[key].max()
+        assert pytest.approx(variable["range"][0]) == dummy_data[key].min()
+        assert pytest.approx(variable["range"][1]) == dummy_data[key].max()
 
     os.remove(registry_path)

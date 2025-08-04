@@ -85,18 +85,19 @@ __all__ = [
 ]
 
 
-# Get style file and use it
+from importlib import resources
 from importlib.resources import files
 
+import boost_histogram as bh
+import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
+
+# Get style file and use it
 
 style_file = files("plothist").joinpath("default_style.mplstyle")
 plt.style.use(style_file)
 
 # Install fonts
-from importlib import resources
-
-import matplotlib.font_manager as fm
 
 with resources.as_file(resources.files("plothist_utils") / "fonts") as font_path:
     font_files = fm.findSystemFonts(fontpaths=[str(font_path)])
@@ -104,7 +105,6 @@ with resources.as_file(resources.files("plothist_utils") / "fonts") as font_path
         fm.fontManager.addfont(font)
 
 # Check version of boost_histogram
-import boost_histogram as bh
 
 if tuple(int(part) for part in bh.__version__.split(".")) < (1, 4, 0):
     raise ImportError(
