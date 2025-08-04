@@ -102,7 +102,6 @@ def get_asymmetrical_uncertainties(
     lower_bound = np.zeros_like(n, dtype=float)
     upper_bound = np.zeros_like(n, dtype=float)
 
-
     # Two-sided Garwood intervals for n > 0
     lower_bound[n > 0] = stats.gamma.ppf(q=tail_probability, a=n[n > 0], scale=1)
     upper_bound[n > 0] = stats.gamma.ppf(
@@ -115,7 +114,6 @@ def get_asymmetrical_uncertainties(
     else:
         # One-sided upper limit for n == 0
         upper_bound[n == 0] = stats.gamma.ppf(q=1 - 2 * tail_probability, a=1, scale=1)
-
 
     # Compute asymmetric uncertainties
     uncertainties_low = n - lower_bound
