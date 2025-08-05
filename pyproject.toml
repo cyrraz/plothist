@@ -83,7 +83,10 @@ extend-select = [
     "PD",          # pandas-vet
 ]
 ignore = [
-    "E402",  # module level import not at top of file
     "NPY002",  # Replace legacy `np.random` call with `np.random.Generator`
+]
+[tool.ruff.lint.per-file-ignores]
+"src/plothist/examples/**/*.py" = [
+    "E402",  # module level import not at top of file
     "PD901",  # Avoid using the generic variable name `df` for DataFrames
 ]
