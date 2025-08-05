@@ -25,8 +25,8 @@ def _check_uncertainty_type(uncertainty_type: str) -> None:
     _valid_uncertainty_types = [
         "symmetrical",
         "asymmetrical",
-        "asymmetrical_double_sided",
-        "asymmetrical_one_sided",
+        "asymmetrical_double_sided_zeros",
+        "asymmetrical_one_sided_zeros",
     ]
 
     if uncertainty_type not in _valid_uncertainty_types:
@@ -66,7 +66,7 @@ def get_asymmetrical_uncertainties(
     hist : bh.Histogram
         The histogram.
     uncertainty_type : str, optional
-        The type of uncertainty to compute for bins with 0 entries. Default is "asymmetrical" (= "asymmetrical_one_sided"). Use "asymmetrical_double_sided" to have the double-sided definition. More information in :ref:`documentation-statistics-label`.
+        The type of uncertainty to compute for bins with 0 entry. Default is "asymmetrical" (= "asymmetrical_one_sided_zeros"). Use "asymmetrical_double_sided_zeros" to have the double-sided definition. More information in :ref:`documentation-statistics-label`.
 
     Returns
     -------
@@ -89,11 +89,6 @@ def get_asymmetrical_uncertainties(
             "Asymmetrical uncertainties can only be computed for an unweighted histogram."
         )
 
-    if uncertainty_type == "symmetrical":
-        raise ValueError(
-            "Invalid uncertainty type 'symmetrical' for asymmetrical uncertainties."
-        )
-
     alpha = 1.0 - 0.682689492
     tail_probability = alpha / 2
 
@@ -108,12 +103,16 @@ def get_asymmetrical_uncertainties(
         q=1 - tail_probability, a=n[n > 0] + 1, scale=1
     )
 
-    if uncertainty_type == "asymmetrical_double_sided":
+    if uncertainty_type == "asymmetrical_double_sided_zeros":
         # Two-sided Garwood intervals for n == 0
         upper_bound[n == 0] = stats.gamma.ppf(q=1 - tail_probability, a=1, scale=1)
-    else:
+    elif uncertainty_type in ["asymmetrical_one_sided_zeros", "asymmetrical"]:
         # One-sided upper limit for n == 0
         upper_bound[n == 0] = stats.gamma.ppf(q=1 - 2 * tail_probability, a=1, scale=1)
+    else:
+        raise ValueError(
+            f"Invalid uncertainty type '{uncertainty_type}' for asymmetrical uncertainties."
+        )
 
     # Compute asymmetric uncertainties
     uncertainties_low = n - lower_bound

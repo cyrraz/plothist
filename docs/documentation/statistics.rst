@@ -9,7 +9,7 @@ In the :func:`plot_error_hist() <plothist.plotters.plot_error_hist>` function, t
 - ``symmetrical``: use the square root of the variance of the histogram
 - ``asymmetrical``: frequentist approach based on a Poisson confidence interval (see `page 16 on this presentation <https://www.nikhef.nl/~ivov/Statistics/PoissonError/2017_05_15_PoissonError_LHCb_IvovanVulpen.pdf>`_)
 
-    - the upper limit on bins with no entries can be interpreted differently. By default, a one-sided 68% confidence bound is used. The behavior can be changed using the ``uncertainty_type = asymmetrical_double_sided``, which will use a two-sided 68% confidence bound.
+    - the upper limit on bins with no entries can be interpreted differently. By default, a one-sided 68% confidence bound is used. The behavior can be changed using the ``uncertainty_type = asymmetrical_double_sided_zeros``, which will use a two-sided 68% confidence bound.
     - this method doesn't support weighted histograms. For more details, see the `note about uncertainties when the histogram entries are weighted <https://www.pp.rhul.ac.uk/~cowan/stat/notes/errors_with_weights.pdf>`_.
 
 .. image:: ../img/uncertainty_types.png

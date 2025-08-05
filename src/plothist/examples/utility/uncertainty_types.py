@@ -75,8 +75,8 @@ for ax in (ax_top, ax_bot):
     plot_error_hist(
         hists[2],
         ax=ax,
-        label="asymmetrical_double_sided",
-        uncertainty_type="asymmetrical_double_sided",
+        label="asymmetrical_double_sided_zeros",
+        uncertainty_type="asymmetrical_double_sided_zeros",
     )
 
 add_text("plot_error_hist() with different uncertainty type", ax=ax_top, x="right")

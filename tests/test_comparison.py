@@ -12,7 +12,7 @@ from plothist.comparison import (
 def test_check_uncertainty_type_invalid():
     with pytest.raises(
         ValueError,
-        match="Uncertainty type invalid_type not valid. Must be in \['symmetrical', 'asymmetrical', 'asymmetrical_double_sided', 'asymmetrical_one_sided'\].",
+        match="Uncertainty type invalid_type not valid. Must be in",
     ):
         _check_uncertainty_type("invalid_type")
 
