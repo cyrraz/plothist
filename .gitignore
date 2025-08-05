@@ -15,6 +15,7 @@ temp_img/
 html/
 sg_execution_times.rst
 docs/examples/*/*.svg
+src/plothist/examples/*/*.svg
 example_gallery/
 .svg_metadata.yaml
 tests/*.yaml
