@@ -20,6 +20,7 @@ from plothist import (
     get_variable_from_registry,
     make_2d_hist,
     plot_2d_hist,
+    update_variable_registry_binning,
     update_variable_registry_ranges,
 )
 
@@ -29,6 +30,7 @@ unique_id = str(int(time.time() * 1000))[-8:]  # unique ID based on current time
 temporary_registry_path = f"./_temporary_variable_registry_{unique_id}.yaml"
 create_variable_registry(variable_keys, path=temporary_registry_path)
 update_variable_registry_ranges(df, variable_keys, path=temporary_registry_path)
+update_variable_registry_binning(df, variable_keys, path=temporary_registry_path)
 
 # Get all the correlation plot between the variables
 variable_keys_combinations = list(combinations(variable_keys, 2))

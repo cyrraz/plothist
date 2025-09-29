@@ -98,6 +98,40 @@ Then, you may manually modify the ``yaml`` to get a more suitable range to displ
 
 Calling this function again on the same variable keys will not overwrite their ``range`` parameter, unless the ``overwrite`` parameter is set to ``True``.
 
+Binning
+------
+
+The :func:`update_variable_registry_binning() <plothist.variable_registry.update_variable_registry_binning>` function automatically updates the bins' number parameter in the ``yaml`` file to the length of ``numpy.histogram_bin_edges`` minus one (the bins are regular) of the variable in the dataset:
+
+.. code-block:: python
+
+    from plothist import update_variable_registry_binning
+
+    update_variable_registry_binning(df, variable_keys)
+
+The bins' number has been updated for all the variables in ``variables_keys``. The ``yaml`` file is now:
+
+.. code-block:: yaml
+
+    variable_0:
+        name: variable_0
+        bins: 121 # = len(numpy.histogram_bin_edges(df["variable_0"])) - 1
+        range:
+        - "min"
+        - "max"
+        label: variable_0
+        log: false
+        legend_location: best
+        legend_ncols: 1
+        docstring: ''
+
+
+    variable_1:
+        ...
+
+Then, you may manually modify the ``yaml`` to get a more suitable range to display in the plot.
+
+Calling this function again on the same variable keys will not overwrite their ``range`` parameter, unless the ``overwrite`` parameter is set to ``True``.
 
 Add or modify variable properties
 ---------------------------------
@@ -198,6 +232,7 @@ Here is an example of how to create, update, and use the variable registry to pl
         create_variable_registry,
         update_variable_registry,
         update_variable_registry_ranges,
+        update_variable_registry_binning,
         get_variable_from_registry,
         add_text,
     )
@@ -210,6 +245,9 @@ Here is an example of how to create, update, and use the variable registry to pl
 
     # Update the ranges
     update_variable_registry_ranges(df, variable_keys)
+
+    # Update the bins' number
+    update_variable_registry_binning(df, variable_keys)
 
     # Add custom info
     update_variable_registry({"text": "my analysis"}, variable_keys)
