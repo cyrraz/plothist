@@ -96,6 +96,10 @@ def test_range_coverage_warning() -> None:
     assert str(warn_info[0].message) == warn_message
 
     with pytest.warns(Warning) as warn_info:
+        _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5), mute_warning=False)
+    assert str(warn_info[0].message) == ""
+
+    with pytest.warns(Warning) as warn_info:
         _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5), weights=2)
     assert str(warn_info[0].message) == warn_message
 
