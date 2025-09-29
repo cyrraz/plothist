@@ -64,11 +64,11 @@ To update ``plothist`` to its latest stable version, follow the instructions abo
 Install the development version
 ===============================
 
-1. Clone the plothist repository and go to the package folder:
+1. `Fork <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo?tool=webui>`_ and clone locally the plothist repository, then go to the package folder:
 
     .. code-block:: bash
 
-       git clone git@github.com:cyrraz/plothist.git
+       git clone "your-fork-url"
 
        cd plothist
 
