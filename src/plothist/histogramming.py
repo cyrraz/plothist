@@ -130,6 +130,8 @@ def make_hist(
         Weight(s) to apply to the data points (default is 1).
         If a float, a single weight is applied to all data points.
         If an array-like, weights are applied element-wise.
+    verbose : bool, optional
+        Whether to print warnings about data outside the binning range (default is True).
 
     Returns
     -------
@@ -200,6 +202,8 @@ def make_2d_hist(
         Weight(s) to apply to the data points (default is 1).
         If a float, a single weight is applied to all data points.
         If an array-like, weights are applied element-wise.
+    verbose : bool, optional
+        Whether to print warnings about data outside the binning range (default is True).
 
     Returns
     -------
