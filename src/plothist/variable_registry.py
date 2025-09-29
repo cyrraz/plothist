@@ -9,6 +9,7 @@ import warnings
 
 import boost_histogram as bh
 import yaml
+from numpy import histogram_bin_edges
 
 from plothist.histogramming import create_axis
 
@@ -309,6 +310,73 @@ def update_variable_registry_ranges(
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
                     {"range": (float(axis.edges[0]), float(axis.edges[-1]))},
+                    [variable_key],
+                    path=path,
+                    overwrite=True,
+                )
+
+
+def update_variable_registry_binning(
+    data,
+    variable_keys: list[str] | None = None,
+    path: str = "./variable_registry.yaml",
+    overwrite: bool = False,
+) -> None:
+    """
+    Update the bins parameters for multiple variables in the variable registry file.
+
+    Parameters
+    ----------
+    data : numpy.ndarray or pandas.DataFrame
+        A dataset containing the data for the variables.
+    variable_keys : list[str]
+        A list of variable keys for which to update the bins parameters in the registry. The variable needs to have a bin and range properties in the registry. Default is None: all variables in the registry are updated.
+    path : str, optional
+        The path to the variable registry file (default is "./variable_registry.yaml").
+    overwrite : bool, optional
+        If True, the bin parameters will be overwritten even if it's different from 50 (default is False).
+
+    Returns
+    -------
+    None
+
+    Raises
+    ------
+    RuntimeError
+        If the variable does not have a name, bins or range property in the registry.
+    """
+    _check_if_variable_registry_exists(path)
+
+    if variable_keys is None:
+        with open(path) as f:
+            variable_registry = yaml.safe_load(f)
+        variable_keys = list(variable_registry.keys())
+
+    for variable_key in variable_keys:
+        variable = get_variable_from_registry(variable_key, path=path)
+        if not all(key in variable for key in ["bins", "range", "name"]):
+            raise RuntimeError(
+                f"Variable {variable_key} does not have a name, bins or range property in the registry {path}."
+            )
+
+        bins = 50 if overwrite else variable["bins"]
+
+        if bins == 50:
+            axis = create_axis(
+                (len(histogram_bin_edges(data[variable["name"]], bins="auto")) - 1),
+                variable["range"],
+                data[variable["name"]],
+            )
+            if isinstance(axis, bh.axis.Regular):
+                update_variable_registry(
+                    {
+                        "bins": (
+                            len(
+                                histogram_bin_edges(data[variable["name"]], bins="auto")
+                            )
+                            - 1
+                        )
+                    },
                     [variable_key],
                     path=path,
                     overwrite=True,

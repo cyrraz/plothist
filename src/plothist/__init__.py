@@ -43,6 +43,7 @@ from .variable_registry import (
     get_variable_from_registry,
     remove_variable_registry_parameters,
     update_variable_registry,
+    update_variable_registry_binning,
     update_variable_registry_ranges,
 )
 
@@ -81,6 +82,7 @@ __all__ = [
     "set_fitting_ylabel_fontsize",
     "set_style",
     "update_variable_registry",
+    "update_variable_registry_binning",
     "update_variable_registry_ranges",
 ]
 
