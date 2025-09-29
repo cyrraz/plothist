@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 import boost_histogram as bh
 import numpy as np
 import pytest
@@ -95,9 +97,9 @@ def test_range_coverage_warning() -> None:
         _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5))
     assert str(warn_info[0].message) == warn_message
 
-    with pytest.warns(Warning) as warn_info:
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
         _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5), mute_warning=True)
-    assert str(warn_info[0].message) == ""
 
     with pytest.warns(Warning) as warn_info:
         _ = make_hist(data=[0, 1, 2, 3, 10], bins=5, range=(0, 5), weights=2)

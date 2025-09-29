@@ -163,7 +163,7 @@ def make_hist(
         range_coverage = h.sum().value / n_data
 
         # Issue a warning if more than 1% of the data is outside of the binning range
-        if range_coverage < 0.99 and mute_warning:
+        if range_coverage < 0.99 and not mute_warning:
             warnings.warn(
                 f"Only {100 * range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}].",
                 category=RangeWarning,
