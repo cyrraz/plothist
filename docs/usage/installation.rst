@@ -68,7 +68,7 @@ Install the development version
 
     .. code-block:: bash
 
-       git clone "your-fork-url"
+       git clone git@github.com:USERNAME/plothist.git
 
        cd plothist
 
