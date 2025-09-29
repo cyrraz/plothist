@@ -109,6 +109,7 @@ def make_hist(
     bins: int | list[float] | np.ndarray = 50,
     range: tuple[float | str, float | str] | None = None,
     weights: float | list[float] | np.ndarray = 1,
+    verbose: bool = True,
 ) -> bh.Histogram:
     """
     Create a histogram object and fill it with the provided data.
@@ -160,7 +161,7 @@ def make_hist(
         range_coverage = h.sum().value / n_data
 
         # Issue a warning if more than 1% of the data is outside of the binning range
-        if range_coverage < 0.99:
+        if range_coverage < 0.99 and verbose:
             warnings.warn(
                 f"Only {100 * range_coverage:.2f}% of data contained in the binning range [{axis.edges[0]}, {axis.edges[-1]}].",
                 category=RangeWarning,
@@ -177,6 +178,7 @@ def make_2d_hist(
         tuple[float | str, float | str] | None, tuple[float | str, float | str] | None
     ] = (None, None),
     weights: float | list[float] | np.ndarray = 1,
+    verbose: bool = True,
 ) -> bh.Histogram:
     """
     Create a 2D histogram object and fill it with the provided data.
@@ -245,7 +247,7 @@ def make_2d_hist(
         range_coverage = h.sum().value / n_data
 
         # Issue a warning if more than 1% of the data is outside of the binning range
-        if range_coverage < 0.99:
+        if range_coverage < 0.99 and verbose:
             warnings.warn(
                 f"Only {100 * range_coverage:.2f}% of data contained in the binning range ([{x_axis.edges[0]}, {x_axis.edges[-1]}], [{y_axis.edges[0]}, {y_axis.edges[-1]}]).",
                 category=RangeWarning,
