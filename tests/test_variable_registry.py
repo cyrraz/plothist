@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import os
 
+import numpy as np
 import pytest
 import yaml
-from numpy import histogram_bin_edges
 from plothist_utils import get_dummy_data
 
 from plothist import (
@@ -188,7 +188,7 @@ def test_update_variable_registry_binning() -> None:
     for key in variable_keys:
         registry = get_variable_from_registry(key, path=registry_path)
         assert registry["bins"] == (
-            len(histogram_bin_edges(dummy_data[key], bins="auto")) - 1
+            len(np.histogram_bin_edges(dummy_data[key], bins="auto")) - 1
         )
 
     # Change bins value by hand for variable_0
@@ -202,7 +202,7 @@ def test_update_variable_registry_binning() -> None:
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert (
         registry["bins"]
-        == len(histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
+        == len(np.histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
     )
 
     update_variable_registry(
@@ -305,9 +305,21 @@ def test_update_variable_registry_binning() -> None:
     update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert registry["bins"] == (
-        len(histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
+        len(np.histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
     )
     assert registry["range"] == (-1, 1)
+
+    create_variable_registry(variable_keys, path=registry_path, reset=True)
+    update_variable_registry(
+        {"bins": 20},
+        ["variable_0"],
+        path=registry_path,
+        overwrite=True,
+    )
+    update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert registry["bins"] == 20
+    assert registry["range"] == (-10.55227774892869, 10.04658448558009)
 
     os.remove(registry_path)
 
@@ -410,7 +422,7 @@ def test_update_variable_registry_binning_all_keys() -> None:
         variable = get_variable_from_registry(key, path=registry_path)
         assert (
             pytest.approx(variable["bins"])
-            == len(histogram_bin_edges(dummy_data[key], bins="auto")) - 1
+            == len(np.histogram_bin_edges(dummy_data[key], bins="auto")) - 1
         )
         assert pytest.approx(variable["range"][0]) == dummy_data[key].min()
         assert pytest.approx(variable["range"][1]) == dummy_data[key].max()

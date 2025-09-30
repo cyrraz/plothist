@@ -8,8 +8,8 @@ import os
 import warnings
 
 import boost_histogram as bh
+import numpy as np
 import yaml
-from numpy import histogram_bin_edges
 
 from plothist.histogramming import create_axis
 
@@ -306,7 +306,7 @@ def update_variable_registry_binning(
             )
 
         bins = "auto" if overwrite else variable["bins"]
-        bin_number = len(histogram_bin_edges(data[variable["name"]], bins=bins)) - 1
+        bin_number = len(np.histogram_bin_edges(data[variable["name"]], bins=bins)) - 1
 
         range_val = ("min", "max") if overwrite else variable["range"]
 
