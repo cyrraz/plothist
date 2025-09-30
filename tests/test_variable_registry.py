@@ -193,33 +193,6 @@ def test_update_variable_registry_binning() -> None:
 
     # Change bins value by hand for variable_0
     registry = get_variable_from_registry("variable_0", path=registry_path)
-    registry["bins"] = 20
-    with open(registry_path, "w") as f:
-        yaml.safe_dump({"variable_0": registry}, f, sort_keys=False)
-        f.write("\n" * 2)
-
-    # Check the new value
-    registry = get_variable_from_registry("variable_0", path=registry_path)
-    assert registry["bins"] == 20
-
-    # Range values shouldn't be updated as overwrite=False
-    update_variable_registry_binning(dummy_data, ["variable_0"], path=registry_path)
-
-    registry = get_variable_from_registry("variable_0", path=registry_path)
-    assert registry["bins"] == 20
-
-    # Range values should be updated as overwrite=True
-    update_variable_registry_binning(
-        dummy_data, ["variable_0"], path=registry_path, overwrite=True
-    )
-
-    registry = get_variable_from_registry("variable_0", path=registry_path)
-    assert (
-        registry["bins"]
-        == len(histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
-    )
-
-    # Same tests as above but with update_variable_registry() function
     update_variable_registry(
         {"bins": 20},
         ["variable_0"],
@@ -320,6 +293,21 @@ def test_update_variable_registry_binning() -> None:
 
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert registry["range"] == (-2, 2)
+
+    # Test "or" condition in update_variable_registry_binning()
+    create_variable_registry(variable_keys, path=registry_path, reset=True)
+    update_variable_registry(
+        {"range": (-1, 1)},
+        ["variable_0"],
+        path=registry_path,
+        overwrite=True,
+    )
+    update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert registry["bins"] == (
+        len(histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
+    )
+    assert registry["range"] == (-1, 1)
 
     os.remove(registry_path)
 
