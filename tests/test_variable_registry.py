@@ -255,7 +255,7 @@ def test_update_variable_registry_ranges() -> None:
 
 def test_update_variable_registry_binning() -> None:
     """
-    Test variable registry range update.
+    Test variable registry binning update.
     """
     dummy_data = get_dummy_data()
 

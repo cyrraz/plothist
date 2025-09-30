@@ -131,7 +131,7 @@ The bins' number has been updated for all the variables in ``variables_keys``. T
 
 Then, you may manually modify the ``yaml`` to get a more suitable range to display in the plot.
 
-Calling this function again on the same variable keys will not overwrite their ``range`` parameter, unless the ``overwrite`` parameter is set to ``True``.
+Calling this function again on the same variable keys will not overwrite their ``bins`` parameter, unless the ``overwrite`` parameter is set to ``True``.
 
 Add or modify variable properties
 ---------------------------------

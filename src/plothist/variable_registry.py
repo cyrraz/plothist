@@ -352,6 +352,8 @@ def update_variable_registry_binning(
             variable_registry = yaml.safe_load(f)
         variable_keys = list(variable_registry.keys())
 
+    DEFAULT_BINS = 50
+
     for variable_key in variable_keys:
         variable = get_variable_from_registry(variable_key, path=path)
         if not all(key in variable for key in ["bins", "range", "name"]):
@@ -359,24 +361,18 @@ def update_variable_registry_binning(
                 f"Variable {variable_key} does not have a name, bins or range property in the registry {path}."
             )
 
-        bins = 50 if overwrite else variable["bins"]
+        bins = DEFAULT_BINS if overwrite else variable["bins"]
+        bin_number = len(histogram_bin_edges(data[variable["name"]], bins="auto")) - 1
 
-        if bins == 50:
+        if bins == DEFAULT_BINS:
             axis = create_axis(
-                (len(histogram_bin_edges(data[variable["name"]], bins="auto")) - 1),
+                bin_number,
                 variable["range"],
                 data[variable["name"]],
             )
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
-                    {
-                        "bins": (
-                            len(
-                                histogram_bin_edges(data[variable["name"]], bins="auto")
-                            )
-                            - 1
-                        )
-                    },
+                    {"bins": bin_number},
                     [variable_key],
                     path=path,
                     overwrite=True,
