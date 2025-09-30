@@ -310,28 +310,18 @@ def update_variable_registry_binning(
 
         range_val = ("min", "max") if overwrite else variable["range"]
 
-        if bins == "auto":
+        if bins == "auto" and tuple(range_val) == ("min", "max"):
             axis = create_axis(
                 bin_number,
-                variable["range"],
+                tuple(range_val),
                 data[variable["name"]],
             )
             if isinstance(axis, bh.axis.Regular):
                 update_variable_registry(
-                    {"bins": bin_number},
-                    [variable_key],
-                    path=path,
-                    overwrite=True,
-                )
-
-        if tuple(range_val) == ("min", "max"):
-            updated_var = get_variable_from_registry(variable_key, path=path)
-            axis = create_axis(
-                updated_var["bins"], tuple(range_val), data[variable["name"]]
-            )
-            if isinstance(axis, bh.axis.Regular):
-                update_variable_registry(
-                    {"range": (float(axis.edges[0]), float(axis.edges[-1]))},
+                    {
+                        "bins": bin_number,
+                        "range": (float(axis.edges[0]), float(axis.edges[-1])),
+                    },
                     [variable_key],
                     path=path,
                     overwrite=True,

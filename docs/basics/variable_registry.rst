@@ -66,7 +66,7 @@ Multiple functions are available to modify the plotting information of the varia
 Binning and ranges
 ------------------
 
-The :func:`update_variable_registry_binning() <plothist.variable_registry.update_variable_registry_binning>` function automatically updates the number of bins parameter in the ``yaml`` file to the length of [``numpy.histogram_bin_edges``](https://numpy.org/doc/2.1/reference/generated/numpy.histogram_bin_edges.html#numpy-histogram-bin-edges) minus one (the bins are regular), with the ``bins`` variable set to "auto", and automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
+The :func:`update_variable_registry_binning() <plothist.variable_registry.update_variable_registry_binning>` function automatically updates the number of bins parameter in the ``yaml`` file to the length of [``numpy.histogram_bin_edges``](https://numpy.org/doc/2.1/reference/generated/numpy.histogram_bin_edges.html#numpy-histogram-bin-edges) minus one (the bins are regular) and automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ The :func:`update_variable_registry_binning() <plothist.variable_registry.update
 
     update_variable_registry_binning(df, variable_keys)
 
-The number of bins has been updated for all the variables in ``variables_keys``. The ``yaml`` file is now:
+The number of bins and the range has been updated for all the variables in ``variables_keys``. The ``yaml`` file is now:
 
 .. code-block:: yaml
 
@@ -167,7 +167,6 @@ The ``yaml`` file is updated:
 
     variable_0:
         name: variable_0
-        bins: 121 # = len(numpy.histogram_bin_edges(df["variable_0"], bins="auto")) - 1
         label: variable_0
         legend_location: best
         docstring: ''
@@ -197,7 +196,6 @@ Here is an example of how to create, update, and use the variable registry to pl
         create_variable_registry,
         update_variable_registry,
         update_variable_registry_binning,
-        update_variable_registry_binning,
         get_variable_from_registry,
         add_text,
     )
@@ -208,10 +206,7 @@ Here is an example of how to create, update, and use the variable registry to pl
     # Create the registry
     create_variable_registry(variable_keys)
 
-    # Update the ranges
-    update_variable_registry_binning(df, variable_keys)
-
-    # Update the bins' number
+    # Update the number of bins and range
     update_variable_registry_binning(df, variable_keys)
 
     # Add custom info
@@ -248,7 +243,7 @@ Example: to plot a zoom on a variable but still keep the original one, you can c
 
     variable_0:
         name: variable_0
-        bins: 121 # = len(numpy.histogram_bin_edges(df["variable_0"], bins="auto")) - 1
+        bins: 121
         range:
         - -10
         - 10
