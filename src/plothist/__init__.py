@@ -9,12 +9,7 @@ from .comparison import (
     get_ratio,
     get_ratio_variances,
 )
-from .histogramming import (
-    create_axis,
-    flatten_2d_hist,
-    make_2d_hist,
-    make_hist,
-)
+from .histogramming import create_axis, flatten_2d_hist, make_2d_hist, make_hist
 from .plothist_style import (
     add_luminosity,
     add_text,
@@ -44,7 +39,6 @@ from .variable_registry import (
     remove_variable_registry_parameters,
     update_variable_registry,
     update_variable_registry_binning,
-    update_variable_registry_ranges,
 )
 
 __all__ = [
@@ -83,7 +77,6 @@ __all__ = [
     "set_style",
     "update_variable_registry",
     "update_variable_registry_binning",
-    "update_variable_registry_ranges",
 ]
 
 
