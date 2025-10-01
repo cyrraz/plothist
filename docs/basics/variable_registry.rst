@@ -63,24 +63,24 @@ Update the registry
 
 Multiple functions are available to modify the plotting information of the variables in the registry, add or remove some parameters.
 
-Ranges
-------
+Binning and ranges
+------------------
 
-The :func:`update_variable_registry_ranges() <plothist.variable_registry.update_variable_registry_ranges>` function automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
+The :func:`update_variable_registry_binning() <plothist.variable_registry.update_variable_registry_binning>` function automatically updates the number of bins parameter in the ``yaml`` file to the length of [``numpy.histogram_bin_edges``](https://numpy.org/doc/2.1/reference/generated/numpy.histogram_bin_edges.html#numpy-histogram-bin-edges) minus one (the bins are regular) and automatically updates the range parameter in the ``yaml`` file to the ``min`` and ``max`` values of the variable in the dataset:
 
 .. code-block:: python
 
-    from plothist import update_variable_registry_ranges
+    from plothist import update_variable_registry_binning
 
-    update_variable_registry_ranges(df, variable_keys)
+    update_variable_registry_binning(df, variable_keys)
 
-The range has been updated for all the variables in ``variables_keys``. The ``yaml`` file is now:
+The number of bins and the range has been updated for all the variables in ``variables_keys``. The ``yaml`` file is now:
 
 .. code-block:: yaml
 
     variable_0:
         name: variable_0
-        bins: 50
+        bins: 121 # = len(numpy.histogram_bin_edges(df["variable_0"], bins="auto")) - 1
         range:
         - -10.55227774892869    # min(df["variable_0"])
         - 10.04658448558009     # max(df["variable_0"])
@@ -94,10 +94,9 @@ The range has been updated for all the variables in ``variables_keys``. The ``ya
     variable_1:
         ...
 
-Then, you may manually modify the ``yaml`` to get a more suitable range to display in the plot.
+Then, you may manually modify the ``yaml`` to get a more suitable binning and range to display in the plot.
 
-Calling this function again on the same variable keys will not overwrite their ``range`` parameter, unless the ``overwrite`` parameter is set to ``True``.
-
+Calling this function again on the same variable keys will not overwrite their ``bins`` or ``range`` parameter, unless the ``overwrite`` parameter is set to ``True``.
 
 Add or modify variable properties
 ---------------------------------
@@ -124,7 +123,7 @@ This will add the new properties to the ``yaml`` file to all the variables in ``
 
     variable_0:
         name: variable_0
-        bins: 50
+        bins: 121
         range:
         - -10.55227774892869
         - 10.04658448558009
@@ -160,7 +159,7 @@ To remove a parameter from the plotting information, you can use the :func:`remo
 
     from plothist import remove_variable_registry_parameters
 
-    remove_variable_registry_parameters(["range", "log", "legend_ncols", "new_property"], variable_keys)
+    remove_variable_registry_parameters(["bins", "range", "log", "legend_ncols", "new_property"], variable_keys)
 
 The ``yaml`` file is updated:
 
@@ -168,7 +167,6 @@ The ``yaml`` file is updated:
 
     variable_0:
         name: variable_0
-        bins: 50
         label: variable_0
         legend_location: best
         docstring: ''
@@ -197,7 +195,7 @@ Here is an example of how to create, update, and use the variable registry to pl
         plot_hist,
         create_variable_registry,
         update_variable_registry,
-        update_variable_registry_ranges,
+        update_variable_registry_binning,
         get_variable_from_registry,
         add_text,
     )
@@ -208,8 +206,8 @@ Here is an example of how to create, update, and use the variable registry to pl
     # Create the registry
     create_variable_registry(variable_keys)
 
-    # Update the ranges
-    update_variable_registry_ranges(df, variable_keys)
+    # Update the number of bins and range
+    update_variable_registry_binning(df, variable_keys)
 
     # Add custom info
     update_variable_registry({"text": "my analysis"}, variable_keys)
@@ -245,7 +243,7 @@ Example: to plot a zoom on a variable but still keep the original one, you can c
 
     variable_0:
         name: variable_0
-        bins: 50
+        bins: 121
         range:
         - -10
         - 10
@@ -257,7 +255,7 @@ Example: to plot a zoom on a variable but still keep the original one, you can c
 
     variable_0_zoom:
         name: variable_0
-        bins: 50
+        bins: 121
         range:
         - -1
         - 1

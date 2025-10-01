@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 
+import numpy as np
 import pytest
 import yaml
 from plothist_utils import get_dummy_data
@@ -11,7 +12,7 @@ from plothist import (
     get_variable_from_registry,
     remove_variable_registry_parameters,
     update_variable_registry,
-    update_variable_registry_ranges,
+    update_variable_registry_binning,
 )
 
 variable_keys = ["variable_0", "variable_1", "variable_2"]
@@ -56,7 +57,7 @@ def test_variable_registry_info() -> None:
         registry = get_variable_from_registry(key, path=registry_path)
         assert registry == {
             "name": key,
-            "bins": 50,
+            "bins": "auto",
             "range": ("min", "max"),
             "label": key,
             "log": False,
@@ -74,7 +75,7 @@ def test_variable_registry_info() -> None:
         registry = get_variable_from_registry(key, path=registry_path)
         assert registry == {
             "name": key,
-            "bins": 50,
+            "bins": "auto",
             "range": ("min", "max"),
             "label": key,
             "log": False,
@@ -95,13 +96,13 @@ def test_variable_registry_info() -> None:
     os.remove(registry_path)
 
 
-def test_update_variable_registry_ranges() -> None:
+def test_update_variable_registry_binning() -> None:
     """
-    Test variable registry range update.
+    Test variable registry binning update.
     """
     dummy_data = get_dummy_data()
 
-    registry_path = "./_test_variable_registry_ranges.yaml"
+    registry_path = "./_test_variable_registry_binning.yaml"
 
     # Test multiple conditions for missing properties
     create_variable_registry(
@@ -109,7 +110,29 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
+        update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
+    assert (
+        str(err.value)
+        == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
+    )
+
+    create_variable_registry(
+        variable_keys, path=registry_path, custom_dict={"name": "test"}, reset=True
+    )
+
+    with pytest.raises(RuntimeError) as err:
+        update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
+    assert (
+        str(err.value)
+        == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
+    )
+
+    create_variable_registry(
+        variable_keys, path=registry_path, custom_dict={"range": (-1, 1)}, reset=True
+    )
+
+    with pytest.raises(RuntimeError) as err:
+        update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -123,7 +146,7 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
+        update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -137,7 +160,7 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
+        update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -151,7 +174,7 @@ def test_update_variable_registry_ranges() -> None:
     )
 
     with pytest.raises(RuntimeError) as err:
-        update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
+        update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
     assert (
         str(err.value)
         == f"Variable {variable_keys[0]} does not have a name, bins or range property in the registry {registry_path}."
@@ -160,7 +183,52 @@ def test_update_variable_registry_ranges() -> None:
     # Standard registry creation
     create_variable_registry(variable_keys, path=registry_path, reset=True)
 
-    update_variable_registry_ranges(dummy_data, variable_keys, path=registry_path)
+    update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
+
+    for key in variable_keys:
+        registry = get_variable_from_registry(key, path=registry_path)
+        assert registry["bins"] == (
+            len(np.histogram_bin_edges(dummy_data[key], bins="auto")) - 1
+        )
+
+    # Change bins value by hand for variable_0
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    update_variable_registry(
+        {"bins": 20},
+        ["variable_0"],
+        path=registry_path,
+    )
+
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert (
+        registry["bins"]
+        == len(np.histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
+    )
+
+    update_variable_registry(
+        {"bins": 20},
+        ["variable_0"],
+        path=registry_path,
+        overwrite=True,
+    )
+
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert registry["bins"] == 20
+
+    update_variable_registry(
+        {"bins": 30},
+        None,
+        path=registry_path,
+        overwrite=True,
+    )
+
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert registry["bins"] == 30
+
+    # Standard registry creation
+    create_variable_registry(variable_keys, path=registry_path, reset=True)
+
+    update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
 
     for key in variable_keys:
         registry = get_variable_from_registry(key, path=registry_path)
@@ -183,13 +251,13 @@ def test_update_variable_registry_ranges() -> None:
     assert registry["range"] == (-1, 1)
 
     # Range values shouldn't be updated as overwrite=False
-    update_variable_registry_ranges(dummy_data, ["variable_0"], path=registry_path)
+    update_variable_registry_binning(dummy_data, ["variable_0"], path=registry_path)
 
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert registry["range"] == (-1, 1)
 
     # Range values should be updated as overwrite=True
-    update_variable_registry_ranges(
+    update_variable_registry_binning(
         dummy_data, ["variable_0"], path=registry_path, overwrite=True
     )
 
@@ -226,6 +294,33 @@ def test_update_variable_registry_ranges() -> None:
     registry = get_variable_from_registry("variable_0", path=registry_path)
     assert registry["range"] == (-2, 2)
 
+    # Test "or" condition in update_variable_registry_binning()
+    create_variable_registry(variable_keys, path=registry_path, reset=True)
+    update_variable_registry(
+        {"range": (-1, 1)},
+        ["variable_0"],
+        path=registry_path,
+        overwrite=True,
+    )
+    update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert registry["bins"] == (
+        len(np.histogram_bin_edges(dummy_data["variable_0"], bins="auto")) - 1
+    )
+    assert registry["range"] == (-1, 1)
+
+    create_variable_registry(variable_keys, path=registry_path, reset=True)
+    update_variable_registry(
+        {"bins": 20},
+        ["variable_0"],
+        path=registry_path,
+        overwrite=True,
+    )
+    update_variable_registry_binning(dummy_data, variable_keys, path=registry_path)
+    registry = get_variable_from_registry("variable_0", path=registry_path)
+    assert registry["bins"] == 20
+    assert registry["range"] == (-10.55227774892869, 10.04658448558009)
+
     os.remove(registry_path)
 
 
@@ -252,7 +347,7 @@ def test_updating_variable_registry() -> None:
         registry = get_variable_from_registry(key, path=registry_path)
         assert registry == {
             "name": key,
-            "bins": 50,
+            "bins": "auto",
             "range": ("min", "max"),
             "label": key,
             "log": False,
@@ -276,7 +371,7 @@ def test_updating_variable_registry() -> None:
         registry = get_variable_from_registry(key, path=registry_path)
         assert registry == {
             "name": key,
-            "bins": 50,
+            "bins": "auto",
             "label": key,
             "legend_location": "best",
             "docstring": "",
@@ -312,7 +407,7 @@ def test_remove_variable_registry_parameters_warning() -> None:
     os.remove(registry_path)
 
 
-def test_update_variable_registry_ranges_all_keys() -> None:
+def test_update_variable_registry_binning_all_keys() -> None:
     """
     Test update of variable registry with variable_keys=None
     """
@@ -321,10 +416,14 @@ def test_update_variable_registry_ranges_all_keys() -> None:
     registry_path = "./_test_variable_registry_update_all_keys.yaml"
 
     create_variable_registry(variable_keys, path=registry_path)
-    update_variable_registry_ranges(dummy_data, variable_keys=None, path=registry_path)
+    update_variable_registry_binning(dummy_data, variable_keys=None, path=registry_path)
 
     for key in variable_keys:
         variable = get_variable_from_registry(key, path=registry_path)
+        assert (
+            pytest.approx(variable["bins"])
+            == len(np.histogram_bin_edges(dummy_data[key], bins="auto")) - 1
+        )
         assert pytest.approx(variable["range"][0]) == dummy_data[key].min()
         assert pytest.approx(variable["range"][1]) == dummy_data[key].max()
 

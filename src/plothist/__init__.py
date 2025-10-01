@@ -9,12 +9,7 @@ from .comparison import (
     get_ratio,
     get_ratio_variances,
 )
-from .histogramming import (
-    create_axis,
-    flatten_2d_hist,
-    make_2d_hist,
-    make_hist,
-)
+from .histogramming import create_axis, flatten_2d_hist, make_2d_hist, make_hist
 from .plothist_style import (
     add_luminosity,
     add_text,
@@ -43,7 +38,7 @@ from .variable_registry import (
     get_variable_from_registry,
     remove_variable_registry_parameters,
     update_variable_registry,
-    update_variable_registry_ranges,
+    update_variable_registry_binning,
 )
 
 __all__ = [
@@ -81,7 +76,7 @@ __all__ = [
     "set_fitting_ylabel_fontsize",
     "set_style",
     "update_variable_registry",
-    "update_variable_registry_ranges",
+    "update_variable_registry_binning",
 ]
 
 
