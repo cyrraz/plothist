@@ -280,7 +280,7 @@ def update_variable_registry_binning(
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
     overwrite : bool, optional
-        If True, the bin and range parameters will be overwritten even if it's different from "auto" or ("min", "max") (default is False).
+        If True, the bin and range parameters will be overwritten even if they differ from "auto" and ("min", "max") (default is False).
 
     Returns
     -------
