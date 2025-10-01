@@ -312,7 +312,7 @@ def update_variable_registry_binning(
 
         if bins == "auto" or tuple(range_val) == ("min", "max"):
             axis = create_axis(
-                bin_number if bins == "auto" else bins,
+                bin_number,
                 tuple(range_val),
                 data[variable["name"]],
             )
