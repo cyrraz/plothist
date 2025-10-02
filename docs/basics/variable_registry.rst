@@ -25,7 +25,7 @@ For each variable in the list, the following information is stored by default in
 
     variable_0:
         name: variable_0
-        bins: 50
+        bins: auto
         range:
         - min
         - max
