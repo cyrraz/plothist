@@ -16,7 +16,7 @@ def test_set_style_invalid_value() -> None:
     Test that set_style raises a ValueError when an unsupported style is passed.
     """
     with pytest.raises(
-        ValueError, match="nonexistent not in the available styles: \\['default'\\]"
+        ValueError, match=r"nonexistent not in the available styles: \\['default'\\]"
     ):
         set_style("nonexistent")
 
@@ -28,17 +28,17 @@ def test_get_color_palette_raises() -> None:
     - N > 7 when cmap is 'ggplot'
     - N < 2 when cmap is any matplotlib colormap (excluding 'ggplot' and 'cubehelix')
     """
-    with pytest.raises(ValueError, match="The number of colors asked should be >0."):
+    with pytest.raises(ValueError, match=r"The number of colors asked should be >0."):
         get_color_palette("viridis", 0)
 
     with pytest.raises(
-        ValueError, match="Only 7 colors are available in the ggplot style cycle"
+        ValueError, match=r"Only 7 colors are available in the ggplot style cycle"
     ):
         get_color_palette("ggplot", 8)
 
     with pytest.raises(
         ValueError,
-        match="The number of colors asked should be >1 to sequence matplotlib palettes.",
+        match=r"The number of colors asked should be >1 to sequence matplotlib palettes.",
     ):
         get_color_palette("viridis", 1)
 
@@ -52,7 +52,7 @@ def test_set_fitting_ylabel_fontsize_raises() -> None:
 
     with pytest.raises(
         ValueError,
-        match="Only a y-label with a negative font size would fit on the y-axis.",
+        match=r"Only a y-label with a negative font size would fit on the y-axis.",
     ):
         set_fitting_ylabel_fontsize(ax)
 
@@ -65,10 +65,10 @@ def test_add_text_invalid_positions() -> None:
     """
     fig, ax = plt.subplots()
 
-    with pytest.raises(ValueError, match="'invalid_x' is not a valid x position."):
+    with pytest.raises(ValueError, match=r"'invalid_x' is not a valid x position."):
         add_text("Test", x="invalid_x", ax=ax)
 
-    with pytest.raises(ValueError, match="'invalid_y' is not a valid y position."):
+    with pytest.raises(ValueError, match=r"'invalid_y' is not a valid y position."):
         add_text("Test", y="invalid_y", ax=ax)
 
     plt.close(fig)
@@ -123,7 +123,7 @@ def test_plot_reordered_legend_valid_and_invalid():
 
     # Invalid call: duplicate and missing index
     with pytest.raises(
-        ValueError, match="The order list should contain all integers from 0 to 1."
+        ValueError, match=r"The order list should contain all integers from 0 to 1."
     ):
         plot_reordered_legend(ax, [0, 0])
 

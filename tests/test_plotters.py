@@ -162,7 +162,8 @@ def test_get_model_type() -> None:
     assert _get_model_type([hist]) == "histograms"
 
     with pytest.raises(
-        ValueError, match="All model components must be either histograms or functions."
+        ValueError,
+        match=r"All model components must be either histograms or functions.",
     ):
         _get_model_type([func, hist])
 
@@ -180,7 +181,7 @@ def test_plot_model_cases() -> None:
     # Case 1: Plotting functions without labels
     fig, ax = plt.subplots()
     with pytest.warns(
-        UserWarning, match="No artists with labels found to put in legend."
+        UserWarning, match=r"No artists with labels found to put in legend."
     ):
         fig, ax = plot_model(
             unstacked_components=[f1],
@@ -203,7 +204,7 @@ def test_plot_model_cases() -> None:
     # Case 3: Plotting a model without any components
     fig, ax = plt.subplots()
     with pytest.raises(
-        ValueError, match="Need to provide at least one model component."
+        ValueError, match=r"Need to provide at least one model component."
     ):
         plot_model(
             fig=fig,
@@ -214,7 +215,7 @@ def test_plot_model_cases() -> None:
     # Case 4
     fig, ax = plt.subplots()
     with pytest.raises(
-        ValueError, match="Need to provide function_range for model made of functions."
+        ValueError, match=r"Need to provide function_range for model made of functions."
     ):
         plot_model(
             stacked_components=[f1],
@@ -237,7 +238,7 @@ def test_plot_data_model_comparison_cases() -> None:
     # Case 1: No model components provided
     fig, ax = plt.subplots()
     with pytest.raises(
-        ValueError, match="Need to provide at least one model component."
+        ValueError, match=r"Need to provide at least one model component."
     ):
         plot_data_model_comparison(
             data_hist=h_1d,
@@ -249,7 +250,8 @@ def test_plot_data_model_comparison_cases() -> None:
     # Case 2: Providing fig and ax_main or ax_comparison with plot_only
     fig, ax = plt.subplots()
     with pytest.raises(
-        ValueError, match="Cannot provide fig, ax_main or ax_comparison with plot_only."
+        ValueError,
+        match=r"Cannot provide fig, ax_main or ax_comparison with plot_only.",
     ):
         fig, (ax_main, ax_comparison) = create_comparison_figure()
         plot_data_model_comparison(
@@ -264,7 +266,7 @@ def test_plot_data_model_comparison_cases() -> None:
 
     # Case 3: Not providing labels for model components in ax_main
     with pytest.warns(
-        UserWarning, match="No artists with labels found to put in legend."
+        UserWarning, match=r"No artists with labels found to put in legend."
     ):
         fig, ax_main, _ = plot_data_model_comparison(
             data_hist=h_1d, stacked_components=[func], plot_only="ax_main"
@@ -273,7 +275,7 @@ def test_plot_data_model_comparison_cases() -> None:
 
     # Case 4: Not providing labels for model components in ax_comparison
     with pytest.warns(
-        UserWarning, match="No artists with labels found to put in legend."
+        UserWarning, match=r"No artists with labels found to put in legend."
     ):
         fig, _, ax_comparison = plot_data_model_comparison(
             data_hist=h_1d, stacked_components=[func], plot_only="ax_comparison"
@@ -282,7 +284,7 @@ def test_plot_data_model_comparison_cases() -> None:
 
     # Case 5: Providing an invalid plot_only value
     with pytest.raises(
-        ValueError, match="plot_only must be 'ax_main', 'ax_comparison' or None."
+        ValueError, match=r"plot_only must be 'ax_main', 'ax_comparison' or None."
     ):
         plot_data_model_comparison(
             data_hist=h_1d, stacked_components=[func], plot_only="invalid"

@@ -145,18 +145,20 @@ def test_warning_when_range_is_provided_with_variable_bins() -> None:
     bins = [1, 2, 3, 4]
     range_value = (0, 5)
 
-    with pytest.warns(Warning, match="Custom binning -> ignore supplied range"):
+    with pytest.warns(Warning, match=r"Custom binning -> ignore supplied range"):
         create_axis(bins=bins, range=range_value)
 
 
 def test_invalid_bins() -> None:
     """Test for non-positive bins."""
     with pytest.raises(
-        ValueError, match="Number of bins must be positive, but got -5."
+        ValueError, match=r"Number of bins must be positive, but got -5."
     ):
         create_axis(bins=-5)
 
-    with pytest.raises(ValueError, match="Number of bins must be positive, but got 0."):
+    with pytest.raises(
+        ValueError, match=r"Number of bins must be positive, but got 0."
+    ):
         create_axis(bins=0)
 
 
@@ -164,7 +166,7 @@ def test_range_min_max_with_empty_data() -> None:
     """Test for using 'min' or 'max' in range with empty data."""
     with pytest.raises(
         ValueError,
-        match="Cannot use 'min'/'max' range values with empty data. "
+        match=r"Cannot use 'min'/'max' range values with empty data. "
         "Please supply a range or provide data.",
     ):
         create_axis(bins=5, range=("min", "max"), data=[])
@@ -236,7 +238,7 @@ def test_make_make_2d_hist_with_invalid_data_dimensions() -> None:
     """
     Test make_hist() with invalid data dimensions.
     """
-    with pytest.raises(ValueError, match="data should have two components, x and y"):
+    with pytest.raises(ValueError, match=r"data should have two components, x and y"):
         make_2d_hist(data=[1, 2, 3], bins=5, range=(0, 5))
 
 
@@ -244,14 +246,14 @@ def test_make_2d_hist_with_different_x_y_lengths() -> None:
     """
     Test make_2d_hist() with different lengths of x and y data.
     """
-    with pytest.raises(ValueError, match="x and y must have the same length"):
+    with pytest.raises(ValueError, match=r"x and y must have the same length"):
         make_2d_hist(data=[[1, 2, 3], [4, 5]], bins=(5, 5), range=((0, 5), (0, 5)))
 
 
 def test_check_counting_histogram_invalid() -> None:
     """Test that _check_counting_histogram raises ValueError for non-counting histogram."""
     hist = bh.Histogram(bh.axis.Regular(10, 0, 1), storage=bh.storage.Mean())
-    with pytest.raises(ValueError, match="The histogram must be a counting histogram"):
+    with pytest.raises(ValueError, match=r"The histogram must be a counting histogram"):
         _check_counting_histogram(hist)
 
 
@@ -262,12 +264,12 @@ def test_make_hist_from_function_raises_on_non_1d_hist() -> None:
     def func(x):
         return x**2
 
-    with pytest.raises(ValueError, match="The reference histogram must be 1D."):
+    with pytest.raises(ValueError, match=r"The reference histogram must be 1D."):
         _make_hist_from_function(func, hist_2d)
 
 
 def test_flatten_2d_hist_raises_on_1d_hist() -> None:
     """Test that flatten_2d_hist raises ValueError if the input histogram is not 2D."""
     hist_1d = make_hist()
-    with pytest.raises(ValueError, match="The input histogram must be 2D."):
+    with pytest.raises(ValueError, match=r"The input histogram must be 2D."):
         flatten_2d_hist(hist_1d)
