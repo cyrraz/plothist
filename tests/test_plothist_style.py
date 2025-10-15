@@ -16,7 +16,7 @@ def test_set_style_invalid_value() -> None:
     Test that set_style raises a ValueError when an unsupported style is passed.
     """
     with pytest.raises(
-        ValueError, match=r"nonexistent not in the available styles: \\['default'\\]"
+        ValueError, match="nonexistent not in the available styles: \\['default'\\]"
     ):
         set_style("nonexistent")
 
