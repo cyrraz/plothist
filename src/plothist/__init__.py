@@ -39,6 +39,7 @@ from .variable_registry import (
     remove_variable_registry_parameters,
     update_variable_registry,
     update_variable_registry_binning,
+    update_variable_registry_ranges,
 )
 
 __all__ = [
@@ -77,6 +78,7 @@ __all__ = [
     "set_style",
     "update_variable_registry",
     "update_variable_registry_binning",
+    "update_variable_registry_ranges",
 ]
 
 

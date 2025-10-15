@@ -260,6 +260,16 @@ def remove_variable_registry_parameters(
     _save_variable_registry(variable_registry, path=path)
 
 
+def update_variable_registry_ranges(*args, **kwargs):
+    warnings.warn(
+        "`update_variable_registry_ranges` is deprecated since v1.7.0 and will be removed in future versions. "
+        "Use `update_variable_registry_binning` instead.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    return update_variable_registry_binning(*args, **kwargs)
+
+
 def update_variable_registry_binning(
     data,
     variable_keys: list[str] | None = None,
