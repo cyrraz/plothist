@@ -29,7 +29,7 @@ def test_get_efficiency_negative_bin_content() -> None:
     h1[:] = np.c_[[-1.0], [-1.0]]
     with pytest.raises(
         ValueError,
-        match="can only be computed if the bin contents of both histograms are positive or zero",
+        match=r"can only be computed if the bin contents of both histograms are positive or zero",
     ):
         get_comparison(h1, h2, comparison="efficiency")
 

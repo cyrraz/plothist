@@ -88,5 +88,4 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "src/plothist/examples/**/*.py" = [
     "E402",  # module level import not at top of file
-    "PD901",  # Avoid using the generic variable name `df` for DataFrames
 ]
