@@ -1138,11 +1138,11 @@ def plot_data_model_comparison(
         if plot_only is None:
             fig, (ax_main, ax_comparison) = create_comparison_figure()
         elif plot_only == "ax_main":
-            fig, ax_main = plt.subplots()
             _, ax_comparison = plt.subplots()
+            fig, ax_main = plt.subplots()
         elif plot_only == "ax_comparison":
-            fig, ax_comparison = plt.subplots()
             _, ax_main = plt.subplots()
+            fig, ax_comparison = plt.subplots()
         else:
             raise ValueError("plot_only must be 'ax_main', 'ax_comparison' or None.")
     elif fig is None or ax_main is None or ax_comparison is None:
