@@ -187,26 +187,35 @@ def set_fitting_ylabel_fontsize(ax: plt.Axes) -> float:
     float
         The adjusted font size for the ylabel text.
     """
-    ylabel_fontsize = ax.yaxis.get_label().get_fontsize()
+    ylabel_fontsize = float(ax.yaxis.get_label().get_fontsize())
 
     # Force renderer to be initialized
     ax.figure.canvas.draw()
 
-    while (
+    current_extent = (
         ax.yaxis.get_label()
         .get_window_extent(renderer=ax.figure.canvas.get_renderer())
         .transformed(ax.transData.inverted())
-        .y1
-        > ax.get_ylim()[1]
-    ):
+    )
+
+    y_alignment = plt.rcParams["yaxis.labellocation"]
+
+    while (
+        y_alignment in ["center", "bottom"] and current_extent.y1 > ax.get_ylim()[1]
+    ) or (y_alignment == "top" and current_extent.y0 < ax.get_ylim()[0]):
         ylabel_fontsize -= 0.1
 
         if ylabel_fontsize <= 0:
-            raise ValueError(
-                "Only a y-label with a negative font size would fit on the y-axis."
-            )
+            msg = "Only a y-label with a negative font size would fit on the y-axis."
+            raise ValueError(msg)
 
         ax.get_yaxis().get_label().set_size(ylabel_fontsize)
+
+        current_extent = (
+            ax.yaxis.get_label()
+            .get_window_extent(renderer=ax.figure.canvas.get_renderer())
+            .transformed(ax.transData.inverted())
+        )
 
     return ylabel_fontsize
 
