@@ -194,7 +194,7 @@ def set_fitting_ylabel_fontsize(ax: plt.Axes) -> float:
 
     current_extent = (
         ax.yaxis.get_label()
-        .get_window_extent(renderer=ax.figure.canvas.get_renderer())  # type: ignore[attr-defined]
+        .get_window_extent(renderer=ax.figure.canvas.get_renderer())
         .transformed(ax.transData.inverted())
     )
 
@@ -209,11 +209,11 @@ def set_fitting_ylabel_fontsize(ax: plt.Axes) -> float:
             msg = "Only a y-label with a negative font size would fit on the y-axis."
             raise ValueError(msg)
 
-        ax.get_yaxis().get_label().set_size(ylabel_fontsize)  # type: ignore[attr-defined]
+        ax.get_yaxis().get_label().set_size(ylabel_fontsize)
 
         current_extent = (
             ax.yaxis.get_label()
-            .get_window_extent(renderer=ax.figure.canvas.get_renderer())  # type: ignore[attr-defined]
+            .get_window_extent(renderer=ax.figure.canvas.get_renderer())
             .transformed(ax.transData.inverted())
         )
 
