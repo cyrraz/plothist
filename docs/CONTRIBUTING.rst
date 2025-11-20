@@ -66,14 +66,14 @@ You can also run specific nox sessions:
 Linters and Formatters
 ----------------------
 
-``plothist`` uses `pre-commit <https://pre-commit.com/>`_ to manage linters and formatters.
+``plothist`` uses `pre-commit <https://pre-commit.com/>`_ and `prek <https://prek.j178.dev/>`_ to manage linters and formatters.
 
 The tools are listed in ``.pre-commit-config.yaml``. Key among them is ``Ruff`` is used for linting and formatting, with its configuration in ``pyproject.toml``.
 
 Use ``nox -s lint`` to run the linters and formatters.
 
-To install the pre-commit hooks, run the following command (assuming you have installed  ``plothist`` via ``uv`` following the instructions in :ref:`install-dev-version`):
+To install the hooks, run the following command (assuming you have installed  ``plothist`` via ``uv`` following the instructions in :ref:`install-dev-version`):
 
 .. code-block:: console
 
-   uv run pre-commit install
+   uv run prek install

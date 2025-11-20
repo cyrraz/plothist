@@ -28,9 +28,9 @@ jobs:
         run: |
           uv sync --group dev --group test
 
-      - name: Run pre-commit
+      - name: Run prek
         run: |
-          uv run pre-commit run --all-files
+          uv run prek run --all-files
 
       - name: Test with pytest
         run: |

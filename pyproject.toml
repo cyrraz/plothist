@@ -43,7 +43,7 @@ write-changes = true
 
 [dependency-groups]
 dev = [
-    "pre-commit>=4.1.0",
+    "prek>=0.1.1",
 ]
 test = [
     "pytest>=8.3.5",
