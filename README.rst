@@ -21,7 +21,7 @@ plothist
 
 |GitHub Project| |PyPI version| |conda version| |Docs from main| |Discussion| |DOI|
 
-|GitHub Actions Status: CI| |GitHub Actions Status: CD| |Linter| |pre-commit.ci Status| |Code Coverage|
+|GitHub Actions Status: CI| |GitHub Actions Status: CD| |pre-commit.ci Status| |Linter| |Code Coverage|
 
 This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
 
@@ -48,7 +48,7 @@ This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
    :target: https://github.com/cyrraz/plothist
 .. |PyPI version| image:: https://badge.fury.io/py/plothist.svg?style=flat-square
    :target: https://badge.fury.io/py/plothist
-.. |conda version| image:: https://img.shields.io/conda/vn/conda-forge/plothist?style=flat-square
+.. |conda version| image:: https://img.shields.io/conda/vn/conda-forge/plothist?style=platic
    :target: https://anaconda.org/conda-forge/plothist
 .. |Docs from main| image:: https://img.shields.io/badge/docs-main-blue.svg?style=platic
    :target: https://plothist.readthedocs.io/en/main/
