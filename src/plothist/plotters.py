@@ -24,7 +24,7 @@ from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
 def create_comparison_figure(
-    figsize: tuple[float, float] = (6, 5),
+    figsize: tuple[float, float] | None = (6, 5),
     nrows: int = 2,
     gridspec_kw: dict[str, Any] | None = None,
     hspace: float = 0.15,
@@ -36,6 +36,7 @@ def create_comparison_figure(
     ----------
     figsize : tuple[float, float], optional
         Figure size in inches. Default is (6, 5).
+        If None is provided, the default matplotlib figure size from rcParams["figure.figsize"] is used.
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
     gridspec_kw : dict[str, Any] | None, optional
@@ -53,6 +54,8 @@ def create_comparison_figure(
     """
     if gridspec_kw is None:
         gridspec_kw = {"height_ratios": [4, 1]}
+    if figsize is None:
+        figsize = plt.rcParams["figure.figsize"]
 
     fig, axes = plt.subplots(nrows=nrows, figsize=figsize, gridspec_kw=gridspec_kw)
     if nrows > 1:
