@@ -84,9 +84,9 @@ def cubehelix_palette(
     p. 289-295.
     """
 
-    def f(x0: float, x1: float) -> Callable[[float], float]:
+    def f(x0: float, x1: float) -> Callable[[float], np.ndarray]:
         # Adapted from matplotlib
-        def color(lambda_: float) -> float:
+        def color(lambda_: float) -> np.ndarray:
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (gamma > 1)
             lambda_gamma = lambda_**gamma
@@ -98,7 +98,7 @@ def cubehelix_palette(
 
             phi = 2 * np.pi * (start / 3 + rotation * lambda_)
 
-            return float(lambda_gamma + a * (x0 * np.cos(phi) + x1 * np.sin(phi)))
+            return lambda_gamma + a * (x0 * np.cos(phi) + x1 * np.sin(phi))
 
         return color
 
