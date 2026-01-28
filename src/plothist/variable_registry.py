@@ -45,7 +45,7 @@ def _save_variable_registry(
 
     Parameters
     ----------
-    variable_registry : dict[str, dict, dict[str, Any]]
+    variable_registry : dict[str, dict[str, Any]]
         The variable registry to save.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
