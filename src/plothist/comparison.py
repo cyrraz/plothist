@@ -49,7 +49,7 @@ def _is_unweighted(hist: bh.Histogram) -> bool:
     bool
         True if the histogram is unweighted, False otherwise.
     """
-    return np.allclose(hist.variances(), hist.values(), equal_nan=True)
+    return bool(np.allclose(hist.variances(), hist.values(), equal_nan=True))
 
 
 def get_asymmetrical_uncertainties(

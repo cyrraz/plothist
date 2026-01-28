@@ -42,7 +42,7 @@ plot_hist(histos, ax=ax, label=labels, color=colors)
 
 # Add the number of entries on top of each bar
 # Get the correct shift in x-axis for each bar
-def calculate_shifts(width, n_bars):
+def calculate_shifts(width: float, n_bars: int) -> np.ndarray:
     half_width = width / 2
     shift = np.linspace(-half_width, half_width, n_bars, endpoint=False)
     shift += width / (2 * n_bars)

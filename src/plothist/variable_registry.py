@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import warnings
+from typing import Any
 
 import boost_histogram as bh
 import numpy as np
@@ -37,14 +38,14 @@ def _check_if_variable_registry_exists(path: str) -> None:
 
 
 def _save_variable_registry(
-    variable_registry: dict[str, dict], path: str = "./variable_registry.yaml"
+    variable_registry: dict[str, dict[str, Any]], path: str = "./variable_registry.yaml"
 ) -> None:
     """
     Save the variable registry to a yaml file.
 
     Parameters
     ----------
-    variable_registry : dict[str, dict]
+    variable_registry : dict[str, dict, dict[str, Any]]
         The variable registry to save.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
@@ -63,7 +64,7 @@ def _save_variable_registry(
 def create_variable_registry(
     variable_keys: list[str],
     path: str = "./variable_registry.yaml",
-    custom_dict: dict | None = None,
+    custom_dict: dict[str, Any] | None = None,
     reset: bool = False,
 ) -> None:
     """
@@ -103,7 +104,7 @@ def create_variable_registry(
         A list of variable keys to be registered.
     path : str, optional
         The path to the variable registry file (default is "./variable_registry.yaml").
-    custom_dict : dict, optional
+    custom_dict : dict[str, Any], optional
         A dictionary containing the plotting information for the variables. Default dictionary is the one described above.
     reset : bool, optional
         If True, the registry will be reset to default values for all variable keys (default is False).
@@ -143,7 +144,7 @@ def create_variable_registry(
 
 def get_variable_from_registry(
     variable_key: str, path: str = "./variable_registry.yaml"
-) -> dict:
+) -> dict[str, Any]:
     """
     This function retrieves the parameter information for a variable from the variable registry file specified by the 'path' parameter.
     It loads the variable registry file and returns the dictionary entry corresponding to the specified variable name.
@@ -157,7 +158,7 @@ def get_variable_from_registry(
 
     Returns
     -------
-    dict
+    dict[str, Any]
         A dictionary containing the parameter information for the specified variable.
 
     See also
@@ -169,17 +170,22 @@ def get_variable_from_registry(
 
     with open(path) as f:
         variable_registry = yaml.safe_load(f)
-        if "range" in variable_registry[variable_key] and isinstance(
-            variable_registry[variable_key]["range"], list
-        ):
-            variable_registry[variable_key]["range"] = tuple(
-                variable_registry[variable_key]["range"]
-            )
-        return variable_registry[variable_key]
+
+    if not isinstance(variable_registry, dict):
+        raise RuntimeError(f"Invalid registry format in {path}.")
+
+    variable = variable_registry.get(variable_key)
+    if not isinstance(variable, dict):
+        raise RuntimeError(f"Variable {variable_key} not found in registry {path}.")
+
+    if "range" in variable and isinstance(variable["range"], list):
+        variable["range"] = tuple(variable["range"])
+
+    return variable
 
 
 def update_variable_registry(
-    dictionary: dict,
+    dictionary: dict[str, Any],
     variable_keys: list[str] | None = None,
     path: str = "./variable_registry.yaml",
     overwrite: bool = False,
@@ -189,7 +195,7 @@ def update_variable_registry(
 
     Parameters
     ----------
-    dictionary : dict
+    dictionary : dict[str, Any]
         A dictionary containing the information to update the registry with.
     variable_keys : list[str]
         A list of variable keys for which to update the registry. Default is None: all variables in the registry are updated.

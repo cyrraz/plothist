@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -82,9 +84,9 @@ def cubehelix_palette(
     p. 289-295.
     """
 
-    def f(x0, x1):
+    def f(x0: float, x1: float) -> Callable[[float], float]:
         # Adapted from matplotlib
-        def color(lambda_):
+        def color(lambda_: float) -> float:
             # emphasise either low intensity values (gamma < 1),
             # or high intensity values (gamma > 1)
             lambda_gamma = lambda_**gamma
@@ -96,7 +98,7 @@ def cubehelix_palette(
 
             phi = 2 * np.pi * (start / 3 + rotation * lambda_)
 
-            return lambda_gamma + a * (x0 * np.cos(phi) + x1 * np.sin(phi))
+            return float(lambda_gamma + a * (x0 * np.cos(phi) + x1 * np.sin(phi)))
 
         return color
 
@@ -246,7 +248,7 @@ def add_text(
         Draw a white rectangle under the text, by default False.
     ax : matplotlib.axes.Axes, optional
         Figure axis, by default None.
-    kwargs : dict
+    kwargs : dict[str, Any]
         Keyword arguments to be passed to the ax.text() function.
         In particular, the keyword arguments ha and va, which are set by default to accommodate to the x and y aliases, can be used to change the text alignment.
 
@@ -350,7 +352,7 @@ def add_luminosity(
         Draw a white rectangle under the text, by default False.
     ax : matplotlib.axes.Axes, optional
         Figure axis, by default None.
-    kwargs : dict
+    kwargs : dict[str, Any]
         Keyword arguments to be passed to the ax.text() function.
         In particular, the keyword arguments ha and va, which are set to "left" (or "right" if x="right") and "bottom" by default, can be used to change the text alignment.
 
@@ -402,7 +404,7 @@ def plot_reordered_legend(ax: plt.Axes, order: list[int], **kwargs) -> None:
     order : list[int]
         A list of integers specifying the new order of the legend items.
         The integers refer to the indices of the current legend items.
-    kwargs : dict, optional
+    kwargs : dict[str, Any], optional
         Keyword arguments to be passed to the ax.legend() function, such as the legend location (loc).
 
     Returns

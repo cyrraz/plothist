@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Sequence
-from typing import Callable
+from collections.abc import Callable, Sequence
 
 import boost_histogram as bh
 import numpy as np
