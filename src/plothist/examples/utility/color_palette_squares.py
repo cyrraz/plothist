@@ -13,16 +13,21 @@ from matplotlib import patches
 from plothist import get_color_palette
 
 
-def create_palette_plot(colors, fig_name, add_text=False, add_black_border=False):
+def create_palette_plot(
+    colors: list[str] | list[tuple[float, float, float]],
+    fig_name: str,
+    add_text: bool = False,
+    add_black_border: bool = False,
+):
     ncolors = len(colors)
 
     # Create a figure and axis
     fig, ax = plt.subplots(figsize=(ncolors, 1))
 
     # Plot the colored squares with small spacing
-    square_size = 1
+    square_size = 1.0
     spacing = 0.1
-    x = 0
+    x = 0.0
 
     for color in colors:
         rect = patches.Rectangle((x, 0), square_size, square_size, color=color)

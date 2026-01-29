@@ -7,7 +7,7 @@ Installation and update
 Prerequisite
 ============
 
-You need version 3.9 (or a more recent version) of Python 3. You can check your version of Python 3 with:
+You need version 3.10 (or a more recent version) of Python 3. You can check your version of Python 3 with:
 
 .. code-block:: bash
 

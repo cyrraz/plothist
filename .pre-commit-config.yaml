@@ -32,7 +32,7 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.10
     hooks:
-      - id: ruff
+      - id: ruff-check
         args: ["--fix", "--show-fixes"]
       - id: ruff-format
 
@@ -65,6 +65,11 @@ repos:
       - id: rst-directive-colons
       - id: rst-inline-touching-normal
 
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: "v3.7.4"
+    hooks:
+      - id: prettier
+
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.36.0
     hooks:
@@ -76,3 +81,8 @@ repos:
     rev: 2026.01.02
     hooks:
       - id: validate-pyproject
+
+  - repo: https://github.com/scientific-python/cookie
+    rev: 2025.11.21
+    hooks:
+      - id: sp-repo-review

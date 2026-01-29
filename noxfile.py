@@ -1,17 +1,24 @@
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# dependencies = ["nox>=2025.11.12"]
+# ///
+
+"""Nox runner."""
+
 from __future__ import annotations
 
 import argparse
 
 import nox
 
-nox.options.sessions = ["lint", "tests"]
-nox.needs_version = ">=2025.2.9"
+nox.needs_version = ">=2025.11.12"
 nox.options.default_venv_backend = "uv|venv"
 
-PYTHON_ALL_VERSIONS = ["3.9", "3.10", "3.11", "3.12", "3.13"]
+PYTHON_ALL_VERSIONS = ["3.10", "3.14"]
 
 
-@nox.session(reuse_venv=True)
+@nox.session(reuse_venv=True, default=True)
 def lint(session: nox.Session) -> None:
     """
     Run the linter.
@@ -20,7 +27,7 @@ def lint(session: nox.Session) -> None:
     session.run("prek", "run", "--all-files", *session.posargs)
 
 
-@nox.session(python=PYTHON_ALL_VERSIONS, reuse_venv=True)
+@nox.session(python=PYTHON_ALL_VERSIONS, reuse_venv=True, default=True)
 def tests(session: nox.Session) -> None:
     """
     Run the unit and regular tests.
@@ -31,7 +38,7 @@ def tests(session: nox.Session) -> None:
     session.run("pytest", "--mpl", "-n", "auto", *session.posargs)
 
 
-@nox.session(reuse_venv=True)
+@nox.session(reuse_venv=True, default=False)
 def generate_examples_figures(session: nox.Session) -> None:
     """
     Generate the example figures. Pass "-- tests/test_examples_*.py" to run only the relevant tests.
@@ -47,7 +54,7 @@ def generate_examples_figures(session: nox.Session) -> None:
 
 
 # run coverage
-@nox.session(reuse_venv=True)
+@nox.session(reuse_venv=True, default=False)
 def coverage(session: nox.Session) -> None:
     """
     Run the unit tests with coverage. Warning: takes a long time to run.
@@ -62,7 +69,7 @@ def coverage(session: nox.Session) -> None:
     )
 
 
-@nox.session(reuse_venv=True)
+@nox.session(reuse_venv=True, default=False)
 def docs(session: nox.Session) -> None:
     """
     Build the docs. Pass --non-interactive to avoid serving. Pass "-- -b linkcheck" to check links.
@@ -95,3 +102,7 @@ def docs(session: nox.Session) -> None:
         )
     else:
         session.run("sphinx-build", "--keep-going", *shared_args)
+
+
+if __name__ == "__main__":
+    nox.main()

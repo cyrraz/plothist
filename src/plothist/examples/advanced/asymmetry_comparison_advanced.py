@@ -11,6 +11,7 @@ from plothist_utils import get_dummy_data
 df = get_dummy_data()
 
 ###
+import numpy as np
 from scipy.stats import norm
 
 from plothist import (
@@ -25,11 +26,11 @@ from plothist import (
 
 
 # Define some random functions that will be used as Data fit functions
-def f1(x):
+def f1(x: np.ndarray) -> np.ndarray:
     return 4000 * norm.pdf(x, loc=-0.5, scale=1.6)
 
 
-def f2(x):
+def f2(x: np.ndarray) -> np.ndarray:
     return 4000 * norm.pdf(x, loc=0.5, scale=1.6)
 
 
