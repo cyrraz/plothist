@@ -441,14 +441,17 @@ def test_get_variable_from_registry_invalid_format() -> None:
     with pytest.raises(RuntimeError) as err:
         get_variable_from_registry("variable_0", path=registry_path)
 
-    assert str(err.value) == f"Invalid registry format in {registry_path}."
+    assert (
+        str(err.value)
+        == f"Invalid registry format in {registry_path}. Got {type(['not', 'a', 'dict'])} instead of dict."
+    )
 
     os.remove(registry_path)
 
 
 def test_get_variable_from_registry_variable_not_found() -> None:
     """
-    Test runtime error when variable is not found in registry.
+    Test runtime error when variable is not found or not properly formatted.
     """
     registry_path = "./_test_variable_registry_missing_key.yaml"
     create_variable_registry(variable_keys, path=registry_path, reset=True)
@@ -458,7 +461,7 @@ def test_get_variable_from_registry_variable_not_found() -> None:
 
     assert (
         str(err.value)
-        == f"Variable missing_variable not found in registry {registry_path}."
+        == f"Variable missing_variable in {registry_path} is not found or is not properly formatted."
     )
 
     os.remove(registry_path)
