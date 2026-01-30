@@ -20,8 +20,6 @@ jobs:
           persist-credentials: false
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v7
-        with:
-          version: "0.6.8"
       - name: Build distribution
         run: uv build
       - name: Store the distribution packages
