@@ -428,3 +428,40 @@ def test_update_variable_registry_binning_all_keys() -> None:
         assert pytest.approx(variable["range"][1]) == dummy_data[key].max()
 
     os.remove(registry_path)
+
+
+def test_get_variable_from_registry_invalid_format() -> None:
+    """
+    Test runtime error when registry format is invalid.
+    """
+    registry_path = "./_test_variable_registry_invalid_format.yaml"
+    with open(registry_path, "w") as f:
+        yaml.safe_dump(["not", "a", "dict"], f)
+
+    with pytest.raises(RuntimeError) as err:
+        get_variable_from_registry("variable_0", path=registry_path)
+
+    assert (
+        str(err.value)
+        == f"Invalid registry format in {registry_path}. Got {type(['not', 'a', 'dict'])} instead of dict."
+    )
+
+    os.remove(registry_path)
+
+
+def test_get_variable_from_registry_variable_not_found() -> None:
+    """
+    Test runtime error when variable is not found or not properly formatted.
+    """
+    registry_path = "./_test_variable_registry_missing_key.yaml"
+    create_variable_registry(variable_keys, path=registry_path, reset=True)
+
+    with pytest.raises(RuntimeError) as err:
+        get_variable_from_registry("missing_variable", path=registry_path)
+
+    assert (
+        str(err.value)
+        == f"Variable missing_variable in {registry_path} is not found or is not properly formatted."
+    )
+
+    os.remove(registry_path)

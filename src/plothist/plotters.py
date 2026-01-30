@@ -5,7 +5,8 @@ Collection of functions to plot histograms
 from __future__ import annotations
 
 import re
-from typing import Callable
+from collections.abc import Callable
+from typing import Any
 
 import boost_histogram as bh
 import matplotlib.pyplot as plt
@@ -23,9 +24,9 @@ from plothist.plothist_style import set_fitting_ylabel_fontsize
 
 
 def create_comparison_figure(
-    figsize: tuple[float, float] = (6, 5),
+    figsize: tuple[float, float] | None = (6, 5),
     nrows: int = 2,
-    gridspec_kw: dict | None = None,
+    gridspec_kw: dict[str, Any] | None = None,
     hspace: float = 0.15,
 ) -> tuple[plt.Figure, np.ndarray]:
     """
@@ -35,9 +36,10 @@ def create_comparison_figure(
     ----------
     figsize : tuple[float, float], optional
         Figure size in inches. Default is (6, 5).
+        If None is provided, the default matplotlib figure size from rcParams["figure.figsize"] is used.
     nrows : int, optional
         Number of rows in the subplot grid. Default is 2.
-    gridspec_kw : dict | None, optional
+    gridspec_kw : dict[str, Any] | None, optional
         Additional keyword arguments for the GridSpec. Default is None.
         If None is provided, this is set to {"height_ratios": [4, 1]}.
     hspace : float, optional
@@ -104,8 +106,8 @@ def plot_2d_hist(
     fig: plt.Figure | None = None,
     ax: plt.Axes | None = None,
     ax_colorbar: plt.Axes | None = None,
-    pcolormesh_kwargs: dict | None = None,
-    colorbar_kwargs: dict | None = None,
+    pcolormesh_kwargs: dict[str, Any] | None = None,
+    colorbar_kwargs: dict[str, Any] | None = None,
     square_ax: bool = True,
 ) -> tuple[plt.Figure, plt.Axes, plt.Axes]:
     """
@@ -121,9 +123,9 @@ def plot_2d_hist(
         The Axes instance for plotting. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
     ax_colorbar : matplotlib.axes.Axes | None, optional
         The Axes instance for the colorbar. If fig, ax and ax_colorbar are all None, a new figure will be created. Default is None.
-    pcolormesh_kwargs : dict | None, optional
+    pcolormesh_kwargs : dict[str, Any] | None, optional
         Additional keyword arguments forwarded to ax.pcolormesh(). Default is None.
-    colorbar_kwargs : dict | None, optional
+    colorbar_kwargs : dict[str, Any] | None, optional
         Additional keyword arguments forwarded to ax.get_figure().colorbar(). Default is None.
     square_ax : bool, optional
         Whether to make the main ax square. Default is True.
@@ -242,9 +244,9 @@ def plot_2d_hist_with_projections(
     xlabel_y_projection: str | None = None,
     colorbar_label: str | None = None,
     offset_x_labels: bool = False,
-    pcolormesh_kwargs: dict | None = None,
-    colorbar_kwargs: dict | None = None,
-    plot_hist_kwargs: dict | None = None,
+    pcolormesh_kwargs: dict[str, Any] | None = None,
+    colorbar_kwargs: dict[str, Any] | None = None,
+    plot_hist_kwargs: dict[str, Any] | None = None,
     figsize: tuple[float, float] = (6, 6),
 ) -> tuple[plt.Figure, plt.Axes, plt.Axes, plt.Axes, plt.Axes]:
     """
@@ -266,11 +268,11 @@ def plot_2d_hist_with_projections(
         Label for the colorbar. Default is None.
     offset_x_labels : bool, optional
         Whether to offset the x labels to avoid overlapping with the exponent label (i.e. "10^X") of the axis. Default is False.
-    pcolormesh_kwargs : dict | None, optional
+    pcolormesh_kwargs : dict[str, Any] | None, optional
         Keyword arguments for the pcolormesh call. Default is None.
-    colorbar_kwargs : dict | None, optional
+    colorbar_kwargs : dict[str, Any] | None, optional
         Keyword arguments for the colorbar call. Default is None.
-    plot_hist_kwargs : dict | None, optional
+    plot_hist_kwargs : dict[str, Any] | None, optional
         Keyword arguments for the plot_hist call (x and y projections). Default is None.
     figsize : tuple[float, float], optional
         Figure size in inches. Default is (6, 6). To get square bins if the figure is not square shaped, be sure to set the bins and the ranges of the histogram according to the ratio of the figure width and height.
@@ -767,7 +769,7 @@ def _get_math_text(text: str) -> str:
     return text
 
 
-def _get_model_type(components: list) -> str:
+def _get_model_type(components: list[bh.Histogram | Callable[[Any], Any]]) -> str:
     """
     Check that all components of a model are either all histograms or all functions
     and return the type of the model components.
@@ -805,9 +807,9 @@ def plot_model(
     ) = None,
     xlabel: str | None = None,
     ylabel: str | None = None,
-    stacked_kwargs: dict | None = None,
-    unstacked_kwargs_list: list[dict] | None = None,
-    model_sum_kwargs: dict | None = None,
+    stacked_kwargs: dict[str, Any] | None = None,
+    unstacked_kwargs_list: list[dict[str, Any]] | None = None,
+    model_sum_kwargs: dict[str, Any] | None = None,
     function_range: tuple[float, float] | None = None,
     model_uncertainty: bool = True,
     model_uncertainty_label: str = "Model stat. unc.",
@@ -835,11 +837,11 @@ def plot_model(
         The label for the x-axis. Default is None.
     ylabel : str | None, optional
         The label for the y-axis. Default is None.
-    stacked_kwargs : dict | None, optional
+    stacked_kwargs : dict[str, Any] | None, optional
         The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is None.
-    unstacked_kwargs_list : list[dict] | None, optional
+    unstacked_kwargs_list : list[dict[str, Any]] | None, optional
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is None.
-    model_sum_kwargs : dict | None, optional
+    model_sum_kwargs : dict[str, Any] | None, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
@@ -947,6 +949,7 @@ def plot_model(
             unstacked_colors,
             unstacked_labels,
             unstacked_kwargs_list,
+            strict=True,
         ):
             if model_type == "histograms":
                 unstacked_kwargs.setdefault("histtype", "step")
@@ -1024,9 +1027,9 @@ def plot_data_model_comparison(
     xlabel: str | None = None,
     ylabel: str | None = None,
     data_label: str = "Data",
-    stacked_kwargs: dict | None = None,
-    unstacked_kwargs_list: list[dict] | None = None,
-    model_sum_kwargs: dict | None = None,
+    stacked_kwargs: dict[str, Any] | None = None,
+    unstacked_kwargs_list: list[dict[str, Any]] | None = None,
+    model_sum_kwargs: dict[str, Any] | None = None,
     model_uncertainty: bool = True,
     model_uncertainty_label: str = "Model stat. unc.",
     data_uncertainty_type: str = "asymmetrical",
@@ -1061,11 +1064,11 @@ def plot_data_model_comparison(
         The label for the y-axis. Default is None.
     data_label : str, optional
         The label for the data. Default is "Data".
-    stacked_kwargs : dict | None, optional
+    stacked_kwargs : dict[str, Any] | None, optional
         The keyword arguments used when plotting the stacked components in plot_hist() or plot_function(), one of which is called only once. Default is None.
-    unstacked_kwargs_list : list[dict] | None, optional
+    unstacked_kwargs_list : list[dict[str, Any]] | None, optional
         The list of keyword arguments used when plotting the unstacked components in plot_hist() or plot_function(), one of which is called once for each unstacked component. Default is None.
-    model_sum_kwargs : dict | None, optional
+    model_sum_kwargs : dict[str, Any] | None, optional
         The keyword arguments for the plot_hist() function for the sum of the model components.
         Has no effect if all the model components are stacked or if the model is one unstacked element.
         The special keyword "show" can be used with a boolean to specify whether to show or not the sum of the model components.
