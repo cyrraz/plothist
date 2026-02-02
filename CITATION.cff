@@ -12,7 +12,7 @@ authors:
     affiliation: "High Energy Accelerator Research Organization (KEK), Tsukuba, Japan"
     orcid: "https://orcid.org/0000-0001-9795-7412"
 doi: 10.5281/zenodo.10995667
-repository-code: "https://github.com/cyrraz/plothist/"
+repository-code: "https://github.com/8-hat/plothist/"
 url: " plothist.readthedocs.io/"
 keywords:
   - python
