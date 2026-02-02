@@ -37,6 +37,7 @@ This package is a wrapper around `matplotlib <https://matplotlib.org/>`_.
 
 
 
+
 .. image:: https://raw.githubusercontent.com/8-hat/plothist/main/docs/img/2d_hist_with_projections.svg
    :alt: 2D histogram with projections
    :width: 500
