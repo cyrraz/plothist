@@ -32,7 +32,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "pyyaml>=6.0.3",
     "scipy>=1.6.0",
-    "plothist_utils>=0.0.1",
+    "plothist-utils>=0.0.3",
 ]
 dynamic = ["version"]
 
