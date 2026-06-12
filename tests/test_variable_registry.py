@@ -465,3 +465,42 @@ def test_get_variable_from_registry_variable_not_found() -> None:
     )
 
     os.remove(registry_path)
+
+
+def test_update_and_remove_on_empty_registry(tmp_path) -> None:
+    """
+    Regression test: update_variable_registry and remove_variable_registry_parameters
+    on a zero-byte registry file must not raise a TypeError.
+    """
+    registry_path = str(tmp_path / "empty_registry.yaml")
+    # Create a zero-byte file
+    open(registry_path, "w").close()
+
+    # Both functions should be no-ops when variable_keys=None and the file is empty
+    update_variable_registry({"extra": 1}, variable_keys=None, path=registry_path)
+    remove_variable_registry_parameters(
+        ["extra"], variable_keys=None, path=registry_path
+    )
+
+
+def test_create_variable_registry_custom_dict_no_aliasing(tmp_path) -> None:
+    """
+    Regression test: create_variable_registry with custom_dict must produce
+    independent per-variable entries. Mutating one variable's stored parameters
+    must not affect the others.
+    """
+    registry_path = str(tmp_path / "custom_dict_registry.yaml")
+    custom = {"text": "original", "value": 0}
+    create_variable_registry(variable_keys, path=registry_path, custom_dict=custom)
+
+    # Update one variable only
+    update_variable_registry(
+        {"text": "modified"}, ["variable_0"], path=registry_path, overwrite=True
+    )
+
+    # The other variables must retain the original value
+    for key in variable_keys[1:]:
+        registry = get_variable_from_registry(key, path=registry_path)
+        assert registry["text"] == "original", (
+            f"Aliasing bug: {key} was mutated when only variable_0 was updated"
+        )
