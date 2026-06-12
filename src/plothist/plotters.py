@@ -53,11 +53,14 @@ def create_comparison_figure(
         Array of Axes objects representing the subplots.
     """
     if gridspec_kw is None:
-        gridspec_kw = {"height_ratios": [4, 1]}
+        gridspec_kw = {"height_ratios": [4] + [1] * (nrows - 1)}
     if figsize is None:
         figsize = plt.rcParams["figure.figsize"]
 
-    fig, axes = plt.subplots(nrows=nrows, figsize=figsize, gridspec_kw=gridspec_kw)
+    fig, axes = plt.subplots(
+        nrows=nrows, figsize=figsize, gridspec_kw=gridspec_kw, squeeze=False
+    )
+    axes = axes.ravel()
     if nrows > 1:
         fig.subplots_adjust(hspace=hspace)
 
@@ -87,7 +90,7 @@ def plot_hist(hist: bh.Histogram | list[bh.Histogram], ax: plt.Axes, **kwargs) -
         ax.hist(
             x=hist.axes[0].centers,
             bins=hist.axes[0].edges,
-            weights=np.nan_to_num(hist.values(), 0),
+            weights=np.nan_to_num(hist.values(), nan=0),
             **kwargs,
         )
     else:
@@ -96,7 +99,7 @@ def plot_hist(hist: bh.Histogram | list[bh.Histogram], ax: plt.Axes, **kwargs) -
         ax.hist(
             x=[h.axes[0].centers for h in hist],
             bins=hist[0].axes[0].edges,
-            weights=[np.nan_to_num(h.values(), 0) for h in hist],
+            weights=[np.nan_to_num(h.values(), nan=0) for h in hist],
             **kwargs,
         )
 
@@ -217,7 +220,7 @@ def plot_function(
         else:
             ax.plot(
                 x,
-                np.array([func(x) for func in func]).T,
+                np.array([f(x) for f in func]).T,
                 **kwargs,
             )
     else:
@@ -878,7 +881,7 @@ def plot_model(
 
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
     stacked_kwargs = stacked_kwargs.copy()
-    unstacked_kwargs_list = unstacked_kwargs_list.copy()
+    unstacked_kwargs_list = [dict(kwargs) for kwargs in unstacked_kwargs_list]
     model_sum_kwargs = model_sum_kwargs.copy()
 
     components = stacked_components + unstacked_components
@@ -943,7 +946,7 @@ def plot_model(
         if unstacked_labels is None:
             unstacked_labels = [None] * len(unstacked_components)
         if len(unstacked_kwargs_list) == 0:
-            unstacked_kwargs_list = [{}] * len(unstacked_components)
+            unstacked_kwargs_list = [{} for _ in unstacked_components]
         for component, color, label, unstacked_kwargs in zip(
             unstacked_components,
             unstacked_colors,
@@ -976,15 +979,16 @@ def plot_model(
             len(unstacked_components) > 1 or len(stacked_components) > 0
         ):
             if model_type == "histograms":
+                components_sum = sum(components)
                 plot_hist(
-                    sum(components),
+                    components_sum,
                     ax=ax,
                     histtype="step",
                     **model_sum_kwargs,
                 )
                 if model_uncertainty:
                     plot_hist_uncertainties(
-                        sum(components), ax=ax, label=model_uncertainty_label
+                        components_sum, ax=ax, label=model_uncertainty_label
                     )
             else:
 
@@ -1118,7 +1122,7 @@ def plot_data_model_comparison(
 
     # Create copies of the kwargs arguments passed as lists/dicts to avoid modifying them
     stacked_kwargs = stacked_kwargs.copy()
-    unstacked_kwargs_list = unstacked_kwargs_list.copy()
+    unstacked_kwargs_list = [dict(kwargs) for kwargs in unstacked_kwargs_list]
     model_sum_kwargs = model_sum_kwargs.copy()
 
     comparison_kwargs.setdefault("h1_label", data_label)
@@ -1141,10 +1145,12 @@ def plot_data_model_comparison(
         if plot_only is None:
             fig, (ax_main, ax_comparison) = create_comparison_figure()
         elif plot_only == "ax_main":
-            _, ax_comparison = plt.subplots()
+            dummy_fig, ax_comparison = plt.subplots()
+            plt.close(dummy_fig)
             fig, ax_main = plt.subplots()
         elif plot_only == "ax_comparison":
-            _, ax_main = plt.subplots()
+            dummy_fig, ax_main = plt.subplots()
+            plt.close(dummy_fig)
             fig, ax_comparison = plt.subplots()
         else:
             raise ValueError("plot_only must be 'ax_main', 'ax_comparison' or None.")
