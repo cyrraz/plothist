@@ -273,3 +273,70 @@ def test_flatten_2d_hist_raises_on_1d_hist() -> None:
     hist_1d = make_hist()
     with pytest.raises(ValueError, match=r"The input histogram must be 2D."):
         flatten_2d_hist(hist_1d)
+
+
+def test_make_hist_numpy_scalar_weight_no_range_warning() -> None:
+    """
+    Regression test: numpy integer scalar weights (e.g. np.int64) must not
+    trigger a spurious RangeWarning when all data is inside the range.
+
+    Before the fix, isinstance(np.int64(2), (int, float)) is False, so
+    n_data was set to just the scalar weight value (2) instead of
+    len(data) * weight, corrupting the coverage computation.
+    """
+    data = [0, 1, 2, 3, 4]
+
+    # np.int64 scalar weight: should behave identically to Python int weight
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        h_np_int = make_hist(data=data, bins=5, range=(0, 5), weights=np.int64(2))
+
+    h_py_int = make_hist(data=data, bins=5, range=(0, 5), weights=2)
+
+    assert np.array_equal(h_np_int.values(), h_py_int.values())
+
+    # np.float64 scalar weight
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        h_np_float = make_hist(data=data, bins=5, range=(0, 5), weights=np.float64(2.0))
+
+    h_py_float = make_hist(data=data, bins=5, range=(0, 5), weights=2.0)
+    assert np.array_equal(h_np_float.values(), h_py_float.values())
+
+
+def test_make_2d_hist_numpy_scalar_weight_no_range_warning() -> None:
+    """
+    Regression test: numpy integer scalar weights must not trigger a spurious
+    RangeWarning in make_2d_hist when all data is inside the range.
+    """
+    data = [[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]]
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        h_np = make_2d_hist(
+            data=data, bins=(5, 5), range=((0, 5), (0, 5)), weights=np.int64(2)
+        )
+
+    h_py = make_2d_hist(data=data, bins=(5, 5), range=((0, 5), (0, 5)), weights=2)
+    assert np.array_equal(h_np.values(), h_py.values())
+
+
+def test_create_axis_range_list_vs_ndarray() -> None:
+    """
+    Regression test: create_axis (and by extension make_hist) must produce
+    identical bin edges for plain Python lists and numpy ndarrays after the
+    builtin min/max -> np.min/np.max replacement.
+    """
+    data_list = [1.0, 2.0, 3.0, 4.0, 5.0]
+    data_array = np.array(data_list)
+
+    axis_list = create_axis(10, data=data_list)
+    axis_array = create_axis(10, data=data_array)
+
+    assert np.array_equal(axis_list.edges, axis_array.edges)
+
+    # Also check with "min"/"max" range tokens
+    axis_min_max_list = create_axis(10, range=("min", "max"), data=data_list)
+    axis_min_max_array = create_axis(10, range=("min", "max"), data=data_array)
+
+    assert np.array_equal(axis_min_max_list.edges, axis_min_max_array.edges)
