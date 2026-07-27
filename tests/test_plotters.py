@@ -13,6 +13,7 @@ from plothist import (
     plot_2d_hist_with_projections,
     plot_data_model_comparison,
     plot_function,
+    plot_hist,
     plot_model,
     plot_two_hist_comparison,
     savefig,
@@ -296,7 +297,6 @@ def test_plot_hist_does_not_mutate_nan_histogram() -> None:
     Test that plot_hist does not modify the input histogram's storage when it
     contains NaN bin values (the NaN-to-zero replacement must operate on a copy).
     """
-    from plothist import plot_hist
 
     h_1d = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
     h_1d.values()[1] = np.nan
