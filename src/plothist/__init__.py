@@ -82,8 +82,8 @@ __all__ = [
 ]
 
 
+import re
 from importlib import resources
-from importlib.resources import files
 
 import boost_histogram as bh
 import matplotlib.font_manager as fm
@@ -91,7 +91,7 @@ import matplotlib.pyplot as plt
 
 # Get style file and use it
 
-style_file = files("plothist").joinpath("default_style.mplstyle")
+style_file = resources.files("plothist").joinpath("default_style.mplstyle")
 plt.style.use(style_file)
 
 # Install fonts
@@ -103,7 +103,18 @@ with resources.as_file(resources.files("plothist_utils") / "fonts") as font_path
 
 # Check version of boost_histogram
 
-if tuple(int(part) for part in bh.__version__.split(".")) < (1, 4, 0):
+
+def _parse_version(version_str: str) -> tuple[int, ...]:
+    parts = []
+    for part in version_str.split("."):
+        m = re.match(r"\d+", part)
+        if not m:
+            break
+        parts.append(int(m.group()))
+    return tuple(parts)
+
+
+if _parse_version(bh.__version__) < (1, 4, 0):
     raise ImportError(
         "The version of boost_histogram is lower than 1.4.0. Please update to the latest version to avoid issues (pip install --upgrade boost_histogram).",
     )
