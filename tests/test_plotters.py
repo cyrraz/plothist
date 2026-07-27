@@ -13,6 +13,7 @@ from plothist import (
     plot_2d_hist_with_projections,
     plot_data_model_comparison,
     plot_function,
+    plot_hist,
     plot_model,
     plot_two_hist_comparison,
     savefig,
@@ -289,3 +290,70 @@ def test_plot_data_model_comparison_cases() -> None:
         plot_data_model_comparison(
             data_hist=h_1d, stacked_components=[func], plot_only="invalid"
         )
+
+
+def test_plot_hist_does_not_mutate_nan_histogram() -> None:
+    """
+    Test that plot_hist does not modify the input histogram's storage when it
+    contains NaN bin values (the NaN-to-zero replacement must operate on a copy).
+    """
+
+    h_1d = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
+    h_1d.values()[1] = np.nan
+
+    fig, ax = plt.subplots()
+    plot_hist(h_1d, ax=ax)
+    plt.close(fig)
+
+    assert np.isnan(h_1d.values()[1])
+
+
+def test_plot_model_does_not_mutate_unstacked_kwargs_list() -> None:
+    """
+    Test that plot_model does not modify a user-provided unstacked_kwargs_list
+    (or the dicts it contains).
+    """
+    h_1d = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
+
+    unstacked_kwargs_list = [{}]
+    fig, ax = plt.subplots()
+    plot_model(
+        unstacked_components=[h_1d],
+        unstacked_kwargs_list=unstacked_kwargs_list,
+        fig=fig,
+        ax=ax,
+    )
+    plt.close(fig)
+
+    assert unstacked_kwargs_list == [{}]
+
+
+def test_create_comparison_figure_nrows_one() -> None:
+    """
+    Test that create_comparison_figure(nrows=1) returns a figure and a 1-element
+    axes array (and does not crash on the ticklabel loop).
+    """
+    fig, axes = create_comparison_figure(nrows=1)
+    assert isinstance(axes, np.ndarray)
+    assert len(axes) == 1
+    plt.close(fig)
+
+
+def test_plot_data_model_comparison_does_not_leak_figures() -> None:
+    """
+    Test that plot_data_model_comparison with plot_only does not leak the
+    throwaway dummy figure (open figure count increases by at most 1).
+    """
+    h_1d = make_hist(data=[1, 2, 3], bins=3, range=(0, 3))
+
+    n_figures_before = len(plt.get_fignums())
+    fig, _, _ = plot_data_model_comparison(
+        data_hist=h_1d,
+        stacked_components=[h_1d],
+        stacked_labels=["model"],
+        plot_only="ax_main",
+    )
+    n_figures_after = len(plt.get_fignums())
+    plt.close(fig)
+
+    assert n_figures_after - n_figures_before <= 1
