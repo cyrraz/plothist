@@ -78,8 +78,8 @@ def create_axis(
                 "Cannot use 'min'/'max' range values with empty data. "
                 "Please supply a range or provide data."
             )
-        x_min = min(data) if range[0] == "min" else float(range[0])
-        x_max = max(data) if range[1] == "max" else float(range[1])
+        x_min = np.min(data) if range[0] == "min" else float(range[0])
+        x_max = np.max(data) if range[1] == "max" else float(range[1])
         if x_min > x_max:
             raise ValueError(
                 f"Range of [{x_min}, {x_max}] is not valid. Max must be larger than min."
@@ -90,8 +90,8 @@ def create_axis(
         # handle empty arrays. Can't determine range, so use 0-1.
         x_min, x_max = 0.0, 1.0
     else:
-        x_min = float(min(data))
-        x_max = float(max(data))
+        x_min = float(np.min(data))
+        x_max = float(np.max(data))
         if not (np.isfinite(x_min) and np.isfinite(x_max)):
             raise ValueError(f"Autodetected range of [{x_min}, {x_max}] is not finite.")
 
@@ -155,7 +155,7 @@ def make_hist(
         # Check what proportion of the data outside of the binning range
         n_data = (
             len(data) * weights
-            if isinstance(weights, (int, float))
+            if np.ndim(weights) == 0
             else np.sum(np.asarray(weights))
         )
 
@@ -243,7 +243,7 @@ def make_2d_hist(
         # Check what proportion of the data outside of the binning range
         n_data = (
             len(data[0]) * weights
-            if isinstance(weights, (int, float))
+            if np.ndim(weights) == 0
             else np.sum(np.asarray(weights))
         )
 
