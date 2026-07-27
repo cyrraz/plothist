@@ -4,6 +4,7 @@ Collection of functions to manage the variable registry
 
 from __future__ import annotations
 
+import copy
 import os
 import warnings
 from typing import Any
@@ -61,6 +62,28 @@ def _save_variable_registry(
             f.write("\n" * 2)
 
 
+def _load_variable_registry(path: str) -> dict[str, Any]:
+    """
+    Load the variable registry from a yaml file.
+
+    Returns an empty dict if the file is empty (yaml.safe_load returns None for
+    an empty file).
+
+    Parameters
+    ----------
+    path : str
+        The path to the variable registry file.
+
+    Returns
+    -------
+    dict[str, Any]
+        The variable registry, or {} if the file is empty.
+    """
+    with open(path) as f:
+        variable_registry = yaml.safe_load(f)
+    return variable_registry if variable_registry is not None else {}
+
+
 def create_variable_registry(
     variable_keys: list[str],
     path: str = "./variable_registry.yaml",
@@ -111,33 +134,25 @@ def create_variable_registry(
     """
 
     if not os.path.exists(path):
-        with open(path, "w") as f:
-            pass
+        open(path, "w").close()
 
-    with open(path) as f:
-        variable_registry = yaml.safe_load(f)
-        if variable_registry is None:
-            variable_registry = {}
+    variable_registry = _load_variable_registry(path)
 
-        for variable_key in variable_keys:
-            if variable_key not in variable_registry or reset:
-                if custom_dict is not None:
-                    variable_registry.update({variable_key: custom_dict})
-                else:
-                    variable_registry.update(
-                        {
-                            variable_key: {
-                                "name": variable_key,
-                                "bins": "auto",
-                                "range": ("min", "max"),
-                                "label": variable_key,
-                                "log": False,
-                                "legend_location": "best",
-                                "legend_ncols": 1,
-                                "docstring": "",
-                            }
-                        }
-                    )
+    for variable_key in variable_keys:
+        if variable_key not in variable_registry or reset:
+            if custom_dict is not None:
+                variable_registry[variable_key] = copy.deepcopy(custom_dict)
+            else:
+                variable_registry[variable_key] = {
+                    "name": variable_key,
+                    "bins": "auto",
+                    "range": ("min", "max"),
+                    "label": variable_key,
+                    "log": False,
+                    "legend_location": "best",
+                    "legend_ncols": 1,
+                    "docstring": "",
+                }
 
     _save_variable_registry(variable_registry, path=path)
 
@@ -214,8 +229,7 @@ def update_variable_registry(
     """
     _check_if_variable_registry_exists(path)
 
-    with open(path) as f:
-        variable_registry = yaml.safe_load(f)
+    variable_registry = _load_variable_registry(path)
 
     if variable_keys is None:
         variable_keys = list(variable_registry.keys())
@@ -251,8 +265,7 @@ def remove_variable_registry_parameters(
     """
     _check_if_variable_registry_exists(path)
 
-    with open(path) as f:
-        variable_registry = yaml.safe_load(f)
+    variable_registry = _load_variable_registry(path)
 
     if variable_keys is None:
         variable_keys = list(variable_registry.keys())
@@ -314,8 +327,7 @@ def update_variable_registry_binning(
     _check_if_variable_registry_exists(path)
 
     if variable_keys is None:
-        with open(path) as f:
-            variable_registry = yaml.safe_load(f)
+        variable_registry = _load_variable_registry(path)
         variable_keys = list(variable_registry.keys())
 
     for variable_key in variable_keys:
