@@ -90,7 +90,7 @@ figs = []
 
 ncolors = 7
 
-ncolors_ggplot = 7 if ncolors > 7 else ncolors
+ncolors_ggplot = min(ncolors, 7)
 colors = get_color_palette("ggplot", ncolors_ggplot)
 figs.append(
     create_palette_plot(colors, fig_name="usage_style_cycle.svg", add_text=True)
