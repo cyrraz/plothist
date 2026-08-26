@@ -187,13 +187,13 @@ def get_variable_from_registry(
         variable_registry = yaml.safe_load(f)
 
     if not isinstance(variable_registry, dict):
-        raise RuntimeError(
+        raise TypeError(
             f"Invalid registry format in {path}. Got {type(variable_registry)} instead of dict."
         )
 
     variable = variable_registry.get(variable_key)
     if not isinstance(variable, dict):
-        raise RuntimeError(
+        raise TypeError(
             f"Variable {variable_key} in {path} is not found or is not properly formatted."
         )
 
