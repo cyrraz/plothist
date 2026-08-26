@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 2
 
       - name: Install uv and set the python version
-        uses: astral-sh/setup-uv@v8.2.0
+        uses: astral-sh/setup-uv@v9.0.0
 
       - name: Install the project and the test dependencies
         run: uv sync --group test
